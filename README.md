@@ -2,7 +2,7 @@
 
 This static web app provides an interview style experience that helps users configure Dynamics 365 Business Central. The app loads a baseline **starting data** JSON file included in the repository and creates a customized file based on the user's responses. Azure OpenAI can be called (via the `/api/openai` endpoint) to assist with configuration decisions.
 
-The project now uses **Vite** for development and builds. All source files, including `index.html`, live in the `src` directory. Run `npm run build` to output the production files to the `dist` folder.
+The project now uses **Vite** for development and builds. All source files, including `index.html`, live in the `src` directory. Run `npm run build` to output the production files to the `dist` folder. 
 
 When running locally make sure to serve the files through a local web server instead of opening `index.html` directly. Browsers often block network requests from the `file:` protocol which will cause errors like `Failed to fetch` when loading the starting data or Azure Storage script. A simple option is `npx http-server`.
 
