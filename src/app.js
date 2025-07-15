@@ -58,6 +58,7 @@ function App() {
         postingGroup: '',
         paymentTerms: '',
     }), formData = _c[0], setFormData = _c[1];
+    var _d = useState(''), downloadUrl = _d[0], setDownloadUrl = _d[1];
     useEffect(function () {
         // Load starting data from Azure Blob Storage
         function loadStartingData() {
@@ -144,14 +145,37 @@ function App() {
         });
     }
     function generateCustomRapidStart() {
-        var xml = "<?xml version=\"1.0\"?>\n<CustomRapidStart>\n  <CompanyName>".concat(formData.companyName, "</CompanyName>\n  <Address>").concat(formData.address, "</Address>\n  <Country>").concat(formData.country, "</Country>\n  <PostingGroup>").concat(formData.postingGroup, "</PostingGroup>\n  <PaymentTerms>").concat(formData.paymentTerms, "</PaymentTerms>\n</CustomRapidStart>");
-        var blob = new Blob([xml], { type: 'application/xml' });
-        var url = URL.createObjectURL(blob);
-        var a = document.createElement('a');
-        a.href = url;
-        a.download = 'CustomRapidStart.xml';
-        a.click();
-        URL.revokeObjectURL(url);
+        return __awaiter(this, void 0, void 0, function () {
+            var xml, fileName, cfg, blobServiceClient, containerClient, blockBlobClient, e_3;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        xml = "<?xml version=\"1.0\"?>\n<CustomRapidStart>\n  <CompanyName>".concat(formData.companyName, "</CompanyName>\n  <Address>").concat(formData.address, "</Address>\n  <Country>").concat(formData.country, "</Country>\n  <PostingGroup>").concat(formData.postingGroup, "</PostingGroup>\n  <PaymentTerms>").concat(formData.paymentTerms, "</PaymentTerms>\n</CustomRapidStart>");
+                        fileName = "".concat((formData.companyName || 'CustomRapidStart')
+                            .replace(/\s+/g, '_'), ".rapidstart");
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        cfg = window.azureStorageConfig || {};
+                        if (!cfg.connectionString) {
+                            throw new Error('Azure connection string not configured');
+                        }
+                        blobServiceClient = AzureStorageBlob.BlobServiceClient.fromConnectionString(cfg.connectionString);
+                        containerClient = blobServiceClient.getContainerClient(cfg.containerName || 'bctemplates');
+                        blockBlobClient = containerClient.getBlockBlobClient(fileName);
+                        return [4 /*yield*/, blockBlobClient.upload(xml, xml.length)];
+                    case 2:
+                        _a.sent();
+                        setDownloadUrl(blockBlobClient.url);
+                        return [3 /*break*/, 4];
+                    case 3:
+                        e_3 = _a.sent();
+                        console.error('Upload failed', e_3);
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
     }
     return (React.createElement("div", { className: "app" },
         React.createElement("h1", null, "Business Central Setup"),
@@ -191,8 +215,11 @@ function App() {
                 React.createElement("button", { onClick: next }, "Next")))),
         step === 4 && (React.createElement("div", null,
             React.createElement("h2", null, "Finish"),
-            React.createElement("p", null, "Click below to generate your CustomRapidStart.xml file."),
+            React.createElement("p", null, "Click below to generate your RapidStart file."),
             React.createElement("button", { onClick: generateCustomRapidStart }, "Generate"),
+            downloadUrl && (React.createElement("p", null,
+                "File created: ",
+                React.createElement("a", { href: downloadUrl }, downloadUrl))),
             React.createElement("div", { className: "nav" },
                 React.createElement("button", { onClick: back }, "Back"))))));
 }
