@@ -2,7 +2,7 @@
   "name": "BCAIConfigurator",
   "version": "1.0.0",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc && cp index.html dist/index.html && cp src/style.css dist/style.css"
   },
   "devDependencies": {
     "typescript": "^5.4.0"
