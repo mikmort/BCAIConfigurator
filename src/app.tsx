@@ -337,3 +337,5 @@ function App() {
 
 const container = document.getElementById('root') as HTMLElement;
 ReactDOM.createRoot(container).render(<App />);
+
+export default App;
