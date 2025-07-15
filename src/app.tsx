@@ -1,5 +1,10 @@
 // Simple React app to guide users through Business Central setup
 const { useState, useEffect } = React;
+import HomePage from './pages/HomePage';
+import CompanyInfoPage from './pages/CompanyInfoPage';
+import PostingGroupsPage from './pages/PostingGroupsPage';
+import PaymentTermsPage from './pages/PaymentTermsPage';
+import FinishPage from './pages/FinishPage';
 
 interface CompanyField {
   field: string;
@@ -75,6 +80,7 @@ function App() {
   const [companyFields, setCompanyFields] = useState([] as CompanyField[]);
   const [downloadUrl, setDownloadUrl] = useState('');
   const [debugMessages, setDebugMessages] = useState([] as string[]);
+  const [countries, setCountries] = useState([] as { code: string; name: string }[]);
 
   const commonFieldNames = new Set([
     'Company Name',
@@ -90,28 +96,32 @@ function App() {
   }
 
   useEffect(() => {
-    // Load starting data from Azure Blob Storage
+    // Load starting data from local template
     async function loadStartingData() {
       try {
         logDebug('Loading starting data');
-        const resp = await fetch('https://bconfigstorage.blob.core.windows.net/bctemplates/NAV27.0.US.ENU.EXTENDED.json');
+        const resp = await fetch('NAV27.0.US.ENU.EXTENDED.json');
         const data = await resp.json();
         logDebug('Starting data loaded');
         setRapidStart(JSON.stringify(data));
-        const key = Object.keys(data).find(k => k.toLowerCase().includes('payment') && k.toLowerCase().includes('term'));
-        if (key) {
-          const val = data[key];
-          let terms = '';
-          if (typeof val === 'string') {
-            terms = val;
-          } else if (Array.isArray(val)) {
-            const first = val[0];
-            if (typeof first === 'string') terms = first;
-            else if (first && typeof first === 'object') terms = first.Code || first.Description || '';
-          } else if (val && typeof val === 'object') {
-            terms = val.Code || val.Description || '';
+
+        const countries =
+          data?.DataList?.CountryRegionList?.CountryRegion?.map((c: any) => ({
+            code: c.Code?.['#text'] || '',
+            name: c.Name?.['#text'] || '',
+          })) || [];
+        setCountries(countries);
+
+        const termsKey = Object.keys(data.DataList || {}).find(k =>
+          k.toLowerCase().includes('paymentterms')
+        );
+        if (termsKey) {
+          const val = (data.DataList as any)[termsKey]?.PaymentTerms;
+          if (Array.isArray(val) && val[0]) {
+            const pt = val[0];
+            const code = pt.Code?.['#text'] || '';
+            setFormData((f: FormData) => ({ ...f, paymentTerms: code }));
           }
-          setFormData((f: any) => ({ ...f, paymentTerms: terms }));
         }
       } catch (e) {
         console.error('Failed to load starting data', e);
@@ -235,6 +245,17 @@ function App() {
           ))}
         </select>
       );
+    } else if (cf.field === 'Country/Region Code') {
+      inputEl = (
+        <select name={key} value={val} onChange={handleChange}>
+          <option value=""></option>
+          {countries.map((c: { code: string; name: string }) => (
+            <option key={c.code} value={c.code}>
+              {c.name || c.code}
+            </option>
+          ))}
+        </select>
+      );
     }
     const showButton =
       cf.recommended &&
@@ -274,75 +295,41 @@ function App() {
   return (
     <div className="app">
       <h1>Business Central Setup</h1>
-      {step === 0 && (
-        <div>
-          <p>Welcome! This wizard will help you configure Dynamics 365 Business Central.</p>
-          <button onClick={next}>Start</button>
-        </div>
-      )}
+      {step === 0 && <HomePage next={next} />}
       {step === 1 && (
-        <div>
-          <h2>Company Information</h2>
-          <h3>Common</h3>
-          {companyFields
-            .filter((cf: CompanyField) => commonFieldNames.has(cf.field))
-            .map(renderField)}
-          <h3>Additional</h3>
-          {companyFields
-            .filter((cf: CompanyField) => !commonFieldNames.has(cf.field))
-            .map(renderField)}
-          <div className="nav">
-            <button onClick={back}>Back</button>
-            <button onClick={next}>Next</button>
-          </div>
-        </div>
+        <CompanyInfoPage
+          fields={companyFields}
+          commonFieldNames={commonFieldNames}
+          formData={formData}
+          handleChange={handleChange}
+          renderField={renderField}
+          next={next}
+          back={back}
+        />
       )}
       {step === 2 && (
-        <div>
-          <h2>Posting Groups</h2>
-          <label>
-            General Posting Group:
-            <input name="postingGroup" value={formData.postingGroup} onChange={handleChange} />
-          </label>
-          <div className="nav">
-            <button onClick={back}>Back</button>
-            <button onClick={next}>Next</button>
-          </div>
-        </div>
+        <PostingGroupsPage
+          formData={formData}
+          handleChange={handleChange}
+          next={next}
+          back={back}
+        />
       )}
       {step === 3 && (
-        <div>
-          <h2>Payment Terms</h2>
-          <label>
-            Terms:
-            <input name="paymentTerms" value={formData.paymentTerms} onChange={handleChange} />
-          </label>
-          <div className="nav">
-            <button onClick={back}>Back</button>
-            <button onClick={next}>Next</button>
-          </div>
-        </div>
+        <PaymentTermsPage
+          formData={formData}
+          handleChange={handleChange}
+          next={next}
+          back={back}
+        />
       )}
       {step === 4 && (
-        <div>
-          <h2>Finish</h2>
-          <p>Click below to generate your RapidStart file.</p>
-          <button onClick={generateCustomRapidStart}>Generate</button>
-          {downloadUrl && (
-            <p>
-              File created: <a href={downloadUrl}>{downloadUrl}</a>
-            </p>
-          )}
-          {debugMessages.length > 0 && (
-            <div className="debug">
-              <h3>Debug Log</h3>
-              <pre>{debugMessages.join('\n')}</pre>
-            </div>
-          )}
-          <div className="nav">
-            <button onClick={back}>Back</button>
-          </div>
-        </div>
+        <FinishPage
+          generate={generateCustomRapidStart}
+          back={back}
+          downloadUrl={downloadUrl}
+          debugMessages={debugMessages}
+        />
       )}
     </div>
   );
