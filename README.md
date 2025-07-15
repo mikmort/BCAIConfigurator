@@ -4,6 +4,9 @@ This static web app provides an interview style experience that helps users conf
 
 The source is now written in TypeScript (`src/app.tsx`). Run `npx tsc` to transpile it to JavaScript before opening `index.html` in a browser. The app is designed for Azure Static Web Apps and uses React delivered via CDN for quick prototyping.
 
-To enable uploading the generated RapidStart file, create an `env.js` file based
-on `env.template.js` and provide your Azure Storage connection string. The
+When running locally make sure to serve the files through a local web server instead of opening `index.html` directly. Browsers often block network requests from the `file:` protocol which will cause errors like `Failed to fetch` when loading the starting data or Azure Storage script. A simple option is `npx http-server`.
+
+To enable uploading the generated RapidStart file, fill in `env.js` with your Azure Storage connection string. The
 `env.js` file is ignored by git so your secrets remain private.
+
+The Azure Storage library loaded from the CDN exposes a global `azblob` object. The app uses this object when uploading your customized RapidStart file.

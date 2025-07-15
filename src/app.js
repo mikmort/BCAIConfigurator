@@ -166,7 +166,7 @@ function App() {
     }
     function generateCustomRapidStart() {
         return __awaiter(this, void 0, void 0, function () {
-            var xml, fileName, cfg, blobServiceClient, containerClient, blockBlobClient, e_3;
+            var xml, fileName, cfg, az, blobServiceClient, containerClient, blockBlobClient, e_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -182,7 +182,11 @@ function App() {
                             throw new Error('Azure connection string not configured');
                         }
                         logDebug('Connecting to Azure Blob Storage');
-                        blobServiceClient = AzureStorageBlob.BlobServiceClient.fromConnectionString(cfg.connectionString);
+                        az = window.azblob;
+                        if (!az) {
+                            throw new Error('Azure Storage library not loaded');
+                        }
+                        blobServiceClient = az.BlobServiceClient.fromConnectionString(cfg.connectionString);
                         containerClient = blobServiceClient.getContainerClient(cfg.containerName || 'bctemplates');
                         logDebug("Using container: ".concat(containerClient.containerName));
                         blockBlobClient = containerClient.getBlockBlobClient(fileName);

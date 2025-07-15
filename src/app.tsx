@@ -102,7 +102,11 @@ function App() {
         throw new Error('Azure connection string not configured');
       }
       logDebug('Connecting to Azure Blob Storage');
-      const blobServiceClient = AzureStorageBlob.BlobServiceClient.fromConnectionString(
+      const az = (window as any).azblob;
+      if (!az) {
+        throw new Error('Azure Storage library not loaded');
+      }
+      const blobServiceClient = az.BlobServiceClient.fromConnectionString(
         cfg.connectionString
       );
       const containerClient = blobServiceClient.getContainerClient(cfg.containerName || 'bctemplates');
