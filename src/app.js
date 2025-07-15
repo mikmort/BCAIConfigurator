@@ -59,32 +59,51 @@ function App() {
         paymentTerms: '',
     }), formData = _c[0], setFormData = _c[1];
     useEffect(function () {
-        // Load RapidStart.xml from Azure Blob Storage
-        function loadRapidStart() {
+        // Load starting data from Azure Blob Storage
+        function loadStartingData() {
             return __awaiter(this, void 0, void 0, function () {
-                var resp, text, e_1;
+                var resp, data, key, val, terms_1, first, e_1;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
                             _a.trys.push([0, 3, , 4]);
-                            return [4 /*yield*/, fetch('https://<your-storage-account>.blob.core.windows.net/<container>/RapidStart.xml')];
+                            return [4 /*yield*/, fetch('https://bconfigstorage.blob.core.windows.net/bctemplates/NAV27.0.US.ENU.EXTENDED.json')];
                         case 1:
                             resp = _a.sent();
-                            return [4 /*yield*/, resp.text()];
+                            return [4 /*yield*/, resp.json()];
                         case 2:
-                            text = _a.sent();
-                            setRapidStart(text);
+                            data = _a.sent();
+                            setRapidStart(JSON.stringify(data));
+                            key = Object.keys(data).find(function (k) { return k.toLowerCase().includes('payment') && k.toLowerCase().includes('term'); });
+                            if (key) {
+                                val = data[key];
+                                terms_1 = '';
+                                if (typeof val === 'string') {
+                                    terms_1 = val;
+                                }
+                                else if (Array.isArray(val)) {
+                                    first = val[0];
+                                    if (typeof first === 'string')
+                                        terms_1 = first;
+                                    else if (first && typeof first === 'object')
+                                        terms_1 = first.Code || first.Description || '';
+                                }
+                                else if (val && typeof val === 'object') {
+                                    terms_1 = val.Code || val.Description || '';
+                                }
+                                setFormData(function (f) { return (__assign(__assign({}, f), { paymentTerms: terms_1 })); });
+                            }
                             return [3 /*break*/, 4];
                         case 3:
                             e_1 = _a.sent();
-                            console.error('Failed to load RapidStart.xml', e_1);
+                            console.error('Failed to load starting data', e_1);
                             return [3 /*break*/, 4];
                         case 4: return [2 /*return*/];
                     }
                 });
             });
         }
-        loadRapidStart();
+        loadStartingData();
     }, []);
     function handleChange(e) {
         var _a;

@@ -12,29 +12,44 @@ interface FormData {
 function App() {
   const [step, setStep] = useState(0 as number);
   const [rapidStart, setRapidStart] = useState('' as string);
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState({
     companyName: '',
     address: '',
     country: '',
     postingGroup: '',
     paymentTerms: '',
-  });
+  } as FormData);
 
   useEffect(() => {
-    // Load RapidStart.xml from Azure Blob Storage
-    async function loadRapidStart() {
+    // Load starting data from Azure Blob Storage
+    async function loadStartingData() {
       try {
-        const resp = await fetch('https://<your-storage-account>.blob.core.windows.net/<container>/RapidStart.xml');
-        const text = await resp.text();
-        setRapidStart(text);
+        const resp = await fetch('https://bconfigstorage.blob.core.windows.net/bctemplates/NAV27.0.US.ENU.EXTENDED.json');
+        const data = await resp.json();
+        setRapidStart(JSON.stringify(data));
+        const key = Object.keys(data).find(k => k.toLowerCase().includes('payment') && k.toLowerCase().includes('term'));
+        if (key) {
+          const val = data[key];
+          let terms = '';
+          if (typeof val === 'string') {
+            terms = val;
+          } else if (Array.isArray(val)) {
+            const first = val[0];
+            if (typeof first === 'string') terms = first;
+            else if (first && typeof first === 'object') terms = first.Code || first.Description || '';
+          } else if (val && typeof val === 'object') {
+            terms = val.Code || val.Description || '';
+          }
+          setFormData((f: any) => ({ ...f, paymentTerms: terms }));
+        }
       } catch (e) {
-        console.error('Failed to load RapidStart.xml', e);
+        console.error('Failed to load starting data', e);
       }
     }
-    loadRapidStart();
+    loadStartingData();
   }, []);
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleChange(e: any) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
 
