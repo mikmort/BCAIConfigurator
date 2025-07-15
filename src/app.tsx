@@ -19,6 +19,7 @@ function App() {
     postingGroup: '',
     paymentTerms: '',
   } as FormData);
+  const [downloadUrl, setDownloadUrl] = useState('');
 
   useEffect(() => {
     // Load starting data from Azure Blob Storage
@@ -76,15 +77,27 @@ function App() {
     }
   }
 
-  function generateCustomRapidStart(): void {
+  async function generateCustomRapidStart(): Promise<void> {
     const xml = `<?xml version="1.0"?>\n<CustomRapidStart>\n  <CompanyName>${formData.companyName}</CompanyName>\n  <Address>${formData.address}</Address>\n  <Country>${formData.country}</Country>\n  <PostingGroup>${formData.postingGroup}</PostingGroup>\n  <PaymentTerms>${formData.paymentTerms}</PaymentTerms>\n</CustomRapidStart>`;
-    const blob = new Blob([xml], { type: 'application/xml' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'CustomRapidStart.xml';
-    a.click();
-    URL.revokeObjectURL(url);
+
+    const fileName = `${(formData.companyName || 'CustomRapidStart')
+      .replace(/\s+/g, '_')}.rapidstart`;
+
+    try {
+      const cfg = (window as any).azureStorageConfig || {};
+      if (!cfg.connectionString) {
+        throw new Error('Azure connection string not configured');
+      }
+      const blobServiceClient = AzureStorageBlob.BlobServiceClient.fromConnectionString(
+        cfg.connectionString
+      );
+      const containerClient = blobServiceClient.getContainerClient(cfg.containerName || 'bctemplates');
+      const blockBlobClient = containerClient.getBlockBlobClient(fileName);
+      await blockBlobClient.upload(xml, xml.length);
+      setDownloadUrl(blockBlobClient.url);
+    } catch (e) {
+      console.error('Upload failed', e);
+    }
   }
 
   return (
@@ -147,8 +160,13 @@ function App() {
       {step === 4 && (
         <div>
           <h2>Finish</h2>
-          <p>Click below to generate your CustomRapidStart.xml file.</p>
+          <p>Click below to generate your RapidStart file.</p>
           <button onClick={generateCustomRapidStart}>Generate</button>
+          {downloadUrl && (
+            <p>
+              File created: <a href={downloadUrl}>{downloadUrl}</a>
+            </p>
+          )}
           <div className="nav">
             <button onClick={back}>Back</button>
           </div>
