@@ -8,11 +8,16 @@ interface CompanyField {
 }
 
 interface FormData {
-  [key: string]: string;
+  [key: string]: any;
 }
 
 function fieldKey(name: string): string {
   return name.replace(/[^a-zA-Z0-9]/g, '_');
+}
+
+function recommendedCode(text: string): string {
+  const match = text.match(/[A-Z0-9]{2,}/);
+  return match ? match[0] : text;
 }
 
 function parseCompanyInfo(text: string): CompanyField[] {
@@ -70,6 +75,14 @@ function App() {
   const [companyFields, setCompanyFields] = useState([] as CompanyField[]);
   const [downloadUrl, setDownloadUrl] = useState('');
   const [debugMessages, setDebugMessages] = useState([] as string[]);
+
+  const commonFieldNames = new Set([
+    'Company Name',
+    'Address',
+    'Phone No./Email',
+    'Country/Region Code',
+  ]);
+  const suggestionFields = new Set(['Country/Region Code', 'Base Calendar Code']);
 
   function logDebug(msg: string): void {
     setDebugMessages((m: string[]) => [...m, msg]);
@@ -135,7 +148,12 @@ function App() {
   }, []);
 
   function handleChange(e: any) {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, type, value, files } = e.target;
+    if (type === 'file') {
+      setFormData({ ...formData, [name]: files && files[0] ? files[0] : null });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   }
 
   function next(): void {
@@ -198,6 +216,61 @@ function App() {
     }
   }
 
+  function renderField(cf: CompanyField) {
+    const key = fieldKey(cf.field);
+    const val = formData[key] || '';
+    let inputEl: any = (
+      <input name={key} value={val} onChange={handleChange} />
+    );
+    if (cf.field === 'Logo (Picture)') {
+      inputEl = <input type="file" name={key} onChange={handleChange} />;
+    } else if (cf.field === 'Base Calendar Code') {
+      const options = ['', 'STANDARD'];
+      inputEl = (
+        <select name={key} value={val} onChange={handleChange}>
+          {options.map(o => (
+            <option key={o} value={o}>
+              {o}
+            </option>
+          ))}
+        </select>
+      );
+    }
+    const showButton =
+      cf.recommended &&
+      suggestionFields.has(cf.field) &&
+      val !== recommendedCode(cf.recommended);
+    return (
+      <div className="field" key={key}>
+        <label>
+          {cf.field}: {inputEl}
+        </label>
+        {showButton && (
+          <button
+            type="button"
+            onClick={() =>
+              setFormData((f: FormData) => ({
+                ...f,
+                [key]: recommendedCode(cf.recommended),
+              }))
+            }
+          >
+            Use suggested
+          </button>
+        )}
+        {cf.recommended && (
+          <div className="suggested">Suggested: {cf.recommended}</div>
+        )}
+        {cf.considerations && (
+          <details>
+            <summary>Considerations</summary>
+            <p>{cf.considerations}</p>
+          </details>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="app">
       <h1>Business Central Setup</h1>
@@ -210,37 +283,14 @@ function App() {
       {step === 1 && (
         <div>
           <h2>Company Information</h2>
-          {companyFields.map((cf: CompanyField) => {
-            const key = fieldKey(cf.field);
-            const val = formData[key] || '';
-            return (
-              <div className="field" key={key}>
-                <label>
-                  {cf.field}:
-                  <input name={key} value={val} onChange={handleChange} />
-                </label>
-                {cf.recommended && val !== cf.recommended && (
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setFormData((f: FormData) => ({ ...f, [key]: cf.recommended }))
-                    }
-                  >
-                    Use suggested
-                  </button>
-                )}
-                {cf.recommended && (
-                  <div className="suggested">Suggested: {cf.recommended}</div>
-                )}
-                {cf.considerations && (
-                  <details>
-                    <summary>Considerations</summary>
-                    <p>{cf.considerations}</p>
-                  </details>
-                )}
-              </div>
-            );
-          })}
+          <h3>Common</h3>
+          {companyFields
+            .filter((cf: CompanyField) => commonFieldNames.has(cf.field))
+            .map(renderField)}
+          <h3>Additional</h3>
+          {companyFields
+            .filter((cf: CompanyField) => !commonFieldNames.has(cf.field))
+            .map(renderField)}
           <div className="nav">
             <button onClick={back}>Back</button>
             <button onClick={next}>Next</button>
