@@ -1,11 +1,11 @@
 {
-
   "name": "BCAIConfigurator",
   "version": "1.0.0",
   "scripts": {
+    "prebuild": "chmod +x ./node_modules/.bin/tsc",
     "build": "npx tsc",
     "test": "echo \"No tests yet\" && exit 0"
-  },
+  }
   "devDependencies": {
     "typescript": "^5.4.0"
   }
