@@ -1,10 +1,5 @@
 {
-<<<<<<< HEAD
-  "devDependencies": {
-    "typescript": "^5.8.3"
-  }
-}
-=======
+
   "name": "BCAIConfigurator",
   "version": "1.0.0",
   "scripts": {
@@ -16,4 +11,3 @@
 }
 
 
->>>>>>> origin/main
