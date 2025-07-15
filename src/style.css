@@ -1,0 +1,19 @@
+.app {
+  font-family: Arial, sans-serif;
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.nav {
+  margin-top: 20px;
+}
+
+button {
+  margin-right: 10px;
+}
