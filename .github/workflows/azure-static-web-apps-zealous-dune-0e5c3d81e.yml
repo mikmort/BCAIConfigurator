@@ -28,7 +28,7 @@ jobs:
           action: "upload"
           app_location: "src"                  # Your app lives in /src
           output_location: "../dist"           # Vite builds to dist/ outside /src
-          app_build_command: "npm run build"   # Build with Vite
+          app_build_command: "npx vite build"   # Build with Vite
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
