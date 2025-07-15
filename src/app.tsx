@@ -1,3 +1,5 @@
+import React from 'react';
+
 // Simple React app to guide users through Business Central setup
 const { useState, useEffect } = React;
 import HomePage from './pages/HomePage';
