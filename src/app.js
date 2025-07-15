@@ -46,6 +46,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 // Simple React app to guide users through Business Central setup
 var useState = React.useState, useEffect = React.useEffect;
 function App() {
@@ -59,6 +68,11 @@ function App() {
         paymentTerms: '',
     }), formData = _c[0], setFormData = _c[1];
     var _d = useState(''), downloadUrl = _d[0], setDownloadUrl = _d[1];
+    var _e = useState([]), debugMessages = _e[0], setDebugMessages = _e[1];
+    function logDebug(msg) {
+        setDebugMessages(function (m) { return __spreadArray(__spreadArray([], m, true), [msg], false); });
+        console.log(msg);
+    }
     useEffect(function () {
         // Load starting data from Azure Blob Storage
         function loadStartingData() {
@@ -68,12 +82,14 @@ function App() {
                     switch (_a.label) {
                         case 0:
                             _a.trys.push([0, 3, , 4]);
+                            logDebug('Loading starting data');
                             return [4 /*yield*/, fetch('https://bconfigstorage.blob.core.windows.net/bctemplates/NAV27.0.US.ENU.EXTENDED.json')];
                         case 1:
                             resp = _a.sent();
                             return [4 /*yield*/, resp.json()];
                         case 2:
                             data = _a.sent();
+                            logDebug('Starting data loaded');
                             setRapidStart(JSON.stringify(data));
                             key = Object.keys(data).find(function (k) { return k.toLowerCase().includes('payment') && k.toLowerCase().includes('term'); });
                             if (key) {
@@ -98,6 +114,7 @@ function App() {
                         case 3:
                             e_1 = _a.sent();
                             console.error('Failed to load starting data', e_1);
+                            logDebug("Failed to load starting data: ".concat(e_1));
                             return [3 /*break*/, 4];
                         case 4: return [2 /*return*/];
                     }
@@ -123,6 +140,7 @@ function App() {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 3, , 4]);
+                        logDebug("Asking OpenAI: ".concat(question));
                         return [4 /*yield*/, fetch('/api/openai', {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
@@ -134,10 +152,12 @@ function App() {
                     case 2:
                         data = _a.sent();
                         alert(data.answer);
+                        logDebug('OpenAI answered');
                         return [3 /*break*/, 4];
                     case 3:
                         e_2 = _a.sent();
                         console.error(e_2);
+                        logDebug("OpenAI call failed: ".concat(e_2));
                         return [3 /*break*/, 4];
                     case 4: return [2 /*return*/];
                 }
@@ -150,6 +170,7 @@ function App() {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        logDebug('Preparing RapidStart XML');
                         xml = "<?xml version=\"1.0\"?>\n<CustomRapidStart>\n  <CompanyName>".concat(formData.companyName, "</CompanyName>\n  <Address>").concat(formData.address, "</Address>\n  <Country>").concat(formData.country, "</Country>\n  <PostingGroup>").concat(formData.postingGroup, "</PostingGroup>\n  <PaymentTerms>").concat(formData.paymentTerms, "</PaymentTerms>\n</CustomRapidStart>");
                         fileName = "".concat((formData.companyName || 'CustomRapidStart')
                             .replace(/\s+/g, '_'), ".rapidstart");
@@ -160,17 +181,23 @@ function App() {
                         if (!cfg.connectionString) {
                             throw new Error('Azure connection string not configured');
                         }
+                        logDebug('Connecting to Azure Blob Storage');
                         blobServiceClient = AzureStorageBlob.BlobServiceClient.fromConnectionString(cfg.connectionString);
                         containerClient = blobServiceClient.getContainerClient(cfg.containerName || 'bctemplates');
+                        logDebug("Using container: ".concat(containerClient.containerName));
                         blockBlobClient = containerClient.getBlockBlobClient(fileName);
+                        logDebug("Uploading ".concat(fileName));
                         return [4 /*yield*/, blockBlobClient.upload(xml, xml.length)];
                     case 2:
                         _a.sent();
+                        logDebug('Upload succeeded');
                         setDownloadUrl(blockBlobClient.url);
+                        logDebug("File URL: ".concat(blockBlobClient.url));
                         return [3 /*break*/, 4];
                     case 3:
                         e_3 = _a.sent();
                         console.error('Upload failed', e_3);
+                        logDebug("Upload failed: ".concat(e_3));
                         return [3 /*break*/, 4];
                     case 4: return [2 /*return*/];
                 }
@@ -220,6 +247,9 @@ function App() {
             downloadUrl && (React.createElement("p", null,
                 "File created: ",
                 React.createElement("a", { href: downloadUrl }, downloadUrl))),
+            debugMessages.length > 0 && (React.createElement("div", { className: "debug" },
+                React.createElement("h3", null, "Debug Log"),
+                React.createElement("pre", null, debugMessages.join('\n')))),
             React.createElement("div", { className: "nav" },
                 React.createElement("button", { onClick: back }, "Back"))))));
 }

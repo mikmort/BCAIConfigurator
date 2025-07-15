@@ -20,13 +20,21 @@ function App() {
     paymentTerms: '',
   } as FormData);
   const [downloadUrl, setDownloadUrl] = useState('');
+  const [debugMessages, setDebugMessages] = useState([] as string[]);
+
+  function logDebug(msg: string): void {
+    setDebugMessages((m: string[]) => [...m, msg]);
+    console.log(msg);
+  }
 
   useEffect(() => {
     // Load starting data from Azure Blob Storage
     async function loadStartingData() {
       try {
+        logDebug('Loading starting data');
         const resp = await fetch('https://bconfigstorage.blob.core.windows.net/bctemplates/NAV27.0.US.ENU.EXTENDED.json');
         const data = await resp.json();
+        logDebug('Starting data loaded');
         setRapidStart(JSON.stringify(data));
         const key = Object.keys(data).find(k => k.toLowerCase().includes('payment') && k.toLowerCase().includes('term'));
         if (key) {
@@ -45,6 +53,7 @@ function App() {
         }
       } catch (e) {
         console.error('Failed to load starting data', e);
+        logDebug(`Failed to load starting data: ${e}`);
       }
     }
     loadStartingData();
@@ -65,6 +74,7 @@ function App() {
   async function askOpenAI(question: string) {
     // Placeholder for Azure OpenAI integration
     try {
+      logDebug(`Asking OpenAI: ${question}`);
       const resp = await fetch('/api/openai', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -72,12 +82,15 @@ function App() {
       });
       const data = await resp.json();
       alert(data.answer);
+      logDebug('OpenAI answered');
     } catch (e) {
       console.error(e);
+      logDebug(`OpenAI call failed: ${e}`);
     }
   }
 
   async function generateCustomRapidStart(): Promise<void> {
+    logDebug('Preparing RapidStart XML');
     const xml = `<?xml version="1.0"?>\n<CustomRapidStart>\n  <CompanyName>${formData.companyName}</CompanyName>\n  <Address>${formData.address}</Address>\n  <Country>${formData.country}</Country>\n  <PostingGroup>${formData.postingGroup}</PostingGroup>\n  <PaymentTerms>${formData.paymentTerms}</PaymentTerms>\n</CustomRapidStart>`;
 
     const fileName = `${(formData.companyName || 'CustomRapidStart')
@@ -88,15 +101,21 @@ function App() {
       if (!cfg.connectionString) {
         throw new Error('Azure connection string not configured');
       }
+      logDebug('Connecting to Azure Blob Storage');
       const blobServiceClient = AzureStorageBlob.BlobServiceClient.fromConnectionString(
         cfg.connectionString
       );
       const containerClient = blobServiceClient.getContainerClient(cfg.containerName || 'bctemplates');
+      logDebug(`Using container: ${containerClient.containerName}`);
       const blockBlobClient = containerClient.getBlockBlobClient(fileName);
+      logDebug(`Uploading ${fileName}`);
       await blockBlobClient.upload(xml, xml.length);
+      logDebug('Upload succeeded');
       setDownloadUrl(blockBlobClient.url);
+      logDebug(`File URL: ${blockBlobClient.url}`);
     } catch (e) {
       console.error('Upload failed', e);
+      logDebug(`Upload failed: ${e}`);
     }
   }
 
@@ -166,6 +185,12 @@ function App() {
             <p>
               File created: <a href={downloadUrl}>{downloadUrl}</a>
             </p>
+          )}
+          {debugMessages.length > 0 && (
+            <div className="debug">
+              <h3>Debug Log</h3>
+              <pre>{debugMessages.join('\n')}</pre>
+            </div>
           )}
           <div className="nav">
             <button onClick={back}>Back</button>
