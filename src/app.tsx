@@ -135,7 +135,7 @@ function App() {
     async function loadConfigTables() {
       try {
         logDebug('Loading config tables');
-        const resp = await fetch('config_tables.json');
+        const resp = await fetch('/config_tables.json');
         const data = await resp.json();
         if (data['Table 79']) {
           const fields = parseCompanyInfo(data['Table 79']);
