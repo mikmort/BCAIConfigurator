@@ -1,24 +1,73 @@
 // Simple React app to guide users through Business Central setup
 const { useState, useEffect } = React;
 
+interface CompanyField {
+  field: string;
+  recommended: string;
+  considerations: string;
+}
+
 interface FormData {
-  companyName: string;
-  address: string;
-  country: string;
-  postingGroup: string;
-  paymentTerms: string;
+  [key: string]: string;
+}
+
+function fieldKey(name: string): string {
+  return name.replace(/[^a-zA-Z0-9]/g, '_');
+}
+
+function parseCompanyInfo(text: string): CompanyField[] {
+  const lines = text.split('\n').map(l => l.trim());
+  const names = [
+    'Company Name',
+    'Address',
+    'Phone No. /',
+    'Country/Region',
+    'Tax',
+    'Fed. Tax ID (if',
+    'Company',
+    'Base Calendar',
+    'Invoice Address',
+    'Logo (Picture)',
+    'Bank Accounts',
+  ];
+  const displayNames = [
+    'Company Name',
+    'Address',
+    'Phone No./Email',
+    'Country/Region Code',
+    'Tax Registration No.',
+    'Fed. Tax ID (if available)',
+    'Company Website',
+    'Base Calendar Code',
+    'Invoice Address Code',
+    'Logo (Picture)',
+    'Bank Accounts',
+  ];
+  const indexes = names.map(n => lines.indexOf(n));
+  indexes.push(lines.length);
+  const result: CompanyField[] = [];
+  for (let i = 0; i < names.length; i++) {
+    const slice = lines.slice(indexes[i] + 1, indexes[i + 1]).filter(l => l);
+    while (slice[0] && (/Blank/i.test(slice[0]) || /None/i.test(slice[0]) || /^\(/.test(slice[0]) || /City/.test(slice[0]) || /ZIP/.test(slice[0]) || /Code$/.test(slice[0]) || /available\)/.test(slice[0]) || /fields/i.test(slice[0]))) {
+      slice.shift();
+    }
+    const idxCons = slice.findIndex(l => l.startsWith('The ') || l.startsWith('If ') || l.startsWith('Bank ') || l.startsWith('Note:'));
+    const rec = idxCons >= 0 ? slice.slice(0, idxCons) : slice;
+    const cons = idxCons >= 0 ? slice.slice(idxCons) : [];
+    result.push({
+      field: displayNames[i],
+      recommended: rec.join(' ').trim(),
+      considerations: cons.join(' ').trim(),
+    });
+  }
+  return result;
 }
 
 function App() {
   const [step, setStep] = useState(0 as number);
   const [rapidStart, setRapidStart] = useState('' as string);
-  const [formData, setFormData] = useState({
-    companyName: '',
-    address: '',
-    country: '',
-    postingGroup: '',
-    paymentTerms: '',
-  } as FormData);
+  const [formData, setFormData] = useState({} as FormData);
+  const [companyFields, setCompanyFields] = useState([] as CompanyField[]);
   const [downloadUrl, setDownloadUrl] = useState('');
   const [debugMessages, setDebugMessages] = useState([] as string[]);
 
@@ -57,6 +106,32 @@ function App() {
       }
     }
     loadStartingData();
+  }, []);
+
+  useEffect(() => {
+    async function loadConfigTables() {
+      try {
+        logDebug('Loading config tables');
+        const resp = await fetch('config_tables.json');
+        const data = await resp.json();
+        if (data['Table 79']) {
+          const fields = parseCompanyInfo(data['Table 79']);
+          setCompanyFields(fields);
+          setFormData((f: FormData) => {
+            const copy: FormData = { ...f };
+            fields.forEach((cf: CompanyField) => {
+              const key = fieldKey(cf.field);
+              if (!(key in copy)) copy[key] = '';
+            });
+            return copy;
+          });
+        }
+      } catch (e) {
+        console.error('Failed to load config tables', e);
+        logDebug(`Failed to load config tables: ${e}`);
+      }
+    }
+    loadConfigTables();
   }, []);
 
   function handleChange(e: any) {
@@ -135,19 +210,37 @@ function App() {
       {step === 1 && (
         <div>
           <h2>Company Information</h2>
-          <label>
-            Company Name:
-            <input name="companyName" value={formData.companyName} onChange={handleChange} />
-          </label>
-          <label>
-            Address:
-            <input name="address" value={formData.address} onChange={handleChange} />
-          </label>
-          <label>
-            Country:
-            <input name="country" value={formData.country} onChange={handleChange} />
-          </label>
-          <button onClick={() => askOpenAI('What is a good company name?')}>Need help?</button>
+          {companyFields.map((cf: CompanyField) => {
+            const key = fieldKey(cf.field);
+            const val = formData[key] || '';
+            return (
+              <div className="field" key={key}>
+                <label>
+                  {cf.field}:
+                  <input name={key} value={val} onChange={handleChange} />
+                </label>
+                {cf.recommended && val !== cf.recommended && (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setFormData((f: FormData) => ({ ...f, [key]: cf.recommended }))
+                    }
+                  >
+                    Use suggested
+                  </button>
+                )}
+                {cf.recommended && (
+                  <div className="suggested">Suggested: {cf.recommended}</div>
+                )}
+                {cf.considerations && (
+                  <details>
+                    <summary>Considerations</summary>
+                    <p>{cf.considerations}</p>
+                  </details>
+                )}
+              </div>
+            );
+          })}
           <div className="nav">
             <button onClick={back}>Back</button>
             <button onClick={next}>Next</button>

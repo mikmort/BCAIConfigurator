@@ -57,18 +57,63 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
 };
 // Simple React app to guide users through Business Central setup
 var useState = React.useState, useEffect = React.useEffect;
+function fieldKey(name) {
+    return name.replace(/[^a-zA-Z0-9]/g, '_');
+}
+function parseCompanyInfo(text) {
+    var lines = text.split('\n').map(function (l) { return l.trim(); });
+    var names = [
+        'Company Name',
+        'Address',
+        'Phone No. /',
+        'Country/Region',
+        'Tax',
+        'Fed. Tax ID (if',
+        'Company',
+        'Base Calendar',
+        'Invoice Address',
+        'Logo (Picture)',
+        'Bank Accounts',
+    ];
+    var displayNames = [
+        'Company Name',
+        'Address',
+        'Phone No./Email',
+        'Country/Region Code',
+        'Tax Registration No.',
+        'Fed. Tax ID (if available)',
+        'Company Website',
+        'Base Calendar Code',
+        'Invoice Address Code',
+        'Logo (Picture)',
+        'Bank Accounts',
+    ];
+    var indexes = names.map(function (n) { return lines.indexOf(n); });
+    indexes.push(lines.length);
+    var result = [];
+    for (var i = 0; i < names.length; i++) {
+        var slice = lines.slice(indexes[i] + 1, indexes[i + 1]).filter(function (l) { return l; });
+        while (slice[0] && (/Blank/i.test(slice[0]) || /None/i.test(slice[0]) || /^\(/.test(slice[0]) || /City/.test(slice[0]) || /ZIP/.test(slice[0]) || /Code$/.test(slice[0]) || /available\)/.test(slice[0]) || /fields/i.test(slice[0]))) {
+            slice.shift();
+        }
+        var idxCons = slice.findIndex(function (l) { return l.startsWith('The ') || l.startsWith('If ') || l.startsWith('Bank ') || l.startsWith('Note:'); });
+        var rec = idxCons >= 0 ? slice.slice(0, idxCons) : slice;
+        var cons = idxCons >= 0 ? slice.slice(idxCons) : [];
+        result.push({
+            field: displayNames[i],
+            recommended: rec.join(' ').trim(),
+            considerations: cons.join(' ').trim(),
+        });
+    }
+    return result;
+}
 function App() {
     var _a = useState(0), step = _a[0], setStep = _a[1];
     var _b = useState(''), rapidStart = _b[0], setRapidStart = _b[1];
-    var _c = useState({
-        companyName: '',
-        address: '',
-        country: '',
-        postingGroup: '',
-        paymentTerms: '',
-    }), formData = _c[0], setFormData = _c[1];
-    var _d = useState(''), downloadUrl = _d[0], setDownloadUrl = _d[1];
-    var _e = useState([]), debugMessages = _e[0], setDebugMessages = _e[1];
+    var _c = useState({}), formData = _c[0], setFormData = _c[1];
+    var _d = useState([]), companyFields = _d[0], setCompanyFields = _d[1];
+    var _e = useState(''), downloadUrl = _e[0], setDownloadUrl = _e[1];
+    var _f = useState([]), debugMessages = _f[0], setDebugMessages = _f[1];
     function logDebug(msg) {
         setDebugMessages(function (m) { return __spreadArray(__spreadArray([], m, true), [msg], false); });
         console.log(msg);
@@ -123,6 +168,47 @@ function App() {
         }
         loadStartingData();
     }, []);
+    useEffect(function () {
+        function loadConfigTables() {
+            return __awaiter(this, void 0, void 0, function () {
+                var resp, data, fields_1, e_2;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            _a.trys.push([0, 3, , 4]);
+                            logDebug('Loading config tables');
+                            return [4 /*yield*/, fetch('config_tables.json')];
+                        case 1:
+                            resp = _a.sent();
+                            return [4 /*yield*/, resp.json()];
+                        case 2:
+                            data = _a.sent();
+                            if (data['Table 79']) {
+                                fields_1 = parseCompanyInfo(data['Table 79']);
+                                setCompanyFields(fields_1);
+                                setFormData(function (f) {
+                                    var copy = __assign({}, f);
+                                    fields_1.forEach(function (cf) {
+                                        var key = fieldKey(cf.field);
+                                        if (!(key in copy))
+                                            copy[key] = '';
+                                    });
+                                    return copy;
+                                });
+                            }
+                            return [3 /*break*/, 4];
+                        case 3:
+                            e_2 = _a.sent();
+                            console.error('Failed to load config tables', e_2);
+                            logDebug("Failed to load config tables: ".concat(e_2));
+                            return [3 /*break*/, 4];
+                        case 4: return [2 /*return*/];
+                    }
+                });
+            });
+        }
+        loadConfigTables();
+    }, []);
     function handleChange(e) {
         var _a;
         setFormData(__assign(__assign({}, formData), (_a = {}, _a[e.target.name] = e.target.value, _a)));
@@ -135,7 +221,7 @@ function App() {
     }
     function askOpenAI(question) {
         return __awaiter(this, void 0, void 0, function () {
-            var resp, data, e_2;
+            var resp, data, e_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -155,9 +241,9 @@ function App() {
                         logDebug('OpenAI answered');
                         return [3 /*break*/, 4];
                     case 3:
-                        e_2 = _a.sent();
-                        console.error(e_2);
-                        logDebug("OpenAI call failed: ".concat(e_2));
+                        e_3 = _a.sent();
+                        console.error(e_3);
+                        logDebug("OpenAI call failed: ".concat(e_3));
                         return [3 /*break*/, 4];
                     case 4: return [2 /*return*/];
                 }
@@ -166,7 +252,7 @@ function App() {
     }
     function generateCustomRapidStart() {
         return __awaiter(this, void 0, void 0, function () {
-            var xml, fileName, cfg, az, blobServiceClient, containerClient, blockBlobClient, e_3;
+            var xml, fileName, cfg, az, blobServiceClient, containerClient, blockBlobClient, e_4;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -199,9 +285,9 @@ function App() {
                         logDebug("File URL: ".concat(blockBlobClient.url));
                         return [3 /*break*/, 4];
                     case 3:
-                        e_3 = _a.sent();
-                        console.error('Upload failed', e_3);
-                        logDebug("Upload failed: ".concat(e_3));
+                        e_4 = _a.sent();
+                        console.error('Upload failed', e_4);
+                        logDebug("Upload failed: ".concat(e_4));
                         return [3 /*break*/, 4];
                     case 4: return [2 /*return*/];
                 }
@@ -215,16 +301,27 @@ function App() {
             React.createElement("button", { onClick: next }, "Start"))),
         step === 1 && (React.createElement("div", null,
             React.createElement("h2", null, "Company Information"),
-            React.createElement("label", null,
-                "Company Name:",
-                React.createElement("input", { name: "companyName", value: formData.companyName, onChange: handleChange })),
-            React.createElement("label", null,
-                "Address:",
-                React.createElement("input", { name: "address", value: formData.address, onChange: handleChange })),
-            React.createElement("label", null,
-                "Country:",
-                React.createElement("input", { name: "country", value: formData.country, onChange: handleChange })),
-            React.createElement("button", { onClick: function () { return askOpenAI('What is a good company name?'); } }, "Need help?"),
+            companyFields.map(function (cf) {
+                var key = fieldKey(cf.field);
+                var val = formData[key] || '';
+                return (React.createElement("div", { className: "field", key: key },
+                    React.createElement("label", null,
+                        cf.field,
+                        ":",
+                        React.createElement("input", { name: key, value: val, onChange: handleChange })),
+                    cf.recommended && val !== cf.recommended && (React.createElement("button", { type: "button", onClick: function () {
+                            return setFormData(function (f) {
+                                var _a;
+                                return (__assign(__assign({}, f), (_a = {}, _a[key] = cf.recommended, _a)));
+                            });
+                        } }, "Use suggested")),
+                    cf.recommended && (React.createElement("div", { className: "suggested" },
+                        "Suggested: ",
+                        cf.recommended)),
+                    cf.considerations && (React.createElement("details", null,
+                        React.createElement("summary", null, "Considerations"),
+                        React.createElement("p", null, cf.considerations)))));
+            }),
             React.createElement("div", { className: "nav" },
                 React.createElement("button", { onClick: back }, "Back"),
                 React.createElement("button", { onClick: next }, "Next")))),
