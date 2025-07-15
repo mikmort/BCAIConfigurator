@@ -60,6 +60,10 @@ var useState = React.useState, useEffect = React.useEffect;
 function fieldKey(name) {
     return name.replace(/[^a-zA-Z0-9]/g, '_');
 }
+function recommendedCode(text) {
+    var match = text.match(/[A-Z0-9]{2,}/);
+    return match ? match[0] : text;
+}
 function parseCompanyInfo(text) {
     var lines = text.split('\n').map(function (l) { return l.trim(); });
     var names = [
@@ -114,6 +118,13 @@ function App() {
     var _d = useState([]), companyFields = _d[0], setCompanyFields = _d[1];
     var _e = useState(''), downloadUrl = _e[0], setDownloadUrl = _e[1];
     var _f = useState([]), debugMessages = _f[0], setDebugMessages = _f[1];
+    var commonFieldNames = new Set([
+        'Company Name',
+        'Address',
+        'Phone No./Email',
+        'Country/Region Code',
+    ]);
+    var suggestionFields = new Set(['Country/Region Code', 'Base Calendar Code']);
     function logDebug(msg) {
         setDebugMessages(function (m) { return __spreadArray(__spreadArray([], m, true), [msg], false); });
         console.log(msg);
@@ -210,8 +221,14 @@ function App() {
         loadConfigTables();
     }, []);
     function handleChange(e) {
-        var _a;
-        setFormData(__assign(__assign({}, formData), (_a = {}, _a[e.target.name] = e.target.value, _a)));
+        var _a, _b;
+        var _c = e.target, name = _c.name, type = _c.type, value = _c.value, files = _c.files;
+        if (type === 'file') {
+            setFormData(__assign(__assign({}, formData), (_a = {}, _a[name] = files && files[0] ? files[0] : null, _a)));
+        }
+        else {
+            setFormData(__assign(__assign({}, formData), (_b = {}, _b[name] = value, _b)));
+        }
     }
     function next() {
         setStep(step + 1);
@@ -294,6 +311,38 @@ function App() {
             });
         });
     }
+    function renderField(cf) {
+        var key = fieldKey(cf.field);
+        var val = formData[key] || '';
+        var inputEl = (React.createElement("input", { name: key, value: val, onChange: handleChange }));
+        if (cf.field === 'Logo (Picture)') {
+            inputEl = React.createElement("input", { type: "file", name: key, onChange: handleChange });
+        }
+        else if (cf.field === 'Base Calendar Code') {
+            var options = ['', 'STANDARD'];
+            inputEl = (React.createElement("select", { name: key, value: val, onChange: handleChange }, options.map(function (o) { return (React.createElement("option", { key: o, value: o }, o)); })));
+        }
+        var showButton = cf.recommended &&
+            suggestionFields.has(cf.field) &&
+            val !== recommendedCode(cf.recommended);
+        return (React.createElement("div", { className: "field", key: key },
+            React.createElement("label", null,
+                cf.field,
+                ": ",
+                inputEl),
+            showButton && (React.createElement("button", { type: "button", onClick: function () {
+                    return setFormData(function (f) {
+                        var _a;
+                        return (__assign(__assign({}, f), (_a = {}, _a[key] = recommendedCode(cf.recommended), _a)));
+                    });
+                } }, "Use suggested")),
+            cf.recommended && (React.createElement("div", { className: "suggested" },
+                "Suggested: ",
+                cf.recommended)),
+            cf.considerations && (React.createElement("details", null,
+                React.createElement("summary", null, "Considerations"),
+                React.createElement("p", null, cf.considerations)))));
+    }
     return (React.createElement("div", { className: "app" },
         React.createElement("h1", null, "Business Central Setup"),
         step === 0 && (React.createElement("div", null,
@@ -301,27 +350,14 @@ function App() {
             React.createElement("button", { onClick: next }, "Start"))),
         step === 1 && (React.createElement("div", null,
             React.createElement("h2", null, "Company Information"),
-            companyFields.map(function (cf) {
-                var key = fieldKey(cf.field);
-                var val = formData[key] || '';
-                return (React.createElement("div", { className: "field", key: key },
-                    React.createElement("label", null,
-                        cf.field,
-                        ":",
-                        React.createElement("input", { name: key, value: val, onChange: handleChange })),
-                    cf.recommended && val !== cf.recommended && (React.createElement("button", { type: "button", onClick: function () {
-                            return setFormData(function (f) {
-                                var _a;
-                                return (__assign(__assign({}, f), (_a = {}, _a[key] = cf.recommended, _a)));
-                            });
-                        } }, "Use suggested")),
-                    cf.recommended && (React.createElement("div", { className: "suggested" },
-                        "Suggested: ",
-                        cf.recommended)),
-                    cf.considerations && (React.createElement("details", null,
-                        React.createElement("summary", null, "Considerations"),
-                        React.createElement("p", null, cf.considerations)))));
-            }),
+            React.createElement("h3", null, "Common"),
+            companyFields
+                .filter(function (cf) { return commonFieldNames.has(cf.field); })
+                .map(renderField),
+            React.createElement("h3", null, "Additional"),
+            companyFields
+                .filter(function (cf) { return !commonFieldNames.has(cf.field); })
+                .map(renderField),
             React.createElement("div", { className: "nav" },
                 React.createElement("button", { onClick: back }, "Back"),
                 React.createElement("button", { onClick: next }, "Next")))),
