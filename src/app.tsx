@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom/client';
 
 // Simple React app to guide users through Business Central setup
 const { useState, useEffect } = React;
