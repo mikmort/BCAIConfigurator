@@ -23,12 +23,12 @@ jobs:
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_<YOUR_ENV_NAME> }}
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ZEALOUS_DUNE_0E5C3D81E }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for PR comments and status checks
           action: "upload"
-          app_location: "src"                  # This is where your index.html + config live
-          output_location: "../dist"           # Vite builds to dist/, outside src
-          app_build_command: "npm run build"   # Builds using Vite
+          app_location: "src"                  # Your app lives in /src
+          output_location: "../dist"           # Vite builds to dist/ outside /src
+          app_build_command: "npm run build"   # Build with Vite
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
@@ -38,5 +38,5 @@ jobs:
       - name: Close Pull Request
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_<YOUR_ENV_NAME> }}
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ZEALOUS_DUNE_0E5C3D81E }}
           action: "close"
