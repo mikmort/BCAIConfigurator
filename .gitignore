@@ -1,4 +1,5 @@
 # ignore environment config containing secrets
 env.js
 dist/
+node_modules/
 
