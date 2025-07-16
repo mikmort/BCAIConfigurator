@@ -14,7 +14,7 @@ import GLSetupPage from './pages/GLSetupPage';
 import SalesReceivablesPage from './pages/SalesReceivablesPage';
 import strings from '../res/strings';
 import { CompanyField, BasicInfo } from './types';
-import { fieldKey, findFieldValue, mapFieldName } from './utils/helpers';
+import { fieldKey, findFieldValue, mapFieldName, findTableRows } from './utils/helpers';
 import { parseQuestions, recommendedCode } from './utils/jsonParsing';
 import { loadStartingData, loadConfigTables } from './utils/dataLoader';
 
@@ -495,6 +495,24 @@ function App() {
           {...inputProps}
           rows={4}
         />
+      );
+    }
+
+    if (cf.lookupTable && cf.lookupField && startData) {
+      const rows = findTableRows(startData, cf.lookupTable);
+      const options = rows
+        .map(r => r[cf.lookupField]?.['#text'] || r[cf.lookupField])
+        .filter((v: any) => v !== undefined && v !== null);
+      inputEl = (
+        <>
+          <input list={`lookup-${key}`} {...inputProps} />
+          <datalist id={`lookup-${key}`}>
+            <option value="" />
+            {options.map((o: string) => (
+              <option key={o} value={o} />
+            ))}
+          </datalist>
+        </>
       );
     }
     if (cf.field === 'Logo (Picture)') {

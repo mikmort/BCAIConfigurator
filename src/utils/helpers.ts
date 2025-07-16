@@ -32,3 +32,24 @@ export function findFieldValue(obj: any, field: string): any {
   }
   return undefined;
 }
+
+export function findTableRows(data: any, tableId: number): any[] {
+  const dl = data?.DataList;
+  if (!dl) return [];
+  for (const key of Object.keys(dl)) {
+    const list = (dl as any)[key];
+    const id = list?.TableID?.['#text'] || list?.TableID;
+    if (Number(id) === tableId) {
+      for (const prop of Object.keys(list)) {
+        if (prop === 'TableID' || prop === 'PageID') continue;
+        const val = list[prop];
+        if (Array.isArray(val)) {
+          return val;
+        } else if (val && typeof val === 'object') {
+          return [val];
+        }
+      }
+    }
+  }
+  return [];
+}
