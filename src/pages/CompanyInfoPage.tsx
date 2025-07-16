@@ -1,10 +1,4 @@
-
-
-interface CompanyField {
-  field: string;
-  recommended: string;
-  considerations: string;
-}
+import { CompanyField } from '../types';
 
 interface FormData {
   [key: string]: any;

@@ -8,100 +8,15 @@ import CompanyInfoPage from './pages/CompanyInfoPage';
 import PostingGroupsPage from './pages/PostingGroupsPage';
 import PaymentTermsPage from './pages/PaymentTermsPage';
 import FinishPage from './pages/FinishPage';
-
-interface CompanyField {
-  field: string;
-  recommended: string;
-  considerations: string;
-}
+import { CompanyField } from './types';
+import { fieldKey } from './utils/helpers';
+import { parseCompanyInfo, recommendedCode } from './utils/jsonParsing';
+import { loadStartingData, loadConfigTables } from './utils/dataLoader';
 
 interface FormData {
   [key: string]: any;
 }
 
-function fieldKey(name: string): string {
-  return name.replace(/[^a-zA-Z0-9]/g, '_');
-}
-
-function recommendedCode(text: string): string {
-  const match = text.match(/[A-Z0-9]{2,}/);
-  return match ? match[0] : text;
-}
-
-function parseCompanyInfo(text: string): CompanyField[] {
-  const lines = text.split('\n').map(l => l.trim());
-  const names = [
-    'Company Name',
-    'Address',
-    'Phone No. /',
-    'Country/Region',
-    'Tax',
-    'Fed. Tax ID (if',
-    'Company',
-    'Base Calendar',
-    'Invoice Address',
-    'Logo (Picture)',
-    'Bank Accounts',
-  ];
-  const displayNames = [
-    'Company Name',
-    'Address',
-    'Phone No./Email',
-    'Country/Region Code',
-    'Tax Registration No.',
-    'Fed. Tax ID (if available)',
-    'Company Website',
-    'Base Calendar Code',
-    'Invoice Address Code',
-    'Logo (Picture)',
-    'Bank Accounts',
-  ];
-  const indexes = names.map(n => lines.indexOf(n));
-  indexes.push(lines.length);
-  const result: CompanyField[] = [];
-  for (let i = 0; i < names.length; i++) {
-    const slice = lines.slice(indexes[i] + 1, indexes[i + 1]).filter(l => l);
-    while (slice[0] && (/Blank/i.test(slice[0]) || /None/i.test(slice[0]) || /^\(/.test(slice[0]) || /City/.test(slice[0]) || /ZIP/.test(slice[0]) || /Code$/.test(slice[0]) || /available\)/.test(slice[0]) || /fields/i.test(slice[0]))) {
-      slice.shift();
-    }
-    const idxCons = slice.findIndex(l => l.startsWith('The ') || l.startsWith('If ') || l.startsWith('Bank ') || l.startsWith('Note:'));
-    const rec = idxCons >= 0 ? slice.slice(0, idxCons) : slice;
-    const cons = idxCons >= 0 ? slice.slice(idxCons) : [];
-    result.push({
-      field: displayNames[i],
-      recommended: rec.join(' ').trim(),
-      considerations: cons.join(' ').trim(),
-    });
-  }
-  return result;
-}
-
-function xmlToJson(node: Element): any {
-  const obj: any = {};
-  if (node.attributes) {
-    Array.from(node.attributes).forEach(attr => {
-      obj[`@${attr.name}`] = attr.value;
-    });
-  }
-  const children = Array.from(node.childNodes).filter(n => n.nodeType === 1);
-  const textNodes = Array.from(node.childNodes).filter(n => n.nodeType === 3);
-  if (textNodes.length) {
-    const text = textNodes.map(n => n.nodeValue?.trim()).join('');
-    if (text) obj['#text'] = text;
-  }
-  children.forEach(child => {
-    const el = child as Element;
-    const name = el.nodeName;
-    const val = xmlToJson(el);
-    if (obj[name]) {
-      if (!Array.isArray(obj[name])) obj[name] = [obj[name]];
-      obj[name].push(val);
-    } else {
-      obj[name] = val;
-    }
-  });
-  return obj;
-}
 
 function App() {
   const [step, setStep] = useState(0 as number);
@@ -126,23 +41,10 @@ function App() {
   }
 
   useEffect(() => {
-    // Load starting data from local template
-    async function loadStartingData() {
+    async function init() {
       try {
         logDebug('Loading starting data');
-        const resp = await fetch('NAV27.0.US.ENU.STANDARD.xml');
-        let text: string;
-        try {
-          const buf = await resp.arrayBuffer();
-          text = new TextDecoder('utf-16').decode(buf);
-        } catch {
-          text = await resp.text();
-        }
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(text, 'application/xml');
-        const data = {
-          [xmlDoc.documentElement.nodeName]: xmlToJson(xmlDoc.documentElement),
-        } as any;
+        const data = await loadStartingData();
         logDebug('Starting data loaded');
         setRapidStart(JSON.stringify(data));
 
@@ -169,15 +71,14 @@ function App() {
         logDebug(`Failed to load starting data: ${e}`);
       }
     }
-    loadStartingData();
+    init();
   }, []);
 
   useEffect(() => {
-    async function loadConfigTables() {
+    async function init() {
       try {
         logDebug('Loading config tables');
-        const resp = await fetch('/config_tables.json');
-        const data = await resp.json();
+        const data = await loadConfigTables();
         if (data['Table 79']) {
           const fields = parseCompanyInfo(data['Table 79']);
           setCompanyFields(fields);
@@ -195,7 +96,7 @@ function App() {
         logDebug(`Failed to load config tables: ${e}`);
       }
     }
-    loadConfigTables();
+    init();
   }, []);
 
   function handleChange(e: any) {
