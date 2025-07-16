@@ -14,7 +14,13 @@ import GLSetupPage from './pages/GLSetupPage';
 import SalesReceivablesPage from './pages/SalesReceivablesPage';
 import strings from '../res/strings';
 import { CompanyField, BasicInfo } from './types';
-import { fieldKey, findFieldValue, mapFieldName } from './utils/helpers';
+import {
+  fieldKey,
+  findFieldValue,
+  mapFieldName,
+  findTableRows,
+  extractFieldValues,
+} from './utils/helpers';
 import { parseQuestions, recommendedCode } from './utils/jsonParsing';
 import { loadStartingData, loadConfigTables } from './utils/dataLoader';
 
@@ -539,6 +545,19 @@ function App() {
       );
     } else if (cf.field === 'Local Currency (LCY) Code') {
       inputEl = <input {...inputProps} />;
+    } else if (cf.lookupTable && startData) {
+      const rows = findTableRows(startData, cf.lookupTable) || [];
+      const opts = extractFieldValues(rows, cf.lookupField || 'Code');
+      inputEl = (
+        <select {...inputProps}>
+          <option value="" />
+          {opts.map(o => (
+            <option key={o} value={o}>
+              {o}
+            </option>
+          ))}
+        </select>
+      );
     }
     const acceptRecommended = () => {
       setFormData((f: FormData) => ({

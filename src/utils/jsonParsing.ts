@@ -5,6 +5,8 @@ export interface ConfigQuestion {
   RecommendedSetting?: string;
   Considerations?: string;
   common?: string;
+  'Lookup Table'?: number;
+  'Lookup Field'?: string;
 }
 
 export function recommendedCode(text: string): string {
@@ -32,6 +34,12 @@ export function parseQuestions(
       recommended: q?.RecommendedSetting || '',
       considerations: q?.Considerations || '',
       common,
+      lookupTable: (q as any)?.['Lookup Table']
+        ? Number((q as any)['Lookup Table'])
+        : undefined,
+      lookupField: (q as any)?.['Lookup Field']
+        ? String((q as any)['Lookup Field'])
+        : undefined,
     };
   });
 }

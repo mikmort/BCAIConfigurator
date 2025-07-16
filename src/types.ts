@@ -3,6 +3,8 @@ export interface CompanyField {
   recommended: string;
   considerations: string;
   common: 'common' | 'sometimes' | 'unlikely';
+  lookupTable?: number;
+  lookupField?: string;
 }
 
 export interface BasicInfo {
