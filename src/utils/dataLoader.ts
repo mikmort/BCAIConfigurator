@@ -17,7 +17,7 @@ export async function loadStartingData(): Promise<any> {
 }
 
 export async function loadConfigTables(): Promise<any> {
-  const resp = await fetch('/config_tables.json');
+  const resp = await fetch('/config_table_questions_cleaned.json');
   return await resp.json();
 }
 

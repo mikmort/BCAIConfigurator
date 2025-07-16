@@ -15,13 +15,32 @@ import SalesReceivablesPage from './pages/SalesReceivablesPage';
 import strings from '../res/strings';
 import { CompanyField, BasicInfo } from './types';
 import { fieldKey, findFieldValue, mapFieldName } from './utils/helpers';
-import { parseCompanyInfo, parseGuideTable, recommendedCode } from './utils/jsonParsing';
+import { parseQuestions, recommendedCode } from './utils/jsonParsing';
 import { loadStartingData, loadConfigTables } from './utils/dataLoader';
 
+const companyFieldNames = [
+  'Company Name',
+  'Address',
+  'City',
+  'State',
+  'ZIP Code',
+  'Phone No.',
+  'Email',
+  'Country/Region Code',
+  'Tax Registration No.',
+  'Fed. Tax ID (if available)',
+  'Company Website',
+  'Base Calendar Code',
+  'Invoice Address Code',
+  'Logo (Picture)',
+];
+
 const glFieldNames = [
-  'Allow Posting From / Allow Posting To',
+  'Allow Posting From',
+  'Allow Posting To',
   'Register Time',
-  'Allow Deferral Posting From/To',
+  'Allow Deferral Posting From',
+  'Allow Deferral Posting To',
   'Local Currency (LCY) Code',
   'EMU Currency',
   'Additional Reporting Currency',
@@ -34,27 +53,34 @@ const glFieldNames = [
   'Mark Cr. Memos as Corrections',
   'Allow G/L Acc. Deletion Before',
   'Block Deletion of G/L Accounts',
-  'Retained Earnings Account',
-  'Global Dimension 1 Code / Global Dimension 2 Code',
-  'Shortcut Dimension 3-8 Codes',
-  'VAT (Tax) Settings',
-  'Local Address Format',
-  'Require Country/Region Code in Address',
-  'Local Currency Symbol/Description',
-  'Bank Account Nos.',
-  'Bank Recon. with Auto Match',
-  'Enable Data Check',
+  'Acc. Sched. for Retained Earn.',
+  'Fin. Rep. for Retained Earn.',
+  'Global Dimension 1 Code',
+  'Global Dimension 2 Code',
+  'Shortcut Dimension 3 Code',
+  'Shortcut Dimension 4 Code',
+  'Shortcut Dimension 5 Code',
+  'Shortcut Dimension 6 Code',
+  'Shortcut Dimension 7 Code',
+  'Shortcut Dimension 8 Code',
+  'Unrealized VAT',
+  'VAT Tolerance %',
+  'Max. VAT Difference Allowed',
+  'VAT Calculation Type',
 ];
 
 const glCommonFieldNames = new Set([
-  'Allow Posting From / Allow Posting To',
+  'Allow Posting From',
+  'Allow Posting To',
   'Local Currency (LCY) Code',
-  'Retained Earnings Account',
-  'Global Dimension 1 Code / Global Dimension 2 Code',
-  'VAT (Tax) Settings',
+  'Global Dimension 1 Code',
+  'Global Dimension 2 Code',
 ]);
 
 const srFieldNames = [
+  'Email Logging Enabled',
+  'Exchange Client Id',
+  'Exchange Client Secret Key',
   'Discount Posting',
   'Credit Warnings',
   'Stockout Warning',
@@ -64,21 +90,57 @@ const srFieldNames = [
   'Default Posting Date',
   'Default Quantity to Ship',
   'Customer Nos.',
+  'Quote Nos.',
+  'Order Nos.',
+  'Invoice Nos.',
+  'Posted Invoice Nos.',
+  'Credit Memo Nos.',
+  'Posted Credit Memo Nos.',
+  'Posted Shipment Nos.',
+  'Blanket Order Nos.',
+  'Return Order Nos.',
+  'Posted Return Receipt Nos.',
   'Calc. Inv. Discount',
-  'Application between Currencies',
-  'Copy Comments Blanket→Order / Order→Invoice / Order→Shipment',
+  'Receipt on Invoice',
+  'Ext. Doc. No. Mandatory (Purchases)',
+  'Vendor Nos.',
+  'Quote Nos. (Purchases)',
+  'Order Nos. (Purchases)',
+  'Invoice Nos. (Purchases)',
+  'Posted Invoice Nos. (Purchases)',
+  'Credit Memo Nos. (Purchases)',
+  'Posted Credit Memo Nos. (Purchases)',
+  'Posted Receipt Nos.',
+  'Blanket Order Nos. (Purchases)',
+  'Return Order Nos. (Purchases)',
+  'Posted Return Shpt. Nos.',
+  'Posted Prepayment Inv. Nos.',
+  'Posted Prepayment Cr. Memo Nos.',
+  'Receipt Nos.',
+  'Put-away Nos.',
+  'Pick Nos.',
+  'Movement Nos.',
+  'Registered Put-away Nos.',
+  'Registered Pick Nos.',
+  'Registered Movement Nos.',
+  'Simulated Order Nos.',
+  'Planned Order Nos.',
+  'Firm Planned Order Nos.',
+  'Released Order Nos.',
+  'Work Center Nos.',
+  'Machine Center Nos.',
+  'Production BOM Nos.',
+  'Routing Nos.',
+  'FA Nos.',
+  'Depreciation Book Nos.',
+  'FA Journal Batch Name',
+  'Copy Comments Blanket Order to Order',
+  'Copy Comments Order to Invoice',
+  'Copy Comments Order to Shipment',
+  'Archive Quotes',
+  'Archive Orders',
+  'Archive Return Orders',
   'Allow VAT Difference',
-  'Shipping Advice',
-  'Archiving Settings',
-  'Default G/L Account Quantity',
-  'Document Default Line Type',
-  'Create Item from Description',
-  'Create Item from Item No.',
-  'Copy Customer Name to Entries',
-  'Disable Search by Name',
-  'Allow Multiple Posting Groups',
-  'Check Multiple Posting Groups',
-  'S. Invoice Template Name',
 ];
 
 const srCommonFieldNames = new Set([
@@ -87,7 +149,6 @@ const srCommonFieldNames = new Set([
   'Default Posting Date',
   'Default Quantity to Ship',
   'Customer Nos.',
-  'Shipping Advice',
 ]);
 
 function makeFields(names: string[]): CompanyField[] {
@@ -128,7 +189,11 @@ function App() {
   const commonFieldNames = new Set([
     'Company Name',
     'Address',
-    'Phone No./Email',
+    'City',
+    'State',
+    'ZIP Code',
+    'Phone No.',
+    'Email',
     'Country/Region Code',
   ]);
   const suggestionFields = new Set(['Country/Region Code', 'Base Calendar Code']);
@@ -220,42 +285,38 @@ function App() {
       try {
         logDebug('Loading config tables');
         const data = await loadConfigTables();
-        if (data['Table 79']) {
-          const fields = parseCompanyInfo(data['Table 79']);
-          setCompanyFields(fields);
-          setFormData((f: FormData) => {
-            const copy: FormData = { ...f };
-            fields.forEach((cf: CompanyField) => {
-              const key = fieldKey(cf.field);
-              if (!(key in copy)) copy[key] = '';
-            });
-            return copy;
+        const company = parseQuestions(data, companyFieldNames);
+        setCompanyFields(company);
+        setFormData((f: FormData) => {
+          const copy: FormData = { ...f };
+          company.forEach(cf => {
+            const key = fieldKey(cf.field);
+            if (!(key in copy)) copy[key] = '';
           });
-        }
-        if (data['Table 98']) {
-          const fields = parseGuideTable(data['Table 98'], glFieldNames);
-          setGlFields(fields);
-          setFormData((f: FormData) => {
-            const copy: FormData = { ...f };
-            fields.forEach(cf => {
-              const key = fieldKey(cf.field);
-              if (!(key in copy)) copy[key] = '';
-            });
-            return copy;
+          return copy;
+        });
+
+        const gl = parseQuestions(data, glFieldNames);
+        setGlFields(gl);
+        setFormData((f: FormData) => {
+          const copy: FormData = { ...f };
+          gl.forEach(cf => {
+            const key = fieldKey(cf.field);
+            if (!(key in copy)) copy[key] = '';
           });
-        }
-        if (data['Table 311']) {
-          const fields = parseGuideTable(data['Table 311'], srFieldNames);
-          setSrFields(fields);
-          setFormData((f: FormData) => {
-            const copy: FormData = { ...f };
-            fields.forEach(cf => {
-              const key = fieldKey(cf.field);
-              if (!(key in copy)) copy[key] = '';
-            });
-            return copy;
+          return copy;
+        });
+
+        const sr = parseQuestions(data, srFieldNames);
+        setSrFields(sr);
+        setFormData((f: FormData) => {
+          const copy: FormData = { ...f };
+          sr.forEach(cf => {
+            const key = fieldKey(cf.field);
+            if (!(key in copy)) copy[key] = '';
           });
-        }
+          return copy;
+        });
       } catch (e) {
         console.error('Failed to load config tables', e);
         logDebug(`Failed to load config tables: ${e}`);
