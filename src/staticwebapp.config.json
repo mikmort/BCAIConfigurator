@@ -3,5 +3,5 @@
   "navigationFallback": {
     "rewrite": "/index.html",
     "exclude": ["/assets/*", "/env.js"]
-  }
+  } 
 }
