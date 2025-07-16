@@ -46,6 +46,14 @@ const glFieldNames = [
   'Enable Data Check',
 ];
 
+const glCommonFieldNames = new Set([
+  'Allow Posting From / Allow Posting To',
+  'Local Currency (LCY) Code',
+  'Retained Earnings Account',
+  'Global Dimension 1 Code / Global Dimension 2 Code',
+  'VAT (Tax) Settings',
+]);
+
 const srFieldNames = [
   'Discount Posting',
   'Credit Warnings',
@@ -72,6 +80,15 @@ const srFieldNames = [
   'Check Multiple Posting Groups',
   'S. Invoice Template Name',
 ];
+
+const srCommonFieldNames = new Set([
+  'Discount Posting',
+  'Credit Warnings',
+  'Default Posting Date',
+  'Default Quantity to Ship',
+  'Customer Nos.',
+  'Shipping Advice',
+]);
 
 function makeFields(names: string[]): CompanyField[] {
   return names.map(n => ({ field: n, recommended: '', considerations: '' }));
@@ -591,6 +608,7 @@ function App() {
       {step === 6 && (
         <GLSetupPage
           fields={glFields}
+          commonFieldNames={glCommonFieldNames}
           formData={formData}
           handleChange={handleChange}
           renderField={renderField}
@@ -601,6 +619,7 @@ function App() {
       {step === 7 && (
         <SalesReceivablesPage
           fields={srFields}
+          commonFieldNames={srCommonFieldNames}
           formData={formData}
           handleChange={handleChange}
           renderField={renderField}
