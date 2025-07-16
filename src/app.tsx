@@ -179,20 +179,24 @@ function App() {
 
   async function acceptSuggested() {
     try {
-      const prompt =
-        `Please output only JSON with the suggested value for the field from the following text: ${aiSuggested}`;
+      const prompt = `Please output only raw JSON (no Markdown or code blocks) with the suggested value for the field from the following text: ${aiSuggested}`;
       const answer = await askOpenAI(prompt);
       let val = aiSuggested;
-      try {
-        const parsed = JSON.parse(answer);
-        const first =
-          parsed.value || parsed.suggested || parsed.result || parsed.val || parsed[Object.keys(parsed)[0]];
-        if (typeof first === 'string') {
-          val = first;
-        }
-      } catch (e) {
-        logDebug(`Failed to parse JSON answer: ${e}`);
+
+    try {
+      // 🔧 Strip Markdown code fences like ```json ... ```
+      const cleaned = answer.replace(/```json|```/g, '').trim();
+      const parsed = JSON.parse(cleaned);
+
+      const first =
+        parsed.value || parsed.suggested || parsed.result || parsed.val || parsed[Object.keys(parsed)[0]];
+      if (typeof first === 'string') {
+        val = first;
       }
+    } catch (e) {
+      logDebug(`Failed to parse JSON answer: ${e}`);
+    }
+      
       setFormData(f => ({ ...f, [aiFieldKey]: val }));
     } catch (e) {
       console.error(e);
