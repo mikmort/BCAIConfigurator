@@ -1,3 +1,5 @@
+import strings from '../../res/strings';
+
 interface Props {
   generate: () => Promise<void>;
   back: () => void;
@@ -8,22 +10,22 @@ interface Props {
 function FinishPage({ generate, back, downloadUrl, debugMessages }: Props) {
   return (
     <div>
-      <h2>Finish</h2>
-      <p>Click below to generate your RapidStart file.</p>
-      <button onClick={generate}>Generate</button>
+      <h2>{strings.finishTitle}</h2>
+      <p>{strings.finishGeneratePrompt}</p>
+      <button onClick={generate}>{strings.generate}</button>
       {downloadUrl && (
         <p>
-          File created: <a href={downloadUrl}>{downloadUrl}</a>
+          {strings.fileCreated} <a href={downloadUrl}>{downloadUrl}</a>
         </p>
       )}
       {debugMessages.length > 0 && (
         <div className="debug">
-          <h3>Debug Log</h3>
+          <h3>{strings.debugLog}</h3>
           <pre>{debugMessages.join('\n')}</pre>
         </div>
       )}
       <div className="nav">
-        <button onClick={back}>Back</button>
+        <button onClick={back}>{strings.back}</button>
       </div>
     </div>
   );

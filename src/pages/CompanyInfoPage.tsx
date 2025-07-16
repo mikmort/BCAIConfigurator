@@ -1,4 +1,5 @@
 import { CompanyField } from '../types';
+import strings from '../../res/strings';
 
 interface FormData {
   [key: string]: any;
@@ -25,14 +26,14 @@ function CompanyInfoPage({
 }: Props) {
   return (
     <div>
-      <h2>Company Information</h2>
-      <h3>Common</h3>
+      <h2>{strings.companyInfo}</h2>
+      <h3>{strings.common}</h3>
       {fields.filter(cf => commonFieldNames.has(cf.field)).map(renderField)}
-      <h3>Additional</h3>
+      <h3>{strings.additional}</h3>
       {fields.filter(cf => !commonFieldNames.has(cf.field)).map(renderField)}
       <div className="nav">
-        <button onClick={back}>Back</button>
-        <button onClick={next}>Next</button>
+        <button onClick={back}>{strings.back}</button>
+        <button onClick={next}>{strings.next}</button>
       </div>
     </div>
   );
