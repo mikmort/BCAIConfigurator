@@ -4,6 +4,7 @@ import { BasicInfo } from '../types';
 interface Props {
   formData: BasicInfo;
   handleChange: (e: any) => void;
+  handleBlur: (e: any) => void;
   next: () => void;
   back: () => void;
 }
@@ -21,7 +22,13 @@ const industries = [
   'Government',
 ];
 
-function BasicInfoPage({ formData: data, handleChange, next, back }: Props) {
+function BasicInfoPage({
+  formData: data,
+  handleChange,
+  handleBlur,
+  next,
+  back,
+}: Props) {
   return (
     <div>
       <h2>{strings.basicInfoTitle}</h2>
@@ -32,6 +39,7 @@ function BasicInfoPage({ formData: data, handleChange, next, back }: Props) {
             name="companyName"
             value={data.companyName || ''}
             onChange={handleChange}
+            onBlur={handleBlur}
           />
         </div>
         <div className="field-considerations" />
@@ -44,6 +52,7 @@ function BasicInfoPage({ formData: data, handleChange, next, back }: Props) {
             name="industry"
             value={data.industry || ''}
             onChange={handleChange}
+            onBlur={handleBlur}
           />
           <datalist id="industry-list">
             {industries.map(ind => (
@@ -57,9 +66,11 @@ function BasicInfoPage({ formData: data, handleChange, next, back }: Props) {
         <div className="field-name">{strings.websiteLabel}</div>
         <div className="field-input">
           <input
+            type="url"
             name="websiteUrl"
             value={data.websiteUrl || ''}
             onChange={handleChange}
+            onBlur={handleBlur}
           />
         </div>
         <div className="field-considerations" />
@@ -72,6 +83,7 @@ function BasicInfoPage({ formData: data, handleChange, next, back }: Props) {
             rows={8}
             value={data.description || ''}
             onChange={handleChange}
+            onBlur={handleBlur}
           />
         </div>
         <div className="field-considerations">{strings.descriptionHint}</div>

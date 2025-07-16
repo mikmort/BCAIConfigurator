@@ -2,6 +2,7 @@ import React from 'react';
 import strings from '../../res/strings';
 
 interface Props {
+  goToBasicInfo: () => void;
   goToCompanyInfo: () => void;
   goToPostingGroups: () => void;
   goToPaymentTerms: () => void;
@@ -9,6 +10,7 @@ interface Props {
 }
 
 function ConfigMenuPage({
+  goToBasicInfo,
   goToCompanyInfo,
   goToPostingGroups,
   goToPaymentTerms,
@@ -18,6 +20,12 @@ function ConfigMenuPage({
     <div>
       <h2>{strings.selectConfigArea}</h2>
       <div className="menu-grid">
+        <div className="menu-box" onClick={goToBasicInfo}>
+          <div className="icon" role="img" aria-label="Basic Info">
+            ℹ️
+          </div>
+          <div>{strings.basicInfo}</div>
+        </div>
         <div className="menu-box" onClick={goToCompanyInfo}>
           <div className="icon" role="img" aria-label="Company">
             🏢
