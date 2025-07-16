@@ -131,7 +131,13 @@ function App() {
       try {
         logDebug('Loading starting data');
         const resp = await fetch('NAV27.0.US.ENU.STANDARD.xml');
-        const text = await resp.text();
+        let text: string;
+        try {
+          const buf = await resp.arrayBuffer();
+          text = new TextDecoder('utf-16').decode(buf);
+        } catch {
+          text = await resp.text();
+        }
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(text, 'application/xml');
         const data = {
