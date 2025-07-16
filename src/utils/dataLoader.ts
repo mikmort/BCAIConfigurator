@@ -17,7 +17,7 @@ export async function loadStartingData(): Promise<any> {
 }
 
 export async function loadConfigTables(): Promise<any> {
-  const resp = await fetch('/config_table_questions_common_with_lookup.json');
+  const resp = await fetch('/config_table_questions_common.json');
   return await resp.json();
 }
 
