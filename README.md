@@ -11,4 +11,3 @@ To enable uploading the generated RapidStart file, fill in `env.js` with your Az
 
 The Azure Storage library loaded from the CDN exposes a global `azblob` object. The app uses this object when uploading your customized RapidStart file.
 
-For AI assisted configuration hints, copy `public/openai.example.js` to `public/openai.js` and add your Azure OpenAI endpoint, API key and deployment name.
