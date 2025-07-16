@@ -20,6 +20,7 @@ export default {
   generalPostingGroupLabel: 'General Posting Group',
   paymentTermsLabel: 'Terms',
   common: 'Common',
+  sometimes: 'Sometimes',
   additional: 'Additional',
   finishTitle: 'Finish',
   finishGeneratePrompt: 'Click below to generate your RapidStart file.',

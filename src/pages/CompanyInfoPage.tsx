@@ -7,7 +7,6 @@ interface FormData {
 
 interface Props {
   fields: CompanyField[];
-  commonFieldNames: Set<string>;
   formData: FormData;
   handleChange: (e: any) => void;
   renderField: (cf: CompanyField) => any;
@@ -17,7 +16,6 @@ interface Props {
 
 function CompanyInfoPage({
   fields,
-  commonFieldNames,
   formData,
   handleChange,
   renderField,
@@ -28,9 +26,15 @@ function CompanyInfoPage({
     <div>
       <h2>{strings.companyInfo}</h2>
       <h3>{strings.common}</h3>
-      {fields.filter(cf => commonFieldNames.has(cf.field)).map(renderField)}
-      <h3>{strings.additional}</h3>
-      {fields.filter(cf => !commonFieldNames.has(cf.field)).map(renderField)}
+      {fields.filter(cf => cf.common === 'common').map(renderField)}
+      <details>
+        <summary>{strings.sometimes}</summary>
+        {fields.filter(cf => cf.common === 'sometimes').map(renderField)}
+      </details>
+      <details>
+        <summary>{strings.additional}</summary>
+        {fields.filter(cf => cf.common === 'unlikely').map(renderField)}
+      </details>
       <div className="nav">
         <button onClick={back}>{strings.back}</button>
         <button onClick={next}>{strings.next}</button>
