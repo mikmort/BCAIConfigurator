@@ -20,3 +20,8 @@ export async function loadConfigTables(): Promise<any> {
   const resp = await fetch('/config_tables.json');
   return await resp.json();
 }
+
+export async function loadFieldMappings(): Promise<Record<string, string>> {
+  const resp = await fetch('/field_name_mappings.json');
+  return await resp.json();
+}
