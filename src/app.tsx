@@ -236,7 +236,7 @@ function App() {
 
   return (
     <div className="app">
-      <h1>Business Central Setup</h1>
+      {step !== 0 && <h1>Business Central Setup</h1>}
       {step === 0 && <HomePage next={next} />}
       {step === 1 && (
         <CompanyInfoPage
