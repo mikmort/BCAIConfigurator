@@ -117,6 +117,10 @@ function App() {
     setStep(step - 1);
   }
 
+  function goHome(): void {
+    setStep(1);
+  }
+
   async function askOpenAI(question: string) {
     // Placeholder for Azure OpenAI integration
     try {
@@ -172,9 +176,25 @@ function App() {
   function renderField(cf: CompanyField) {
     const key = fieldKey(cf.field);
     const val = formData[key] || '';
-    let inputEl: any = (
-      <input name={key} value={val} onChange={handleChange} />
-    );
+    let inputProps: any = { name: key, value: val, onChange: handleChange };
+    if (/phone/i.test(cf.field)) {
+      inputProps.type = 'tel';
+      inputProps.pattern = '[0-9+()\- ]+';
+    } else if (/date/i.test(cf.field)) {
+      inputProps.type = 'date';
+    } else if (/number|amount|qty|quantity/i.test(cf.field)) {
+      inputProps.type = 'number';
+    }
+
+    let inputEl: any = <input {...inputProps} />;
+    if (/address|description|notes|comment/i.test(cf.field)) {
+      inputEl = (
+        <textarea
+          {...inputProps}
+          rows={4}
+        />
+      );
+    }
     if (cf.field === 'Logo (Picture)') {
       inputEl = <input type="file" name={key} onChange={handleChange} />;
     } else if (cf.field === 'Base Calendar Code') {
@@ -242,6 +262,11 @@ function App() {
 
   return (
     <div className="app">
+      <div className="navbar">
+        <a href="#" onClick={goHome}>
+          Home
+        </a>
+      </div>
       {step !== 0 && <h1>Business Central Setup</h1>}
       {step === 0 && <HomePage next={next} />}
       {step === 1 && (
