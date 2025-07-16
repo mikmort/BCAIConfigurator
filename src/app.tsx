@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 // Simple React app to guide users through Business Central setup
 const { useState, useEffect } = React;
 import HomePage from './pages/HomePage';
+import ConfigMenuPage from './pages/ConfigMenuPage';
 import CompanyInfoPage from './pages/CompanyInfoPage';
 import PostingGroupsPage from './pages/PostingGroupsPage';
 import PaymentTermsPage from './pages/PaymentTermsPage';
@@ -239,6 +240,14 @@ function App() {
       {step !== 0 && <h1>Business Central Setup</h1>}
       {step === 0 && <HomePage next={next} />}
       {step === 1 && (
+        <ConfigMenuPage
+          goToCompanyInfo={() => setStep(2)}
+          goToPostingGroups={() => setStep(3)}
+          goToPaymentTerms={() => setStep(4)}
+          back={back}
+        />
+      )}
+      {step === 2 && (
         <CompanyInfoPage
           fields={companyFields}
           commonFieldNames={commonFieldNames}
@@ -249,7 +258,7 @@ function App() {
           back={back}
         />
       )}
-      {step === 2 && (
+      {step === 3 && (
         <PostingGroupsPage
           formData={formData}
           handleChange={handleChange}
@@ -257,7 +266,7 @@ function App() {
           back={back}
         />
       )}
-      {step === 3 && (
+      {step === 4 && (
         <PaymentTermsPage
           formData={formData}
           handleChange={handleChange}
@@ -265,7 +274,7 @@ function App() {
           back={back}
         />
       )}
-      {step === 4 && (
+      {step === 5 && (
         <FinishPage
           generate={generateCustomRapidStart}
           back={back}
