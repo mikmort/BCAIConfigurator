@@ -15,7 +15,7 @@ import SalesReceivablesPage from './pages/SalesReceivablesPage';
 import strings from '../res/strings';
 import { CompanyField, BasicInfo } from './types';
 import { fieldKey } from './utils/helpers';
-import { parseCompanyInfo, recommendedCode } from './utils/jsonParsing';
+import { parseCompanyInfo, parseGuideTable, recommendedCode } from './utils/jsonParsing';
 import { loadStartingData, loadConfigTables } from './utils/dataLoader';
 
 const glFieldNames = [
@@ -179,7 +179,7 @@ function App() {
           });
         }
         if (data['Table 98']) {
-          const fields = makeFields(glFieldNames);
+          const fields = parseGuideTable(data['Table 98'], glFieldNames);
           setGlFields(fields);
           setFormData((f: FormData) => {
             const copy: FormData = { ...f };
@@ -191,7 +191,7 @@ function App() {
           });
         }
         if (data['Table 311']) {
-          const fields = makeFields(srFieldNames);
+          const fields = parseGuideTable(data['Table 311'], srFieldNames);
           setSrFields(fields);
           setFormData((f: FormData) => {
             const copy: FormData = { ...f };
