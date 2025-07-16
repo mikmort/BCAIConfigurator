@@ -5,7 +5,6 @@ interface FormData { [key: string]: any }
 
 interface Props {
   fields: CompanyField[];
-  commonFieldNames: Set<string>;
   formData: FormData;
   handleChange: (e: any) => void;
   renderField: (cf: CompanyField) => any;
@@ -13,17 +12,19 @@ interface Props {
   back: () => void;
 }
 
-function GLSetupPage({ fields, commonFieldNames, formData, handleChange, renderField, next, back }: Props) {
+function GLSetupPage({ fields, formData, handleChange, renderField, next, back }: Props) {
   return (
     <div>
       <h2>{strings.generalLedgerSetup}</h2>
       <h3>{strings.common}</h3>
-      {fields.filter(cf => commonFieldNames.has(cf.field)).map(renderField)}
+      {fields.filter(cf => cf.common === 'common').map(renderField)}
+      <details>
+        <summary>{strings.sometimes}</summary>
+        {fields.filter(cf => cf.common === 'sometimes').map(renderField)}
+      </details>
       <details>
         <summary>{strings.additional}</summary>
-        {fields
-          .filter(cf => !commonFieldNames.has(cf.field))
-          .map(renderField)}
+        {fields.filter(cf => cf.common === 'unlikely').map(renderField)}
       </details>
       <div className="nav">
         <button onClick={back}>{strings.back}</button>

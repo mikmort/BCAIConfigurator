@@ -4,6 +4,7 @@ export interface ConfigQuestion {
   Field: string;
   RecommendedSetting?: string;
   Considerations?: string;
+  common?: string;
 }
 
 export function recommendedCode(text: string): string {
@@ -19,9 +20,18 @@ export function parseQuestions(
   questions.forEach(q => {
     if (q.Field) map.set(q.Field, q);
   });
-  return names.map(name => ({
-    field: name,
-    recommended: map.get(name)?.RecommendedSetting || '',
-    considerations: map.get(name)?.Considerations || '',
-  }));
+  return names.map(name => {
+    const q = map.get(name);
+    let common: 'common' | 'sometimes' | 'unlikely' = 'unlikely';
+    const val = q?.common?.toLowerCase() || '';
+    if (val.includes('common')) common = 'common';
+    else if (val.includes('sometimes')) common = 'sometimes';
+    else if (val.includes('unlikely')) common = 'unlikely';
+    return {
+      field: name,
+      recommended: q?.RecommendedSetting || '',
+      considerations: q?.Considerations || '',
+      common,
+    };
+  });
 }

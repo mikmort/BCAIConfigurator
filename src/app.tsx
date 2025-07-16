@@ -69,13 +69,6 @@ const glFieldNames = [
   'VAT Calculation Type',
 ];
 
-const glCommonFieldNames = new Set([
-  'Allow Posting From',
-  'Allow Posting To',
-  'Local Currency (LCY) Code',
-  'Global Dimension 1 Code',
-  'Global Dimension 2 Code',
-]);
 
 const srFieldNames = [
   'Email Logging Enabled',
@@ -143,16 +136,13 @@ const srFieldNames = [
   'Allow VAT Difference',
 ];
 
-const srCommonFieldNames = new Set([
-  'Discount Posting',
-  'Credit Warnings',
-  'Default Posting Date',
-  'Default Quantity to Ship',
-  'Customer Nos.',
-]);
-
 function makeFields(names: string[]): CompanyField[] {
-  return names.map(n => ({ field: n, recommended: '', considerations: '' }));
+  return names.map(n => ({
+    field: n,
+    recommended: '',
+    considerations: '',
+    common: 'unlikely',
+  }));
 }
 
 interface FormData {
@@ -186,16 +176,6 @@ function App() {
   const [aiFieldKey, setAiFieldKey] = useState('');
   const [aiPromptBase, setAiPromptBase] = useState('');
 
-  const commonFieldNames = new Set([
-    'Company Name',
-    'Address',
-    'City',
-    'State',
-    'ZIP Code',
-    'Phone No.',
-    'Email',
-    'Country/Region Code',
-  ]);
   const suggestionFields = new Set(['Country/Region Code', 'Base Calendar Code']);
 
   function logDebug(msg: string): void {
@@ -637,7 +617,6 @@ function App() {
       {step === 3 && (
         <CompanyInfoPage
           fields={companyFields}
-          commonFieldNames={commonFieldNames}
           formData={formData}
           handleChange={handleChange}
           renderField={renderField}
@@ -669,7 +648,6 @@ function App() {
       {step === 6 && (
         <GLSetupPage
           fields={glFields}
-          commonFieldNames={glCommonFieldNames}
           formData={formData}
           handleChange={handleChange}
           renderField={renderField}
@@ -680,7 +658,6 @@ function App() {
       {step === 7 && (
         <SalesReceivablesPage
           fields={srFields}
-          commonFieldNames={srCommonFieldNames}
           formData={formData}
           handleChange={handleChange}
           renderField={renderField}
