@@ -16,7 +16,7 @@ import strings from '../res/strings';
 import { CompanyField, BasicInfo } from './types';
 import { fieldKey, findFieldValue, mapFieldName } from './utils/helpers';
 import { parseCompanyInfo, parseGuideTable, recommendedCode } from './utils/jsonParsing';
-import { loadStartingData, loadConfigTables, loadFieldMappings } from './utils/dataLoader';
+import { loadStartingData, loadConfigTables } from './utils/dataLoader';
 
 const glFieldNames = [
   'Allow Posting From / Allow Posting To',
@@ -101,7 +101,6 @@ function App() {
   const [currencies, setCurrencies] = useState([] as { code: string; description: string }[]);
   const [paymentTermsOptions, setPaymentTermsOptions] = useState([] as { code: string; description: string }[]);
   const [startData, setStartData] = useState<any>(null);
-  const [fieldMappings, setFieldMappings] = useState<Record<string, string>>({});
   const [baseCalendarOptions, setBaseCalendarOptions] = useState(['STANDARD']);
   const [showAI, setShowAI] = useState(false);
   const [aiSuggested, setAiSuggested] = useState('');
@@ -130,9 +129,6 @@ function App() {
         logDebug('Starting data loaded');
         setRapidStart(JSON.stringify(data));
         setStartData(data);
-        logDebug('Loading field mappings');
-        const mappings = await loadFieldMappings();
-        setFieldMappings(mappings);
 
         const countries =
           data?.DataList?.CountryRegionList?.CountryRegion?.map((c: any) => ({
@@ -175,15 +171,14 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (!startData || Object.keys(fieldMappings).length === 0) return;
+    if (!startData) return;
     const all = [...companyFields, ...glFields, ...srFields];
     setFormData(f => {
       const copy: FormData = { ...f };
       all.forEach(cf => {
         const key = fieldKey(cf.field);
         if (copy[key]) return;
-        const internal = mapFieldName(cf.field, fieldMappings);
-        if (!internal) return;
+        const internal = mapFieldName(cf.field);
         const val = findFieldValue(startData, internal);
         if (val !== undefined) {
           copy[key] = val;
@@ -191,7 +186,7 @@ function App() {
       });
       return copy;
     });
-  }, [startData, fieldMappings, companyFields, glFields, srFields]);
+  }, [startData, companyFields, glFields, srFields]);
 
   useEffect(() => {
     const nameKey = fieldKey('Company Name');
