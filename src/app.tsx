@@ -425,16 +425,7 @@ function App() {
         </select>
       );
     } else if (cf.field === 'Local Currency (LCY) Code') {
-      inputEl = (
-        <select name={key} value={val} onChange={handleChange}>
-          <option value=""></option>
-          {currencies.map(c => (
-            <option key={c.code} value={c.code}>
-              {c.code}
-            </option>
-          ))}
-        </select>
-      );
+      inputEl = <input {...inputProps} />;
     }
     const acceptRecommended = () => {
       setFormData((f: FormData) => ({
