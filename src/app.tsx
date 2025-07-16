@@ -87,6 +87,16 @@ function App() {
   }, []);
 
   useEffect(() => {
+    const nameKey = fieldKey('Company Name');
+    const siteKey = fieldKey('Company Website');
+    setFormData(f => ({
+      ...f,
+      [nameKey]: basicInfo.companyName || f[nameKey] || '',
+      [siteKey]: basicInfo.websiteUrl || f[siteKey] || '',
+    }));
+  }, [basicInfo]);
+
+  useEffect(() => {
     async function init() {
       try {
         logDebug('Loading config tables');
@@ -120,6 +130,12 @@ function App() {
     setFormData({ ...formData, [name]: value });
     if (name in basicInfo) {
       setBasicInfo({ ...basicInfo, [name as keyof BasicInfo]: value });
+    }
+  }
+
+  function handleBlur(e: any): void {
+    if (!e.target.checkValidity()) {
+      alert('Invalid value');
     }
   }
 
@@ -218,7 +234,12 @@ function App() {
   function renderField(cf: CompanyField) {
     const key = fieldKey(cf.field);
     const val = formData[key] || '';
-    let inputProps: any = { name: key, value: val, onChange: handleChange };
+    let inputProps: any = {
+      name: key,
+      value: val,
+      onChange: handleChange,
+      onBlur: handleBlur,
+    };
     if (/phone/i.test(cf.field)) {
       inputProps.type = 'tel';
       inputProps.pattern = '[0-9+()\- ]+';
@@ -312,19 +333,21 @@ function App() {
       {step !== 0 && <h1>{strings.appTitle}</h1>}
       {step === 0 && <HomePage next={next} />}
       {step === 1 && (
-        <BasicInfoPage
-          formData={basicInfo}
-          handleChange={handleChange}
-          next={next}
-          back={back}
-        />
-      )}
-      {step === 2 && (
         <ConfigMenuPage
+          goToBasicInfo={() => setStep(2)}
           goToCompanyInfo={() => setStep(3)}
           goToPostingGroups={() => setStep(4)}
           goToPaymentTerms={() => setStep(5)}
           back={back}
+        />
+      )}
+      {step === 2 && (
+        <BasicInfoPage
+          formData={basicInfo}
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+          next={next}
+          back={() => setStep(1)}
         />
       )}
       {step === 3 && (
@@ -335,13 +358,14 @@ function App() {
           handleChange={handleChange}
           renderField={renderField}
           next={next}
-          back={back}
+          back={() => setStep(1)}
         />
       )}
       {step === 4 && (
         <PostingGroupsPage
           formData={formData}
           handleChange={handleChange}
+          handleBlur={handleBlur}
           next={next}
           back={back}
           askAI={openAIDialog}
@@ -351,6 +375,7 @@ function App() {
         <PaymentTermsPage
           formData={formData}
           handleChange={handleChange}
+          handleBlur={handleBlur}
           next={next}
           back={back}
           askAI={openAIDialog}

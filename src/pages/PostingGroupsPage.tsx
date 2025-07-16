@@ -3,19 +3,32 @@ import strings from '../../res/strings';
 interface Props {
   formData: { [key: string]: any };
   handleChange: (e: any) => void;
+  handleBlur: (e: any) => void;
   next: () => void;
   back: () => void;
   askAI: () => void;
 }
 
-function PostingGroupsPage({ formData, handleChange, next, back, askAI }: Props) {
+function PostingGroupsPage({
+  formData,
+  handleChange,
+  handleBlur,
+  next,
+  back,
+  askAI,
+}: Props) {
   return (
     <div>
       <h2>{strings.postingGroups}</h2>
       <div className="field-row">
         <div className="field-name">{strings.generalPostingGroupLabel}</div>
         <div className="field-input">
-          <input name="postingGroup" value={formData.postingGroup || ''} onChange={handleChange} />
+          <input
+            name="postingGroup"
+            value={formData.postingGroup || ''}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
           <span className="icon" role="button" title="Use recommended value">⭐</span>
           <span className="icon" role="button" title="Ask AI" onClick={askAI}>🤖</span>
         </div>

@@ -3,6 +3,7 @@ export default {
   splashWelcome: 'Welcome! This wizard will help you configure Dynamics 365 Business Central.',
   getStarted: 'Get Started',
   basicInfoTitle: 'Basic Information',
+  basicInfo: 'Basic Information',
   companyNameLabel: 'Company Name',
   industryLabel: 'Industry',
   websiteLabel: 'Website URL',
