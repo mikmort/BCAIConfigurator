@@ -2,3 +2,5 @@
 env.js
 dist/
 node_modules/
+
+openai.js

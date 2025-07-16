@@ -27,6 +27,9 @@ function App() {
   const [downloadUrl, setDownloadUrl] = useState('');
   const [debugMessages, setDebugMessages] = useState([] as string[]);
   const [countries, setCountries] = useState([] as { code: string; name: string }[]);
+  const [showAI, setShowAI] = useState(false);
+  const [aiQuestion, setAiQuestion] = useState('');
+  const [aiAnswer, setAiAnswer] = useState('');
 
   const commonFieldNames = new Set([
     'Company Name',
@@ -121,21 +124,49 @@ function App() {
     setStep(1);
   }
 
+  function openAIDialog(): void {
+    setAiQuestion('');
+    setAiAnswer('');
+    setShowAI(true);
+  }
+
+  function closeAIDialog(): void {
+    setShowAI(false);
+  }
+
+  async function submitQuestion() {
+    if (!aiQuestion.trim()) return;
+    const answer = await askOpenAI(aiQuestion);
+    setAiAnswer(answer);
+  }
+
   async function askOpenAI(question: string) {
-    // Placeholder for Azure OpenAI integration
     try {
       logDebug(`Asking OpenAI: ${question}`);
-      const resp = await fetch('/api/openai', {
+      const cfg = (window as any).azureOpenAIConfig || {};
+      if (!cfg.endpoint || !cfg.apiKey || !cfg.deployment) {
+        throw new Error('Azure OpenAI not configured');
+      }
+      const url = `${cfg.endpoint}/openai/deployments/${cfg.deployment}/chat/completions?api-version=2024-02-15-preview`;
+      const resp = await fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question }),
+        headers: {
+          'Content-Type': 'application/json',
+          'api-key': cfg.apiKey,
+        },
+        body: JSON.stringify({
+          messages: [{ role: 'user', content: question }],
+          temperature: 0.7,
+        }),
       });
       const data = await resp.json();
-      alert(data.answer);
+      const answer = data.choices?.[0]?.message?.content || '';
       logDebug('OpenAI answered');
+      return answer;
     } catch (e) {
       console.error(e);
       logDebug(`OpenAI call failed: ${e}`);
+      throw e;
     }
   }
 
@@ -251,7 +282,7 @@ function App() {
               ⭐
             </span>
           )}
-          <span className="icon" role="button" title="Ask AI">
+          <span className="icon" role="button" title="Ask AI" onClick={openAIDialog}>
             🤖
           </span>
         </div>
@@ -294,6 +325,7 @@ function App() {
           handleChange={handleChange}
           next={next}
           back={back}
+          askAI={openAIDialog}
         />
       )}
       {step === 4 && (
@@ -302,6 +334,7 @@ function App() {
           handleChange={handleChange}
           next={next}
           back={back}
+          askAI={openAIDialog}
         />
       )}
       {step === 5 && (
@@ -311,6 +344,22 @@ function App() {
           downloadUrl={downloadUrl}
           debugMessages={debugMessages}
         />
+      )}
+      {showAI && (
+        <div className="modal-overlay" onClick={closeAIDialog}>
+          <div className="modal" onClick={e => e.stopPropagation()}>
+            <textarea
+              value={aiQuestion}
+              onChange={e => setAiQuestion(e.target.value)}
+              placeholder="Ask a question"
+            />
+            <button onClick={submitQuestion}>Ask</button>
+            {aiAnswer && <div className="ai-answer">{aiAnswer}</div>}
+            <div className="nav">
+              <button onClick={closeAIDialog}>Close</button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
