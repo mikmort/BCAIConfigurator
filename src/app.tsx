@@ -200,37 +200,42 @@ function App() {
         </select>
       );
     }
-    const showButton =
-      cf.recommended &&
-      suggestionFields.has(cf.field) &&
-      val !== recommendedCode(cf.recommended);
+    const acceptRecommended = () => {
+      setFormData((f: FormData) => ({
+        ...f,
+        [key]: recommendedCode(cf.recommended),
+      }));
+    };
+
+    const handleRecommended = () => {
+      if (cf.recommended) {
+        const rec = recommendedCode(cf.recommended);
+        if (window.confirm(`Suggested value: ${rec}. Use it?`)) {
+          acceptRecommended();
+        }
+      }
+    };
+
     return (
-      <div className="field" key={key}>
-        <label>
-          {cf.field}: {inputEl}
-        </label>
-        {showButton && (
-          <button
-            type="button"
-            onClick={() =>
-              setFormData((f: FormData) => ({
-                ...f,
-                [key]: recommendedCode(cf.recommended),
-              }))
-            }
-          >
-            Use suggested
-          </button>
-        )}
-        {cf.recommended && (
-          <div className="suggested">Suggested: {cf.recommended}</div>
-        )}
-        {cf.considerations && (
-          <details>
-            <summary>Considerations</summary>
-            <p>{cf.considerations}</p>
-          </details>
-        )}
+      <div className="field-row" key={key}>
+        <div className="field-name">{cf.field}</div>
+        <div className="field-input">
+          {inputEl}
+          {cf.recommended && (
+            <span
+              className="icon"
+              role="button"
+              title="Use recommended value"
+              onClick={handleRecommended}
+            >
+              ⭐
+            </span>
+          )}
+          <span className="icon" role="button" title="Ask AI">
+            🤖
+          </span>
+        </div>
+        <div className="field-considerations">{cf.considerations}</div>
       </div>
     );
   }
