@@ -7,6 +7,7 @@ interface Props {
   next: () => void;
   back: () => void;
   askAI: (field: string, key: string, cons?: string) => void;
+  options: { code: string; description: string }[];
 }
 
 function PaymentTermsPage({
@@ -16,6 +17,7 @@ function PaymentTermsPage({
   next,
   back,
   askAI,
+  options,
 }: Props) {
   return (
     <div>
@@ -23,12 +25,18 @@ function PaymentTermsPage({
       <div className="field-row">
         <div className="field-name">{strings.paymentTermsLabel}</div>
         <div className="field-input">
-          <input
+          <select
             name="paymentTerms"
             value={formData.paymentTerms || ''}
             onChange={handleChange}
             onBlur={handleBlur}
-          />
+          >
+            {options.map(o => (
+              <option key={o.code} value={o.code}>
+                {o.description || o.code}
+              </option>
+            ))}
+          </select>
           <span className="icon" role="button" title="Use recommended value">⭐</span>
           <span
             className="icon"
