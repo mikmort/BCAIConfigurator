@@ -5,11 +5,13 @@ import ReactDOM from 'react-dom/client';
 const { useState, useEffect } = React;
 import HomePage from './pages/HomePage';
 import ConfigMenuPage from './pages/ConfigMenuPage';
+import BasicInfoPage from './pages/BasicInfoPage';
 import CompanyInfoPage from './pages/CompanyInfoPage';
 import PostingGroupsPage from './pages/PostingGroupsPage';
 import PaymentTermsPage from './pages/PaymentTermsPage';
 import FinishPage from './pages/FinishPage';
-import { CompanyField } from './types';
+import strings from '../res/strings';
+import { CompanyField, BasicInfo } from './types';
 import { fieldKey } from './utils/helpers';
 import { parseCompanyInfo, recommendedCode } from './utils/jsonParsing';
 import { loadStartingData, loadConfigTables } from './utils/dataLoader';
@@ -23,6 +25,12 @@ function App() {
   const [step, setStep] = useState(0 as number);
   const [rapidStart, setRapidStart] = useState('' as string);
   const [formData, setFormData] = useState({} as FormData);
+  const [basicInfo, setBasicInfo] = useState<BasicInfo>({
+    companyName: '',
+    industry: '',
+    websiteUrl: '',
+    description: '',
+  });
   const [companyFields, setCompanyFields] = useState([] as CompanyField[]);
   const [downloadUrl, setDownloadUrl] = useState('');
   const [debugMessages, setDebugMessages] = useState([] as string[]);
@@ -107,8 +115,11 @@ function App() {
     const { name, type, value, files } = e.target;
     if (type === 'file') {
       setFormData({ ...formData, [name]: files && files[0] ? files[0] : null });
-    } else {
-      setFormData({ ...formData, [name]: value });
+      return;
+    }
+    setFormData({ ...formData, [name]: value });
+    if (name in basicInfo) {
+      setBasicInfo({ ...basicInfo, [name as keyof BasicInfo]: value });
     }
   }
 
@@ -295,20 +306,28 @@ function App() {
     <div className="app">
       <div className="navbar">
         <a href="#" onClick={goHome}>
-          Home
+          {strings.home}
         </a>
       </div>
-      {step !== 0 && <h1>Business Central Setup</h1>}
+      {step !== 0 && <h1>{strings.appTitle}</h1>}
       {step === 0 && <HomePage next={next} />}
       {step === 1 && (
-        <ConfigMenuPage
-          goToCompanyInfo={() => setStep(2)}
-          goToPostingGroups={() => setStep(3)}
-          goToPaymentTerms={() => setStep(4)}
+        <BasicInfoPage
+          formData={basicInfo}
+          handleChange={handleChange}
+          next={next}
           back={back}
         />
       )}
       {step === 2 && (
+        <ConfigMenuPage
+          goToCompanyInfo={() => setStep(3)}
+          goToPostingGroups={() => setStep(4)}
+          goToPaymentTerms={() => setStep(5)}
+          back={back}
+        />
+      )}
+      {step === 3 && (
         <CompanyInfoPage
           fields={companyFields}
           commonFieldNames={commonFieldNames}
@@ -319,7 +338,7 @@ function App() {
           back={back}
         />
       )}
-      {step === 3 && (
+      {step === 4 && (
         <PostingGroupsPage
           formData={formData}
           handleChange={handleChange}
@@ -328,7 +347,7 @@ function App() {
           askAI={openAIDialog}
         />
       )}
-      {step === 4 && (
+      {step === 5 && (
         <PaymentTermsPage
           formData={formData}
           handleChange={handleChange}
@@ -337,7 +356,7 @@ function App() {
           askAI={openAIDialog}
         />
       )}
-      {step === 5 && (
+      {step === 6 && (
         <FinishPage
           generate={generateCustomRapidStart}
           back={back}

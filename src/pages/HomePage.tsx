@@ -1,4 +1,5 @@
 import GettingStartImage from '../images/GettingStartImage.jpg';
+import strings from '../../res/strings';
 
 interface Props {
   next: () => void;
@@ -8,13 +9,10 @@ function HomePage({ next }: Props) {
   return (
     <div className="splash-screen">
       <div className="splash-content">
-        <h1>Business Central Setup</h1>
-        <p>
-          Welcome! This wizard will help you configure Dynamics 365 Business
-          Central.
-        </p>
+        <h1>{strings.appTitle}</h1>
+        <p>{strings.splashWelcome}</p>
         <button className="splash-button" onClick={next}>
-          Get Started
+          {strings.getStarted}
         </button>
       </div>
       <img

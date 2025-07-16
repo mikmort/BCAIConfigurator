@@ -1,3 +1,5 @@
+import strings from '../../res/strings';
+
 interface Props {
   formData: { [key: string]: any };
   handleChange: (e: any) => void;
@@ -9,9 +11,9 @@ interface Props {
 function PaymentTermsPage({ formData, handleChange, next, back, askAI }: Props) {
   return (
     <div>
-      <h2>Payment Terms</h2>
+      <h2>{strings.paymentTerms}</h2>
       <div className="field-row">
-        <div className="field-name">Terms</div>
+        <div className="field-name">{strings.paymentTermsLabel}</div>
         <div className="field-input">
           <input name="paymentTerms" value={formData.paymentTerms || ''} onChange={handleChange} />
           <span className="icon" role="button" title="Use recommended value">⭐</span>
@@ -20,8 +22,8 @@ function PaymentTermsPage({ formData, handleChange, next, back, askAI }: Props) 
         <div className="field-considerations"></div>
       </div>
       <div className="nav">
-        <button onClick={back}>Back</button>
-        <button onClick={next}>Next</button>
+        <button onClick={back}>{strings.back}</button>
+        <button onClick={next}>{strings.next}</button>
       </div>
     </div>
   );
