@@ -10,11 +10,72 @@ import CompanyInfoPage from './pages/CompanyInfoPage';
 import PostingGroupsPage from './pages/PostingGroupsPage';
 import PaymentTermsPage from './pages/PaymentTermsPage';
 import FinishPage from './pages/FinishPage';
+import GLSetupPage from './pages/GLSetupPage';
+import SalesReceivablesPage from './pages/SalesReceivablesPage';
 import strings from '../res/strings';
 import { CompanyField, BasicInfo } from './types';
 import { fieldKey } from './utils/helpers';
 import { parseCompanyInfo, recommendedCode } from './utils/jsonParsing';
 import { loadStartingData, loadConfigTables } from './utils/dataLoader';
+
+const glFieldNames = [
+  'Allow Posting From / Allow Posting To',
+  'Register Time',
+  'Allow Deferral Posting From/To',
+  'Local Currency (LCY) Code',
+  'EMU Currency',
+  'Additional Reporting Currency',
+  'Amount Decimal Places',
+  'Unit-Amount Decimal Places',
+  'Amount Rounding Precision',
+  'Invoice Rounding Precision (LCY)',
+  'Invoice Rounding Type (LCY)',
+  'Summarize G/L Entries',
+  'Mark Cr. Memos as Corrections',
+  'Allow G/L Acc. Deletion Before',
+  'Block Deletion of G/L Accounts',
+  'Retained Earnings Account',
+  'Global Dimension 1 Code / Global Dimension 2 Code',
+  'Shortcut Dimension 3-8 Codes',
+  'VAT (Tax) Settings',
+  'Local Address Format',
+  'Require Country/Region Code in Address',
+  'Local Currency Symbol/Description',
+  'Bank Account Nos.',
+  'Bank Recon. with Auto Match',
+  'Enable Data Check',
+];
+
+const srFieldNames = [
+  'Discount Posting',
+  'Credit Warnings',
+  'Stockout Warning',
+  'Shipment on Invoice',
+  'Invoice Rounding',
+  'Ext. Doc. No. Mandatory',
+  'Default Posting Date',
+  'Default Quantity to Ship',
+  'Customer Nos.',
+  'Calc. Inv. Discount',
+  'Application between Currencies',
+  'Copy Comments Blanket→Order / Order→Invoice / Order→Shipment',
+  'Allow VAT Difference',
+  'Shipping Advice',
+  'Archiving Settings',
+  'Default G/L Account Quantity',
+  'Document Default Line Type',
+  'Create Item from Description',
+  'Create Item from Item No.',
+  'Copy Customer Name to Entries',
+  'Disable Search by Name',
+  'Allow Multiple Posting Groups',
+  'Check Multiple Posting Groups',
+  'S. Invoice Template Name',
+];
+
+function makeFields(names: string[]): CompanyField[] {
+  return names.map(n => ({ field: n, recommended: '', considerations: '' }));
+}
 
 interface FormData {
   [key: string]: any;
@@ -32,6 +93,8 @@ function App() {
     description: '',
   });
   const [companyFields, setCompanyFields] = useState([] as CompanyField[]);
+  const [glFields, setGlFields] = useState([] as CompanyField[]);
+  const [srFields, setSrFields] = useState([] as CompanyField[]);
   const [downloadUrl, setDownloadUrl] = useState('');
   const [debugMessages, setDebugMessages] = useState([] as string[]);
   const [countries, setCountries] = useState([] as { code: string; name: string }[]);
@@ -109,6 +172,30 @@ function App() {
           setFormData((f: FormData) => {
             const copy: FormData = { ...f };
             fields.forEach((cf: CompanyField) => {
+              const key = fieldKey(cf.field);
+              if (!(key in copy)) copy[key] = '';
+            });
+            return copy;
+          });
+        }
+        if (data['Table 98']) {
+          const fields = makeFields(glFieldNames);
+          setGlFields(fields);
+          setFormData((f: FormData) => {
+            const copy: FormData = { ...f };
+            fields.forEach(cf => {
+              const key = fieldKey(cf.field);
+              if (!(key in copy)) copy[key] = '';
+            });
+            return copy;
+          });
+        }
+        if (data['Table 311']) {
+          const fields = makeFields(srFieldNames);
+          setSrFields(fields);
+          setFormData((f: FormData) => {
+            const copy: FormData = { ...f };
+            fields.forEach(cf => {
               const key = fieldKey(cf.field);
               if (!(key in copy)) copy[key] = '';
             });
@@ -382,6 +469,8 @@ function App() {
           goToCompanyInfo={() => setStep(3)}
           goToPostingGroups={() => setStep(4)}
           goToPaymentTerms={() => setStep(5)}
+          goToGLSetup={() => setStep(6)}
+          goToSRSetup={() => setStep(7)}
           back={back}
         />
       )}
@@ -426,6 +515,26 @@ function App() {
         />
       )}
       {step === 6 && (
+        <GLSetupPage
+          fields={glFields}
+          formData={formData}
+          handleChange={handleChange}
+          renderField={renderField}
+          next={next}
+          back={back}
+        />
+      )}
+      {step === 7 && (
+        <SalesReceivablesPage
+          fields={srFields}
+          formData={formData}
+          handleChange={handleChange}
+          renderField={renderField}
+          next={next}
+          back={back}
+        />
+      )}
+      {step === 8 && (
         <FinishPage
           generate={generateCustomRapidStart}
           back={back}

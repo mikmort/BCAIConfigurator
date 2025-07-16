@@ -6,6 +6,8 @@ interface Props {
   goToCompanyInfo: () => void;
   goToPostingGroups: () => void;
   goToPaymentTerms: () => void;
+  goToGLSetup: () => void;
+  goToSRSetup: () => void;
   back: () => void;
 }
 
@@ -14,6 +16,8 @@ function ConfigMenuPage({
   goToCompanyInfo,
   goToPostingGroups,
   goToPaymentTerms,
+  goToGLSetup,
+  goToSRSetup,
   back,
 }: Props) {
   return (
@@ -43,6 +47,18 @@ function ConfigMenuPage({
             💰
           </div>
           <div>{strings.paymentTerms}</div>
+        </div>
+        <div className="menu-box" onClick={goToGLSetup}>
+          <div className="icon" role="img" aria-label="General Ledger Setup">
+            📘
+          </div>
+          <div>{strings.generalLedgerSetup}</div>
+        </div>
+        <div className="menu-box" onClick={goToSRSetup}>
+          <div className="icon" role="img" aria-label="Sales and Receivables">
+            🛒
+          </div>
+          <div>{strings.salesReceivablesSetup}</div>
         </div>
       </div>
       <div className="nav">
