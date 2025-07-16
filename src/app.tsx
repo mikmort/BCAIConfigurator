@@ -36,8 +36,10 @@ function App() {
   const [debugMessages, setDebugMessages] = useState([] as string[]);
   const [countries, setCountries] = useState([] as { code: string; name: string }[]);
   const [showAI, setShowAI] = useState(false);
-  const [aiQuestion, setAiQuestion] = useState('');
-  const [aiAnswer, setAiAnswer] = useState('');
+  const [aiSuggested, setAiSuggested] = useState('');
+  const [aiExtra, setAiExtra] = useState('');
+  const [aiFieldKey, setAiFieldKey] = useState('');
+  const [aiPromptBase, setAiPromptBase] = useState('');
 
   const commonFieldNames = new Set([
     'Company Name',
@@ -151,25 +153,33 @@ function App() {
     setStep(1);
   }
 
-  function openAIDialog(): void {
-    setAiQuestion('');
-    setAiAnswer('');
+  function openAIDialog(
+    fieldName: string,
+    key: string,
+    considerations: string = ''
+  ): void {
+    const prompt = `Please suggest a precise value for the field '${fieldName}'. The name of the companys is '${basicInfo.companyName}' and the industry is '${basicInfo.industry}'. Here are some additional consideration: '${considerations}'`;
+    setAiPromptBase(prompt);
+    setAiExtra('');
+    setAiFieldKey(key);
+    setAiSuggested('');
     setShowAI(true);
+    askOpenAI(prompt).then(ans => setAiSuggested(ans));
   }
 
   function closeAIDialog(): void {
     setShowAI(false);
   }
 
-  async function submitQuestion() {
-    if (!aiQuestion.trim()) return;
-    const answer = await askOpenAI(aiQuestion);
-    setAiAnswer(answer);
+  function askAgain(): void {
+    const prompt = `${aiPromptBase} Additional Instructions: ${aiExtra}`;
+    setAiSuggested('');
+    askOpenAI(prompt).then(ans => setAiSuggested(ans));
   }
 
-  async function askOpenAI(question: string) {
+  async function askOpenAI(prompt: string) {
     try {
-      logDebug(`Asking OpenAI: ${question}`);
+      logDebug(`Asking OpenAI: ${prompt}`);
       const cfg = (window as any).azureOpenAIConfig || {};
       if (!cfg.endpoint || !cfg.apiKey || !cfg.deployment) {
         throw new Error('Azure OpenAI not configured');
@@ -182,7 +192,7 @@ function App() {
           'api-key': cfg.apiKey,
         },
         body: JSON.stringify({
-          messages: [{ role: 'user', content: question }],
+          messages: [{ role: 'user', content: prompt }],
           temperature: 0.7,
         }),
       });
@@ -314,7 +324,12 @@ function App() {
               ⭐
             </span>
           )}
-          <span className="icon" role="button" title="Ask AI" onClick={openAIDialog}>
+          <span
+            className="icon"
+            role="button"
+            title="Ask AI"
+            onClick={() => openAIDialog(cf.field, key, cf.considerations)}
+          >
             🤖
           </span>
         </div>
@@ -392,15 +407,21 @@ function App() {
       {showAI && (
         <div className="modal-overlay" onClick={closeAIDialog}>
           <div className="modal" onClick={e => e.stopPropagation()}>
+            <div className="ai-answer">
+              Suggested value: {aiSuggested || 'Loading...'}
+            </div>
             <textarea
-              value={aiQuestion}
-              onChange={e => setAiQuestion(e.target.value)}
-              placeholder="Ask a question"
+              value={aiExtra}
+              onChange={e => setAiExtra(e.target.value)}
+              placeholder="Additional Instructions"
             />
-            <button onClick={submitQuestion}>Ask</button>
-            {aiAnswer && <div className="ai-answer">{aiAnswer}</div>}
+            <button onClick={askAgain}>Ask AI Assistant</button>
             <div className="nav">
-              <button onClick={closeAIDialog}>Close</button>
+              <button onClick={() => {
+                setFormData(f => ({ ...f, [aiFieldKey]: aiSuggested }));
+                closeAIDialog();
+              }}>Accept</button>
+              <button onClick={closeAIDialog}>Cancel</button>
             </div>
           </div>
         </div>
