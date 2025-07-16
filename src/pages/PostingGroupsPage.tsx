@@ -6,7 +6,7 @@ interface Props {
   handleBlur: (e: any) => void;
   next: () => void;
   back: () => void;
-  askAI: () => void;
+  askAI: (field: string, key: string, cons?: string) => void;
 }
 
 function PostingGroupsPage({
@@ -30,7 +30,14 @@ function PostingGroupsPage({
             onBlur={handleBlur}
           />
           <span className="icon" role="button" title="Use recommended value">⭐</span>
-          <span className="icon" role="button" title="Ask AI" onClick={askAI}>🤖</span>
+          <span
+            className="icon"
+            role="button"
+            title="Ask AI"
+            onClick={() => askAI(strings.generalPostingGroupLabel, 'postingGroup')}
+          >
+            🤖
+          </span>
         </div>
         <div className="field-considerations"></div>
       </div>
