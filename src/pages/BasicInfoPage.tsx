@@ -1,5 +1,6 @@
 import strings from '../../res/strings';
 import { BasicInfo } from '../types';
+import React, { useState } from 'react';
 
 interface Props {
   formData: BasicInfo;
@@ -9,7 +10,7 @@ interface Props {
   back: () => void;
 }
 
-const industries = [
+const initialIndustries = [
   'Manufacturing',
   'Retail',
   'Healthcare',
@@ -29,6 +30,15 @@ function BasicInfoPage({
   next,
   back,
 }: Props) {
+  const [industries, setIndustries] = useState(initialIndustries);
+
+  function handleIndustryBlur(e: any) {
+    handleBlur(e);
+    const val = e.target.value.trim();
+    if (val && !industries.includes(val)) {
+      setIndustries([...industries, val]);
+    }
+  }
   return (
     <div>
       <h2>{strings.basicInfoTitle}</h2>
@@ -52,7 +62,7 @@ function BasicInfoPage({
             name="industry"
             value={data.industry || ''}
             onChange={handleChange}
-            onBlur={handleBlur}
+            onBlur={handleIndustryBlur}
           />
           <datalist id="industry-list">
             {industries.map(ind => (

@@ -100,6 +100,7 @@ function App() {
   const [countries, setCountries] = useState([] as { code: string; name: string }[]);
   const [currencies, setCurrencies] = useState([] as { code: string; description: string }[]);
   const [paymentTermsOptions, setPaymentTermsOptions] = useState([] as { code: string; description: string }[]);
+  const [baseCalendarOptions, setBaseCalendarOptions] = useState(['STANDARD']);
   const [showAI, setShowAI] = useState(false);
   const [aiSuggested, setAiSuggested] = useState('');
   const [aiExtra, setAiExtra] = useState('');
@@ -241,6 +242,24 @@ function App() {
   function handleBlur(e: any): void {
     if (!e.target.checkValidity()) {
       alert('Invalid value');
+    }
+    const { name, value } = e.target;
+    if (name === 'paymentTerms') {
+      if (value && !paymentTermsOptions.find(o => o.code === value)) {
+        setPaymentTermsOptions([...paymentTermsOptions, { code: value, description: value }]);
+      }
+    } else if (name === fieldKey('Base Calendar Code')) {
+      if (value && !baseCalendarOptions.includes(value)) {
+        setBaseCalendarOptions([...baseCalendarOptions, value]);
+      }
+    } else if (name === fieldKey('Country/Region Code')) {
+      if (value && !countries.find(c => c.code === value)) {
+        setCountries([...countries, { code: value, name: value }]);
+      }
+    } else if (name === fieldKey('Local Currency (LCY) Code')) {
+      if (value && !currencies.find(c => c.code === value)) {
+        setCurrencies([...currencies, { code: value, description: value }]);
+      }
     }
   }
 
@@ -403,37 +422,60 @@ function App() {
     if (cf.field === 'Logo (Picture)') {
       inputEl = <input type="file" name={key} onChange={handleChange} />;
     } else if (cf.field === 'Base Calendar Code') {
-      const options = ['', 'STANDARD'];
       inputEl = (
-        <select name={key} value={val} onChange={handleChange}>
-          {options.map(o => (
-            <option key={o} value={o}>
-              {o}
-            </option>
-          ))}
-        </select>
+        <>
+          <input
+            list="base-calendar-list"
+            name={key}
+            value={val}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+          <datalist id="base-calendar-list">
+            <option value="" />
+            {baseCalendarOptions.map(o => (
+              <option key={o} value={o} />
+            ))}
+          </datalist>
+        </>
       );
     } else if (cf.field === 'Country/Region Code') {
       inputEl = (
-        <select name={key} value={val} onChange={handleChange}>
-          <option value=""></option>
-          {countries.map((c: { code: string; name: string }) => (
-            <option key={c.code} value={c.code}>
-              {c.name || c.code}
-            </option>
-          ))}
-        </select>
+        <>
+          <input
+            list="country-list"
+            name={key}
+            value={val}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+          <datalist id="country-list">
+            <option value="" />
+            {countries.map((c: { code: string; name: string }) => (
+              <option key={c.code} value={c.code}>
+                {c.name || c.code}
+              </option>
+            ))}
+          </datalist>
+        </>
       );
     } else if (cf.field === 'Local Currency (LCY) Code') {
       inputEl = (
-        <select name={key} value={val} onChange={handleChange}>
-          <option value=""></option>
-          {currencies.map(c => (
-            <option key={c.code} value={c.code}>
-              {c.code}
-            </option>
-          ))}
-        </select>
+        <>
+          <input
+            list="currency-list"
+            name={key}
+            value={val}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+          <datalist id="currency-list">
+            <option value="" />
+            {currencies.map(c => (
+              <option key={c.code} value={c.code} />
+            ))}
+          </datalist>
+        </>
       );
     }
     const acceptRecommended = () => {

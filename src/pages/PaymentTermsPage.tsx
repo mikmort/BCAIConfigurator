@@ -25,18 +25,20 @@ function PaymentTermsPage({
       <div className="field-row">
         <div className="field-name">{strings.paymentTermsLabel}</div>
         <div className="field-input">
-          <select
+          <input
+            list="payment-terms-list"
             name="paymentTerms"
             value={formData.paymentTerms || ''}
             onChange={handleChange}
             onBlur={handleBlur}
-          >
+          />
+          <datalist id="payment-terms-list">
             {options.map(o => (
               <option key={o.code} value={o.code}>
                 {o.description || o.code}
               </option>
             ))}
-          </select>
+          </datalist>
           <span className="icon" role="button" title="Use recommended value">⭐</span>
           <span
             className="icon"
