@@ -98,6 +98,8 @@ function App() {
   const [downloadUrl, setDownloadUrl] = useState('');
   const [debugMessages, setDebugMessages] = useState([] as string[]);
   const [countries, setCountries] = useState([] as { code: string; name: string }[]);
+  const [currencies, setCurrencies] = useState([] as { code: string; description: string }[]);
+  const [paymentTermsOptions, setPaymentTermsOptions] = useState([] as { code: string; description: string }[]);
   const [showAI, setShowAI] = useState(false);
   const [aiSuggested, setAiSuggested] = useState('');
   const [aiExtra, setAiExtra] = useState('');
@@ -131,6 +133,20 @@ function App() {
             name: c.Name?.['#text'] || '',
           })) || [];
         setCountries(countries);
+
+        const currencies =
+          data?.DataList?.CurrencyList?.Currency?.map((c: any) => ({
+            code: c.Code?.['#text'] || '',
+            description: c.Description?.['#text'] || '',
+          })) || [];
+        setCurrencies(currencies);
+
+        const paymentTermsList =
+          data?.DataList?.PaymentTermsList?.PaymentTerms?.map((p: any) => ({
+            code: p.Code?.['#text'] || '',
+            description: p.Description?.['#text'] || '',
+          })) || [];
+        setPaymentTermsOptions(paymentTermsList);
 
         const termsKey = Object.keys(data.DataList || {}).find(k =>
           k.toLowerCase().includes('paymentterms')
@@ -408,6 +424,17 @@ function App() {
           ))}
         </select>
       );
+    } else if (cf.field === 'Local Currency (LCY) Code') {
+      inputEl = (
+        <select name={key} value={val} onChange={handleChange}>
+          <option value=""></option>
+          {currencies.map(c => (
+            <option key={c.code} value={c.code}>
+              {c.code}
+            </option>
+          ))}
+        </select>
+      );
     }
     const acceptRecommended = () => {
       setFormData((f: FormData) => ({
@@ -512,6 +539,7 @@ function App() {
           next={next}
           back={back}
           askAI={openAIDialog}
+          options={paymentTermsOptions}
         />
       )}
       {step === 6 && (
