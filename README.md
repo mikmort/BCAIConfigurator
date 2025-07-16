@@ -1,6 +1,6 @@
 # BCAIConfigurator
 
-This static web app provides an interview style experience that helps users configure Dynamics 365 Business Central. The app loads a baseline **starting data** JSON file included in the repository and creates a customized file based on the user's responses. Azure OpenAI can be called (via the `/api/openai` endpoint) to assist with configuration decisions.
+This static web app provides an interview style experience that helps users configure Dynamics 365 Business Central. The app loads a baseline **starting data** XML file included in the repository and creates a customized file based on the user's responses. Azure OpenAI can be called (via the `/api/openai` endpoint) to assist with configuration decisions.
 
 The project now uses **Vite** for development and builds. All source files, including `index.html`, live in the `src` directory. Run `npm run build` to output the production files to the `dist` folder. 
 

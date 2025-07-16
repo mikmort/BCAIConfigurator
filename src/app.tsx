@@ -76,6 +76,33 @@ function parseCompanyInfo(text: string): CompanyField[] {
   return result;
 }
 
+function xmlToJson(node: Element): any {
+  const obj: any = {};
+  if (node.attributes) {
+    Array.from(node.attributes).forEach(attr => {
+      obj[`@${attr.name}`] = attr.value;
+    });
+  }
+  const children = Array.from(node.childNodes).filter(n => n.nodeType === 1);
+  const textNodes = Array.from(node.childNodes).filter(n => n.nodeType === 3);
+  if (textNodes.length) {
+    const text = textNodes.map(n => n.nodeValue?.trim()).join('');
+    if (text) obj['#text'] = text;
+  }
+  children.forEach(child => {
+    const el = child as Element;
+    const name = el.nodeName;
+    const val = xmlToJson(el);
+    if (obj[name]) {
+      if (!Array.isArray(obj[name])) obj[name] = [obj[name]];
+      obj[name].push(val);
+    } else {
+      obj[name] = val;
+    }
+  });
+  return obj;
+}
+
 function App() {
   const [step, setStep] = useState(0 as number);
   const [rapidStart, setRapidStart] = useState('' as string);
@@ -103,8 +130,13 @@ function App() {
     async function loadStartingData() {
       try {
         logDebug('Loading starting data');
-        const resp = await fetch('NAV27.0.US.ENU.STANDARD.json');
-        const data = await resp.json();
+        const resp = await fetch('NAV27.0.US.ENU.STANDARD.xml');
+        const text = await resp.text();
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(text, 'application/xml');
+        const data = {
+          [xmlDoc.documentElement.nodeName]: xmlToJson(xmlDoc.documentElement),
+        } as any;
         logDebug('Starting data loaded');
         setRapidStart(JSON.stringify(data));
 
