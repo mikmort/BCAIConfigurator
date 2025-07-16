@@ -177,6 +177,31 @@ function App() {
     askOpenAI(prompt).then(ans => setAiSuggested(ans));
   }
 
+  async function acceptSuggested() {
+    try {
+      const prompt =
+        `Please output only JSON with the suggested value for the field from the following text: ${aiSuggested}`;
+      const answer = await askOpenAI(prompt);
+      let val = aiSuggested;
+      try {
+        const parsed = JSON.parse(answer);
+        const first =
+          parsed.value || parsed.suggested || parsed.result || parsed.val || parsed[Object.keys(parsed)[0]];
+        if (typeof first === 'string') {
+          val = first;
+        }
+      } catch (e) {
+        logDebug(`Failed to parse JSON answer: ${e}`);
+      }
+      setFormData(f => ({ ...f, [aiFieldKey]: val }));
+    } catch (e) {
+      console.error(e);
+      logDebug(`Failed to accept suggestion: ${e}`);
+    } finally {
+      closeAIDialog();
+    }
+  }
+
   async function askOpenAI(prompt: string) {
     try {
       logDebug(`Asking OpenAI: ${prompt}`);
@@ -417,10 +442,7 @@ function App() {
             />
             <button onClick={askAgain}>Ask AI Assistant</button>
             <div className="nav">
-              <button onClick={() => {
-                setFormData(f => ({ ...f, [aiFieldKey]: aiSuggested }));
-                closeAIDialog();
-              }}>Accept</button>
+              <button onClick={acceptSuggested}>Accept</button>
               <button onClick={closeAIDialog}>Cancel</button>
             </div>
           </div>
