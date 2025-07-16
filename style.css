@@ -209,4 +209,8 @@ button:hover {
 .ai-answer {
   margin-top: 10px;
   white-space: pre-wrap;
+  height: 16em;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 4px;
 }
