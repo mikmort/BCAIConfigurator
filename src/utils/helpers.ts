@@ -32,3 +32,49 @@ export function findFieldValue(obj: any, field: string): any {
   }
   return undefined;
 }
+
+export function findTableRows(obj: any, tableId: number): any[] | null {
+  if (!obj || typeof obj !== 'object') return null;
+  const idObj = (obj as any)['TableID'];
+  let idVal: any = undefined;
+  if (idObj !== undefined) {
+    if (typeof idObj === 'object' && '#text' in idObj) idVal = idObj['#text'];
+    else idVal = idObj;
+  }
+  if (idVal !== undefined && Number(idVal) === tableId) {
+    for (const key of Object.keys(obj)) {
+      if (key === 'TableID' || key === 'PageID' || key === '#text' || key.startsWith('@')) continue;
+      const rows: any = (obj as any)[key];
+      if (Array.isArray(rows)) return rows;
+      if (rows && typeof rows === 'object') return [rows];
+    }
+  }
+  for (const key of Object.keys(obj)) {
+    const child = (obj as any)[key];
+    if (Array.isArray(child)) {
+      for (const c of child) {
+        const found = findTableRows(c, tableId);
+        if (found) return found;
+      }
+    } else if (typeof child === 'object') {
+      const found = findTableRows(child, tableId);
+      if (found) return found;
+    }
+  }
+  return null;
+}
+
+export function extractFieldValues(rows: any[], field: string): string[] {
+  const vals: string[] = [];
+  rows.forEach(r => {
+    let v: any = r ? r[field] : undefined;
+    if (v !== undefined && v !== null) {
+      if (typeof v === 'object' && '#text' in v) v = v['#text'];
+      if (v !== undefined && v !== null) {
+        const s = String(v);
+        if (s && !vals.includes(s)) vals.push(s);
+      }
+    }
+  });
+  return vals;
+}
