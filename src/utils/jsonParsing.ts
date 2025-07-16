@@ -68,3 +68,28 @@ export function parseCompanyInfo(text: string): CompanyField[] {
   }
   return result;
 }
+
+export function parseGuideTable(text: string, fields: string[]): CompanyField[] {
+  const join = text.replace(/\n+/g, ' ').replace(/\s+/g, ' ').trim();
+  const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s+');
+  const result: CompanyField[] = [];
+  for (let i = 0; i < fields.length; i++) {
+    const name = fields[i];
+    const regex = new RegExp(esc(name), 'i');
+    const match = regex.exec(join);
+    if (!match) {
+      result.push({ field: name, recommended: '', considerations: '' });
+      continue;
+    }
+    const start = match.index + match[0].length;
+    let end = join.length;
+    if (i + 1 < fields.length) {
+      const nextRegex = new RegExp(esc(fields[i + 1]), 'i');
+      const next = nextRegex.exec(join.slice(start));
+      if (next) end = start + next.index;
+    }
+    const snippet = join.slice(start, end).trim();
+    result.push({ field: name, recommended: '', considerations: snippet });
+  }
+  return result;
+}

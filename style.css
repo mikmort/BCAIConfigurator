@@ -172,12 +172,12 @@ h3 {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 10px;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 15px;
 }
 .field-name {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   font-weight: 600;
   font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
   color: #323130;
@@ -193,7 +193,7 @@ h3 {
 }
 .field-input {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 6px;
 }
 .field-considerations {
