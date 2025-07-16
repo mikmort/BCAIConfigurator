@@ -2,17 +2,8 @@ export function fieldKey(name: string): string {
   return name.replace(/[^a-zA-Z0-9]/g, '_');
 }
 
-export function mapFieldName(
-  name: string,
-  mappings: Record<string, string>
-): string | undefined {
-  if (mappings[name]) return mappings[name];
-  const norm = name.replace(/\s+/g, ' ').trim().toLowerCase();
-  for (const key of Object.keys(mappings)) {
-    const kNorm = key.replace(/\s+/g, ' ').trim().toLowerCase();
-    if (kNorm === norm) return mappings[key];
-  }
-  return undefined;
+export function mapFieldName(name: string): string {
+  return name.replace(/\s+/g, '').replace(/-/g, '_');
 }
 
 export function findFieldValue(obj: any, field: string): any {
