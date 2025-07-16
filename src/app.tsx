@@ -277,8 +277,8 @@ function App() {
 
       const first =
         parsed.value || parsed.suggested || parsed.result || parsed.val || parsed[Object.keys(parsed)[0]];
-      if (typeof first === 'string') {
-        val = first;
+      if (first !== undefined && first !== null) {
+        val = String(first);
       }
     } catch (e) {
       logDebug(`Failed to parse JSON answer: ${e}`);
