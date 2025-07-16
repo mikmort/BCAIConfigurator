@@ -1,7 +1,19 @@
-// staticwebapp.config.json
 {
   "navigationFallback": {
     "rewrite": "/index.html",
     "exclude": ["/assets/*", "/env.js"]
-  } 
+  },
+  "routes": [
+    {
+      "route": "/openai.js",
+      "serve": "/openai.js"
+    },
+    {
+      "route": "/*",
+      "serve": "/index.html",
+      "statusCode": 200
+    }
+  ]
 }
+
+
