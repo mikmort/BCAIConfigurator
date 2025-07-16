@@ -3,9 +3,10 @@ interface Props {
   handleChange: (e: any) => void;
   next: () => void;
   back: () => void;
+  askAI: () => void;
 }
 
-function PaymentTermsPage({ formData, handleChange, next, back }: Props) {
+function PaymentTermsPage({ formData, handleChange, next, back, askAI }: Props) {
   return (
     <div>
       <h2>Payment Terms</h2>
@@ -14,7 +15,7 @@ function PaymentTermsPage({ formData, handleChange, next, back }: Props) {
         <div className="field-input">
           <input name="paymentTerms" value={formData.paymentTerms || ''} onChange={handleChange} />
           <span className="icon" role="button" title="Use recommended value">⭐</span>
-          <span className="icon" role="button" title="Ask AI">🤖</span>
+          <span className="icon" role="button" title="Ask AI" onClick={askAI}>🤖</span>
         </div>
         <div className="field-considerations"></div>
       </div>
