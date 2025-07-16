@@ -103,7 +103,7 @@ function App() {
     async function loadStartingData() {
       try {
         logDebug('Loading starting data');
-        const resp = await fetch('NAV27.0.US.ENU.EXTENDED.json');
+        const resp = await fetch('NAV27.0.US.ENU.STANDARD.json');
         const data = await resp.json();
         logDebug('Starting data loaded');
         setRapidStart(JSON.stringify(data));
