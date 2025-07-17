@@ -13,10 +13,12 @@ interface Props {
   back: () => void;
   progress: boolean[];
   setProgress: (arr: boolean[]) => void;
+  visited: boolean[];
+  setVisited: (arr: boolean[]) => void;
   handleRecommended: (cf: CompanyField) => void;
 }
 
-function CompanyInfoPage({ fields, renderInput, next, back, progress, setProgress, handleRecommended }: Props) {
+function CompanyInfoPage({ fields, renderInput, next, back, progress, setProgress, visited, setVisited, handleRecommended }: Props) {
   return (
     <FieldWizard
       title={strings.companyInfo}
@@ -27,6 +29,8 @@ function CompanyInfoPage({ fields, renderInput, next, back, progress, setProgres
       back={back}
       progress={progress}
       setProgress={setProgress}
+      visited={visited}
+      setVisited={setVisited}
     />
   );
 }
