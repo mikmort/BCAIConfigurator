@@ -377,7 +377,39 @@ function App() {
     key: string,
     considerations: string = ''
   ): void {
-    const prompt = `Please suggest a precise value for the field '${fieldName}'. The name of the companys is '${basicInfo.companyName}' and the industry is '${basicInfo.industry}'. Here are some additional consideration: '${considerations}'`;
+    let prompt =
+      'We are configuring Dynamics Business Central\n\n' +
+      'We are looking for a recommended value for the field:\n\n' +
+      `${fieldName}\n\n` +
+      'Please us the following information to help determine the recommended value\n--------------\n';
+
+    const parts: string[] = [];
+
+    const addConfirmed = (fields: CompanyField[], progress: boolean[]) => {
+      const common = fields.filter(f => f.common === 'common');
+      common.forEach((cf, idx) => {
+        if (progress[idx]) {
+          const val = formData[fieldKey(cf.field)];
+          if (val) parts.push(`${cf.field}: ${val}`);
+        }
+      });
+    };
+
+    addConfirmed(companyFields, companyProgress);
+    addConfirmed(glFields, glProgress);
+    addConfirmed(srFields, srProgress);
+
+    if (parts.length) {
+      prompt += parts.join('\n') + '\n';
+    }
+
+    if (considerations) {
+      prompt += `${fieldName} considerations: ${considerations}\n`;
+    }
+
+    prompt +=
+      '---------------\nPlease return the response strictly as JSON with \n' +
+      "'Answer: <your suggestion>'";
     setAiPromptBase(prompt);
     setAiExtra('');
     setAiFieldKey(key);
@@ -600,14 +632,14 @@ function App() {
       <>
         {inputEl}
         {/* recommended icon moved to FieldSubPage */}
-        <span
-          className="icon"
-          role="button"
+        <button
+          type="button"
+          className="ai-btn"
           title="Ask AI"
           onClick={() => openAIDialog(cf.field, key, cf.considerations)}
         >
-          🤖
-        </span>
+          Ask AI to help
+        </button>
       </>
     );
   }
