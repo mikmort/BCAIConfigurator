@@ -214,10 +214,25 @@ function App() {
     console.log(msg);
   }
 
+  function getDropdownOptions(cf: CompanyField): string[] | null {
+    if (cf.field === 'Base Calendar Code') {
+      return baseCalendarOptions;
+    }
+    if (cf.field === 'Country/Region Code') {
+      return countries.map(c => c.code);
+    }
+    if (cf.lookupTable && startData) {
+      const rows = findTableRows(startData, cf.lookupTable) || [];
+      return extractFieldValues(rows, cf.lookupField || 'Code');
+    }
+    return null;
+  }
+
   function buildAIPrompt(
     fieldName: any,
     currentValue: string,
-    considerations: string = ''
+    considerations: string = '',
+    options?: string[]
   ): string {
     let name: string;
     if (typeof fieldName === 'object' && fieldName !== null) {
@@ -261,10 +276,17 @@ function App() {
       prompt += `${name} considerations: ${considerations}\n`;
     }
 
+    if (options && options.length) {
+      prompt += `Valid options for ${name}: ${options.join(', ')}\n`;
+    }
+
     prompt +=
       '---------------\nPlease return the response strictly as JSON with the properties "Suggested Value", "Confidence", and "Reasoning". ' +
       'Confidence should indicate how certain you are that this is the final value the user will want for this field in Dynamics Business Central. ' +
-      'Confidence must be one of "Very High", "High", "Medium", "Low", or "Very Low".';
+      'Confidence must be one of "Very High", "High", "Medium", "Low", or "Very Low". ' +
+      (options && options.length
+        ? 'Choose a value only from the provided options.'
+        : '');
     return prompt;
   }
 
@@ -296,13 +318,22 @@ function App() {
     currentValue: string
   ) {
     const fieldName = field.bcFieldName || field.field;
+    const options = getDropdownOptions(field);
     const prompt = buildAIPrompt(
       fieldName,
       currentValue,
-      field.considerations || ''
+      field.considerations || '',
+      options || undefined
     );
     const ans = await askOpenAI(prompt);
-    return parseAISuggestion(ans);
+    const parsed = parseAISuggestion(ans);
+    if (options && options.length) {
+      const norm = options.map(o => o.toLowerCase());
+      if (!norm.includes(parsed.suggested.trim().toLowerCase())) {
+        return { suggested: '', confidence: '', reasoning: '' };
+      }
+    }
+    return parsed;
   }
 
   function setFieldValue(key: string, value: string) {
@@ -545,12 +576,14 @@ function App() {
   }
 
   function openAIDialog(
-    fieldName: string,
+    field: CompanyField,
     key: string,
     currentValue: string,
     considerations: string = ''
   ): void {
-    const prompt = buildAIPrompt(fieldName, currentValue, considerations);
+    const fieldName = field.bcFieldName || field.field;
+    const options = getDropdownOptions(field);
+    const prompt = buildAIPrompt(fieldName, currentValue, considerations, options || undefined);
     setAiPromptBase(prompt);
     setAiExtra('');
     setAiFieldKey(key);
@@ -760,7 +793,7 @@ function App() {
           type="button"
           className="ai-btn"
           title="Ask AI to help"
-          onClick={() => openAIDialog(cf.field, key, val, cf.considerations)}
+          onClick={() => openAIDialog(cf, key, val, cf.considerations)}
         >
           <span className="icon">✨</span>
           Ask AI to help
