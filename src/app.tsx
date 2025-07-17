@@ -845,8 +845,14 @@ function App() {
                   </li>
                 </ul>
               )}
-          </div>
-          </nav>
+            </div>
+            <div className="group">
+              <div className="group-title">{strings.reviewAndFinish}</div>
+              <ul>
+                <li onClick={() => setStep(12)}>{strings.reviewAndFinish}</li>
+              </ul>
+            </div>
+            </nav>
         </aside>
         <div className="content">
           <div className="topbar">
@@ -871,9 +877,9 @@ function App() {
                   <div className="circle">3</div>
                   <span>{strings.masterData}</span>
                 </div>
-                <div className={`progress-step ${currentGroup === 'review' ? 'active' : ''}`}> 
+                <div className={`progress-step ${currentGroup === 'review' ? 'active' : ''}`}>
                   <div className="circle">4</div>
-                  <span>{strings.review}</span>
+                  <span>{strings.reviewAndFinish}</span>
                 </div>
               </div>
               <div className="progress-bar">
