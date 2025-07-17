@@ -175,7 +175,7 @@ function FieldWizard({
 
   return (
     <div>
-      <h2>{title}</h2>
+      <div className="section-header">{title}</div>
 
       {stage === 'common' && common[cIdx] && (
         <FieldSubPage

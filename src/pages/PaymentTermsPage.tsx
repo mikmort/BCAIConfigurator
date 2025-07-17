@@ -21,7 +21,7 @@ function PaymentTermsPage({
 }: Props) {
   return (
     <div>
-      <h2>{strings.paymentTerms}</h2>
+      <div className="section-header">{strings.paymentTerms}</div>
       <div className="field-row">
         <div className="field-name">{strings.paymentTermsLabel}</div>
         <div className="field-input">

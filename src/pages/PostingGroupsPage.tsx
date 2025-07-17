@@ -19,7 +19,7 @@ function PostingGroupsPage({
 }: Props) {
   return (
     <div>
-      <h2>{strings.postingGroups}</h2>
+      <div className="section-header">{strings.postingGroups}</div>
       <div className="field-row">
         <div className="field-name">{strings.generalPostingGroupLabel}</div>
         <div className="field-input">

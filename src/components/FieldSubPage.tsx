@@ -33,7 +33,20 @@ function FieldSubPage({
         {confirmed && (
           <div className="confirmed-banner">Confirmed!</div>
         )}
-        <div className="question"><strong>{cf.question}</strong></div>
+        <div className="question">
+          {(() => {
+            const q = cf.question || '';
+            const match = q.match(/^(.*?\?)(\s*\((.*)\))?$/);
+            const main = match ? match[1].trim() : q;
+            const extra = match && match[3] ? match[3].trim() : '';
+            return (
+              <>
+                <div className="question-main">{main}</div>
+                {extra && <div className="question-extra">{extra}</div>}
+              </>
+            );
+          })()}
+        </div>
         <div className="input-area">{renderInput(cf)}</div>
         <div className="field-ref">
           <strong>{strings.bcFieldNameLabel}</strong> {cf.field}

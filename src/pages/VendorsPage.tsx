@@ -8,7 +8,7 @@ interface Props {
 function VendorsPage({ next, back }: Props) {
   return (
     <div>
-      <h2>{strings.vendors}</h2>
+      <div className="section-header">{strings.vendors}</div>
       <p>Coming soon.</p>
       <div className="nav">
         <button className="next-btn" onClick={back}>{strings.back}</button>

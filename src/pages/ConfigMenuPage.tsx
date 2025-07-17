@@ -34,7 +34,7 @@ function ConfigMenuPage({
 }: Props) {
   return (
     <div>
-      <h2>{strings.selectConfigArea}</h2>
+      <div className="section-header">{strings.selectConfigArea}</div>
       <div className="menu-section">
         <h3>{strings.basicInfo}</h3>
         <div className="menu-grid">

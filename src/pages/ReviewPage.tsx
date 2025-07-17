@@ -18,7 +18,7 @@ function ReviewPage({ fields, formData, back, next }: Props) {
 
   return (
     <div>
-      <h2>{strings.review}</h2>
+      <div className="section-header">{strings.review}</div>
       <ul>
         {entries.map(e => (
           <li key={e.name}>

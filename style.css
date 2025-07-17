@@ -711,3 +711,25 @@ h3 {
   width: 100%;
   margin-right: 0;
 }
+
+/* Section headers above wizard questions */
+.section-header {
+  background: var(--bc-gray);
+  color: #555;
+  padding: 4px 8px;
+  font-size: 0.9em;
+  font-weight: 600;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+/* Question styling */
+.question-main {
+  font-size: 1.3em;
+  font-weight: 700;
+}
+
+.question-extra {
+  font-size: 0.9em;
+  font-weight: normal;
+}
