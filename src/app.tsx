@@ -673,19 +673,24 @@ function App() {
               <span>{strings.search}</span>
               <span>{strings.help}</span>
             </div>
-            <div className="progress-slider">
-              <span className={currentGroup === 'basic' ? 'active' : ''}>
-                {strings.basicInfo}
-              </span>
-              <span className={currentGroup === 'config' ? 'active' : ''}>
-                {strings.configurationData}
-              </span>
-              <span className={currentGroup === 'master' ? 'active' : ''}>
-                {strings.masterData}
-              </span>
-              <span className={currentGroup === 'review' ? 'active' : ''}>
-                {strings.review}
-              </span>
+            <div className="progress-area">
+              <div className="progress-slider">
+                <span className={currentGroup === 'basic' ? 'active' : ''}>
+                  {strings.basicInfo}
+                </span>
+                <span className={currentGroup === 'config' ? 'active' : ''}>
+                  {strings.configurationData}
+                </span>
+                <span className={currentGroup === 'master' ? 'active' : ''}>
+                  {strings.masterData}
+                </span>
+                <span className={currentGroup === 'review' ? 'active' : ''}>
+                  {strings.review}
+                </span>
+              </div>
+              <div className="progress-bar">
+                <div className="progress-bar-fill" style={{ width: '30%' }}></div>
+              </div>
             </div>
           </div>
           {step === 0 && <HomePage next={next} />}
