@@ -195,6 +195,12 @@ function App() {
   const [aiPromptBase, setAiPromptBase] = useState('');
   const [configOpen, setConfigOpen] = useState(true);
   const [masterOpen, setMasterOpen] = useState(false);
+  const [basicDone, setBasicDone] = useState(false);
+  const [postingDone, setPostingDone] = useState(false);
+  const [paymentDone, setPaymentDone] = useState(false);
+  const [customersDone, setCustomersDone] = useState(false);
+  const [vendorsDone, setVendorsDone] = useState(false);
+  const [itemsDone, setItemsDone] = useState(false);
   const [aiParsed, setAiParsed] = useState({
     suggested: '',
     confidence: '',
@@ -399,6 +405,12 @@ function App() {
   }
 
   function next(): void {
+    if (step === 2) setBasicDone(true);
+    if (step === 4) setPostingDone(true);
+    if (step === 5) setPaymentDone(true);
+    if (step === 8) setCustomersDone(true);
+    if (step === 9) setVendorsDone(true);
+    if (step === 10) setItemsDone(true);
     setStep(step + 1);
   }
 
@@ -680,6 +692,10 @@ function App() {
   const companyDone = companyProgress.length > 0 && companyProgress.every(Boolean);
   const glDone = glProgress.length > 0 && glProgress.every(Boolean);
   const srDone = srProgress.length > 0 && srProgress.every(Boolean);
+  const configSectionDone =
+    companyDone && postingDone && paymentDone && glDone && srDone;
+  const basicSectionDone = basicDone;
+  const masterSectionDone = customersDone && vendorsDone && itemsDone;
   const currentGroup = (() => {
     if (step === 2) return 'basic';
     if ([3, 4, 5, 6, 7].includes(step)) return 'config';
@@ -722,9 +738,14 @@ function App() {
           </div>
           <nav>
             <div className="group">
-              <div className="group-title">{strings.basicInfo}</div>
+              <div className="group-title">
+                {strings.basicInfo} {basicSectionDone && <span className="check">✔</span>}
+              </div>
               <ul>
-                <li onClick={() => setStep(2)}>{strings.basicInfo}</li>
+                <li onClick={() => setStep(2)}>
+                  {basicDone && <span className="check">✔</span>}
+                  {strings.basicInfo}
+                </li>
               </ul>
             </div>
             <div className="group">
@@ -733,11 +754,15 @@ function App() {
                 onClick={() => setConfigOpen(!configOpen)}
               >
                 <span className="toggle">{configOpen ? '-' : '+'}</span>
-                {strings.configurationData}
+                {strings.configurationData}{' '}
+                {configSectionDone && <span className="check">✔</span>}
               </div>
               {configOpen && (
                 <ul>
-                  <li onClick={() => setStep(3)}>{strings.companyInfo}</li>
+                  <li onClick={() => setStep(3)}>
+                    {companyDone && <span className="check">✔</span>}
+                    {strings.companyInfo}
+                  </li>
                   {step === 3 && (
                     <ul className="subnav">
                       {companyFields
@@ -750,9 +775,18 @@ function App() {
                         ))}
                     </ul>
                   )}
-                  <li onClick={() => setStep(4)}>Posting Information</li>
-                  <li onClick={() => setStep(5)}>{strings.paymentTerms}</li>
-                  <li onClick={() => setStep(6)}>{strings.generalLedgerSetup}</li>
+                  <li onClick={() => setStep(4)}>
+                    {postingDone && <span className="check">✔</span>}
+                    Posting Information
+                  </li>
+                  <li onClick={() => setStep(5)}>
+                    {paymentDone && <span className="check">✔</span>}
+                    {strings.paymentTerms}
+                  </li>
+                  <li onClick={() => setStep(6)}>
+                    {glDone && <span className="check">✔</span>}
+                    {strings.generalLedgerSetup}
+                  </li>
                   {step === 6 && (
                     <ul className="subnav">
                       {glFields
@@ -765,7 +799,10 @@ function App() {
                         ))}
                     </ul>
                   )}
-                  <li onClick={() => setStep(7)}>{strings.salesReceivablesSetup}</li>
+                  <li onClick={() => setStep(7)}>
+                    {srDone && <span className="check">✔</span>}
+                    {strings.salesReceivablesSetup}
+                  </li>
                   {step === 7 && (
                     <ul className="subnav">
                       {srFields
@@ -787,13 +824,23 @@ function App() {
                 onClick={() => setMasterOpen(!masterOpen)}
               >
                 <span className="toggle">{masterOpen ? '-' : '+'}</span>
-                {strings.masterData}
+                {strings.masterData}{' '}
+                {masterSectionDone && <span className="check">✔</span>}
               </div>
               {masterOpen && (
                 <ul>
-                  <li onClick={() => setStep(8)}>{strings.customers}</li>
-                  <li onClick={() => setStep(9)}>{strings.vendors}</li>
-                  <li onClick={() => setStep(10)}>{strings.items}</li>
+                  <li onClick={() => setStep(8)}>
+                    {customersDone && <span className="check">✔</span>}
+                    {strings.customers}
+                  </li>
+                  <li onClick={() => setStep(9)}>
+                    {vendorsDone && <span className="check">✔</span>}
+                    {strings.vendors}
+                  </li>
+                  <li onClick={() => setStep(10)}>
+                    {itemsDone && <span className="check">✔</span>}
+                    {strings.items}
+                  </li>
                 </ul>
               )}
           </div>

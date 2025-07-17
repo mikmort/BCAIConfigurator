@@ -510,7 +510,7 @@ h3 {
 }
 
 .check {
-  color: green;
+  color: var(--bc-teal);
   margin-right: 4px;
 }
 
