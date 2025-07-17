@@ -693,26 +693,27 @@ function App() {
               </div>
             </div>
           </div>
-          {step === 0 && <HomePage next={next} />}
-          {step === 1 && (
-            <ConfigMenuPage
-              goToBasicInfo={() => setStep(2)}
-              goToCompanyInfo={() => setStep(3)}
-              goToPostingGroups={() => setStep(4)}
-              goToPaymentTerms={() => setStep(5)}
+          <main className="main">
+            {step === 0 && <HomePage next={next} />}
+            {step === 1 && (
+              <ConfigMenuPage
+                goToBasicInfo={() => setStep(2)}
+                goToCompanyInfo={() => setStep(3)}
+                goToPostingGroups={() => setStep(4)}
+                goToPaymentTerms={() => setStep(5)}
               goToGLSetup={() => setStep(6)}
               goToSRSetup={() => setStep(7)}
               goToCustomers={() => setStep(8)}
               goToVendors={() => setStep(9)}
               goToItems={() => setStep(10)}
               back={back}
-            />
-          )}
-      {step === 2 && (
-        <BasicInfoPage
-          formData={basicInfo}
-          handleChange={handleChange}
-          handleBlur={handleBlur}
+              />
+            )}
+            {step === 2 && (
+              <BasicInfoPage
+                formData={basicInfo}
+                handleChange={handleChange}
+                handleBlur={handleBlur}
           next={next}
           back={() => setStep(1)}
         />
@@ -767,24 +768,25 @@ function App() {
           next={next}
           back={back}
         />
-      )}
-      {step === 8 && <CustomersPage next={next} back={back} />}
-      {step === 9 && <VendorsPage next={next} back={back} />}
-      {step === 10 && <ItemsPage next={next} back={back} />}
-      {step === 11 && (
-        <FinishPage
-          generate={generateCustomRapidStart}
-          back={back}
-          downloadUrl={downloadUrl}
-          debugMessages={debugMessages}
-        />
-      )}
-      {showAI && (
-        <div className="modal-overlay" onClick={closeAIDialog}>
-          <div className="modal" onClick={e => e.stopPropagation()}>
-            <div className="ai-answer">
-              Suggested value: {aiSuggested || 'Loading...'}
-            </div>
+          )}
+          {step === 8 && <CustomersPage next={next} back={back} />}
+          {step === 9 && <VendorsPage next={next} back={back} />}
+          {step === 10 && <ItemsPage next={next} back={back} />}
+          {step === 11 && (
+            <FinishPage
+              generate={generateCustomRapidStart}
+              back={back}
+              downloadUrl={downloadUrl}
+              debugMessages={debugMessages}
+            />
+          )}
+          </main>
+          {showAI && (
+            <div className="modal-overlay" onClick={closeAIDialog}>
+              <div className="modal" onClick={e => e.stopPropagation()}>
+                <div className="ai-answer">
+                  Suggested value: {aiSuggested || 'Loading...'}
+                </div>
             <textarea
               value={aiExtra}
               onChange={e => setAiExtra(e.target.value)}
@@ -798,11 +800,11 @@ function App() {
           </div>
         </div>
       )}
+          </div>
         </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
 
 const container = document.getElementById('root') as HTMLElement;
 ReactDOM.createRoot(container).render(<App />);
