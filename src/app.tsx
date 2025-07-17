@@ -26,133 +26,13 @@ import {
 } from './utils/helpers';
 import { parseQuestions, recommendedCode } from './utils/jsonParsing';
 import { loadStartingData, loadConfigTables } from './utils/dataLoader';
+import {
+  companyFieldNames,
+  glFieldNames,
+  srFieldNames,
+} from './fieldNames';
+import { askOpenAI, parseAISuggestion } from './utils/ai';
 
-const companyFieldNames = [
-  'Company Name',
-  'Address',
-  'City',
-  'State',
-  'ZIP Code',
-  'Phone No.',
-  'Email',
-  'Country/Region Code',
-  'Tax Registration No.',
-  'Fed. Tax ID (if available)',
-  'Company Website',
-  'Base Calendar Code',
-  'Invoice Address Code',
-  'Logo (Picture)',
-];
-
-const glFieldNames = [
-  'Allow Posting From',
-  'Allow Posting To',
-  'Register Time',
-  'Allow Deferral Posting From',
-  'Allow Deferral Posting To',
-  'Local Currency (LCY) Code',
-  'EMU Currency',
-  'Additional Reporting Currency',
-  'Amount Decimal Places',
-  'Unit-Amount Decimal Places',
-  'Amount Rounding Precision',
-  'Invoice Rounding Precision (LCY)',
-  'Invoice Rounding Type (LCY)',
-  'Summarize G/L Entries',
-  'Mark Cr. Memos as Corrections',
-  'Allow G/L Acc. Deletion Before',
-  'Block Deletion of G/L Accounts',
-  'Acc. Sched. for Retained Earn.',
-  'Fin. Rep. for Retained Earn.',
-  'Global Dimension 1 Code',
-  'Global Dimension 2 Code',
-  'Shortcut Dimension 3 Code',
-  'Shortcut Dimension 4 Code',
-  'Shortcut Dimension 5 Code',
-  'Shortcut Dimension 6 Code',
-  'Shortcut Dimension 7 Code',
-  'Shortcut Dimension 8 Code',
-  'Unrealized VAT',
-  'VAT Tolerance %',
-  'Max. VAT Difference Allowed',
-  'VAT Calculation Type',
-];
-
-
-const srFieldNames = [
-  'Email Logging Enabled',
-  'Exchange Client Id',
-  'Exchange Client Secret Key',
-  'Discount Posting',
-  'Credit Warnings',
-  'Stockout Warning',
-  'Shipment on Invoice',
-  'Invoice Rounding',
-  'Ext. Doc. No. Mandatory',
-  'Default Posting Date',
-  'Default Quantity to Ship',
-  'Customer Nos.',
-  'Quote Nos.',
-  'Order Nos.',
-  'Invoice Nos.',
-  'Posted Invoice Nos.',
-  'Credit Memo Nos.',
-  'Posted Credit Memo Nos.',
-  'Posted Shipment Nos.',
-  'Blanket Order Nos.',
-  'Return Order Nos.',
-  'Posted Return Receipt Nos.',
-  'Calc. Inv. Discount',
-  'Receipt on Invoice',
-  'Ext. Doc. No. Mandatory (Purchases)',
-  'Vendor Nos.',
-  'Quote Nos. (Purchases)',
-  'Order Nos. (Purchases)',
-  'Invoice Nos. (Purchases)',
-  'Posted Invoice Nos. (Purchases)',
-  'Credit Memo Nos. (Purchases)',
-  'Posted Credit Memo Nos. (Purchases)',
-  'Posted Receipt Nos.',
-  'Blanket Order Nos. (Purchases)',
-  'Return Order Nos. (Purchases)',
-  'Posted Return Shpt. Nos.',
-  'Posted Prepayment Inv. Nos.',
-  'Posted Prepayment Cr. Memo Nos.',
-  'Receipt Nos.',
-  'Put-away Nos.',
-  'Pick Nos.',
-  'Movement Nos.',
-  'Registered Put-away Nos.',
-  'Registered Pick Nos.',
-  'Registered Movement Nos.',
-  'Simulated Order Nos.',
-  'Planned Order Nos.',
-  'Firm Planned Order Nos.',
-  'Released Order Nos.',
-  'Work Center Nos.',
-  'Machine Center Nos.',
-  'Production BOM Nos.',
-  'Routing Nos.',
-  'FA Nos.',
-  'Depreciation Book Nos.',
-  'FA Journal Batch Name',
-  'Copy Comments Blanket Order to Order',
-  'Copy Comments Order to Invoice',
-  'Copy Comments Order to Shipment',
-  'Archive Quotes',
-  'Archive Orders',
-  'Archive Return Orders',
-  'Allow VAT Difference',
-];
-
-function makeFields(names: string[]): CompanyField[] {
-  return names.map(n => ({
-    field: n,
-    recommended: '',
-    considerations: '',
-    common: 'unlikely',
-  }));
-}
 
 interface FormData {
   [key: string]: any;
@@ -209,11 +89,13 @@ function App() {
 
   const suggestionFields = new Set(['Country/Region Code', 'Base Calendar Code']);
 
+  // Record debug information for the final page
   function logDebug(msg: string): void {
     setDebugMessages((m: string[]) => [...m, msg]);
     console.log(msg);
   }
 
+  // Options used for datalist or select elements for certain fields
   function getDropdownOptions(cf: CompanyField): string[] | null {
     if (cf.field === 'Base Calendar Code') {
       return baseCalendarOptions;
@@ -228,6 +110,7 @@ function App() {
     return null;
   }
 
+  // Construct the prompt sent to OpenAI
   function buildAIPrompt(
     fieldName: any,
     currentValue: string,
@@ -290,29 +173,8 @@ function App() {
     return prompt;
   }
 
-  function parseAISuggestion(text: string) {
-    if (!text) return { suggested: '', confidence: '', reasoning: '' };
-    try {
-      const cleaned = text.replace(/```json|```/g, '').trim();
-      const parsed = JSON.parse(cleaned);
-      const suggested =
-        parsed['Suggested Value'] ||
-        parsed.suggested ||
-        parsed.value ||
-        parsed.result ||
-        parsed.val ||
-        (typeof parsed === 'object' ? parsed[Object.keys(parsed)[0]] : '');
-      return {
-        suggested: suggested || '',
-        confidence: parsed['Confidence'] || parsed.confidence || '',
-        reasoning: parsed['Reasoning'] || parsed.reasoning || '',
-      };
-    } catch (e) {
-      logDebug(`Failed to parse JSON suggestion: ${e}`);
-      return { suggested: text, confidence: '', reasoning: '' };
-    }
-  }
 
+  // Query OpenAI for a recommended field value
   async function fetchAISuggestion(
     field: CompanyField,
     currentValue: string
@@ -325,7 +187,7 @@ function App() {
       field.considerations || '',
       options || undefined
     );
-    const ans = await askOpenAI(prompt);
+    const ans = await askOpenAI(prompt, logDebug);
     const parsed = parseAISuggestion(ans);
     if (options && options.length) {
       const norm = options.map(o => o.toLowerCase());
@@ -336,6 +198,7 @@ function App() {
     return parsed;
   }
 
+  // Helper to update a single form value
   function setFieldValue(key: string, value: string) {
     setFormData(f => ({ ...f, [key]: value }));
   }
@@ -383,20 +246,7 @@ function App() {
       return;
     }
     try {
-      const cleaned = aiSuggested.replace(/```json|```/g, '').trim();
-      const parsed = JSON.parse(cleaned);
-      const suggested =
-        parsed['Suggested Value'] ||
-        parsed.suggested ||
-        parsed.value ||
-        parsed.result ||
-        parsed.val ||
-        (typeof parsed === 'object' ? parsed[Object.keys(parsed)[0]] : '');
-      setAiParsed({
-        suggested: suggested || '',
-        confidence: parsed['Confidence'] || parsed.confidence || '',
-        reasoning: parsed['Reasoning'] || parsed.reasoning || '',
-      });
+      setAiParsed(parseAISuggestion(aiSuggested));
     } catch (e) {
       logDebug(`Failed to parse JSON suggestion: ${e}`);
       setAiParsed({ suggested: aiSuggested, confidence: '', reasoning: '' });
@@ -527,6 +377,7 @@ function App() {
     init();
   }, []);
 
+  // Generic change handler for all inputs
   function handleChange(e: any) {
     const { name, type, value, files } = e.target;
     if (type === 'file') {
@@ -539,6 +390,7 @@ function App() {
     }
   }
 
+  // Validation and option caching on blur
   function handleBlur(e: any): void {
     if (!e.target.checkValidity()) {
       alert('Invalid value');
@@ -559,6 +411,7 @@ function App() {
     }
   }
 
+  // Advance to the next wizard step
   function next(): void {
     if (step === 2) setBasicDone(true);
     if (step === 6) setCustomersDone(true);
@@ -567,14 +420,17 @@ function App() {
     setStep(step + 1);
   }
 
+  // Go back one step
   function back(): void {
     setStep(step - 1);
   }
 
+  // Return to the main menu
   function goHome(): void {
     setStep(1);
   }
 
+  // Show dialog with AI suggested value
   function openAIDialog(
     field: CompanyField,
     key: string,
@@ -589,19 +445,22 @@ function App() {
     setAiFieldKey(key);
     setAiSuggested('');
     setShowAI(true);
-    askOpenAI(prompt).then(ans => setAiSuggested(ans));
+    askOpenAI(prompt, logDebug).then(ans => setAiSuggested(ans));
   }
 
+  // Hide the AI dialog
   function closeAIDialog(): void {
     setShowAI(false);
   }
 
+  // Request another suggestion using extra user instructions
   function askAgain(): void {
     const prompt = `${aiPromptBase} Additional Instructions: ${aiExtra}`;
     setAiSuggested('');
-    askOpenAI(prompt).then(ans => setAiSuggested(ans));
+    askOpenAI(prompt, logDebug).then(ans => setAiSuggested(ans));
   }
 
+  // User accepts the AI suggested value
   function acceptSuggested() {
     try {
       const val = aiParsed.suggested;
@@ -614,41 +473,14 @@ function App() {
     }
   }
 
-  async function askOpenAI(prompt: string) {
-    try {
-      logDebug(`Asking OpenAI: ${prompt}`);
-      const cfg = (window as any).azureOpenAIConfig || {};
-      if (!cfg.endpoint || !cfg.apiKey || !cfg.deployment) {
-        throw new Error('Azure OpenAI not configured');
-      }
-      const url = `${cfg.endpoint}/openai/deployments/${cfg.deployment}/chat/completions?api-version=2024-02-15-preview`;
-      const resp = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'api-key': cfg.apiKey,
-        },
-        body: JSON.stringify({
-          messages: [{ role: 'user', content: prompt }],
-          temperature: 0.7,
-        }),
-      });
-      const data = await resp.json();
-      const answer = data.choices?.[0]?.message?.content || '';
-      logDebug('OpenAI answered');
-      return answer;
-    } catch (e) {
-      console.error(e);
-      logDebug(`OpenAI call failed: ${e}`);
-      throw e;
-    }
-  }
 
+  // Apply the canned recommendation for a field
   function applyRecommendedValue(cf: CompanyField) {
     const key = fieldKey(cf.field);
     setFormData(f => ({ ...f, [key]: recommendedCode(cf.recommended) }));
   }
 
+  // Prompt the user before applying the recommended value
   function handleRecommended(cf: CompanyField) {
     if (cf.recommended) {
       const rec = recommendedCode(cf.recommended);
@@ -658,6 +490,7 @@ function App() {
     }
   }
 
+  // Upload a basic RapidStart template to Azure
   async function generateCustomRapidStart(): Promise<void> {
     logDebug('Preparing RapidStart XML');
     const xml = `<?xml version="1.0"?>\n<CustomRapidStart>\n  <CompanyName>${formData.companyName}</CompanyName>\n  <Address>${formData.address}</Address>\n  <Country>${formData.country}</Country>\n</CustomRapidStart>`;
@@ -692,6 +525,7 @@ function App() {
     }
   }
 
+  // Render an input element appropriate for the given field
   function renderInput(cf: CompanyField) {
     const key = fieldKey(cf.field);
     const val = formData[key] || '';
@@ -802,6 +636,7 @@ function App() {
     );
   }
 
+  // Render a single row in the review table
   function renderField(cf: CompanyField) {
     const key = fieldKey(cf.field);
     return (

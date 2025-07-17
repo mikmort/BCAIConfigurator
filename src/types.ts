@@ -16,3 +16,9 @@ export interface BasicInfo {
   websiteUrl: string;
   description: string;
 }
+
+export interface AISuggestion {
+  suggested: string;
+  confidence: string;
+  reasoning: string;
+}
