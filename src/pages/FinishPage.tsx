@@ -12,7 +12,7 @@ function FinishPage({ generate, back, downloadUrl, debugMessages }: Props) {
     <div>
       <h2>{strings.finishTitle}</h2>
       <p>{strings.finishGeneratePrompt}</p>
-      <button onClick={generate}>{strings.generate}</button>
+      <button className="next-btn" onClick={generate}>{strings.generate}</button>
       {downloadUrl && (
         <p>
           {strings.fileCreated} <a href={downloadUrl}>{downloadUrl}</a>
@@ -25,7 +25,7 @@ function FinishPage({ generate, back, downloadUrl, debugMessages }: Props) {
         </div>
       )}
       <div className="nav">
-        <button onClick={back}>{strings.back}</button>
+        <button className="next-btn" onClick={back}>{strings.back}</button>
       </div>
     </div>
   );

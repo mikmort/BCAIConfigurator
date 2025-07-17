@@ -11,7 +11,7 @@ function HomePage({ next }: Props) {
       <div className="splash-content">
         <h1>{strings.appTitle}</h1>
         <p>{strings.splashWelcome}</p>
-        <button className="splash-button" onClick={next}>
+        <button className="next-btn" onClick={next}>
           {strings.getStarted}
         </button>
       </div>

@@ -631,6 +631,7 @@ function App() {
       <div className="layout">
         <aside className="sidebar">
           <div className="sidebar-header">
+            <div className="home-link" onClick={() => setStep(1)}>Home</div>
             <img src={BCLogo} alt="BC" className="logo" />
             <h2>Setup Business Central</h2>
           </div>
@@ -800,10 +801,10 @@ function App() {
               onChange={e => setAiExtra(e.target.value)}
               placeholder="Additional Instructions"
             />
-            <button onClick={askAgain}>Ask AI Assistant</button>
+            <button className="next-btn" onClick={askAgain}>Ask AI Assistant</button>
             <div className="nav">
-              <button onClick={acceptSuggested}>Accept</button>
-              <button onClick={closeAIDialog}>Cancel</button>
+              <button className="next-btn" onClick={acceptSuggested}>Accept</button>
+              <button className="next-btn" onClick={closeAIDialog}>Cancel</button>
             </div>
           </div>
         </div>
