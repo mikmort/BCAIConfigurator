@@ -25,6 +25,7 @@ function SalesReceivablesPage({ fields, renderInput, next, back, progress, setPr
       handleRecommended={handleRecommended}
       next={next}
       back={back}
+      skipSection={back}
       progress={progress}
       setProgress={setProgress}
       visited={visited}

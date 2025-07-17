@@ -25,6 +25,7 @@ function GLSetupPage({ fields, renderInput, next, back, progress, setProgress, v
       handleRecommended={handleRecommended}
       next={next}
       back={back}
+      skipSection={back}
       progress={progress}
       setProgress={setProgress}
       visited={visited}

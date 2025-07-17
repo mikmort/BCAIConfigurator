@@ -27,6 +27,7 @@ function CompanyInfoPage({ fields, renderInput, next, back, progress, setProgres
       handleRecommended={handleRecommended}
       next={next}
       back={back}
+      skipSection={back}
       progress={progress}
       setProgress={setProgress}
       visited={visited}
