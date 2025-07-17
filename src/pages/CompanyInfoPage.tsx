@@ -23,6 +23,7 @@ interface Props {
     currentValue: string
   ) => Promise<{ suggested: string; confidence: string }>;
   setFieldValue: (key: string, value: string) => void;
+  onFieldIndexChange: (index: number | null) => void;
   goToFieldIndex?: number | null;
 }
 
@@ -40,6 +41,7 @@ function CompanyInfoPage({
   onShowSometimes,
   fetchAISuggestion,
   setFieldValue,
+  onFieldIndexChange,
   goToFieldIndex,
 }: Props) {
   return (
@@ -59,6 +61,7 @@ function CompanyInfoPage({
       onShowSometimes={onShowSometimes}
       fetchAISuggestion={fetchAISuggestion}
       setFieldValue={setFieldValue}
+      onFieldIndexChange={onFieldIndexChange}
       goToFieldIndex={goToFieldIndex}
     />
   );

@@ -888,6 +888,7 @@ function App() {
                         .map((f, i) => (
                           <li
                             key={f.field}
+                            className={companyFieldIdx === i ? 'active' : ''}
                             onClick={() => {
                               setCompanyFieldIdx(i);
                               setStep(3);
@@ -926,6 +927,7 @@ function App() {
                         .map((f, i) => (
                           <li
                             key={f.field}
+                            className={glFieldIdx === i ? 'active' : ''}
                             onClick={() => {
                               setGlFieldIdx(i);
                               setStep(6);
@@ -956,6 +958,7 @@ function App() {
                         .map((f, i) => (
                           <li
                             key={f.field}
+                            className={srFieldIdx === i ? 'active' : ''}
                             onClick={() => {
                               setSrFieldIdx(i);
                               setStep(7);
@@ -1091,6 +1094,7 @@ function App() {
           onShowSometimes={() => setShowCompanySometimes(true)}
           fetchAISuggestion={fetchAISuggestion}
           setFieldValue={setFieldValue}
+          onFieldIndexChange={setCompanyFieldIdx}
           goToFieldIndex={companyFieldIdx}
         />
       )}
@@ -1134,6 +1138,7 @@ function App() {
           onShowSometimes={() => setShowGLSometimes(true)}
           fetchAISuggestion={fetchAISuggestion}
           setFieldValue={setFieldValue}
+          onFieldIndexChange={setGlFieldIdx}
           goToFieldIndex={glFieldIdx}
         />
       )}
@@ -1152,6 +1157,7 @@ function App() {
           onShowSometimes={() => setShowSRSometimes(true)}
           fetchAISuggestion={fetchAISuggestion}
           setFieldValue={setFieldValue}
+          onFieldIndexChange={setSrFieldIdx}
           goToFieldIndex={srFieldIdx}
         />
       )}

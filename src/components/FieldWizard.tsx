@@ -23,6 +23,7 @@ interface Props {
     currentValue: string
   ) => Promise<{ suggested: string; confidence: string }>;
   setFieldValue: (key: string, value: string) => void;
+  onFieldIndexChange?: (index: number | null) => void;
   /**
    * Optional index of a field to jump to when the wizard renders.
    * Only applies to the common fields stage.
@@ -47,6 +48,7 @@ function FieldWizard({
   onShowSometimes,
   fetchAISuggestion,
   setFieldValue,
+  onFieldIndexChange,
   goToFieldIndex,
 }: Props) {
 
@@ -67,6 +69,13 @@ function FieldWizard({
   const [uIdx, setUIdx] = useState(0);
   const [sDone, setSDone] = useState(false);
   const [uDone, setUDone] = useState(false);
+
+  useEffect(() => {
+    if (onFieldIndexChange) {
+      if (stage === 'common') onFieldIndexChange(cIdx);
+      else onFieldIndexChange(null);
+    }
+  }, [cIdx, stage]);
 
   function openReview() {
     setStage('review');
