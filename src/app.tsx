@@ -173,6 +173,9 @@ function App() {
   const [companyFields, setCompanyFields] = useState([] as CompanyField[]);
   const [glFields, setGlFields] = useState([] as CompanyField[]);
   const [srFields, setSrFields] = useState([] as CompanyField[]);
+  const [companyProgress, setCompanyProgress] = useState<boolean[]>([]);
+  const [glProgress, setGlProgress] = useState<boolean[]>([]);
+  const [srProgress, setSrProgress] = useState<boolean[]>([]);
   const [downloadUrl, setDownloadUrl] = useState('');
   const [debugMessages, setDebugMessages] = useState([] as string[]);
   const [countries, setCountries] = useState([] as { code: string; name: string }[]);
@@ -279,6 +282,7 @@ function App() {
         const data = await loadConfigTables();
         const company = parseQuestions(data, companyFieldNames);
         setCompanyFields(company);
+        setCompanyProgress(company.filter(f => f.common === 'common').map(() => false));
         setFormData((f: FormData) => {
           const copy: FormData = { ...f };
           company.forEach(cf => {
@@ -290,6 +294,7 @@ function App() {
 
         const gl = parseQuestions(data, glFieldNames);
         setGlFields(gl);
+        setGlProgress(gl.filter(f => f.common === 'common').map(() => false));
         setFormData((f: FormData) => {
           const copy: FormData = { ...f };
           gl.forEach(cf => {
@@ -301,6 +306,7 @@ function App() {
 
         const sr = parseQuestions(data, srFieldNames);
         setSrFields(sr);
+        setSrProgress(sr.filter(f => f.common === 'common').map(() => false));
         setFormData((f: FormData) => {
           const copy: FormData = { ...f };
           sr.forEach(cf => {
@@ -625,6 +631,10 @@ function App() {
       </div>
     );
   }
+
+  const companyDone = companyProgress.length > 0 && companyProgress.every(Boolean);
+  const glDone = glProgress.length > 0 && glProgress.every(Boolean);
+  const srDone = srProgress.length > 0 && srProgress.every(Boolean);
   const currentGroup = (() => {
     if (step === 2) return 'basic';
     if ([3, 4, 5, 6, 7].includes(step)) return 'config';
@@ -752,6 +762,9 @@ function App() {
               goToVendors={() => setStep(9)}
               goToItems={() => setStep(10)}
               back={back}
+              companyDone={companyDone}
+              glDone={glDone}
+              srDone={srDone}
               />
             )}
             {step === 2 && (
@@ -769,6 +782,8 @@ function App() {
           renderInput={renderInput}
           next={next}
           back={() => setStep(1)}
+          progress={companyProgress}
+          setProgress={setCompanyProgress}
         />
       )}
       {step === 4 && (
@@ -798,6 +813,8 @@ function App() {
           renderInput={renderInput}
           next={next}
           back={back}
+          progress={glProgress}
+          setProgress={setGlProgress}
         />
       )}
       {step === 7 && (
@@ -806,6 +823,8 @@ function App() {
           renderInput={renderInput}
           next={next}
           back={back}
+          progress={srProgress}
+          setProgress={setSrProgress}
         />
       )}
           {step === 8 && <CustomersPage next={next} back={back} />}

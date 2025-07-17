@@ -12,6 +12,9 @@ interface Props {
   goToVendors: () => void;
   goToItems: () => void;
   back: () => void;
+  companyDone: boolean;
+  glDone: boolean;
+  srDone: boolean;
 }
 
 function ConfigMenuPage({
@@ -25,6 +28,9 @@ function ConfigMenuPage({
   goToVendors,
   goToItems,
   back,
+  companyDone,
+  glDone,
+  srDone,
 }: Props) {
   return (
     <div>
@@ -41,7 +47,8 @@ function ConfigMenuPage({
       <div className="menu-section">
         <h3>{strings.configurationData}</h3>
         <div className="menu-grid">
-          <div className="menu-box" onClick={goToCompanyInfo}>
+          <div className={`menu-box ${companyDone ? 'done' : ''}`} onClick={goToCompanyInfo}>
+            {companyDone && <div className="checkmark">✔</div>}
             <div className="icon" role="img" aria-label="Company">🏢</div>
             <div>{strings.companyInfo}</div>
           </div>
@@ -53,11 +60,13 @@ function ConfigMenuPage({
             <div className="icon" role="img" aria-label="Payment Terms">💰</div>
             <div>{strings.paymentTerms}</div>
           </div>
-          <div className="menu-box" onClick={goToGLSetup}>
+          <div className={`menu-box ${glDone ? 'done' : ''}`} onClick={goToGLSetup}>
+            {glDone && <div className="checkmark">✔</div>}
             <div className="icon" role="img" aria-label="General Ledger Setup">📘</div>
             <div>{strings.generalLedgerSetup}</div>
           </div>
-          <div className="menu-box" onClick={goToSRSetup}>
+          <div className={`menu-box ${srDone ? 'done' : ''}`} onClick={goToSRSetup}>
+            {srDone && <div className="checkmark">✔</div>}
             <div className="icon" role="img" aria-label="Sales and Receivables">🛒</div>
             <div>{strings.salesReceivablesSetup}</div>
           </div>

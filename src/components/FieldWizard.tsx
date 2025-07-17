@@ -9,28 +9,32 @@ interface Props {
   renderInput: (cf: CompanyField) => React.ReactNode;
   next: () => void;
   back: () => void;
+  progress: boolean[];
+  setProgress: (arr: boolean[]) => void;
 }
 
-function FieldWizard({ title, fields, renderInput, next, back }: Props) {
+function FieldWizard({ title, fields, renderInput, next, back, progress, setProgress }: Props) {
   const common = fields.filter(f => f.common === 'common');
   const sometimes = fields.filter(f => f.common === 'sometimes');
   const unlikely = fields.filter(f => f.common === 'unlikely');
 
   type Stage = 'common' | 'finish' | 'sometimes' | 'unlikely';
-  const [stage, setStage] = useState<Stage>('common');
+  const [stage, setStage] = useState<Stage>(() =>
+    progress.every(Boolean) ? 'finish' : 'common'
+  );
 
-  const [cIdx, setCIdx] = useState(0);
-  const [cDone, setCDone] = useState<boolean[]>(common.map(() => false));
+  const [cIdx, setCIdx] = useState(() => {
+    const idx = progress.findIndex(p => !p);
+    return idx === -1 ? 0 : idx;
+  });
   const [sIdx, setSIdx] = useState(0);
   const [uIdx, setUIdx] = useState(0);
   const [sDone, setSDone] = useState(false);
   const [uDone, setUDone] = useState(false);
 
-  const confirmedCommon = cDone.filter(Boolean).length;
-  let currentConfirmed = confirmedCommon;
-  let currentTotal = common.length;
-  let progress = currentTotal
-    ? Math.round((currentConfirmed / currentTotal) * 100)
+
+  const progressPct = common.length
+    ? Math.round((progress.filter(Boolean).length / common.length) * 100)
     : 100;
 
   if (stage === 'sometimes') {
@@ -44,17 +48,18 @@ function FieldWizard({ title, fields, renderInput, next, back }: Props) {
   }
 
   function confirmCommon() {
-    const arr = [...cDone];
+    const arr = [...progress];
     arr[cIdx] = true;
-    setCDone(arr);
-    nextCommon();
+    setProgress(arr);
+    nextCommon(arr);
   }
   function skipCommon() {
-    nextCommon();
+    nextCommon(progress);
   }
-  function nextCommon() {
-    if (cIdx + 1 < common.length) setCIdx(cIdx + 1);
-    else setStage('finish');
+  function nextCommon(current: boolean[] = progress) {
+    const idx = current.findIndex(p => !p);
+    if (idx === -1) setStage('finish');
+    else setCIdx(idx);
   }
 
   function reviewSometimes() {
@@ -113,6 +118,7 @@ function FieldWizard({ title, fields, renderInput, next, back }: Props) {
           onConfirm={confirmCommon}
           onSkip={skipCommon}
           confirmLabel={cIdx === common.length - 1 ? 'Confirm and Finish' : 'Confirm'}
+          confirmed={progress[cIdx]}
         />
       )}
 
@@ -139,7 +145,7 @@ function FieldWizard({ title, fields, renderInput, next, back }: Props) {
       {stage === 'finish' && (
         <div className="finish-summary">
           <p>
-            Completed {cDone.filter(Boolean).length} of {common.length} tasks
+            Completed {progress.filter(Boolean).length} of {common.length} tasks
           </p>
           {!sDone && sometimes.length > 0 && (
             <div className="finish-section">
@@ -188,14 +194,11 @@ function FieldWizard({ title, fields, renderInput, next, back }: Props) {
       )}
 
       {(stage === 'common' || stage === 'sometimes' || stage === 'unlikely') && (
-        <>
-          <div className="status-bar">
-            <div className="status-fill" style={{ width: `${progress}%` }} />
-          </div>
-          <div className="status-text">
-            Completed {currentConfirmed} of {currentTotal} tasks
-          </div>
-        </>
+
+        <div className="status-bar">
+          <div className="status-fill" style={{ width: `${progressPct}%` }} />
+        </div>
+
       )}
     </div>
   );
