@@ -9,9 +9,11 @@ interface Props {
   renderInput: (cf: CompanyField) => any;
   next: () => void;
   back: () => void;
+  progress: boolean[];
+  setProgress: (arr: boolean[]) => void;
 }
 
-function GLSetupPage({ fields, renderInput, next, back }: Props) {
+function GLSetupPage({ fields, renderInput, next, back, progress, setProgress }: Props) {
   return (
     <FieldWizard
       title={strings.generalLedgerSetup}
@@ -19,6 +21,8 @@ function GLSetupPage({ fields, renderInput, next, back }: Props) {
       renderInput={renderInput}
       next={next}
       back={back}
+      progress={progress}
+      setProgress={setProgress}
     />
   );
 }

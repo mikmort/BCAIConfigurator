@@ -11,9 +11,11 @@ interface Props {
   renderInput: (cf: CompanyField) => any;
   next: () => void;
   back: () => void;
+  progress: boolean[];
+  setProgress: (arr: boolean[]) => void;
 }
 
-function CompanyInfoPage({ fields, renderInput, next, back }: Props) {
+function CompanyInfoPage({ fields, renderInput, next, back, progress, setProgress }: Props) {
   return (
     <FieldWizard
       title={strings.companyInfo}
@@ -21,6 +23,8 @@ function CompanyInfoPage({ fields, renderInput, next, back }: Props) {
       renderInput={renderInput}
       next={next}
       back={back}
+      progress={progress}
+      setProgress={setProgress}
     />
   );
 }

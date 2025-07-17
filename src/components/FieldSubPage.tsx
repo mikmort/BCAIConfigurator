@@ -7,6 +7,7 @@ interface Props {
   onConfirm: () => void;
   onSkip: () => void;
   confirmLabel?: string;
+  confirmed?: boolean;
 }
 
 function FieldSubPage({
@@ -15,10 +16,14 @@ function FieldSubPage({
   onConfirm,
   onSkip,
   confirmLabel = 'Confirm',
+  confirmed,
 }: Props) {
   return (
     <div className="subpage-field">
       <div className="subpage-left">
+        {confirmed && (
+          <div className="confirmed-banner">Confirmed!</div>
+        )}
         <div className="question"><strong>{cf.question}</strong></div>
         <div className="field-ref">{cf.field}</div>
         {cf.recommended && (
