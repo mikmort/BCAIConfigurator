@@ -16,9 +16,21 @@ interface Props {
   visited: boolean[];
   setVisited: (arr: boolean[]) => void;
   handleRecommended: (cf: CompanyField) => void;
+  goToReview: () => void;
 }
 
-function CompanyInfoPage({ fields, renderInput, next, back, progress, setProgress, visited, setVisited, handleRecommended }: Props) {
+function CompanyInfoPage({
+  fields,
+  renderInput,
+  next,
+  back,
+  progress,
+  setProgress,
+  visited,
+  setVisited,
+  handleRecommended,
+  goToReview,
+}: Props) {
   return (
     <FieldWizard
       title={strings.companyInfo}
@@ -31,6 +43,7 @@ function CompanyInfoPage({ fields, renderInput, next, back, progress, setProgres
       setProgress={setProgress}
       visited={visited}
       setVisited={setVisited}
+      goToReview={goToReview}
     />
   );
 }

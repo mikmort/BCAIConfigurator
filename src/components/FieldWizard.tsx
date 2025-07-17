@@ -14,9 +14,22 @@ interface Props {
   visited: boolean[];
   setVisited: (arr: boolean[]) => void;
   handleRecommended: (cf: CompanyField) => void;
+  goToReview: () => void;
 }
 
-function FieldWizard({ title, fields, renderInput, next, back, progress, setProgress, visited, setVisited, handleRecommended }: Props) {
+function FieldWizard({
+  title,
+  fields,
+  renderInput,
+  next,
+  back,
+  progress,
+  setProgress,
+  visited,
+  setVisited,
+  handleRecommended,
+  goToReview,
+}: Props) {
   const common = fields.filter(f => f.common === 'common');
   const sometimes = fields.filter(f => f.common === 'sometimes');
   const unlikely = fields.filter(f => f.common === 'unlikely');
@@ -79,8 +92,7 @@ function FieldWizard({ title, fields, renderInput, next, back, progress, setProg
   }
 
   function reviewSometimes() {
-    setStage('sometimes');
-    setSIdx(0);
+    goToReview();
   }
   function confirmSome() {
     nextSome();
@@ -101,8 +113,7 @@ function FieldWizard({ title, fields, renderInput, next, back, progress, setProg
   }
 
   function reviewUnlikely() {
-    setStage('unlikely');
-    setUIdx(0);
+    goToReview();
   }
   function confirmUnlikelyField() {
     nextUnlikely();

@@ -422,6 +422,10 @@ function App() {
     setStep(1);
   }
 
+  function goToReview(): void {
+    setStep(11);
+  }
+
   function openAIDialog(
     fieldName: string,
     key: string,
@@ -921,6 +925,7 @@ function App() {
           setProgress={setCompanyProgress}
           visited={companyVisited}
           setVisited={setCompanyVisited}
+          goToReview={goToReview}
         />
       )}
       {step === 4 && (
@@ -955,6 +960,7 @@ function App() {
           setProgress={setGlProgress}
           visited={glVisited}
           setVisited={setGlVisited}
+          goToReview={goToReview}
         />
       )}
       {step === 7 && (
@@ -968,6 +974,7 @@ function App() {
           setProgress={setSrProgress}
           visited={srVisited}
           setVisited={setSrVisited}
+          goToReview={goToReview}
         />
       )}
           {step === 8 && <CustomersPage next={next} back={back} />}
