@@ -7,6 +7,8 @@ import HomePage from './pages/HomePage';
 import ConfigMenuPage from './pages/ConfigMenuPage';
 import BasicInfoPage from './pages/BasicInfoPage';
 import CompanyInfoPage from './pages/CompanyInfoPage';
+import PostingGroupsPage from './pages/PostingGroupsPage';
+import PaymentTermsPage from './pages/PaymentTermsPage';
 import FinishPage from './pages/FinishPage';
 import GLSetupPage from './pages/GLSetupPage';
 import SalesReceivablesPage from './pages/SalesReceivablesPage';
@@ -182,6 +184,7 @@ function App() {
   const [debugMessages, setDebugMessages] = useState([] as string[]);
   const [countries, setCountries] = useState([] as { code: string; name: string }[]);
   const [currencies, setCurrencies] = useState([] as { code: string; description: string }[]);
+  const [paymentTermsOptions, setPaymentTermsOptions] = useState([] as { code: string; description: string }[]);
   const [startData, setStartData] = useState<any>(null);
   const [baseCalendarOptions, setBaseCalendarOptions] = useState(['STANDARD']);
   const [showAI, setShowAI] = useState(false);
@@ -192,6 +195,8 @@ function App() {
   const [configOpen, setConfigOpen] = useState(true);
   const [masterOpen, setMasterOpen] = useState(false);
   const [basicDone, setBasicDone] = useState(false);
+  const [postingDone, setPostingDone] = useState(false);
+  const [paymentDone, setPaymentDone] = useState(false);
   const [customersDone, setCustomersDone] = useState(false);
   const [vendorsDone, setVendorsDone] = useState(false);
   const [itemsDone, setItemsDone] = useState(false);
@@ -243,6 +248,24 @@ function App() {
           })) || [];
         setCurrencies(currencies);
 
+        const paymentTermsList =
+          data?.DataList?.PaymentTermsList?.PaymentTerms?.map((p: any) => ({
+            code: p.Code?.['#text'] || '',
+            description: p.Description?.['#text'] || '',
+          })) || [];
+        setPaymentTermsOptions(paymentTermsList);
+
+        const termsKey = Object.keys(data.DataList || {}).find(k =>
+          k.toLowerCase().includes('paymentterms')
+        );
+        if (termsKey) {
+          const val = (data.DataList as any)[termsKey]?.PaymentTerms;
+          if (Array.isArray(val) && val[0]) {
+            const pt = val[0];
+            const code = pt.Code?.['#text'] || '';
+            setFormData((f: FormData) => ({ ...f, paymentTerms: code }));
+          }
+        }
       } catch (e) {
         console.error('Failed to load starting data', e);
         logDebug(`Failed to load starting data: ${e}`);
@@ -418,7 +441,11 @@ function App() {
       alert('Invalid value');
     }
     const { name, value } = e.target;
-    if (name === fieldKey('Base Calendar Code')) {
+    if (name === 'paymentTerms') {
+      if (value && !paymentTermsOptions.find(o => o.code === value)) {
+        setPaymentTermsOptions([...paymentTermsOptions, { code: value, description: value }]);
+      }
+    } else if (name === fieldKey('Base Calendar Code')) {
       if (value && !baseCalendarOptions.includes(value)) {
         setBaseCalendarOptions([...baseCalendarOptions, value]);
       }
@@ -435,9 +462,11 @@ function App() {
 
   function next(): void {
     if (step === 2) setBasicDone(true);
-    if (step === 6) setCustomersDone(true);
-    if (step === 7) setVendorsDone(true);
-    if (step === 8) setItemsDone(true);
+    if (step === 4) setPostingDone(true);
+    if (step === 5) setPaymentDone(true);
+    if (step === 8) setCustomersDone(true);
+    if (step === 9) setVendorsDone(true);
+    if (step === 10) setItemsDone(true);
     setStep(step + 1);
   }
 
@@ -566,7 +595,7 @@ function App() {
 
   async function generateCustomRapidStart(): Promise<void> {
     logDebug('Preparing RapidStart XML');
-    const xml = `<?xml version="1.0"?>\n<CustomRapidStart>\n  <CompanyName>${formData.companyName}</CompanyName>\n  <Address>${formData.address}</Address>\n  <Country>${formData.country}</Country>\n</CustomRapidStart>`;
+    const xml = `<?xml version="1.0"?>\n<CustomRapidStart>\n  <CompanyName>${formData.companyName}</CompanyName>\n  <Address>${formData.address}</Address>\n  <Country>${formData.country}</Country>\n  <PostingGroup>${formData.postingGroup}</PostingGroup>\n  <PaymentTerms>${formData.paymentTerms}</PaymentTerms>\n</CustomRapidStart>`;
 
     const fileName = `${(formData.companyName || 'CustomRapidStart')
       .replace(/\s+/g, '_')}.rapidstart`;
@@ -722,14 +751,15 @@ function App() {
   const companyDone = companyProgress.length > 0 && companyProgress.every(Boolean);
   const glDone = glProgress.length > 0 && glProgress.every(Boolean);
   const srDone = srProgress.length > 0 && srProgress.every(Boolean);
-  const configSectionDone = companyDone && glDone && srDone;
+  const configSectionDone =
+    companyDone && postingDone && paymentDone && glDone && srDone;
   const basicSectionDone = basicDone;
   const masterSectionDone = customersDone && vendorsDone && itemsDone;
   const currentGroup = (() => {
     if (step === 2) return 'basic';
-    if ([3, 4, 5].includes(step)) return 'config';
-    if ([6, 7, 8].includes(step)) return 'master';
-    if (step === 9) return 'review';
+    if ([3, 4, 5, 6, 7].includes(step)) return 'config';
+    if ([8, 9, 10].includes(step)) return 'master';
+    if (step === 12) return 'review';
     return '';
   })();
 
@@ -819,15 +849,23 @@ function App() {
                         ))}
                     </ul>
                   )}
+                  <li onClick={() => setStep(4)}>
+                    {postingDone && <span className="check">✔</span>}
+                    Posting Information
+                  </li>
+                  <li onClick={() => setStep(5)}>
+                    {paymentDone && <span className="check">✔</span>}
+                    {strings.paymentTerms}
+                  </li>
                   <li
                     onClick={() => {
                       setGlFieldIdx(null);
-                      setStep(4);
+                      setStep(6);
                     }}>
                     {glDone && <span className="check">✔</span>}
                     {strings.generalLedgerSetup}
                   </li>
-                  {step === 4 && (
+                  {step === 6 && (
                     <ul className="subnav">
                       {glFields
                         .filter(
@@ -840,7 +878,7 @@ function App() {
                             key={f.field}
                             onClick={() => {
                               setGlFieldIdx(i);
-                              setStep(4);
+                              setStep(6);
                             }}
                           >
                             {glProgress[i] && <span className="check">✔</span>}
@@ -852,12 +890,12 @@ function App() {
                   <li
                     onClick={() => {
                       setSrFieldIdx(null);
-                      setStep(5);
+                      setStep(7);
                     }}>
                     {srDone && <span className="check">✔</span>}
                     {strings.salesReceivablesSetup}
                   </li>
-                  {step === 5 && (
+                  {step === 7 && (
                     <ul className="subnav">
                       {srFields
                         .filter(
@@ -870,7 +908,7 @@ function App() {
                             key={f.field}
                             onClick={() => {
                               setSrFieldIdx(i);
-                              setStep(5);
+                              setStep(7);
                             }}
                           >
                             {srProgress[i] && <span className="check">✔</span>}
@@ -893,15 +931,15 @@ function App() {
               </div>
               {masterOpen && (
                 <ul>
-                  <li onClick={() => setStep(6)}>
+                  <li onClick={() => setStep(8)}>
                     {customersDone && <span className="check">✔</span>}
                     {strings.customers}
                   </li>
-                  <li onClick={() => setStep(7)}>
+                  <li onClick={() => setStep(9)}>
                     {vendorsDone && <span className="check">✔</span>}
                     {strings.vendors}
                   </li>
-                  <li onClick={() => setStep(8)}>
+                  <li onClick={() => setStep(10)}>
                     {itemsDone && <span className="check">✔</span>}
                     {strings.items}
                   </li>
@@ -912,7 +950,7 @@ function App() {
             <div className="review-footer">
               <button
                 className="next-btn review-btn"
-                onClick={() => setStep(9)}
+                onClick={() => setStep(12)}
               >
                 {strings.reviewAndFinish}
               </button>
@@ -940,7 +978,7 @@ function App() {
                 </div>
                 <div
                   className={`progress-step ${currentGroup === 'review' ? 'active' : ''} clickable`}
-                  onClick={() => setStep(9)}
+                  onClick={() => setStep(11)}
                 >
                   <div className="circle">4</div>
                   <span>{strings.reviewAndFinish}</span>
@@ -960,17 +998,19 @@ function App() {
                   setCompanyFieldIdx(null);
                   setStep(3);
                 }}
+                goToPostingGroups={() => setStep(4)}
+                goToPaymentTerms={() => setStep(5)}
               goToGLSetup={() => {
                 setGlFieldIdx(null);
-                setStep(4);
+                setStep(6);
               }}
               goToSRSetup={() => {
                 setSrFieldIdx(null);
-                setStep(5);
+                setStep(7);
               }}
-              goToCustomers={() => setStep(6)}
-              goToVendors={() => setStep(7)}
-              goToItems={() => setStep(8)}
+              goToCustomers={() => setStep(8)}
+              goToVendors={() => setStep(9)}
+              goToItems={() => setStep(10)}
               back={back}
               companyDone={companyDone}
               glDone={glDone}
@@ -1003,6 +1043,27 @@ function App() {
         />
       )}
       {step === 4 && (
+        <PostingGroupsPage
+          formData={formData}
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+          next={next}
+          back={back}
+          askAI={openAIDialog}
+        />
+      )}
+      {step === 5 && (
+        <PaymentTermsPage
+          formData={formData}
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+          next={next}
+          back={back}
+          askAI={openAIDialog}
+          options={paymentTermsOptions}
+        />
+      )}
+      {step === 6 && (
         <GLSetupPage
           fields={glFields}
           renderInput={renderInput}
@@ -1018,7 +1079,7 @@ function App() {
           goToFieldIndex={glFieldIdx}
         />
       )}
-      {step === 5 && (
+      {step === 7 && (
         <SalesReceivablesPage
           fields={srFields}
           renderInput={renderInput}
@@ -1034,10 +1095,10 @@ function App() {
           goToFieldIndex={srFieldIdx}
         />
       )}
-          {step === 6 && <CustomersPage next={next} back={back} />}
-          {step === 7 && <VendorsPage next={next} back={back} />}
-          {step === 8 && <ItemsPage next={next} back={back} />}
-          {step === 9 && (
+          {step === 8 && <CustomersPage next={next} back={back} />}
+          {step === 9 && <VendorsPage next={next} back={back} />}
+          {step === 10 && <ItemsPage next={next} back={back} />}
+          {step === 11 && (
             <ReviewPage
               fields={[...companyFields, ...glFields, ...srFields]}
               formData={formData}
@@ -1045,7 +1106,7 @@ function App() {
               next={next}
             />
           )}
-          {step === 10 && (
+          {step === 12 && (
             <FinishPage
               generate={generateCustomRapidStart}
               back={back}

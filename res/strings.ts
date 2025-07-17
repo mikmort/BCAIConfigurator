@@ -13,9 +13,12 @@ export default {
   back: 'Back',
   selectConfigArea: 'Select a configuration area',
   companyInfo: 'Company Information',
+  postingGroups: 'Posting Groups',
+  paymentTerms: 'Payment Terms',
   generalLedgerSetup: 'General Ledger Setup',
   salesReceivablesSetup: 'Sales & Receivables Setup',
-  
+  generalPostingGroupLabel: 'General Posting Group',
+  paymentTermsLabel: 'Terms',
   common: 'Common',
   sometimes: 'Sometimes',
   additional: 'Additional',
