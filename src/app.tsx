@@ -200,6 +200,9 @@ function App() {
   const [customersDone, setCustomersDone] = useState(false);
   const [vendorsDone, setVendorsDone] = useState(false);
   const [itemsDone, setItemsDone] = useState(false);
+  const [companyFieldIdx, setCompanyFieldIdx] = useState<number | null>(null);
+  const [glFieldIdx, setGlFieldIdx] = useState<number | null>(null);
+  const [srFieldIdx, setSrFieldIdx] = useState<number | null>(null);
   const [aiParsed, setAiParsed] = useState({
     suggested: '',
     confidence: '',
@@ -770,7 +773,13 @@ function App() {
                       {companyFields
                         .filter(f => f.common === 'common')
                         .map((f, i) => (
-                          <li key={f.field}>
+                          <li
+                            key={f.field}
+                            onClick={() => {
+                              setCompanyFieldIdx(i);
+                              setStep(3);
+                            }}
+                          >
                             {companyProgress[i] && <span className="check">✔</span>}
                             {f.field}
                           </li>
@@ -794,7 +803,13 @@ function App() {
                       {glFields
                         .filter(f => f.common === 'common')
                         .map((f, i) => (
-                          <li key={f.field}>
+                          <li
+                            key={f.field}
+                            onClick={() => {
+                              setGlFieldIdx(i);
+                              setStep(6);
+                            }}
+                          >
                             {glProgress[i] && <span className="check">✔</span>}
                             {f.field}
                           </li>
@@ -810,7 +825,13 @@ function App() {
                       {srFields
                         .filter(f => f.common === 'common')
                         .map((f, i) => (
-                          <li key={f.field}>
+                          <li
+                            key={f.field}
+                            onClick={() => {
+                              setSrFieldIdx(i);
+                              setStep(7);
+                            }}
+                          >
                             {srProgress[i] && <span className="check">✔</span>}
                             {f.field}
                           </li>
@@ -845,8 +866,14 @@ function App() {
                   </li>
                 </ul>
               )}
-          </div>
-          </nav>
+            </div>
+            <div className="group">
+              <div className="group-title">{strings.reviewAndFinish}</div>
+              <ul>
+                <li onClick={() => setStep(12)}>{strings.reviewAndFinish}</li>
+              </ul>
+            </div>
+            </nav>
         </aside>
         <div className="content">
           <div className="topbar">
@@ -868,9 +895,12 @@ function App() {
                   <div className="circle">3</div>
                   <span>{strings.masterData}</span>
                 </div>
-                <div className={`progress-step ${currentGroup === 'review' ? 'active' : ''}`}> 
+                <div
+                  className={`progress-step ${currentGroup === 'review' ? 'active' : ''} clickable`}
+                  onClick={() => setStep(11)}
+                >
                   <div className="circle">4</div>
-                  <span>{strings.review}</span>
+                  <span>{strings.reviewAndFinish}</span>
                 </div>
               </div>
               <div className="progress-bar">
@@ -917,6 +947,7 @@ function App() {
           setProgress={setCompanyProgress}
           visited={companyVisited}
           setVisited={setCompanyVisited}
+          goToFieldIndex={companyFieldIdx}
         />
       )}
       {step === 4 && (
@@ -951,6 +982,7 @@ function App() {
           setProgress={setGlProgress}
           visited={glVisited}
           setVisited={setGlVisited}
+          goToFieldIndex={glFieldIdx}
         />
       )}
       {step === 7 && (
@@ -964,6 +996,7 @@ function App() {
           setProgress={setSrProgress}
           visited={srVisited}
           setVisited={setSrVisited}
+          goToFieldIndex={srFieldIdx}
         />
       )}
           {step === 8 && <CustomersPage next={next} back={back} />}

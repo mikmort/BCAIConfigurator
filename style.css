@@ -532,6 +532,9 @@ h3 {
 .progress-step.active span {
   font-weight: bold;
 }
+.progress-step.clickable {
+  cursor: pointer;
+}
 
 .progress-area {
   margin-top: 8px;

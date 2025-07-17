@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CompanyField } from '../types';
 import FieldSubPage from './FieldSubPage';
 import strings from '../../res/strings';
@@ -15,9 +15,28 @@ interface Props {
   visited: boolean[];
   setVisited: (arr: boolean[]) => void;
   handleRecommended: (cf: CompanyField) => void;
+  /**
+   * Optional index of a field to jump to when the wizard renders.
+   * Only applies to the common fields stage.
+   */
+  goToFieldIndex?: number | null;
 }
 
-function FieldWizard({ title, fields, renderInput, next, back, skipSection, progress, setProgress, visited, setVisited, handleRecommended }: Props) {
+
+function FieldWizard({
+  title,
+  fields,
+  renderInput,
+  next,
+  back,
+  progress,
+  setProgress,
+  visited,
+  setVisited,
+  handleRecommended,
+  goToFieldIndex,
+}: Props) {
+
   const common = fields.filter(f => f.common === 'common');
   const sometimes = fields.filter(f => f.common === 'sometimes');
   const unlikely = fields.filter(f => f.common === 'unlikely');
@@ -35,6 +54,16 @@ function FieldWizard({ title, fields, renderInput, next, back, skipSection, prog
   const [uIdx, setUIdx] = useState(0);
   const [sDone, setSDone] = useState(false);
   const [uDone, setUDone] = useState(false);
+
+  useEffect(() => {
+    if (goToFieldIndex !== undefined && goToFieldIndex !== null) {
+      const idx = goToFieldIndex;
+      if (idx >= 0 && idx < common.length) {
+        setStage('common');
+        setCIdx(idx);
+      }
+    }
+  }, [goToFieldIndex, common.length]);
 
 
   const stageProgress = (() => {
