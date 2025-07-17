@@ -1,5 +1,6 @@
 import { CompanyField } from '../types';
 import strings from '../../res/strings';
+import FieldWizard from '../components/FieldWizard';
 
 interface FormData {
   [key: string]: any;
@@ -7,40 +8,20 @@ interface FormData {
 
 interface Props {
   fields: CompanyField[];
-  formData: FormData;
-  handleChange: (e: any) => void;
-  renderField: (cf: CompanyField) => any;
+  renderInput: (cf: CompanyField) => any;
   next: () => void;
   back: () => void;
 }
 
-function CompanyInfoPage({
-  fields,
-  formData,
-  handleChange,
-  renderField,
-  next,
-  back,
-}: Props) {
+function CompanyInfoPage({ fields, renderInput, next, back }: Props) {
   return (
-    <div>
-      <h2>{strings.companyInfo}</h2>
-      <h3>{strings.common}</h3>
-      {fields.filter(cf => cf.common === 'common').map(renderField)}
-      <details>
-        <summary>{strings.sometimes}</summary>
-        {fields.filter(cf => cf.common === 'sometimes').map(renderField)}
-      </details>
-      <details>
-        <summary>{strings.additional}</summary>
-        {fields.filter(cf => cf.common === 'unlikely').map(renderField)}
-      </details>
-      <div className="nav">
-        <button className="next-btn" onClick={back}>{strings.back}</button>
-        <button className="next-btn" onClick={next}>{strings.next}</button>
-        <button className="skip-btn" onClick={next}>{strings.skip}</button>
-      </div>
-    </div>
+    <FieldWizard
+      title={strings.companyInfo}
+      fields={fields}
+      renderInput={renderInput}
+      next={next}
+      back={back}
+    />
   );
 }
 

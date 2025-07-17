@@ -5,6 +5,8 @@ export interface ConfigQuestion {
   RecommendedSetting?: string;
   Considerations?: string;
   common?: string;
+  FieldType?: string;
+  Question?: string;
   'Lookup Table'?: number;
   'Lookup Field'?: string;
 }
@@ -34,6 +36,8 @@ export function parseQuestions(
       recommended: q?.RecommendedSetting || '',
       considerations: q?.Considerations || '',
       common,
+      fieldType: q?.FieldType,
+      question: q?.Question,
       lookupTable: (q as any)?.['Lookup Table']
         ? Number((q as any)['Lookup Table'])
         : undefined,

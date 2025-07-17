@@ -404,3 +404,47 @@ h3 {
 .skip-btn:hover {
   background-color: rgba(0, 128, 128, 0.1);
 }
+
+/* Field wizard layout */
+.subpage-field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.subpage-left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field-ref {
+  font-size: 0.9em;
+  color: #666;
+}
+
+.recommended {
+  font-size: 0.9em;
+  color: #555;
+}
+
+.subpage-considerations {
+  margin-top: 10px;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.status-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #f3f2f1;
+  padding: 6px;
+}
+
+.status-fill {
+  height: 8px;
+  background: #0078d4;
+  width: 0;
+}
