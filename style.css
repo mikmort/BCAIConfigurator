@@ -338,6 +338,7 @@ h3 {
 
 .modal textarea {
   width: 100%;
+  box-sizing: border-box;
   resize: none;
   margin-bottom: 10px;
 }
