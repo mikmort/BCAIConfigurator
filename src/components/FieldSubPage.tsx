@@ -3,6 +3,7 @@ import { CompanyField } from '../types';
 import { fieldKey } from '../utils/helpers';
 
 import strings from '../../res/strings';
+import { LightbulbIcon } from './Icons';
 
 interface Props {
   field: CompanyField;
@@ -99,7 +100,14 @@ function FieldSubPage({
           <strong>{strings.bcFieldNameLabel}</strong> {cf.field}
         </div>
       </div>
-      <div className="subpage-considerations">{cf.considerations}</div>
+      {cf.considerations && (
+        <div className="subpage-considerations">
+          <LightbulbIcon className="tip-icon" />
+          <div>
+            <strong>Tip:</strong> {cf.considerations}
+          </div>
+        </div>
+      )}
       <div className={`nav${isFinal ? ' final' : ''}`}>
         <button className="next-btn" onClick={onBack}>{strings.back}</button>
         <button className="next-btn" onClick={onConfirm}>{confirmLabel}</button>

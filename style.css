@@ -695,6 +695,20 @@ h3 {
   margin-top: 10px;
   font-size: 0.9em;
   color: #555;
+  background: var(--bc-gray);
+  border-left: 4px solid var(--bc-blue);
+  padding: 8px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.subpage-considerations .tip-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--bc-blue);
+  flex-shrink: 0;
+  cursor: default;
 }
 
 .completion-text {
