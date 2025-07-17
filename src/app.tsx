@@ -413,12 +413,14 @@ function App() {
   function openAIDialog(
     fieldName: string,
     key: string,
+    currentValue: string,
     considerations: string = ''
   ): void {
     let prompt =
       'We are configuring Dynamics Business Central\n\n' +
       'We are looking for a recommended value for the field:\n\n' +
       `${fieldName}\n\n` +
+      `The current value is: ${currentValue || '(blank)'}\n\n` +
       'Please us the following information to help determine the recommended value\n--------------\n';
 
     const parts: string[] = [];
@@ -657,7 +659,7 @@ function App() {
           type="button"
           className="ai-btn"
           title="Ask AI"
-          onClick={() => openAIDialog(cf.field, key, cf.considerations)}
+          onClick={() => openAIDialog(cf.field, key, val, cf.considerations)}
         >
           <img src={copilotIcon} alt="" className="copilot-icon" />
           Ask AI to help

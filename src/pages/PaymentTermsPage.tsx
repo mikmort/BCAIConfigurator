@@ -6,7 +6,7 @@ interface Props {
   handleBlur: (e: any) => void;
   next: () => void;
   back: () => void;
-  askAI: (field: string, key: string, cons?: string) => void;
+  askAI: (field: string, key: string, value: string, cons?: string) => void;
   options: { code: string; description: string }[];
 }
 
@@ -44,7 +44,13 @@ function PaymentTermsPage({
             className="icon"
             role="button"
             title="Ask AI"
-            onClick={() => askAI(strings.paymentTermsLabel, 'paymentTerms')}
+            onClick={() =>
+              askAI(
+                strings.paymentTermsLabel,
+                'paymentTerms',
+                formData.paymentTerms || ''
+              )
+            }
           >
             🤖
           </span>
