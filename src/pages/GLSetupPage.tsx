@@ -14,9 +14,21 @@ interface Props {
   visited: boolean[];
   setVisited: (arr: boolean[]) => void;
   handleRecommended: (cf: CompanyField) => void;
+  goToFieldIndex?: number | null;
 }
 
-function GLSetupPage({ fields, renderInput, next, back, progress, setProgress, visited, setVisited, handleRecommended }: Props) {
+function GLSetupPage({
+  fields,
+  renderInput,
+  next,
+  back,
+  progress,
+  setProgress,
+  visited,
+  setVisited,
+  handleRecommended,
+  goToFieldIndex,
+}: Props) {
   return (
     <FieldWizard
       title={strings.generalLedgerSetup}
@@ -29,6 +41,7 @@ function GLSetupPage({ fields, renderInput, next, back, progress, setProgress, v
       setProgress={setProgress}
       visited={visited}
       setVisited={setVisited}
+      goToFieldIndex={goToFieldIndex}
     />
   );
 }

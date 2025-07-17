@@ -17,7 +17,6 @@ import VendorsPage from './pages/VendorsPage';
 import ItemsPage from './pages/ItemsPage';
 import ReviewPage from './pages/ReviewPage';
 import BCLogo from './images/Examples/BC Logo.png';
-import copilotIcon from './images/copilot.svg';
 import strings from '../res/strings';
 import { CompanyField, BasicInfo } from './types';
 import {
@@ -201,6 +200,9 @@ function App() {
   const [customersDone, setCustomersDone] = useState(false);
   const [vendorsDone, setVendorsDone] = useState(false);
   const [itemsDone, setItemsDone] = useState(false);
+  const [companyFieldIdx, setCompanyFieldIdx] = useState<number | null>(null);
+  const [glFieldIdx, setGlFieldIdx] = useState<number | null>(null);
+  const [srFieldIdx, setSrFieldIdx] = useState<number | null>(null);
   const [aiParsed, setAiParsed] = useState({
     suggested: '',
     confidence: '',
@@ -671,11 +673,11 @@ function App() {
         <button
           type="button"
           className="ai-btn"
-          title="Ask AI"
+          title="Let AI Assist Me"
           onClick={() => openAIDialog(cf.field, key, val, cf.considerations)}
         >
-          <img src={copilotIcon} alt="" className="copilot-icon" />
-          Ask AI to help
+          <span className="icon">✨</span>
+          Let AI Assist Me
         </button>
       </>
     );
@@ -771,7 +773,13 @@ function App() {
                       {companyFields
                         .filter(f => f.common === 'common')
                         .map((f, i) => (
-                          <li key={f.field}>
+                          <li
+                            key={f.field}
+                            onClick={() => {
+                              setCompanyFieldIdx(i);
+                              setStep(3);
+                            }}
+                          >
                             {companyProgress[i] && <span className="check">✔</span>}
                             {f.field}
                           </li>
@@ -795,7 +803,13 @@ function App() {
                       {glFields
                         .filter(f => f.common === 'common')
                         .map((f, i) => (
-                          <li key={f.field}>
+                          <li
+                            key={f.field}
+                            onClick={() => {
+                              setGlFieldIdx(i);
+                              setStep(6);
+                            }}
+                          >
                             {glProgress[i] && <span className="check">✔</span>}
                             {f.field}
                           </li>
@@ -811,7 +825,13 @@ function App() {
                       {srFields
                         .filter(f => f.common === 'common')
                         .map((f, i) => (
-                          <li key={f.field}>
+                          <li
+                            key={f.field}
+                            onClick={() => {
+                              setSrFieldIdx(i);
+                              setStep(7);
+                            }}
+                          >
                             {srProgress[i] && <span className="check">✔</span>}
                             {f.field}
                           </li>
@@ -846,8 +866,14 @@ function App() {
                   </li>
                 </ul>
               )}
-          </div>
-          </nav>
+            </div>
+            <div className="group">
+              <div className="group-title">{strings.reviewAndFinish}</div>
+              <ul>
+                <li onClick={() => setStep(12)}>{strings.reviewAndFinish}</li>
+              </ul>
+            </div>
+            </nav>
         </aside>
         <div className="content">
           <div className="topbar">
@@ -877,7 +903,7 @@ function App() {
                   onClick={() => setStep(11)}
                 >
                   <div className="circle">4</div>
-                  <span>{strings.review}</span>
+                  <span>{strings.reviewAndFinish}</span>
                 </div>
               </div>
               <div className="progress-bar">
@@ -924,6 +950,7 @@ function App() {
           setProgress={setCompanyProgress}
           visited={companyVisited}
           setVisited={setCompanyVisited}
+          goToFieldIndex={companyFieldIdx}
         />
       )}
       {step === 4 && (
@@ -958,6 +985,7 @@ function App() {
           setProgress={setGlProgress}
           visited={glVisited}
           setVisited={setGlVisited}
+          goToFieldIndex={glFieldIdx}
         />
       )}
       {step === 7 && (
@@ -971,6 +999,7 @@ function App() {
           setProgress={setSrProgress}
           visited={srVisited}
           setVisited={setSrVisited}
+          goToFieldIndex={srFieldIdx}
         />
       )}
           {step === 8 && <CustomersPage next={next} back={back} />}
@@ -1015,7 +1044,6 @@ function App() {
               id="ai-extra"
               value={aiExtra}
               onChange={e => setAiExtra(e.target.value)}
-              placeholder="Additional Instructions"
               rows={6}
             />
             <button className="go-btn" onClick={askAgain}>SUGGEST AGAIN</button>
