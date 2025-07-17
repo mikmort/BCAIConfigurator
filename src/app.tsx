@@ -220,14 +220,25 @@ function App() {
   }
 
   function buildAIPrompt(
-    fieldName: string,
+    fieldName: any,
     currentValue: string,
     considerations: string = ''
   ): string {
+    let name: string;
+    if (typeof fieldName === 'object' && fieldName !== null) {
+      name =
+        (fieldName.field as string) ||
+        (fieldName.name as string) ||
+        (fieldName.label as string) ||
+        JSON.stringify(fieldName);
+    } else {
+      name = String(fieldName);
+    }
+
     let prompt =
       'We are configuring Dynamics Business Central\n\n' +
       'We are looking for a recommended value for the field:\n\n' +
-      `${fieldName}\n\n` +
+      `${name}\n\n` +
       `The current value is: ${currentValue || '(blank)'}\n\n` +
       'Please us the following information to help determine the recommended value\n--------------\n';
 
@@ -252,7 +263,7 @@ function App() {
     }
 
     if (considerations) {
-      prompt += `${fieldName} considerations: ${considerations}\n`;
+      prompt += `${name} considerations: ${considerations}\n`;
     }
 
     prompt +=
