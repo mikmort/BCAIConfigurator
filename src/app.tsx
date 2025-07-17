@@ -482,7 +482,7 @@ function App() {
     }
   }
 
-  function renderField(cf: CompanyField) {
+  function renderInput(cf: CompanyField) {
     const key = fieldKey(cf.field);
     const val = formData[key] || '';
     let inputProps: any = {
@@ -491,10 +491,19 @@ function App() {
       onChange: handleChange,
       onBlur: handleBlur,
     };
+    if (cf.fieldType === 'Boolean') {
+      return (
+        <>
+          <label><input type="radio" name={key} value="1" checked={val === '1'} onChange={handleChange}/> Yes</label>
+          <label><input type="radio" name={key} value="0" checked={val === '0'} onChange={handleChange}/> No</label>
+          <label><input type="radio" name={key} value="" checked={val === ''} onChange={handleChange}/> I'm not sure</label>
+        </>
+      );
+    }
     if (/phone/i.test(cf.field)) {
       inputProps.type = 'tel';
       inputProps.pattern = '[0-9+()\- ]+';
-    } else if (/date/i.test(cf.field)) {
+    } else if (cf.fieldType === 'Date' || /date/i.test(cf.field)) {
       inputProps.type = 'date';
     } else if (/number|amount|qty|quantity/i.test(cf.field)) {
       inputProps.type = 'number';
@@ -582,34 +591,40 @@ function App() {
     };
 
     return (
-      <div className="field-row" key={key}>
-        <div className="field-name">{cf.field}</div>
-        <div className="field-input">
-          {inputEl}
-          {cf.recommended && (
-            <span
-              className="icon"
-              role="button"
-              title="Use recommended value"
-              onClick={handleRecommended}
-            >
-              ⭐
-            </span>
-          )}
+      <>
+        {inputEl}
+        {cf.recommended && (
           <span
             className="icon"
             role="button"
-            title="Ask AI"
-            onClick={() => openAIDialog(cf.field, key, cf.considerations)}
+            title="Use recommended value"
+            onClick={handleRecommended}
           >
-            🤖
+            ⭐
           </span>
-        </div>
+        )}
+        <span
+          className="icon"
+          role="button"
+          title="Ask AI"
+          onClick={() => openAIDialog(cf.field, key, cf.considerations)}
+        >
+          🤖
+        </span>
+      </>
+    );
+  }
+
+  function renderField(cf: CompanyField) {
+    const key = fieldKey(cf.field);
+    return (
+      <div className="field-row" key={key}>
+        <div className="field-name">{cf.field}</div>
+        <div className="field-input">{renderInput(cf)}</div>
         <div className="field-considerations">{cf.considerations}</div>
       </div>
     );
   }
-
   const currentGroup = (() => {
     if (step === 2) return 'basic';
     if ([3, 4, 5, 6, 7].includes(step)) return 'config';
@@ -732,9 +747,7 @@ function App() {
       {step === 3 && (
         <CompanyInfoPage
           fields={companyFields}
-          formData={formData}
-          handleChange={handleChange}
-          renderField={renderField}
+          renderInput={renderInput}
           next={next}
           back={() => setStep(1)}
         />
@@ -763,9 +776,7 @@ function App() {
       {step === 6 && (
         <GLSetupPage
           fields={glFields}
-          formData={formData}
-          handleChange={handleChange}
-          renderField={renderField}
+          renderInput={renderInput}
           next={next}
           back={back}
         />
@@ -773,13 +784,11 @@ function App() {
       {step === 7 && (
         <SalesReceivablesPage
           fields={srFields}
-          formData={formData}
-          handleChange={handleChange}
-          renderField={renderField}
+          renderInput={renderInput}
           next={next}
           back={back}
         />
-          )}
+      )}
           {step === 8 && <CustomersPage next={next} back={back} />}
           {step === 9 && <VendorsPage next={next} back={back} />}
           {step === 10 && <ItemsPage next={next} back={back} />}
