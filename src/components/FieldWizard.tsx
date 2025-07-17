@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CompanyField } from '../types';
 import FieldSubPage from './FieldSubPage';
+import ReviewPage from '../pages/ReviewPage';
 import strings from '../../res/strings';
 
 interface Props {
@@ -15,6 +16,7 @@ interface Props {
   visited: boolean[];
   setVisited: (arr: boolean[]) => void;
   handleRecommended: (cf: CompanyField) => void;
+  formData: { [key: string]: any };
   onShowSometimes?: () => void;
   /**
    * Optional index of a field to jump to when the wizard renders.
@@ -36,6 +38,7 @@ function FieldWizard({
   visited,
   setVisited,
   handleRecommended,
+  formData,
   onShowSometimes,
   goToFieldIndex,
 }: Props) {
@@ -44,7 +47,7 @@ function FieldWizard({
   const sometimes = fields.filter(f => f.common === 'sometimes');
   const unlikely = fields.filter(f => f.common === 'unlikely');
 
-  type Stage = 'common' | 'finish' | 'sometimes' | 'unlikely';
+  type Stage = 'common' | 'finish' | 'sometimes' | 'unlikely' | 'review';
   const [stage, setStage] = useState<Stage>(() =>
     progress.every(Boolean) ? 'finish' : 'common'
   );
@@ -57,6 +60,10 @@ function FieldWizard({
   const [uIdx, setUIdx] = useState(0);
   const [sDone, setSDone] = useState(false);
   const [uDone, setUDone] = useState(false);
+
+  function openReview() {
+    setStage('review');
+  }
 
   useEffect(() => {
     if (goToFieldIndex !== undefined && goToFieldIndex !== null) {
@@ -126,7 +133,7 @@ function FieldWizard({
     if (sIdx + 1 < sometimes.length) setSIdx(sIdx + 1);
     else {
       setSDone(true);
-      next();
+      openReview();
     }
   }
   function backSome() {
@@ -148,7 +155,7 @@ function FieldWizard({
     if (uIdx + 1 < unlikely.length) setUIdx(uIdx + 1);
     else {
       setUDone(true);
-      next();
+      openReview();
     }
   }
   function backUnlikely() {
@@ -158,12 +165,12 @@ function FieldWizard({
 
   function skipSometimes() {
     setSDone(true);
-    next();
+    openReview();
   }
 
   function skipUnlikely() {
     setUDone(true);
-    next();
+    openReview();
   }
 
   return (
@@ -244,6 +251,15 @@ function FieldWizard({
 
           {/* No other actions when skipping */}
         </div>
+      )}
+
+      {stage === 'review' && (
+        <ReviewPage
+          fields={fields}
+          formData={formData}
+          back={() => setStage('finish')}
+          next={next}
+        />
       )}
 
       {(stage === 'common' || stage === 'sometimes' || stage === 'unlikely') && (

@@ -14,6 +14,7 @@ interface Props {
   visited: boolean[];
   setVisited: (arr: boolean[]) => void;
   handleRecommended: (cf: CompanyField) => void;
+  formData: { [key: string]: any };
   onShowSometimes: () => void;
   goToFieldIndex?: number | null;
 }
@@ -28,6 +29,7 @@ function GLSetupPage({
   visited,
   setVisited,
   handleRecommended,
+  formData,
   onShowSometimes,
   goToFieldIndex,
 }: Props) {
@@ -44,6 +46,7 @@ function GLSetupPage({
       setProgress={setProgress}
       visited={visited}
       setVisited={setVisited}
+      formData={formData}
       onShowSometimes={onShowSometimes}
       goToFieldIndex={goToFieldIndex}
     />
