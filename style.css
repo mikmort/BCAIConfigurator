@@ -86,6 +86,11 @@ button:hover {
   white-space: pre-wrap;
 }
 .splash-screen {
+  background: #fff;
+  padding: 30px;
+}
+
+.splash-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -125,6 +130,12 @@ button:hover {
 
 .splash-button:hover {
   background-color: #e5e5e5;
+}
+
+.splash-terms {
+  font-size: 0.8em;
+  color: #555;
+  margin-top: 10px;
 }
 
 h3 {
@@ -435,6 +446,19 @@ h3 {
   background: var(--bc-blue);
   width: 0;
   transition: width 0.3s;
+}
+
+.subnav {
+  margin-left: 15px;
+}
+
+.subnav li {
+  font-size: 0.9em;
+}
+
+.check {
+  color: green;
+  margin-right: 4px;
 }
 
 /* Big next button and skip link */

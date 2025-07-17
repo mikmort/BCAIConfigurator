@@ -15,6 +15,7 @@ import SalesReceivablesPage from './pages/SalesReceivablesPage';
 import CustomersPage from './pages/CustomersPage';
 import VendorsPage from './pages/VendorsPage';
 import ItemsPage from './pages/ItemsPage';
+import ReviewPage from './pages/ReviewPage';
 import BCLogo from './images/Examples/BC Logo.png';
 import strings from '../res/strings';
 import { CompanyField, BasicInfo } from './types';
@@ -629,7 +630,7 @@ function App() {
     if (step === 2) return 'basic';
     if ([3, 4, 5, 6, 7].includes(step)) return 'config';
     if ([8, 9, 10].includes(step)) return 'master';
-    if (step === 11) return 'review';
+    if (step === 12) return 'review';
     return '';
   })();
 
@@ -683,10 +684,46 @@ function App() {
               {configOpen && (
                 <ul>
                   <li onClick={() => setStep(3)}>{strings.companyInfo}</li>
+                  {step === 3 && (
+                    <ul className="subnav">
+                      {companyFields
+                        .filter(f => f.common === 'common')
+                        .map((f, i) => (
+                          <li key={f.field}>
+                            {companyProgress[i] && <span className="check">✔</span>}
+                            {f.field}
+                          </li>
+                        ))}
+                    </ul>
+                  )}
                   <li onClick={() => setStep(4)}>Posting Information</li>
                   <li onClick={() => setStep(5)}>{strings.paymentTerms}</li>
                   <li onClick={() => setStep(6)}>{strings.generalLedgerSetup}</li>
+                  {step === 6 && (
+                    <ul className="subnav">
+                      {glFields
+                        .filter(f => f.common === 'common')
+                        .map((f, i) => (
+                          <li key={f.field}>
+                            {glProgress[i] && <span className="check">✔</span>}
+                            {f.field}
+                          </li>
+                        ))}
+                    </ul>
+                  )}
                   <li onClick={() => setStep(7)}>{strings.salesReceivablesSetup}</li>
+                  {step === 7 && (
+                    <ul className="subnav">
+                      {srFields
+                        .filter(f => f.common === 'common')
+                        .map((f, i) => (
+                          <li key={f.field}>
+                            {srProgress[i] && <span className="check">✔</span>}
+                            {f.field}
+                          </li>
+                        ))}
+                    </ul>
+                  )}
                 </ul>
               )}
             </div>
@@ -824,6 +861,14 @@ function App() {
           {step === 9 && <VendorsPage next={next} back={back} />}
           {step === 10 && <ItemsPage next={next} back={back} />}
           {step === 11 && (
+            <ReviewPage
+              fields={[...companyFields, ...glFields, ...srFields]}
+              formData={formData}
+              back={back}
+              next={next}
+            />
+          )}
+          {step === 12 && (
             <FinishPage
               generate={generateCustomRapidStart}
               back={back}

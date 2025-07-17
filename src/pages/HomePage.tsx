@@ -8,18 +8,21 @@ interface Props {
 function HomePage({ next }: Props) {
   return (
     <div className="splash-screen">
-      <div className="splash-content">
-        <h1>{strings.appTitle}</h1>
-        <p>{strings.splashWelcome}</p>
-        <button className="next-btn" onClick={next}>
-          {strings.getStarted}
-        </button>
+      <div className="splash-inner">
+        <div className="splash-content">
+          <h1>{strings.appTitle}</h1>
+          <p>{strings.splashWelcome}</p>
+          <button className="next-btn" onClick={next}>
+            {strings.getStarted}
+          </button>
+        </div>
+        <img
+          className="splash-image"
+          src={GettingStartImage}
+          alt="Getting started"
+        />
       </div>
-      <img
-        className="splash-image"
-        src={GettingStartImage}
-        alt="Getting started"
-      />
+      <p className="splash-terms">Use of this tool is subject to standard terms of service. ExampleCo is not responsible for any data loss.</p>
     </div>
   );
 }

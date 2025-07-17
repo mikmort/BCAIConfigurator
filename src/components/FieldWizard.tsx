@@ -34,19 +34,22 @@ function FieldWizard({ title, fields, renderInput, next, back, progress, setProg
   const [uDone, setUDone] = useState(false);
 
 
-  const progressPct = common.length
-    ? Math.round((progress.filter(Boolean).length / common.length) * 100)
-    : 100;
+  const stageProgress = (() => {
+    if (stage === 'common') {
+      return { done: progress.filter(Boolean).length, total: common.length };
+    }
+    if (stage === 'sometimes') {
+      return { done: sIdx, total: sometimes.length };
+    }
+    if (stage === 'unlikely') {
+      return { done: uIdx, total: unlikely.length };
+    }
+    return { done: 0, total: 0 };
+  })();
 
-  if (stage === 'sometimes') {
-    currentConfirmed = sIdx;
-    currentTotal = sometimes.length;
-    progress = currentTotal ? Math.round((currentConfirmed / currentTotal) * 100) : 100;
-  } else if (stage === 'unlikely') {
-    currentConfirmed = uIdx;
-    currentTotal = unlikely.length;
-    progress = currentTotal ? Math.round((currentConfirmed / currentTotal) * 100) : 100;
-  }
+  const progressPct = stageProgress.total
+    ? Math.round((stageProgress.done / stageProgress.total) * 100)
+    : 100;
 
   function confirmCommon() {
     const arr = [...progress];
@@ -216,6 +219,9 @@ function FieldWizard({ title, fields, renderInput, next, back, progress, setProg
 
         <div className="status-bar">
           <div className="status-fill" style={{ width: `${progressPct}%` }} />
+          <div className="status-text">
+            {stageProgress.done} of {stageProgress.total} tasks completed
+          </div>
         </div>
 
       )}
