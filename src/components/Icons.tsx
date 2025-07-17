@@ -81,3 +81,17 @@ export function CubeIcon() {
   );
 }
 
+export function LightbulbIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      className={props.className ? props.className + ' menu-svg-icon' : 'menu-svg-icon'}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path d="M9 18h6m-5 2h4M12 2a6 6 0 00-3 11v3h6v-3a6 6 0 00-3-11z" stroke="currentColor" strokeWidth="2" fill="none" />
+    </svg>
+  );
+}
+
