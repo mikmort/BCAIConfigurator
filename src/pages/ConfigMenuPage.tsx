@@ -80,9 +80,6 @@ function ConfigMenuPage({
           </div>
         </div>
       </div>
-      <div className="nav">
-        <button className="next-btn" onClick={back}>{strings.back}</button>
-      </div>
     </div>
   );
 }

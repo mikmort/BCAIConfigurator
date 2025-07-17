@@ -15,7 +15,7 @@ import SalesReceivablesPage from './pages/SalesReceivablesPage';
 import CustomersPage from './pages/CustomersPage';
 import VendorsPage from './pages/VendorsPage';
 import ItemsPage from './pages/ItemsPage';
-import BCLogo from './images/Examples/BClogo.svg';
+import BCLogo from './images/Examples/BC Logo.png';
 import strings from '../res/strings';
 import { CompanyField, BasicInfo } from './types';
 import {

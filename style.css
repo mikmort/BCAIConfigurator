@@ -267,11 +267,15 @@ h3 {
   align-items: center;
   gap: 4px;
   margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #d0d0d0;
 }
 
 .sidebar-header h2 {
   font-size: 1.1em;
   white-space: nowrap;
+  align-self: flex-start;
+  margin-left: 15px;
 }
 
 .sidebar-header .logo {
