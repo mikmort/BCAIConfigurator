@@ -95,3 +95,17 @@ export function LightbulbIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
+export function SparkleIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      className={props.className ? props.className + ' menu-svg-icon' : 'menu-svg-icon'}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path d="M12 2l1.76 5.41L19 9l-5.24 1.59L12 16l-1.76-5.41L5 9l5.24-1.59L12 2z" />
+    </svg>
+  );
+}
+
