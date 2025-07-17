@@ -898,7 +898,10 @@ function App() {
                   <div className="circle">3</div>
                   <span>{strings.masterData}</span>
                 </div>
-                <div className={`progress-step ${currentGroup === 'review' ? 'active' : ''}`}>
+                <div
+                  className={`progress-step ${currentGroup === 'review' ? 'active' : ''} clickable`}
+                  onClick={() => setStep(11)}
+                >
                   <div className="circle">4</div>
                   <span>{strings.reviewAndFinish}</span>
                 </div>
