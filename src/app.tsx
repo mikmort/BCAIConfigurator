@@ -194,6 +194,11 @@ function App() {
   const [aiPromptBase, setAiPromptBase] = useState('');
   const [configOpen, setConfigOpen] = useState(true);
   const [masterOpen, setMasterOpen] = useState(false);
+  const [aiParsed, setAiParsed] = useState({
+    suggested: '',
+    confidence: '',
+    reasoning: '',
+  });
 
   const suggestionFields = new Set(['Country/Region Code', 'Base Calendar Code']);
 
@@ -250,6 +255,32 @@ function App() {
     }
     init();
   }, []);
+
+  useEffect(() => {
+    if (!aiSuggested) {
+      setAiParsed({ suggested: '', confidence: '', reasoning: '' });
+      return;
+    }
+    try {
+      const cleaned = aiSuggested.replace(/```json|```/g, '').trim();
+      const parsed = JSON.parse(cleaned);
+      const suggested =
+        parsed['Suggested Value'] ||
+        parsed.suggested ||
+        parsed.value ||
+        parsed.result ||
+        parsed.val ||
+        (typeof parsed === 'object' ? parsed[Object.keys(parsed)[0]] : '');
+      setAiParsed({
+        suggested: suggested || '',
+        confidence: parsed['Confidence'] || parsed.confidence || '',
+        reasoning: parsed['Reasoning'] || parsed.reasoning || '',
+      });
+    } catch (e) {
+      logDebug(`Failed to parse JSON suggestion: ${e}`);
+      setAiParsed({ suggested: aiSuggested, confidence: '', reasoning: '' });
+    }
+  }, [aiSuggested]);
 
   useEffect(() => {
     if (!startData) return;
@@ -414,8 +445,8 @@ function App() {
     }
 
     prompt +=
-      '---------------\nPlease return the response strictly as JSON with \n' +
-      "'Answer: <your suggestion>'";
+      '---------------\nPlease return the response strictly as JSON with the properties "Suggested Value", "Confidence", and "Reasoning". ' +
+      'Confidence must be one of "Very High", "High", "Medium", "Low", or "Very Low".';
     setAiPromptBase(prompt);
     setAiExtra('');
     setAiFieldKey(key);
@@ -434,26 +465,9 @@ function App() {
     askOpenAI(prompt).then(ans => setAiSuggested(ans));
   }
 
-  async function acceptSuggested() {
+  function acceptSuggested() {
     try {
-      const prompt = `Please output only raw JSON (no Markdown or code blocks) with the suggested value for the field from the following text: ${aiSuggested}`;
-      const answer = await askOpenAI(prompt);
-      let val = aiSuggested;
-
-    try {
-      // 🔧 Strip Markdown code fences like ```json ... ```
-      const cleaned = answer.replace(/```json|```/g, '').trim();
-      const parsed = JSON.parse(cleaned);
-
-      const first =
-        parsed.value || parsed.suggested || parsed.result || parsed.val || parsed[Object.keys(parsed)[0]];
-      if (first !== undefined && first !== null) {
-        val = String(first);
-      }
-    } catch (e) {
-      logDebug(`Failed to parse JSON answer: ${e}`);
-    }
-      
+      const val = aiParsed.suggested;
       setFormData(f => ({ ...f, [aiFieldKey]: val }));
     } catch (e) {
       console.error(e);
@@ -924,9 +938,10 @@ function App() {
           {showAI && (
             <div className="modal-overlay" onClick={closeAIDialog}>
               <div className="modal" onClick={e => e.stopPropagation()}>
-                <div className="ai-answer">
-                  Suggested value: {aiSuggested || 'Loading...'}
-                </div>
+                <div><strong>Suggested Value:</strong> {aiParsed.suggested || 'Loading...'}</div>
+                <div><strong>Confidence:</strong> {aiParsed.confidence}</div>
+                <div><strong>Reasoning:</strong></div>
+                <div className="ai-answer">{aiParsed.reasoning}</div>
             <textarea
               value={aiExtra}
               onChange={e => setAiExtra(e.target.value)}
