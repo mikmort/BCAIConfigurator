@@ -18,6 +18,11 @@ interface Props {
   handleRecommended: (cf: CompanyField) => void;
   formData: { [key: string]: any };
   onShowSometimes?: () => void;
+  fetchAISuggestion: (
+    field: CompanyField,
+    currentValue: string
+  ) => Promise<{ suggested: string; confidence: string }>;
+  setFieldValue: (key: string, value: string) => void;
   /**
    * Optional index of a field to jump to when the wizard renders.
    * Only applies to the common fields stage.
@@ -40,6 +45,8 @@ function FieldWizard({
   handleRecommended,
   formData,
   onShowSometimes,
+  fetchAISuggestion,
+  setFieldValue,
   goToFieldIndex,
 }: Props) {
 
@@ -181,6 +188,9 @@ function FieldWizard({
         <FieldSubPage
           field={common[cIdx]}
           renderInput={renderInput}
+          formData={formData}
+          fetchAISuggestion={fetchAISuggestion}
+          setFieldValue={setFieldValue}
           onConfirm={confirmCommon}
           onBack={backCommon}
           onRecommended={() => handleRecommended(common[cIdx])}
@@ -195,6 +205,9 @@ function FieldWizard({
         <FieldSubPage
           field={sometimes[sIdx]}
           renderInput={renderInput}
+          formData={formData}
+          fetchAISuggestion={fetchAISuggestion}
+          setFieldValue={setFieldValue}
           onConfirm={confirmSome}
           onBack={backSome}
           onRecommended={() => handleRecommended(sometimes[sIdx])}
@@ -208,6 +221,9 @@ function FieldWizard({
         <FieldSubPage
           field={unlikely[uIdx]}
           renderInput={renderInput}
+          formData={formData}
+          fetchAISuggestion={fetchAISuggestion}
+          setFieldValue={setFieldValue}
           onConfirm={confirmUnlikelyField}
           onBack={backUnlikely}
           onRecommended={() => handleRecommended(unlikely[uIdx])}

@@ -219,6 +219,87 @@ function App() {
     console.log(msg);
   }
 
+  function buildAIPrompt(
+    fieldName: string,
+    currentValue: string,
+    considerations: string = ''
+  ): string {
+    let prompt =
+      'We are configuring Dynamics Business Central\n\n' +
+      'We are looking for a recommended value for the field:\n\n' +
+      `${fieldName}\n\n` +
+      `The current value is: ${currentValue || '(blank)'}\n\n` +
+      'Please us the following information to help determine the recommended value\n--------------\n';
+
+    const parts: string[] = [];
+
+    const addConfirmed = (fields: CompanyField[], progress: boolean[]) => {
+      const common = fields.filter(f => f.common === 'common');
+      common.forEach((cf, idx) => {
+        if (progress[idx]) {
+          const val = formData[fieldKey(cf.field)];
+          if (val) parts.push(`${cf.field}: ${val}`);
+        }
+      });
+    };
+
+    addConfirmed(companyFields, companyProgress);
+    addConfirmed(glFields, glProgress);
+    addConfirmed(srFields, srProgress);
+
+    if (parts.length) {
+      prompt += parts.join('\n') + '\n';
+    }
+
+    if (considerations) {
+      prompt += `${fieldName} considerations: ${considerations}\n`;
+    }
+
+    prompt +=
+      '---------------\nPlease return the response strictly as JSON with the properties "Suggested Value", "Confidence", and "Reasoning". ' +
+      'Confidence should indicate how certain you are that this is the final value the user will want for this field in Dynamics Business Central. ' +
+      'Confidence must be one of "Very High", "High", "Medium", "Low", or "Very Low".';
+    return prompt;
+  }
+
+  function parseAISuggestion(text: string) {
+    if (!text) return { suggested: '', confidence: '', reasoning: '' };
+    try {
+      const cleaned = text.replace(/```json|```/g, '').trim();
+      const parsed = JSON.parse(cleaned);
+      const suggested =
+        parsed['Suggested Value'] ||
+        parsed.suggested ||
+        parsed.value ||
+        parsed.result ||
+        parsed.val ||
+        (typeof parsed === 'object' ? parsed[Object.keys(parsed)[0]] : '');
+      return {
+        suggested: suggested || '',
+        confidence: parsed['Confidence'] || parsed.confidence || '',
+        reasoning: parsed['Reasoning'] || parsed.reasoning || '',
+      };
+    } catch (e) {
+      logDebug(`Failed to parse JSON suggestion: ${e}`);
+      return { suggested: text, confidence: '', reasoning: '' };
+    }
+  }
+
+  async function fetchAISuggestion(
+    fieldName: string,
+    key: string,
+    currentValue: string,
+    considerations: string = ''
+  ) {
+    const prompt = buildAIPrompt(fieldName, currentValue, considerations);
+    const ans = await askOpenAI(prompt);
+    return parseAISuggestion(ans);
+  }
+
+  function setFieldValue(key: string, value: string) {
+    setFormData(f => ({ ...f, [key]: value }));
+  }
+
   useEffect(() => {
     if (step === 3) setCompanyFieldIdx(null);
     if (step === 6) setGlFieldIdx(null);
@@ -484,41 +565,7 @@ function App() {
     currentValue: string,
     considerations: string = ''
   ): void {
-    let prompt =
-      'We are configuring Dynamics Business Central\n\n' +
-      'We are looking for a recommended value for the field:\n\n' +
-      `${fieldName}\n\n` +
-      `The current value is: ${currentValue || '(blank)'}\n\n` +
-      'Please us the following information to help determine the recommended value\n--------------\n';
-
-    const parts: string[] = [];
-
-    const addConfirmed = (fields: CompanyField[], progress: boolean[]) => {
-      const common = fields.filter(f => f.common === 'common');
-      common.forEach((cf, idx) => {
-        if (progress[idx]) {
-          const val = formData[fieldKey(cf.field)];
-          if (val) parts.push(`${cf.field}: ${val}`);
-        }
-      });
-    };
-
-    addConfirmed(companyFields, companyProgress);
-    addConfirmed(glFields, glProgress);
-    addConfirmed(srFields, srProgress);
-
-    if (parts.length) {
-      prompt += parts.join('\n') + '\n';
-    }
-
-    if (considerations) {
-      prompt += `${fieldName} considerations: ${considerations}\n`;
-    }
-
-    prompt +=
-      '---------------\nPlease return the response strictly as JSON with the properties "Suggested Value", "Confidence", and "Reasoning". ' +
-      'Confidence should indicate how certain you are that this is the final value the user will want for this field in Dynamics Business Central. ' +
-      'Confidence must be one of "Very High", "High", "Medium", "Low", or "Very Low".';
+    const prompt = buildAIPrompt(fieldName, currentValue, considerations);
     setAiPromptBase(prompt);
     setAiExtra('');
     setAiFieldKey(key);
@@ -1039,6 +1086,8 @@ function App() {
           setVisited={setCompanyVisited}
           formData={formData}
           onShowSometimes={() => setShowCompanySometimes(true)}
+          fetchAISuggestion={fetchAISuggestion}
+          setFieldValue={setFieldValue}
           goToFieldIndex={companyFieldIdx}
         />
       )}
@@ -1050,6 +1099,8 @@ function App() {
           next={next}
           back={back}
           askAI={openAIDialog}
+          autoSuggest={fetchAISuggestion}
+          setFieldValue={setFieldValue}
         />
       )}
       {step === 5 && (
@@ -1060,6 +1111,8 @@ function App() {
           next={next}
           back={back}
           askAI={openAIDialog}
+          autoSuggest={fetchAISuggestion}
+          setFieldValue={setFieldValue}
           options={paymentTermsOptions}
         />
       )}
@@ -1076,6 +1129,8 @@ function App() {
           setVisited={setGlVisited}
           formData={formData}
           onShowSometimes={() => setShowGLSometimes(true)}
+          fetchAISuggestion={fetchAISuggestion}
+          setFieldValue={setFieldValue}
           goToFieldIndex={glFieldIdx}
         />
       )}
@@ -1092,6 +1147,8 @@ function App() {
           setVisited={setSrVisited}
           formData={formData}
           onShowSometimes={() => setShowSRSometimes(true)}
+          fetchAISuggestion={fetchAISuggestion}
+          setFieldValue={setFieldValue}
           goToFieldIndex={srFieldIdx}
         />
       )}

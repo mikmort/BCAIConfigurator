@@ -669,6 +669,19 @@ h3 {
   color: #555;
 }
 
+.auto-suggest {
+  min-height: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.auto-suggest button {
+  margin-left: 10px;
+}
+
 
 .confirmed-banner {
   background: var(--bc-teal);
