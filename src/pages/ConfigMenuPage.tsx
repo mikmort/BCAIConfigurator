@@ -4,8 +4,6 @@ import strings from '../../res/strings';
 interface Props {
   goToBasicInfo: () => void;
   goToCompanyInfo: () => void;
-  goToPostingGroups: () => void;
-  goToPaymentTerms: () => void;
   goToGLSetup: () => void;
   goToSRSetup: () => void;
   goToCustomers: () => void;
@@ -20,8 +18,6 @@ interface Props {
 function ConfigMenuPage({
   goToBasicInfo,
   goToCompanyInfo,
-  goToPostingGroups,
-  goToPaymentTerms,
   goToGLSetup,
   goToSRSetup,
   goToCustomers,
@@ -51,14 +47,6 @@ function ConfigMenuPage({
             {companyDone && <div className="checkmark">✔</div>}
             <div className="icon" role="img" aria-label="Company">🏢</div>
             <div>{strings.companyInfo}</div>
-          </div>
-          <div className="menu-box" onClick={goToPostingGroups}>
-            <div className="icon" role="img" aria-label="Posting">📦</div>
-            <div>Posting Information</div>
-          </div>
-          <div className="menu-box" onClick={goToPaymentTerms}>
-            <div className="icon" role="img" aria-label="Payment Terms">💰</div>
-            <div>{strings.paymentTerms}</div>
           </div>
           <div className={`menu-box ${glDone ? 'done' : ''}`} onClick={goToGLSetup}>
             {glDone && <div className="checkmark">✔</div>}
