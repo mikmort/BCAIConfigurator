@@ -30,6 +30,7 @@ function FieldWizard({
   renderInput,
   next,
   back,
+  skipSection,
   progress,
   setProgress,
   visited,
