@@ -316,7 +316,8 @@ h3 {
   padding: 20px;
   border-radius: 4px;
   width: 90%;
-  min-width: 600px;
+  max-width: 600px;
+  min-width: 300px;
 }
 
 .modal textarea {
@@ -334,9 +335,9 @@ h3 {
 
 /* Simple go button used to re-ask AI */
 .go-btn {
-  background: #000;
+  background: var(--bc-teal-dark);
   color: #fff;
-  border: 1px solid #333;
+  border: 1px solid var(--bc-teal-dark);
   border-radius: 4px;
   padding: 8px 16px;
   cursor: pointer;
@@ -347,6 +348,13 @@ h3 {
   margin-top: 8px;
   white-space: pre-wrap;
   font-size: 0.9em;
+}
+
+.ai-extra-label {
+  margin-top: 40px;
+  display: block;
+  color: var(--bc-blue);
+  font-weight: bold;
 }
 
 .suggested-box {
@@ -371,12 +379,12 @@ h3 {
   color: red;
   padding: 10px;
   margin-bottom: 10px;
-  text-align: center;
+  text-align: left;
 }
 
 .ai-valid {
   margin-bottom: 8px;
-  text-align: center;
+  text-align: left;
 }
 
 /* Layout and navigation */
