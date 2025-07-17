@@ -107,6 +107,7 @@ function FieldSubPage({
           </div>
         </div>
       )}
+      <div className="nav-spacer" />
       <div className={`nav${isFinal ? ' final' : ''}`}>
         <button className="back-btn" onClick={onBack}>{strings.back}</button>
         <button className="next-btn" onClick={onConfirm}>{confirmLabel}</button>
