@@ -11,9 +11,10 @@ interface Props {
   back: () => void;
   progress: boolean[];
   setProgress: (arr: boolean[]) => void;
+  handleRecommended: (cf: CompanyField) => void;
 }
 
-function FieldWizard({ title, fields, renderInput, next, back, progress, setProgress }: Props) {
+function FieldWizard({ title, fields, renderInput, next, back, progress, setProgress, handleRecommended }: Props) {
   const common = fields.filter(f => f.common === 'common');
   const sometimes = fields.filter(f => f.common === 'sometimes');
   const unlikely = fields.filter(f => f.common === 'unlikely');
@@ -61,6 +62,10 @@ function FieldWizard({ title, fields, renderInput, next, back, progress, setProg
     if (idx === -1) setStage('finish');
     else setCIdx(idx);
   }
+  function backCommon() {
+    if (cIdx > 0) setCIdx(cIdx - 1);
+    else back();
+  }
 
   function reviewSometimes() {
     setStage('sometimes');
@@ -79,6 +84,10 @@ function FieldWizard({ title, fields, renderInput, next, back, progress, setProg
       setStage('finish');
     }
   }
+  function backSome() {
+    if (sIdx > 0) setSIdx(sIdx - 1);
+    else setStage('finish');
+  }
 
   function reviewUnlikely() {
     setStage('unlikely');
@@ -96,6 +105,10 @@ function FieldWizard({ title, fields, renderInput, next, back, progress, setProg
       setUDone(true);
       next();
     }
+  }
+  function backUnlikely() {
+    if (uIdx > 0) setUIdx(uIdx - 1);
+    else setStage('finish');
   }
 
   function skipSometimes() {
@@ -116,6 +129,8 @@ function FieldWizard({ title, fields, renderInput, next, back, progress, setProg
           field={common[cIdx]}
           renderInput={renderInput}
           onConfirm={confirmCommon}
+          onBack={backCommon}
+          onRecommended={() => handleRecommended(common[cIdx])}
           onSkip={skipCommon}
           confirmLabel={cIdx === common.length - 1 ? 'Confirm and Finish' : 'Confirm'}
           confirmed={progress[cIdx]}
@@ -127,6 +142,8 @@ function FieldWizard({ title, fields, renderInput, next, back, progress, setProg
           field={sometimes[sIdx]}
           renderInput={renderInput}
           onConfirm={confirmSome}
+          onBack={backSome}
+          onRecommended={() => handleRecommended(sometimes[sIdx])}
           onSkip={skipSome}
           confirmLabel={sIdx === sometimes.length - 1 ? 'Confirm and Finish' : 'Confirm'}
         />
@@ -137,6 +154,8 @@ function FieldWizard({ title, fields, renderInput, next, back, progress, setProg
           field={unlikely[uIdx]}
           renderInput={renderInput}
           onConfirm={confirmUnlikelyField}
+          onBack={backUnlikely}
+          onRecommended={() => handleRecommended(unlikely[uIdx])}
           onSkip={skipUnlikelyField}
           confirmLabel={uIdx === unlikely.length - 1 ? 'Confirm and Finish' : 'Confirm'}
         />
