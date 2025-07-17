@@ -3,8 +3,6 @@ import strings from '../../res/strings';
 import {
   InfoIcon,
   CompanyIcon,
-  BoxIcon,
-  MoneyIcon,
   BookIcon,
   CartIcon,
   UserIcon,
@@ -15,8 +13,6 @@ import {
 interface Props {
   goToBasicInfo: () => void;
   goToCompanyInfo: () => void;
-  goToPostingGroups: () => void;
-  goToPaymentTerms: () => void;
   goToGLSetup: () => void;
   goToSRSetup: () => void;
   goToCustomers: () => void;
@@ -31,8 +27,6 @@ interface Props {
 function ConfigMenuPage({
   goToBasicInfo,
   goToCompanyInfo,
-  goToPostingGroups,
-  goToPaymentTerms,
   goToGLSetup,
   goToSRSetup,
   goToCustomers,
@@ -62,14 +56,6 @@ function ConfigMenuPage({
             {companyDone && <div className="checkmark">✔</div>}
             <CompanyIcon />
             <div>{strings.companyInfo}</div>
-          </div>
-          <div className="menu-box" onClick={goToPostingGroups}>
-            <BoxIcon />
-            <div>Posting Information</div>
-          </div>
-          <div className="menu-box" onClick={goToPaymentTerms}>
-            <MoneyIcon />
-            <div>{strings.paymentTerms}</div>
           </div>
           <div className={`menu-box ${glDone ? 'done' : ''}`} onClick={goToGLSetup}>
             {glDone && <div className="checkmark">✔</div>}
