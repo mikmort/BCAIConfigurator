@@ -36,4 +36,5 @@ export default {
   fileCreated: 'File created:',
   debugLog: 'Debug Log',
   home: 'Home',
+  skip: 'Skip',
 };
