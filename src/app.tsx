@@ -408,7 +408,7 @@ function App() {
     }
 
     prompt +=
-      '---------------\nPlease return the response strictly as JSON with '\n +
+      '---------------\nPlease return the response strictly as JSON with \n' +
       "'Answer: <your suggestion>'";
     setAiPromptBase(prompt);
     setAiExtra('');
