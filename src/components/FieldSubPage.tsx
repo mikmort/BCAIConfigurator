@@ -26,6 +26,7 @@ function FieldSubPage({
   confirmLabel = 'Confirm',
   confirmed,
 }: Props) {
+  const isFinal = confirmLabel === 'Confirm and Finish';
   return (
     <div className="subpage-field">
       <div className="subpage-left">
@@ -39,11 +40,13 @@ function FieldSubPage({
         </div>
       </div>
       <div className="subpage-considerations">{cf.considerations}</div>
-      <div className="nav">
+      <div className={`nav${isFinal ? ' final' : ''}`}>
         <button className="next-btn" onClick={onBack}>{strings.back}</button>
         <button className="next-btn" onClick={onConfirm}>{confirmLabel}</button>
         <button className="skip-section-btn" onClick={onSkipSection}>{strings.skipSection}</button>
-        <button className="skip-btn" onClick={onSkip}>Skip</button>
+        {!isFinal && (
+          <button className="skip-btn" onClick={onSkip}>Skip</button>
+        )}
       </div>
     </div>
   );
