@@ -96,6 +96,19 @@ function FieldWizard({
     return { done: 0, total: 0 };
   })();
 
+  const stepInfo = (() => {
+    if (stage === 'common') {
+      return { step: cIdx + 1, total: common.length };
+    }
+    if (stage === 'sometimes') {
+      return { step: sIdx + 1, total: sometimes.length };
+    }
+    if (stage === 'unlikely') {
+      return { step: uIdx + 1, total: unlikely.length };
+    }
+    return { step: 0, total: 0 };
+  })();
+
   const progressPct = stageProgress.total
     ? Math.round((stageProgress.done / stageProgress.total) * 100)
     : 100;
@@ -182,7 +195,20 @@ function FieldWizard({
 
   return (
     <div>
-      <div className="section-header">{title}</div>
+      <div className="section-header">
+        {stage !== 'finish' && stage !== 'review' && (
+          <>
+            <span className="step-count">Step {stepInfo.step} of {stepInfo.total}</span>
+            –{' '}
+          </>
+        )}
+        {title}
+        {stage !== 'finish' && stage !== 'review' && (
+          <span className="tasks-completed">
+            ({stageProgress.done} of {stageProgress.total} tasks completed)
+          </span>
+        )}
+      </div>
 
       {stage === 'common' && common[cIdx] && (
         <FieldSubPage
@@ -278,11 +304,6 @@ function FieldWizard({
         />
       )}
 
-      {(stage === 'common' || stage === 'sometimes' || stage === 'unlikely') && (
-        <div className="completion-text">
-          {stageProgress.done} of {stageProgress.total} tasks completed
-        </div>
-      )}
     </div>
   );
 }
