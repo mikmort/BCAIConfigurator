@@ -272,6 +272,22 @@ h3 {
   align-items: center;
 }
 
+.help-btn {
+  background: #fff;
+  color: var(--bc-text);
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.help-btn:hover {
+  background: var(--bc-gray);
+}
+
 .ai-btn:hover {
   background-color: var(--bc-teal-dark);
 }
@@ -360,6 +376,16 @@ h3 {
   cursor: pointer;
   color: var(--bc-blue);
   margin-bottom: 4px;
+  padding: 4px 8px;
+  border: 1px solid var(--bc-blue);
+  border-radius: 4px;
+  background: #fff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.home-link:hover {
+  background: var(--bc-gray);
 }
 
 
@@ -562,21 +588,8 @@ h3 {
   color: #555;
 }
 
-.status-bar {
-  background: #e0e0e0;
-  padding: 6px;
+.completion-text {
   margin-top: 20px;
-  border-radius: 4px;
-}
-
-.status-fill {
-  height: 8px;
-  background: #555;
-  width: 0;
-}
-
-.status-text {
-  margin-top: 4px;
   font-size: 0.9em;
   text-align: center;
   color: #333;

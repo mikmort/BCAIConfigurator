@@ -26,7 +26,7 @@ export default {
   vendors: 'Vendors',
   items: 'Items',
   search: 'Search',
-  help: 'Help',
+  help: 'Get Help from your Partner',
   review: 'Review',
   configurationData: 'Configuration Data',
   masterData: 'Master Data',
