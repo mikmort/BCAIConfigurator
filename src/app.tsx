@@ -879,10 +879,7 @@ function App() {
           <div className="topbar">
             <div className="actions">
               <span>{strings.search}</span>
-              <button className="help-btn">
-                <span className="icon">?</span>
-                {strings.help}
-              </button>
+              <button className="help-btn">{strings.help}</button>
             </div>
             <div className="progress-area">
               <div className="progress-slider">

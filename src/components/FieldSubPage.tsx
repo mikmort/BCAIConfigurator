@@ -8,6 +8,7 @@ interface Props {
   renderInput: (cf: CompanyField) => React.ReactNode;
   onConfirm: () => void;
   onSkip: () => void;
+  onSkipSection: () => void;
   onBack: () => void;
   onRecommended?: () => void;
   confirmLabel?: string;
@@ -19,6 +20,7 @@ function FieldSubPage({
   renderInput,
   onConfirm,
   onSkip,
+  onSkipSection,
   onBack,
   onRecommended,
   confirmLabel = 'Confirm',
@@ -40,6 +42,7 @@ function FieldSubPage({
       <div className="nav">
         <button className="next-btn" onClick={onBack}>{strings.back}</button>
         <button className="next-btn" onClick={onConfirm}>{confirmLabel}</button>
+        <button className="skip-section-btn" onClick={onSkipSection}>{strings.skipSection}</button>
         <button className="skip-btn" onClick={onSkip}>Skip</button>
       </div>
     </div>

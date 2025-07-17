@@ -39,6 +39,7 @@ function CompanyInfoPage({
       handleRecommended={handleRecommended}
       next={next}
       back={back}
+      skipSection={back}
       progress={progress}
       setProgress={setProgress}
       visited={visited}

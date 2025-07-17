@@ -33,6 +33,9 @@ label {
 .nav .skip-btn {
   margin-left: auto;
 }
+.nav .skip-section-btn {
+  margin-left: 10px;
+}
 
 .navbar {
   background: #333;
@@ -426,10 +429,10 @@ h3 {
 .home-link {
   align-self: flex-start;
   cursor: pointer;
-  color: var(--bc-blue);
+  color: var(--bc-teal);
   margin-bottom: 4px;
   padding: 4px 8px;
-  border: 1px solid var(--bc-blue);
+  border: 1px solid var(--bc-teal);
   border-radius: 4px;
   background: #fff;
   font-weight: 600;
@@ -601,7 +604,22 @@ h3 {
   margin-right: 10px;
 }
 
+.skip-section-btn {
+  background-color: transparent;
+  color: var(--bc-teal);
+  border: 1px solid var(--bc-teal-dark);
+  border-radius: 16px;
+  padding: 12px 24px;
+  font-size: 1.1em;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
 .skip-btn:hover {
+  background-color: rgba(0, 128, 128, 0.1);
+}
+
+.skip-section-btn:hover {
   background-color: rgba(0, 128, 128, 0.1);
 }
 

@@ -38,6 +38,7 @@ export default {
   debugLog: 'Debug Log',
   home: 'Home',
   skip: 'Skip',
+  skipSection: 'Skip Section',
   allCommonComplete: 'All common fields completed',
   finishButton: 'Finish',
   bcFieldNameLabel: 'Business Central Field Name:',

@@ -9,6 +9,7 @@ interface Props {
   renderInput: (cf: CompanyField) => React.ReactNode;
   next: () => void;
   back: () => void;
+  skipSection: () => void;
   progress: boolean[];
   setProgress: (arr: boolean[]) => void;
   visited: boolean[];
@@ -20,6 +21,7 @@ interface Props {
    */
   goToFieldIndex?: number | null;
 }
+
 
 function FieldWizard({
   title,
@@ -34,6 +36,7 @@ function FieldWizard({
   handleRecommended,
   goToFieldIndex,
 }: Props) {
+
   const common = fields.filter(f => f.common === 'common');
   const sometimes = fields.filter(f => f.common === 'sometimes');
   const unlikely = fields.filter(f => f.common === 'unlikely');
@@ -170,6 +173,7 @@ function FieldWizard({
           onBack={backCommon}
           onRecommended={() => handleRecommended(common[cIdx])}
           onSkip={skipCommon}
+          onSkipSection={skipSection}
           confirmLabel={cIdx === common.length - 1 ? 'Confirm and Finish' : 'Confirm'}
           confirmed={progress[cIdx]}
         />
@@ -183,6 +187,7 @@ function FieldWizard({
           onBack={backSome}
           onRecommended={() => handleRecommended(sometimes[sIdx])}
           onSkip={skipSome}
+          onSkipSection={skipSection}
           confirmLabel={sIdx === sometimes.length - 1 ? 'Confirm and Finish' : 'Confirm'}
         />
       )}
@@ -195,6 +200,7 @@ function FieldWizard({
           onBack={backUnlikely}
           onRecommended={() => handleRecommended(unlikely[uIdx])}
           onSkip={skipUnlikelyField}
+          onSkipSection={skipSection}
           confirmLabel={uIdx === unlikely.length - 1 ? 'Confirm and Finish' : 'Confirm'}
         />
       )}
