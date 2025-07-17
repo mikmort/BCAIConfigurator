@@ -997,7 +997,13 @@ function App() {
                   <div className="suggested-label">Suggested Value</div>
                   <div className="suggested-value">{aiParsed.suggested || 'Loading...'}</div>
                 </div>
-                <div className="confidence"><strong>Confidence:</strong> {aiParsed.confidence}</div>
+                {aiParsed.confidence && (
+                  aiParsed.confidence.trim().toLowerCase() === 'very high' ? (
+                    <div className="ai-valid">AI returned a result it believes is valid</div>
+                  ) : (
+                    <div className="ai-warning">Not Confident -- please review carefully</div>
+                  )
+                )}
                 <div className="ai-answer">{aiParsed.reasoning}</div>
             <textarea
               value={aiExtra}
