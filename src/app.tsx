@@ -618,6 +618,14 @@ function App() {
     return '';
   })();
 
+  if (step === 0) {
+    return (
+      <div className="app">
+        <HomePage next={next} />
+      </div>
+    );
+  }
+
   return (
     <div className="app">
       <div className="layout">
