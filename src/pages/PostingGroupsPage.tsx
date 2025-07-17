@@ -33,7 +33,7 @@ function PostingGroupsPage({
           <span
             className="icon"
             role="button"
-            title="Ask AI"
+            title="Let AI Assist Me"
             onClick={() =>
               askAI(
                 strings.generalPostingGroupLabel,
@@ -42,7 +42,7 @@ function PostingGroupsPage({
               )
             }
           >
-            🤖
+            ✨
           </span>
         </div>
         <div className="field-considerations"></div>

@@ -43,7 +43,7 @@ function PaymentTermsPage({
           <span
             className="icon"
             role="button"
-            title="Ask AI"
+            title="Let AI Assist Me"
             onClick={() =>
               askAI(
                 strings.paymentTermsLabel,
@@ -52,7 +52,7 @@ function PaymentTermsPage({
               )
             }
           >
-            🤖
+            ✨
           </span>
         </div>
         <div className="field-considerations"></div>
