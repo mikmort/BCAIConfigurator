@@ -32,21 +32,10 @@ function FieldSubPage({
         )}
         <div className="question"><strong>{cf.question}</strong></div>
         <div className="input-area">{renderInput(cf)}</div>
-        <div className="field-ref">{cf.field}</div>
         <div className="details-divider">{strings.details}</div>
-        {cf.recommended && (
-          <div className="recommended">
-            Recommended: {cf.recommended}{' '}
-            <span
-              className="icon"
-              role="button"
-              title="Use recommended value"
-              onClick={onRecommended}
-            >
-              ⭐
-            </span>
-          </div>
-        )}
+        <div className="field-ref">
+          <strong>{strings.bcFieldNameLabel}</strong> {cf.field}
+        </div>
       </div>
       <div className="subpage-considerations">{cf.considerations}</div>
       <div className="nav">
