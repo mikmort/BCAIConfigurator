@@ -11,7 +11,7 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
-  background: #f8f8f8;
+  background: #fff;
   color: var(--bc-text);
 }
 
@@ -517,7 +517,7 @@ h3 {
 }
 
 .topbar {
-  background: var(--bc-gray);
+  background: none;
   padding: 8px 10px;
   display: flex;
   flex-direction: column;
@@ -719,7 +719,7 @@ h3 {
   padding: 8px;
   display: flex;
   gap: 8px;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .auto-suggest .sparkle-icon {
@@ -767,6 +767,11 @@ h3 {
   border-top: 1px solid #d0d0d0;
   padding-top: 10px;
   margin-top: auto;
+}
+
+.nav-spacer {
+  flex-grow: 1;
+  min-height: 200px;
 }
 
 .completion-text {
