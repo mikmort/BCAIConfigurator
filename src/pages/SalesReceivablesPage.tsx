@@ -1,68 +1,8 @@
-import { CompanyField } from '../types';
 import strings from '../../res/strings';
-import FieldWizard from '../components/FieldWizard';
+import WizardPage, { WizardPageProps } from './WizardPage';
 
-interface FormData { [key: string]: any }
-
-interface Props {
-  fields: CompanyField[];
-  renderInput: (cf: CompanyField) => any;
-  next: () => void;
-  back: () => void;
-  progress: boolean[];
-  setProgress: (arr: boolean[]) => void;
-  visited: boolean[];
-  setVisited: (arr: boolean[]) => void;
-  handleRecommended: (cf: CompanyField) => void;
-  formData: { [key: string]: any };
-  onShowSometimes: () => void;
-  fetchAISuggestion: (
-    field: CompanyField,
-    currentValue: string
-  ) => Promise<{ suggested: string; confidence: string }>;
-  setFieldValue: (key: string, value: string) => void;
-  onFieldIndexChange: (index: number | null) => void;
-  goToFieldIndex?: number | null;
+export default function SalesReceivablesPage(
+  props: Omit<WizardPageProps, 'title' | 'skipSection'>
+) {
+  return <WizardPage {...props} title={strings.salesReceivablesSetup} />;
 }
-
-function SalesReceivablesPage({
-  fields,
-  renderInput,
-  next,
-  back,
-  progress,
-  setProgress,
-  visited,
-  setVisited,
-  handleRecommended,
-  formData,
-  onShowSometimes,
-  fetchAISuggestion,
-  setFieldValue,
-  onFieldIndexChange,
-  goToFieldIndex,
-}: Props) {
-  return (
-    <FieldWizard
-      title={strings.salesReceivablesSetup}
-      fields={fields}
-      renderInput={renderInput}
-      handleRecommended={handleRecommended}
-      next={next}
-      back={back}
-      skipSection={back}
-      progress={progress}
-      setProgress={setProgress}
-      visited={visited}
-      setVisited={setVisited}
-      formData={formData}
-      onShowSometimes={onShowSometimes}
-      fetchAISuggestion={fetchAISuggestion}
-      setFieldValue={setFieldValue}
-      onFieldIndexChange={onFieldIndexChange}
-      goToFieldIndex={goToFieldIndex}
-    />
-  );
-}
-
-export default SalesReceivablesPage;
