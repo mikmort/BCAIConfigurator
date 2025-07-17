@@ -11,21 +11,23 @@ interface Props {
   back: () => void;
   progress: boolean[];
   setProgress: (arr: boolean[]) => void;
+  visited: boolean[];
+  setVisited: (arr: boolean[]) => void;
   handleRecommended: (cf: CompanyField) => void;
 }
 
-function FieldWizard({ title, fields, renderInput, next, back, progress, setProgress, handleRecommended }: Props) {
+function FieldWizard({ title, fields, renderInput, next, back, progress, setProgress, visited, setVisited, handleRecommended }: Props) {
   const common = fields.filter(f => f.common === 'common');
   const sometimes = fields.filter(f => f.common === 'sometimes');
   const unlikely = fields.filter(f => f.common === 'unlikely');
 
   type Stage = 'common' | 'finish' | 'sometimes' | 'unlikely';
   const [stage, setStage] = useState<Stage>(() =>
-    progress.every(Boolean) ? 'finish' : 'common'
+    visited.every(Boolean) ? 'finish' : 'common'
   );
 
   const [cIdx, setCIdx] = useState(() => {
-    const idx = progress.findIndex(p => !p);
+    const idx = visited.findIndex(v => !v);
     return idx === -1 ? 0 : idx;
   });
   const [sIdx, setSIdx] = useState(0);
@@ -53,15 +55,21 @@ function FieldWizard({ title, fields, renderInput, next, back, progress, setProg
 
   function confirmCommon() {
     const arr = [...progress];
+    const vArr = [...visited];
     arr[cIdx] = true;
+    vArr[cIdx] = true;
     setProgress(arr);
-    nextCommon(arr);
+    setVisited(vArr);
+    nextCommon(vArr);
   }
   function skipCommon() {
-    nextCommon(progress);
+    const vArr = [...visited];
+    vArr[cIdx] = true;
+    setVisited(vArr);
+    nextCommon(vArr);
   }
-  function nextCommon(current: boolean[] = progress) {
-    const idx = current.findIndex(p => !p);
+  function nextCommon(current: boolean[] = visited) {
+    const idx = current.findIndex(v => !v);
     if (idx === -1) setStage('finish');
     else setCIdx(idx);
   }

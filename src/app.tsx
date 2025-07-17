@@ -177,6 +177,9 @@ function App() {
   const [companyProgress, setCompanyProgress] = useState<boolean[]>([]);
   const [glProgress, setGlProgress] = useState<boolean[]>([]);
   const [srProgress, setSrProgress] = useState<boolean[]>([]);
+  const [companyVisited, setCompanyVisited] = useState<boolean[]>([]);
+  const [glVisited, setGlVisited] = useState<boolean[]>([]);
+  const [srVisited, setSrVisited] = useState<boolean[]>([]);
   const [downloadUrl, setDownloadUrl] = useState('');
   const [debugMessages, setDebugMessages] = useState([] as string[]);
   const [countries, setCountries] = useState([] as { code: string; name: string }[]);
@@ -284,6 +287,7 @@ function App() {
         const company = parseQuestions(data, companyFieldNames);
         setCompanyFields(company);
         setCompanyProgress(company.filter(f => f.common === 'common').map(() => false));
+        setCompanyVisited(company.filter(f => f.common === 'common').map(() => false));
         setFormData((f: FormData) => {
           const copy: FormData = { ...f };
           company.forEach(cf => {
@@ -296,6 +300,7 @@ function App() {
         const gl = parseQuestions(data, glFieldNames);
         setGlFields(gl);
         setGlProgress(gl.filter(f => f.common === 'common').map(() => false));
+        setGlVisited(gl.filter(f => f.common === 'common').map(() => false));
         setFormData((f: FormData) => {
           const copy: FormData = { ...f };
           gl.forEach(cf => {
@@ -308,6 +313,7 @@ function App() {
         const sr = parseQuestions(data, srFieldNames);
         setSrFields(sr);
         setSrProgress(sr.filter(f => f.common === 'common').map(() => false));
+        setSrVisited(sr.filter(f => f.common === 'common').map(() => false));
         setFormData((f: FormData) => {
           const copy: FormData = { ...f };
           sr.forEach(cf => {
@@ -844,6 +850,8 @@ function App() {
           back={() => setStep(1)}
           progress={companyProgress}
           setProgress={setCompanyProgress}
+          visited={companyVisited}
+          setVisited={setCompanyVisited}
         />
       )}
       {step === 4 && (
@@ -876,6 +884,8 @@ function App() {
           back={back}
           progress={glProgress}
           setProgress={setGlProgress}
+          visited={glVisited}
+          setVisited={setGlVisited}
         />
       )}
       {step === 7 && (
@@ -887,6 +897,8 @@ function App() {
           back={back}
           progress={srProgress}
           setProgress={setSrProgress}
+          visited={srVisited}
+          setVisited={setSrVisited}
         />
       )}
           {step === 8 && <CustomersPage next={next} back={back} />}
