@@ -1012,7 +1012,6 @@ function App() {
               id="ai-extra"
               value={aiExtra}
               onChange={e => setAiExtra(e.target.value)}
-              placeholder="Additional Instructions"
               rows={6}
             />
             <button className="go-btn" onClick={askAgain}>SUGGEST AGAIN</button>
