@@ -6,6 +6,7 @@ interface Props {
   handleBlur: (e: any) => void;
   next: () => void;
   back: () => void;
+  skipSection: () => void;
   askAI: (field: string, key: string, value: string, cons?: string) => void;
   options: { code: string; description: string }[];
 }
@@ -16,6 +17,7 @@ function PaymentTermsPage({
   handleBlur,
   next,
   back,
+  skipSection,
   askAI,
   options,
 }: Props) {
@@ -60,6 +62,9 @@ function PaymentTermsPage({
       <div className="nav">
         <button className="next-btn" onClick={back}>{strings.back}</button>
         <button className="next-btn" onClick={next}>{strings.next}</button>
+        <button className="skip-btn skip-section-btn" onClick={skipSection}>
+          {strings.skipSection}
+        </button>
         <button className="skip-btn" onClick={next}>{strings.skip}</button>
       </div>
     </div>

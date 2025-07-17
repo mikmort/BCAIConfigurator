@@ -30,7 +30,7 @@ label {
   display: flex;
   align-items: center;
 }
-.nav .skip-btn {
+.nav .skip-section-btn {
   margin-left: auto;
 }
 
@@ -123,9 +123,9 @@ button:hover {
 
 .splash-button {
   background-color: #fff;
-  color: var(--bc-blue);
+  color: var(--bc-teal);
   padding: 12px 24px;
-  border: 1px solid var(--bc-blue);
+  border: 1px solid var(--bc-teal);
   border-radius: 16px;
   font-size: 1em;
   cursor: pointer;
@@ -426,10 +426,10 @@ h3 {
 .home-link {
   align-self: flex-start;
   cursor: pointer;
-  color: var(--bc-blue);
+  color: var(--bc-teal);
   margin-bottom: 4px;
   padding: 4px 8px;
-  border: 1px solid var(--bc-blue);
+  border: 1px solid var(--bc-teal);
   border-radius: 4px;
   background: #fff;
   font-weight: 600;

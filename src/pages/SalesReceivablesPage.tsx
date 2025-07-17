@@ -14,9 +14,10 @@ interface Props {
   visited: boolean[];
   setVisited: (arr: boolean[]) => void;
   handleRecommended: (cf: CompanyField) => void;
+  skipSection: () => void;
 }
 
-function SalesReceivablesPage({ fields, renderInput, next, back, progress, setProgress, visited, setVisited, handleRecommended }: Props) {
+function SalesReceivablesPage({ fields, renderInput, next, back, progress, setProgress, visited, setVisited, handleRecommended, skipSection }: Props) {
   return (
     <FieldWizard
       title={strings.salesReceivablesSetup}
@@ -25,6 +26,7 @@ function SalesReceivablesPage({ fields, renderInput, next, back, progress, setPr
       handleRecommended={handleRecommended}
       next={next}
       back={back}
+      skipSection={skipSection}
       progress={progress}
       setProgress={setProgress}
       visited={visited}

@@ -14,9 +14,10 @@ interface Props {
   visited: boolean[];
   setVisited: (arr: boolean[]) => void;
   handleRecommended: (cf: CompanyField) => void;
+  skipSection: () => void;
 }
 
-function FieldWizard({ title, fields, renderInput, next, back, progress, setProgress, visited, setVisited, handleRecommended }: Props) {
+function FieldWizard({ title, fields, renderInput, next, back, progress, setProgress, visited, setVisited, handleRecommended, skipSection }: Props) {
   const common = fields.filter(f => f.common === 'common');
   const sometimes = fields.filter(f => f.common === 'sometimes');
   const unlikely = fields.filter(f => f.common === 'unlikely');
@@ -143,6 +144,7 @@ function FieldWizard({ title, fields, renderInput, next, back, progress, setProg
           onBack={backCommon}
           onRecommended={() => handleRecommended(common[cIdx])}
           onSkip={skipCommon}
+          onSkipSection={skipSection}
           confirmLabel={cIdx === common.length - 1 ? 'Confirm and Finish' : 'Confirm'}
           confirmed={progress[cIdx]}
         />
@@ -156,6 +158,7 @@ function FieldWizard({ title, fields, renderInput, next, back, progress, setProg
           onBack={backSome}
           onRecommended={() => handleRecommended(sometimes[sIdx])}
           onSkip={skipSome}
+          onSkipSection={skipSection}
           confirmLabel={sIdx === sometimes.length - 1 ? 'Confirm and Finish' : 'Confirm'}
         />
       )}
@@ -168,6 +171,7 @@ function FieldWizard({ title, fields, renderInput, next, back, progress, setProg
           onBack={backUnlikely}
           onRecommended={() => handleRecommended(unlikely[uIdx])}
           onSkip={skipUnlikelyField}
+          onSkipSection={skipSection}
           confirmLabel={uIdx === unlikely.length - 1 ? 'Confirm and Finish' : 'Confirm'}
         />
       )}

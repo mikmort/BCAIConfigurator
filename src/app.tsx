@@ -852,10 +852,7 @@ function App() {
           <div className="topbar">
             <div className="actions">
               <span>{strings.search}</span>
-              <button className="help-btn">
-                <span className="icon">?</span>
-                {strings.help}
-              </button>
+              <button className="help-btn">{strings.help}</button>
             </div>
             <div className="progress-area">
               <div className="progress-slider">
@@ -916,6 +913,7 @@ function App() {
           handleRecommended={handleRecommended}
           next={next}
           back={() => setStep(1)}
+          skipSection={goHome}
           progress={companyProgress}
           setProgress={setCompanyProgress}
           visited={companyVisited}
@@ -929,6 +927,7 @@ function App() {
           handleBlur={handleBlur}
           next={next}
           back={back}
+          skipSection={goHome}
           askAI={openAIDialog}
         />
       )}
@@ -939,6 +938,7 @@ function App() {
           handleBlur={handleBlur}
           next={next}
           back={back}
+          skipSection={goHome}
           askAI={openAIDialog}
           options={paymentTermsOptions}
         />
@@ -950,6 +950,7 @@ function App() {
           handleRecommended={handleRecommended}
           next={next}
           back={back}
+          skipSection={goHome}
           progress={glProgress}
           setProgress={setGlProgress}
           visited={glVisited}
@@ -963,15 +964,22 @@ function App() {
           handleRecommended={handleRecommended}
           next={next}
           back={back}
+          skipSection={goHome}
           progress={srProgress}
           setProgress={setSrProgress}
           visited={srVisited}
           setVisited={setSrVisited}
         />
       )}
-          {step === 8 && <CustomersPage next={next} back={back} />}
-          {step === 9 && <VendorsPage next={next} back={back} />}
-          {step === 10 && <ItemsPage next={next} back={back} />}
+          {step === 8 && (
+            <CustomersPage next={next} back={back} skipSection={goHome} />
+          )}
+          {step === 9 && (
+            <VendorsPage next={next} back={back} skipSection={goHome} />
+          )}
+          {step === 10 && (
+            <ItemsPage next={next} back={back} skipSection={goHome} />
+          )}
           {step === 11 && (
             <ReviewPage
               fields={[...companyFields, ...glFields, ...srFields]}
