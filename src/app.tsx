@@ -1004,8 +1004,10 @@ function App() {
                     <div className="ai-warning">Not Confident -- please review carefully</div>
                   )
                 )}
-                <div className="ai-answer">{aiParsed.reasoning}</div>
-            <label htmlFor="ai-extra">Additional Instructions</label>
+                <div className="ai-answer">
+                  <strong>Why did AI suggest this?:</strong> {aiParsed.reasoning}
+                </div>
+            <label htmlFor="ai-extra" className="ai-extra-label">Additional Instructions</label>
             <textarea
               id="ai-extra"
               value={aiExtra}
@@ -1013,7 +1015,7 @@ function App() {
               placeholder="Additional Instructions"
               rows={6}
             />
-            <button className="go-btn" onClick={askAgain}>go</button>
+            <button className="go-btn" onClick={askAgain}>SUGGEST AGAIN</button>
             <div className="nav modal-actions">
               <button className="next-btn" onClick={acceptSuggested}>Accept</button>
               <button className="next-btn" onClick={closeAIDialog}>Cancel</button>
