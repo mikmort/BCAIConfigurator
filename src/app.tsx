@@ -1005,13 +1005,14 @@ function App() {
                   )
                 )}
                 <div className="ai-answer">{aiParsed.reasoning}</div>
+            <label htmlFor="ai-extra">Additional Instructions</label>
             <textarea
+              id="ai-extra"
               value={aiExtra}
               onChange={e => setAiExtra(e.target.value)}
-              placeholder="Additional Instructions"
             />
-            <button className="next-btn" onClick={askAgain}>Ask AI Assistant</button>
-            <div className="nav">
+            <button className="go-btn" onClick={askAgain}>go</button>
+            <div className="nav modal-actions">
               <button className="next-btn" onClick={acceptSuggested}>Accept</button>
               <button className="next-btn" onClick={closeAIDialog}>Cancel</button>
             </div>
