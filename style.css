@@ -147,14 +147,14 @@ h3 {
 }
 
 .menu-box {
-  flex: 1 1 150px;
+  width: 200px;
+  flex: 0 0 200px;
   background: #008080;
   border: 1px solid #006b6b;
   border-radius: 6px;
   padding: 20px;
   text-align: center;
   cursor: pointer;
-  min-width: 150px;
   color: #fff;
 }
 
@@ -251,7 +251,8 @@ h3 {
 }
 
 .sidebar {
-  width: 220px;
+  width: 160px;
+  flex-shrink: 0;
   background: #f3f2f1;
   padding: 10px;
 }
@@ -317,4 +318,25 @@ h3 {
 .progress-slider span.active {
   font-weight: bold;
   border-bottom: 2px solid #0078d4;
+}
+
+.progress-area {
+  margin-top: 8px;
+  background: #fff;
+  padding: 6px;
+  border-radius: 4px;
+}
+
+.progress-bar {
+  height: 8px;
+  background: #d0d0d0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: #0078d4;
+  width: 0;
 }
