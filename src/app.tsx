@@ -308,8 +308,20 @@ function App() {
       all.forEach(cf => {
         const key = fieldKey(cf.field);
         if (copy[key]) return;
-        const internal = mapFieldName(cf.field);
-        const val = findFieldValue(startData, internal);
+        const xmlName = mapFieldName(cf.bcFieldName || cf.field);
+        let val: any = undefined;
+        if (cf.lookupTable) {
+          const rows = findTableRows(startData, cf.lookupTable) || [];
+          if (rows.length) {
+            val = rows[0][xmlName];
+            if (val && typeof val === 'object' && '#text' in val) {
+              val = val['#text'];
+            }
+          }
+        }
+        if (val === undefined) {
+          val = findFieldValue(startData, xmlName);
+        }
         if (val !== undefined) {
           copy[key] = val;
         }

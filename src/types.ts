@@ -5,6 +5,7 @@ export interface CompanyField {
   common: 'common' | 'sometimes' | 'unlikely';
   fieldType?: string;
   question?: string;
+  bcFieldName?: string;
   lookupTable?: number;
   lookupField?: string;
 }

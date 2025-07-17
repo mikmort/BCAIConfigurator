@@ -7,6 +7,7 @@ export interface ConfigQuestion {
   common?: string;
   FieldType?: string;
   Question?: string;
+  'BC Field Name'?: string;
   'Lookup Table'?: number;
   'Lookup Field'?: string;
 }
@@ -38,6 +39,9 @@ export function parseQuestions(
       common,
       fieldType: q?.FieldType,
       question: q?.Question,
+      bcFieldName: (q as any)?.['BC Field Name']
+        ? String((q as any)['BC Field Name'])
+        : undefined,
       lookupTable: (q as any)?.['Lookup Table']
         ? Number((q as any)['Lookup Table'])
         : undefined,
