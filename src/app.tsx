@@ -203,6 +203,9 @@ function App() {
   const [companyFieldIdx, setCompanyFieldIdx] = useState<number | null>(null);
   const [glFieldIdx, setGlFieldIdx] = useState<number | null>(null);
   const [srFieldIdx, setSrFieldIdx] = useState<number | null>(null);
+  const [showCompanySometimes, setShowCompanySometimes] = useState(false);
+  const [showGLSometimes, setShowGLSometimes] = useState(false);
+  const [showSRSometimes, setShowSRSometimes] = useState(false);
   const [aiParsed, setAiParsed] = useState({
     suggested: '',
     confidence: '',
@@ -771,7 +774,11 @@ function App() {
                   {step === 3 && (
                     <ul className="subnav">
                       {companyFields
-                        .filter(f => f.common === 'common')
+                        .filter(
+                          f =>
+                            f.common === 'common' ||
+                            (showCompanySometimes && f.common === 'sometimes')
+                        )
                         .map((f, i) => (
                           <li
                             key={f.field}
@@ -801,7 +808,11 @@ function App() {
                   {step === 6 && (
                     <ul className="subnav">
                       {glFields
-                        .filter(f => f.common === 'common')
+                        .filter(
+                          f =>
+                            f.common === 'common' ||
+                            (showGLSometimes && f.common === 'sometimes')
+                        )
                         .map((f, i) => (
                           <li
                             key={f.field}
@@ -823,7 +834,11 @@ function App() {
                   {step === 7 && (
                     <ul className="subnav">
                       {srFields
-                        .filter(f => f.common === 'common')
+                        .filter(
+                          f =>
+                            f.common === 'common' ||
+                            (showSRSometimes && f.common === 'sometimes')
+                        )
                         .map((f, i) => (
                           <li
                             key={f.field}
@@ -950,6 +965,7 @@ function App() {
           setProgress={setCompanyProgress}
           visited={companyVisited}
           setVisited={setCompanyVisited}
+          onShowSometimes={() => setShowCompanySometimes(true)}
           goToFieldIndex={companyFieldIdx}
         />
       )}
@@ -985,6 +1001,7 @@ function App() {
           setProgress={setGlProgress}
           visited={glVisited}
           setVisited={setGlVisited}
+          onShowSometimes={() => setShowGLSometimes(true)}
           goToFieldIndex={glFieldIdx}
         />
       )}
@@ -999,6 +1016,7 @@ function App() {
           setProgress={setSrProgress}
           visited={srVisited}
           setVisited={setSrVisited}
+          onShowSometimes={() => setShowSRSometimes(true)}
           goToFieldIndex={srFieldIdx}
         />
       )}

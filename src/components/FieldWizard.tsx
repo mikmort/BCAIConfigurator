@@ -14,6 +14,7 @@ interface Props {
   visited: boolean[];
   setVisited: (arr: boolean[]) => void;
   handleRecommended: (cf: CompanyField) => void;
+  onShowSometimes?: () => void;
   /**
    * Optional index of a field to jump to when the wizard renders.
    * Only applies to the common fields stage.
@@ -32,6 +33,7 @@ function FieldWizard({
   visited,
   setVisited,
   handleRecommended,
+  onShowSometimes,
   goToFieldIndex,
 }: Props) {
   const common = fields.filter(f => f.common === 'common');
@@ -106,6 +108,7 @@ function FieldWizard({
   }
 
   function reviewSometimes() {
+    onShowSometimes && onShowSometimes();
     setStage('sometimes');
     setSIdx(0);
   }
@@ -119,7 +122,7 @@ function FieldWizard({
     if (sIdx + 1 < sometimes.length) setSIdx(sIdx + 1);
     else {
       setSDone(true);
-      setStage('finish');
+      next();
     }
   }
   function backSome() {
@@ -151,6 +154,7 @@ function FieldWizard({
 
   function skipSometimes() {
     setSDone(true);
+    next();
   }
 
   function skipUnlikely() {
@@ -201,52 +205,37 @@ function FieldWizard({
 
       {stage === 'finish' && (
         <div className="finish-summary">
-          <p>
+          <div className="congrats-message">
+            <span className="icon" role="img" aria-label="celebration">
+              🎉
+            </span>{' '}
+            Congratulations
+          </div>
+          <p className="completed-text">
             Completed {progress.filter(Boolean).length} of {common.length} tasks
           </p>
           {!sDone && sometimes.length > 0 && (
             <div className="finish-section">
-              <h3>{strings.sometimes}</h3>
+              <p>
+                Below are a list of additional fields that some companies
+                configure when setting up Dynamics Business Central. Would you
+                like to review these now?
+              </p>
               <ul>
                 {sometimes.map(f => (
                   <li key={f.field}>{f.field}</li>
                 ))}
               </ul>
-              <p>
-                These files are sometimes customized on setup. Would you like to
-                review these fields as well, or skip for now?
-              </p>
               <div className="nav">
-                <button className="next-btn" onClick={reviewSometimes}>Review</button>
-                <button className="skip-btn" onClick={skipSometimes}>Skip</button>
+                <button className="next-btn" onClick={reviewSometimes}>Yes</button>
+                <button className="next-btn" onClick={skipSometimes}>
+                  No, let's finish and Review
+                </button>
               </div>
             </div>
           )}
 
-          {sDone && !uDone && unlikely.length > 0 && (
-            <div className="finish-section">
-              <h3>{strings.additional}</h3>
-              <ul>
-                {unlikely.map(f => (
-                  <li key={f.field}>{f.field}</li>
-                ))}
-              </ul>
-              <p>
-                These files are rarely customized on setup. Would you like to
-                review these fields, or skip for now?
-              </p>
-              <div className="nav">
-                <button className="next-btn" onClick={reviewUnlikely}>Review</button>
-                <button className="skip-btn" onClick={skipUnlikely}>Skip</button>
-              </div>
-            </div>
-          )}
-
-          {sDone && (uDone || unlikely.length === 0) && (
-            <div className="nav">
-              <button className="next-btn" onClick={next}>{strings.next}</button>
-            </div>
-          )}
+          {/* No other actions when skipping */}
         </div>
       )}
 
