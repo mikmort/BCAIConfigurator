@@ -11,16 +11,24 @@ interface Props {
 }
 
 const initialIndustries = [
-  'Manufacturing',
-  'Retail',
-  'Healthcare',
-  'Education',
-  'Finance',
-  'Technology',
-  'Hospitality',
+  'Agriculture',
+  'Automotive',
   'Construction',
-  'Transportation',
+  'Education',
+  'Energy',
+  'Finance',
   'Government',
+  'Healthcare',
+  'Hospitality',
+  'Manufacturing',
+  'Media and Communications',
+  'Nonprofit',
+  'Professional Services',
+  'Real Estate',
+  'Retail',
+  'Technology',
+  'Telecommunications',
+  'Transportation',
 ];
 
 function BasicInfoPage({
