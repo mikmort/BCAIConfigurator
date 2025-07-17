@@ -16,12 +16,15 @@ function FieldWizard({ title, fields, renderInput, next, back }: Props) {
   const sometimes = fields.filter(f => f.common === 'sometimes');
   const unlikely = fields.filter(f => f.common === 'unlikely');
 
+  type Stage = 'common' | 'finish' | 'sometimes' | 'unlikely';
+  const [stage, setStage] = useState<Stage>('common');
+
   const [cIdx, setCIdx] = useState(0);
   const [cDone, setCDone] = useState<boolean[]>(common.map(() => false));
   const [sIdx, setSIdx] = useState(0);
   const [uIdx, setUIdx] = useState(0);
-  const [showSometimes, setShowSometimes] = useState(false);
-  const [showUnlikely, setShowUnlikely] = useState(false);
+  const [sDone, setSDone] = useState(false);
+  const [uDone, setUDone] = useState(false);
 
   const progress = common.length
     ? Math.round((cDone.filter(Boolean).length / common.length) * 100)
@@ -38,8 +41,13 @@ function FieldWizard({ title, fields, renderInput, next, back }: Props) {
   }
   function nextCommon() {
     if (cIdx + 1 < common.length) setCIdx(cIdx + 1);
+    else setStage('finish');
   }
 
+  function reviewSometimes() {
+    setStage('sometimes');
+    setSIdx(0);
+  }
   function confirmSome() {
     nextSome();
   }
@@ -48,65 +56,129 @@ function FieldWizard({ title, fields, renderInput, next, back }: Props) {
   }
   function nextSome() {
     if (sIdx + 1 < sometimes.length) setSIdx(sIdx + 1);
-    else setShowSometimes(false);
+    else {
+      setSDone(true);
+      setStage('finish');
+    }
   }
 
-  function confirmUnlikely() {
+  function reviewUnlikely() {
+    setStage('unlikely');
+    setUIdx(0);
+  }
+  function confirmUnlikelyField() {
     nextUnlikely();
   }
-  function skipUnlikely() {
+  function skipUnlikelyField() {
     nextUnlikely();
   }
   function nextUnlikely() {
     if (uIdx + 1 < unlikely.length) setUIdx(uIdx + 1);
-    else setShowUnlikely(false);
+    else {
+      setUDone(true);
+      next();
+    }
+  }
+
+  function skipSometimes() {
+    setSDone(true);
+  }
+
+  function skipUnlikely() {
+    setUDone(true);
+    next();
   }
 
   return (
     <div>
       <h2>{title}</h2>
-      {common[cIdx] && (
+
+      {stage === 'common' && common[cIdx] && (
         <FieldSubPage
           field={common[cIdx]}
           renderInput={renderInput}
           onConfirm={confirmCommon}
           onSkip={skipCommon}
+          confirmLabel={cIdx === common.length - 1 ? 'Confirm and Finish' : 'Confirm'}
         />
       )}
-      {!common[cIdx] && <div>{strings.allCommonComplete}</div>}
 
-      <details open={showSometimes} onToggle={e => setShowSometimes(e.currentTarget.open)}>
-        <summary>{strings.sometimes}</summary>
-        {showSometimes && sometimes[sIdx] && (
-          <FieldSubPage
-            field={sometimes[sIdx]}
-            renderInput={renderInput}
-            onConfirm={confirmSome}
-            onSkip={skipSome}
-          />
-        )}
-      </details>
+      {stage === 'sometimes' && sometimes[sIdx] && (
+        <FieldSubPage
+          field={sometimes[sIdx]}
+          renderInput={renderInput}
+          onConfirm={confirmSome}
+          onSkip={skipSome}
+          confirmLabel={sIdx === sometimes.length - 1 ? 'Confirm and Finish' : 'Confirm'}
+        />
+      )}
 
-      <details open={showUnlikely} onToggle={e => setShowUnlikely(e.currentTarget.open)}>
-        <summary>{strings.additional}</summary>
-        {showUnlikely && unlikely[uIdx] && (
-          <FieldSubPage
-            field={unlikely[uIdx]}
-            renderInput={renderInput}
-            onConfirm={confirmUnlikely}
-            onSkip={skipUnlikely}
-          />
-        )}
-      </details>
+      {stage === 'unlikely' && unlikely[uIdx] && (
+        <FieldSubPage
+          field={unlikely[uIdx]}
+          renderInput={renderInput}
+          onConfirm={confirmUnlikelyField}
+          onSkip={skipUnlikelyField}
+          confirmLabel={uIdx === unlikely.length - 1 ? 'Confirm and Finish' : 'Confirm'}
+        />
+      )}
 
-      <div className="status-bar">
-        <div className="status-fill" style={{ width: `${progress}%` }} />
-      </div>
+      {stage === 'finish' && (
+        <div className="finish-summary">
+          <p>
+            Completed {cDone.filter(Boolean).length} of {common.length} tasks
+          </p>
+          {!sDone && sometimes.length > 0 && (
+            <div className="finish-section">
+              <h3>{strings.sometimes}</h3>
+              <ul>
+                {sometimes.map(f => (
+                  <li key={f.field}>{f.field}</li>
+                ))}
+              </ul>
+              <p>
+                These files are sometimes customized on setup. Would you like to
+                review these fields as well, or skip for now?
+              </p>
+              <div className="nav">
+                <button className="next-btn" onClick={reviewSometimes}>Review</button>
+                <button className="skip-btn" onClick={skipSometimes}>Skip</button>
+              </div>
+            </div>
+          )}
 
-      <div className="nav">
-        <button className="next-btn" onClick={back}>{strings.back}</button>
-        <button className="next-btn" onClick={next}>{strings.next}</button>
-      </div>
+          {sDone && !uDone && unlikely.length > 0 && (
+            <div className="finish-section">
+              <h3>{strings.additional}</h3>
+              <ul>
+                {unlikely.map(f => (
+                  <li key={f.field}>{f.field}</li>
+                ))}
+              </ul>
+              <p>
+                These files are rarely customized on setup. Would you like to
+                review these fields, or skip for now?
+              </p>
+              <div className="nav">
+                <button className="next-btn" onClick={reviewUnlikely}>Review</button>
+                <button className="skip-btn" onClick={skipUnlikely}>Skip</button>
+              </div>
+            </div>
+          )}
+
+          {sDone && (uDone || unlikely.length === 0) && (
+            <div className="nav">
+              <button className="next-btn" onClick={next}>{strings.next}</button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {(stage === 'common' || stage === 'sometimes' || stage === 'unlikely') && (
+        <div className="status-bar">
+          <div className="status-fill" style={{ width: `${progress}%` }} />
+        </div>
+      )}
     </div>
   );
 }

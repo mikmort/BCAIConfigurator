@@ -6,9 +6,16 @@ interface Props {
   renderInput: (cf: CompanyField) => React.ReactNode;
   onConfirm: () => void;
   onSkip: () => void;
+  confirmLabel?: string;
 }
 
-function FieldSubPage({ field: cf, renderInput, onConfirm, onSkip }: Props) {
+function FieldSubPage({
+  field: cf,
+  renderInput,
+  onConfirm,
+  onSkip,
+  confirmLabel = 'Confirm',
+}: Props) {
   return (
     <div className="subpage-field">
       <div className="subpage-left">
@@ -21,7 +28,7 @@ function FieldSubPage({ field: cf, renderInput, onConfirm, onSkip }: Props) {
       </div>
       <div className="subpage-considerations">{cf.considerations}</div>
       <div className="nav">
-        <button className="next-btn" onClick={onConfirm}>Confirm</button>
+        <button className="next-btn" onClick={onConfirm}>{confirmLabel}</button>
         <button className="skip-btn" onClick={onSkip}>Skip</button>
       </div>
     </div>

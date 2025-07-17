@@ -435,16 +435,22 @@ h3 {
 }
 
 .status-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
   background: #f3f2f1;
   padding: 6px;
+  margin-top: 20px;
+  border-radius: 4px;
 }
 
 .status-fill {
   height: 8px;
   background: #0078d4;
   width: 0;
+}
+
+.finish-summary {
+  margin-top: 20px;
+}
+
+.finish-section {
+  margin-top: 20px;
 }
