@@ -534,13 +534,6 @@ h3 {
   color: #555;
 }
 
-.details-divider {
-  margin-top: 10px;
-  padding-top: 4px;
-  border-top: 1px solid #ccc;
-  font-weight: 600;
-  font-size: 0.9em;
-}
 
 .confirmed-banner {
   background: var(--bc-teal);

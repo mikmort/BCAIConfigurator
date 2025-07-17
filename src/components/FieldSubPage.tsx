@@ -32,7 +32,6 @@ function FieldSubPage({
         )}
         <div className="question"><strong>{cf.question}</strong></div>
         <div className="input-area">{renderInput(cf)}</div>
-        <div className="details-divider">{strings.details}</div>
         <div className="field-ref">
           <strong>{strings.bcFieldNameLabel}</strong> {cf.field}
         </div>
