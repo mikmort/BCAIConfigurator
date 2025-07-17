@@ -1,5 +1,16 @@
 import React from 'react';
 import strings from '../../res/strings';
+import {
+  InfoIcon,
+  CompanyIcon,
+  BoxIcon,
+  MoneyIcon,
+  BookIcon,
+  CartIcon,
+  UserIcon,
+  FactoryIcon,
+  CubeIcon,
+} from '../components/Icons';
 
 interface Props {
   goToBasicInfo: () => void;
@@ -39,7 +50,7 @@ function ConfigMenuPage({
         <h3>{strings.basicInfo}</h3>
         <div className="menu-grid">
           <div className="menu-box" onClick={goToBasicInfo}>
-            <div className="icon" role="img" aria-label="Basic Info">ℹ️</div>
+            <InfoIcon />
             <div>{strings.basicInfoTitle}</div>
           </div>
         </div>
@@ -49,25 +60,25 @@ function ConfigMenuPage({
         <div className="menu-grid">
           <div className={`menu-box ${companyDone ? 'done' : ''}`} onClick={goToCompanyInfo}>
             {companyDone && <div className="checkmark">✔</div>}
-            <div className="icon" role="img" aria-label="Company">🏢</div>
+            <CompanyIcon />
             <div>{strings.companyInfo}</div>
           </div>
           <div className="menu-box" onClick={goToPostingGroups}>
-            <div className="icon" role="img" aria-label="Posting">📦</div>
+            <BoxIcon />
             <div>Posting Information</div>
           </div>
           <div className="menu-box" onClick={goToPaymentTerms}>
-            <div className="icon" role="img" aria-label="Payment Terms">💰</div>
+            <MoneyIcon />
             <div>{strings.paymentTerms}</div>
           </div>
           <div className={`menu-box ${glDone ? 'done' : ''}`} onClick={goToGLSetup}>
             {glDone && <div className="checkmark">✔</div>}
-            <div className="icon" role="img" aria-label="General Ledger Setup">📘</div>
+            <BookIcon />
             <div>{strings.generalLedgerSetup}</div>
           </div>
           <div className={`menu-box ${srDone ? 'done' : ''}`} onClick={goToSRSetup}>
             {srDone && <div className="checkmark">✔</div>}
-            <div className="icon" role="img" aria-label="Sales and Receivables">🛒</div>
+            <CartIcon />
             <div>{strings.salesReceivablesSetup}</div>
           </div>
         </div>
@@ -76,15 +87,15 @@ function ConfigMenuPage({
         <h3>{strings.masterData}</h3>
         <div className="menu-grid">
           <div className="menu-box" onClick={goToCustomers}>
-            <div className="icon" role="img" aria-label="Customers">👤</div>
+            <UserIcon />
             <div>{strings.customers}</div>
           </div>
           <div className="menu-box" onClick={goToVendors}>
-            <div className="icon" role="img" aria-label="Vendors">🏭</div>
+            <FactoryIcon />
             <div>{strings.vendors}</div>
           </div>
           <div className="menu-box" onClick={goToItems}>
-            <div className="icon" role="img" aria-label="Items">📦</div>
+            <CubeIcon />
             <div>{strings.items}</div>
           </div>
         </div>
