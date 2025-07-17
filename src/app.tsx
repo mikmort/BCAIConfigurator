@@ -997,16 +997,24 @@ function App() {
                   <div className="suggested-label">Suggested Value</div>
                   <div className="suggested-value">{aiParsed.suggested || 'Loading...'}</div>
                 </div>
-                <div className="confidence"><strong>Confidence:</strong> {aiParsed.confidence}</div>
+                {aiParsed.confidence && (
+                  aiParsed.confidence.trim().toLowerCase() === 'very high' ? (
+                    <div className="ai-valid">AI returned a result it believes is valid</div>
+                  ) : (
+                    <div className="ai-warning">Not Confident -- please review carefully</div>
+                  )
+                )}
                 <div className="ai-answer">{aiParsed.reasoning}</div>
+            <label htmlFor="ai-extra">Additional Instructions</label>
             <textarea
+              id="ai-extra"
               value={aiExtra}
               onChange={e => setAiExtra(e.target.value)}
               placeholder="Additional Instructions"
               rows={6}
             />
-            <button className="next-btn" onClick={askAgain}>Ask AI Assistant</button>
-            <div className="nav">
+            <button className="go-btn" onClick={askAgain}>go</button>
+            <div className="nav modal-actions">
               <button className="next-btn" onClick={acceptSuggested}>Accept</button>
               <button className="next-btn" onClick={closeAIDialog}>Cancel</button>
             </div>

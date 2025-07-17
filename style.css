@@ -225,7 +225,7 @@ h3 {
 /* Layout for form fields */
 .field-row {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 2fr 1fr;
   gap: 10px;
   align-items: center;
   margin-bottom: 15px;
@@ -316,13 +316,31 @@ h3 {
   padding: 20px;
   border-radius: 4px;
   width: 90%;
-  max-width: 400px;
+  min-width: 600px;
 }
 
 .modal textarea {
   width: 100%;
   resize: none;
   margin-bottom: 10px;
+}
+
+/* Divider and spacing for modal actions */
+.modal-actions {
+  border-top: 1px solid #d0d0d0;
+  margin-top: 20px;
+  padding-top: 10px;
+}
+
+/* Simple go button used to re-ask AI */
+.go-btn {
+  background: #000;
+  color: #fff;
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  margin-right: 10px;
 }
 
 .ai-answer {
@@ -346,6 +364,19 @@ h3 {
 
 .confidence {
   margin-bottom: 8px;
+}
+
+.ai-warning {
+  border: 2px solid red;
+  color: red;
+  padding: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.ai-valid {
+  margin-bottom: 8px;
+  text-align: center;
 }
 
 /* Layout and navigation */
@@ -575,6 +606,12 @@ h3 {
   display: flex;
   flex-direction: column;
   gap: 6px;
+}
+
+.input-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .field-ref {
