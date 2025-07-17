@@ -1003,6 +1003,7 @@ function App() {
               value={aiExtra}
               onChange={e => setAiExtra(e.target.value)}
               placeholder="Additional Instructions"
+              rows={6}
             />
             <button className="next-btn" onClick={askAgain}>Ask AI Assistant</button>
             <div className="nav">
