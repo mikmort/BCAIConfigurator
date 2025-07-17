@@ -30,10 +30,10 @@ function PostingGroupsPage({
             onBlur={handleBlur}
           />
           <span className="icon" role="button" title="Use recommended value">⭐</span>
-          <span
-            className="icon"
-            role="button"
-            title="Let AI Assist Me"
+          <button
+            type="button"
+            className="ai-btn"
+            title="Ask AI to help"
             onClick={() =>
               askAI(
                 strings.generalPostingGroupLabel,
@@ -42,8 +42,9 @@ function PostingGroupsPage({
               )
             }
           >
-            ✨
-          </span>
+            <span className="icon">✨</span>
+            Ask AI to help
+          </button>
         </div>
         <div className="field-considerations"></div>
       </div>

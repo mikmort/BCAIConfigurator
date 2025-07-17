@@ -715,11 +715,11 @@ function App() {
         <button
           type="button"
           className="ai-btn"
-          title="Let AI Assist Me"
+          title="Ask AI to help"
           onClick={() => openAIDialog(cf.field, key, val, cf.considerations)}
         >
           <span className="icon">✨</span>
-          Let AI Assist Me
+          Ask AI to help
         </button>
       </>
     );
