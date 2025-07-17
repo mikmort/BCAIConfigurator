@@ -9,9 +9,11 @@ interface Props {
   renderInput: (cf: CompanyField) => any;
   next: () => void;
   back: () => void;
+  progress: boolean[];
+  setProgress: (arr: boolean[]) => void;
 }
 
-function SalesReceivablesPage({ fields, renderInput, next, back }: Props) {
+function SalesReceivablesPage({ fields, renderInput, next, back, progress, setProgress }: Props) {
   return (
     <FieldWizard
       title={strings.salesReceivablesSetup}
@@ -19,6 +21,8 @@ function SalesReceivablesPage({ fields, renderInput, next, back }: Props) {
       renderInput={renderInput}
       next={next}
       back={back}
+      progress={progress}
+      setProgress={setProgress}
     />
   );
 }
