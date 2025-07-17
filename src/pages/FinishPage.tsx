@@ -25,7 +25,7 @@ function FinishPage({ generate, back, downloadUrl, debugMessages }: Props) {
         </div>
       )}
       <div className="nav">
-        <button className="next-btn" onClick={back}>{strings.back}</button>
+        <button className="back-btn" onClick={back}>{strings.back}</button>
       </div>
     </div>
   );

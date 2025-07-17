@@ -27,7 +27,7 @@ function ReviewPage({ fields, formData, back, next }: Props) {
         ))}
       </ul>
       <div className="nav">
-        <button className="next-btn" onClick={back}>{strings.back}</button>
+        <button className="back-btn" onClick={back}>{strings.back}</button>
         <button className="next-btn" onClick={next}>I'm good for now</button>
       </div>
     </div>
