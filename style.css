@@ -292,7 +292,7 @@ h3 {
   background: #fff;
   padding: 10px;
   border-right: 1px solid #d0d0d0;
-  border-radius: 0 16px 16px 0;
+  border-radius: 0;
   box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
 }
 
@@ -352,7 +352,7 @@ h3 {
 .sidebar li {
   margin: 4px 0;
   cursor: pointer;
-  color: var(--bc-blue);
+  color: #333;
   padding: 2px 4px;
   border-radius: 8px;
   transition: background-color 0.2s;
@@ -511,7 +511,7 @@ h3 {
 }
 
 .status-bar {
-  background: #f3f2f1;
+  background: #e0e0e0;
   padding: 6px;
   margin-top: 20px;
   border-radius: 4px;
@@ -519,8 +519,15 @@ h3 {
 
 .status-fill {
   height: 8px;
-  background: #0078d4;
+  background: #555;
   width: 0;
+}
+
+.status-text {
+  margin-top: 4px;
+  font-size: 0.9em;
+  text-align: center;
+  color: #333;
 }
 
 .finish-summary {
