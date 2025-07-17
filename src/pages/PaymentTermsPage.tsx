@@ -53,7 +53,8 @@ function PaymentTermsPage({
       </div>
       <div className="nav">
         <button onClick={back}>{strings.back}</button>
-        <button onClick={next}>{strings.next}</button>
+        <button className="next-btn" onClick={next}>{strings.next}</button>
+        <button className="skip-link" onClick={next}>{strings.skip}</button>
       </div>
     </div>
   );
