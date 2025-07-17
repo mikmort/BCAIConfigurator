@@ -459,6 +459,7 @@ function App() {
 
     prompt +=
       '---------------\nPlease return the response strictly as JSON with the properties "Suggested Value", "Confidence", and "Reasoning". ' +
+      'Confidence should indicate how certain you are that this is the final value the user will want for this field in Dynamics Business Central. ' +
       'Confidence must be one of "Very High", "High", "Medium", "Low", or "Very Low".';
     setAiPromptBase(prompt);
     setAiExtra('');
@@ -857,9 +858,9 @@ function App() {
             </div>
             <div className="progress-area">
               <div className="progress-slider">
-                <div className={`progress-step ${currentGroup === 'basic' ? 'active' : ''}`}> 
+                <div className={`progress-step ${currentGroup === 'basic' ? 'active' : ''}`}>
                   <div className="circle">1</div>
-                  <span>{strings.basicInfo}</span>
+                  <span>{strings.basicInfoTitle}</span>
                 </div>
                 <div className={`progress-step ${currentGroup === 'config' ? 'active' : ''}`}> 
                   <div className="circle">2</div>
@@ -990,9 +991,11 @@ function App() {
           {showAI && (
             <div className="modal-overlay" onClick={closeAIDialog}>
               <div className="modal" onClick={e => e.stopPropagation()}>
-                <div><strong>Suggested Value:</strong> {aiParsed.suggested || 'Loading...'}</div>
-                <div><strong>Confidence:</strong> {aiParsed.confidence}</div>
-                <div><strong>Reasoning:</strong></div>
+                <div className="suggested-box">
+                  <div className="suggested-label">Suggested Value</div>
+                  <div className="suggested-value">{aiParsed.suggested || 'Loading...'}</div>
+                </div>
+                <div className="confidence"><strong>Confidence:</strong> {aiParsed.confidence}</div>
                 <div className="ai-answer">{aiParsed.reasoning}</div>
             <textarea
               value={aiExtra}
