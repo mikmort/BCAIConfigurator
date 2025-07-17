@@ -2,6 +2,7 @@
   --bc-teal: #008080;
   --bc-teal-dark: #006b6b;
   --bc-blue: #0078d4;
+  --bc-purple: #7f3fbf;
   --bc-blue-dark: #005a9e;
   --bc-gray: #f3f2f1;
   --bc-text: #323130;
@@ -682,16 +683,26 @@ h3 {
 }
 
 .auto-suggest {
-  min-height: 24px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  margin-top: 10px;
   font-size: 0.9em;
-  color: #555;
+  color: #444;
+  background: var(--bc-gray);
+  border-left: 4px solid var(--bc-purple);
+  padding: 8px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.auto-suggest .sparkle-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--bc-purple);
+  flex-shrink: 0;
 }
 
 .auto-suggest button {
-  margin-left: 10px;
+  margin-left: 8px;
 }
 
 

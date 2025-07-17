@@ -3,7 +3,7 @@ import { CompanyField } from '../types';
 import { fieldKey } from '../utils/helpers';
 
 import strings from '../../res/strings';
-import { LightbulbIcon } from './Icons';
+import { LightbulbIcon, SparkleIcon } from './Icons';
 
 interface Props {
   field: CompanyField;
@@ -44,6 +44,7 @@ function FieldSubPage({
 
   useEffect(() => {
     let mounted = true;
+    setAuto(null);
     if (fetchAISuggestion) {
       fetchAISuggestion(cf, value)
         .then(res => {
@@ -81,10 +82,11 @@ function FieldSubPage({
           })()}
         </div>
         <div className="input-area">{renderInput(cf)}</div>
-        <div className="auto-suggest" style={{ minHeight: '24px' }}>
-          {showAuto && (
-            <>
-              <span>AI Recommends: {auto!.suggested}</span>
+        {showAuto && (
+          <div className="auto-suggest">
+            <SparkleIcon className="sparkle-icon" />
+            <div>
+              <strong>AI Recommends:</strong> {auto!.suggested}
               {setFieldValue && (
                 <button
                   type="button"
@@ -93,9 +95,9 @@ function FieldSubPage({
                   Accept
                 </button>
               )}
-            </>
-          )}
-        </div>
+            </div>
+          </div>
+        )}
       </div>
       {cf.considerations && (
         <div className="subpage-considerations">
