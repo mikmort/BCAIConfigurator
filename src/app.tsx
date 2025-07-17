@@ -15,7 +15,7 @@ import SalesReceivablesPage from './pages/SalesReceivablesPage';
 import CustomersPage from './pages/CustomersPage';
 import VendorsPage from './pages/VendorsPage';
 import ItemsPage from './pages/ItemsPage';
-import BCLogo from './images/Examples/BC Logo.png';
+import BCLogo from './images/Examples/BClogo.svg';
 import strings from '../res/strings';
 import { CompanyField, BasicInfo } from './types';
 import {
@@ -647,6 +647,7 @@ function App() {
                 className="group-title"
                 onClick={() => setConfigOpen(!configOpen)}
               >
+                <span className="toggle">{configOpen ? '-' : '+'}</span>
                 {strings.configurationData}
               </div>
               {configOpen && (
@@ -664,6 +665,7 @@ function App() {
                 className="group-title"
                 onClick={() => setMasterOpen(!masterOpen)}
               >
+                <span className="toggle">{masterOpen ? '-' : '+'}</span>
                 {strings.masterData}
               </div>
               {masterOpen && (

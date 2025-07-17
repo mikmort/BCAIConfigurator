@@ -255,7 +255,7 @@ h3 {
 }
 
 .sidebar {
-  width: 200px;
+  width: 225px;
   flex-shrink: 0;
   background: #f3f2f1;
   padding: 10px;
@@ -267,6 +267,11 @@ h3 {
   align-items: center;
   gap: 4px;
   margin-bottom: 10px;
+}
+
+.sidebar-header h2 {
+  font-size: 1.1em;
+  white-space: nowrap;
 }
 
 .sidebar-header .logo {
@@ -285,6 +290,13 @@ h3 {
   font-weight: 600;
   margin-top: 10px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.group-title .toggle {
+  font-weight: bold;
+  margin-right: 4px;
 }
 
 .sidebar ul {
@@ -309,7 +321,7 @@ h3 {
 }
 
 .topbar {
-  background: #e5e5e5;
+  background: #f3f2f1;
   padding: 8px 10px;
   display: flex;
   flex-direction: column;
