@@ -14,9 +14,21 @@ interface Props {
   visited: boolean[];
   setVisited: (arr: boolean[]) => void;
   handleRecommended: (cf: CompanyField) => void;
+  goToFieldIndex?: number | null;
 }
 
-function SalesReceivablesPage({ fields, renderInput, next, back, progress, setProgress, visited, setVisited, handleRecommended }: Props) {
+function SalesReceivablesPage({
+  fields,
+  renderInput,
+  next,
+  back,
+  progress,
+  setProgress,
+  visited,
+  setVisited,
+  handleRecommended,
+  goToFieldIndex,
+}: Props) {
   return (
     <FieldWizard
       title={strings.salesReceivablesSetup}
@@ -29,6 +41,7 @@ function SalesReceivablesPage({ fields, renderInput, next, back, progress, setPr
       setProgress={setProgress}
       visited={visited}
       setVisited={setVisited}
+      goToFieldIndex={goToFieldIndex}
     />
   );
 }
