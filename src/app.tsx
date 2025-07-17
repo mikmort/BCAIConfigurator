@@ -286,12 +286,15 @@ function App() {
   }
 
   async function fetchAISuggestion(
-    fieldName: string,
-    key: string,
-    currentValue: string,
-    considerations: string = ''
+    field: CompanyField,
+    currentValue: string
   ) {
-    const prompt = buildAIPrompt(fieldName, currentValue, considerations);
+    const fieldName = field.bcFieldName || field.field;
+    const prompt = buildAIPrompt(
+      fieldName,
+      currentValue,
+      field.considerations || ''
+    );
     const ans = await askOpenAI(prompt);
     return parseAISuggestion(ans);
   }
