@@ -204,7 +204,7 @@ h3 {
   position: absolute;
   top: 4px;
   right: 4px;
-  background: #008000;
+  background: var(--bc-teal);
   color: #fff;
   border-radius: 50%;
   width: 20px;
@@ -529,7 +529,7 @@ h3 {
 }
 
 .confirmed-banner {
-  background: #008000;
+  background: var(--bc-teal);
   color: #fff;
   padding: 4px 8px;
   border-radius: 4px;
