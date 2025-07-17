@@ -340,7 +340,7 @@ h3 {
 }
 
 .ai-answer {
-  margin-top: 8px;
+  margin-top: 15px;
   white-space: pre-wrap;
   font-size: 0.9em;
 }
@@ -352,8 +352,12 @@ h3 {
   font-weight: bold;
 }
 
+#ai-extra {
+  padding-right: 20px;
+}
+
 .suggested-box {
-  border: 2px solid var(--bc-blue);
+  border: 2px solid green;
   padding: 10px;
   margin-bottom: 10px;
   text-align: center;
