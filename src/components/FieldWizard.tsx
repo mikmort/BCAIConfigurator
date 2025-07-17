@@ -26,9 +26,22 @@ function FieldWizard({ title, fields, renderInput, next, back }: Props) {
   const [sDone, setSDone] = useState(false);
   const [uDone, setUDone] = useState(false);
 
-  const progress = common.length
-    ? Math.round((cDone.filter(Boolean).length / common.length) * 100)
+  const confirmedCommon = cDone.filter(Boolean).length;
+  let currentConfirmed = confirmedCommon;
+  let currentTotal = common.length;
+  let progress = currentTotal
+    ? Math.round((currentConfirmed / currentTotal) * 100)
     : 100;
+
+  if (stage === 'sometimes') {
+    currentConfirmed = sIdx;
+    currentTotal = sometimes.length;
+    progress = currentTotal ? Math.round((currentConfirmed / currentTotal) * 100) : 100;
+  } else if (stage === 'unlikely') {
+    currentConfirmed = uIdx;
+    currentTotal = unlikely.length;
+    progress = currentTotal ? Math.round((currentConfirmed / currentTotal) * 100) : 100;
+  }
 
   function confirmCommon() {
     const arr = [...cDone];
@@ -175,9 +188,14 @@ function FieldWizard({ title, fields, renderInput, next, back }: Props) {
       )}
 
       {(stage === 'common' || stage === 'sometimes' || stage === 'unlikely') && (
-        <div className="status-bar">
-          <div className="status-fill" style={{ width: `${progress}%` }} />
-        </div>
+        <>
+          <div className="status-bar">
+            <div className="status-fill" style={{ width: `${progress}%` }} />
+          </div>
+          <div className="status-text">
+            Completed {currentConfirmed} of {currentTotal} tasks
+          </div>
+        </>
       )}
     </div>
   );
