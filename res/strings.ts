@@ -38,4 +38,5 @@ export default {
   home: 'Home',
   skip: 'Skip',
   allCommonComplete: 'All common fields completed',
+  details: 'Details',
 };

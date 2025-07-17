@@ -454,6 +454,20 @@ function App() {
     }
   }
 
+  function applyRecommendedValue(cf: CompanyField) {
+    const key = fieldKey(cf.field);
+    setFormData(f => ({ ...f, [key]: recommendedCode(cf.recommended) }));
+  }
+
+  function handleRecommended(cf: CompanyField) {
+    if (cf.recommended) {
+      const rec = recommendedCode(cf.recommended);
+      if (window.confirm(`Suggested value: ${rec}. Use it?`)) {
+        applyRecommendedValue(cf);
+      }
+    }
+  }
+
   async function generateCustomRapidStart(): Promise<void> {
     logDebug('Preparing RapidStart XML');
     const xml = `<?xml version="1.0"?>\n<CustomRapidStart>\n  <CompanyName>${formData.companyName}</CompanyName>\n  <Address>${formData.address}</Address>\n  <Country>${formData.country}</Country>\n  <PostingGroup>${formData.postingGroup}</PostingGroup>\n  <PaymentTerms>${formData.paymentTerms}</PaymentTerms>\n</CustomRapidStart>`;
@@ -580,35 +594,11 @@ function App() {
         </select>
       );
     }
-    const acceptRecommended = () => {
-      setFormData((f: FormData) => ({
-        ...f,
-        [key]: recommendedCode(cf.recommended),
-      }));
-    };
-
-    const handleRecommended = () => {
-      if (cf.recommended) {
-        const rec = recommendedCode(cf.recommended);
-        if (window.confirm(`Suggested value: ${rec}. Use it?`)) {
-          acceptRecommended();
-        }
-      }
-    };
 
     return (
       <>
         {inputEl}
-        {cf.recommended && (
-          <span
-            className="icon"
-            role="button"
-            title="Use recommended value"
-            onClick={handleRecommended}
-          >
-            ⭐
-          </span>
-        )}
+        {/* recommended icon moved to FieldSubPage */}
         <span
           className="icon"
           role="button"
@@ -780,6 +770,7 @@ function App() {
         <CompanyInfoPage
           fields={companyFields}
           renderInput={renderInput}
+          handleRecommended={handleRecommended}
           next={next}
           back={() => setStep(1)}
           progress={companyProgress}
@@ -811,6 +802,7 @@ function App() {
         <GLSetupPage
           fields={glFields}
           renderInput={renderInput}
+          handleRecommended={handleRecommended}
           next={next}
           back={back}
           progress={glProgress}
@@ -821,6 +813,7 @@ function App() {
         <SalesReceivablesPage
           fields={srFields}
           renderInput={renderInput}
+          handleRecommended={handleRecommended}
           next={next}
           back={back}
           progress={srProgress}

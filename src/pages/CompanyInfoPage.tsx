@@ -13,14 +13,16 @@ interface Props {
   back: () => void;
   progress: boolean[];
   setProgress: (arr: boolean[]) => void;
+  handleRecommended: (cf: CompanyField) => void;
 }
 
-function CompanyInfoPage({ fields, renderInput, next, back, progress, setProgress }: Props) {
+function CompanyInfoPage({ fields, renderInput, next, back, progress, setProgress, handleRecommended }: Props) {
   return (
     <FieldWizard
       title={strings.companyInfo}
       fields={fields}
       renderInput={renderInput}
+      handleRecommended={handleRecommended}
       next={next}
       back={back}
       progress={progress}
