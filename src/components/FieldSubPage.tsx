@@ -107,9 +107,6 @@ function FieldSubPage({
           </div>
         </div>
       )}
-      <div className="field-ref">
-        <strong>{strings.bcFieldNameLabel}</strong> {cf.field}
-      </div>
       <div className={`nav${isFinal ? ' final' : ''}`}>
         <button className="back-btn" onClick={onBack}>{strings.back}</button>
         <button className="next-btn" onClick={onConfirm}>{confirmLabel}</button>

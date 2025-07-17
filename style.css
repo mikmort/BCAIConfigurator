@@ -501,6 +501,11 @@ h3 {
   background-color: var(--bc-gray);
 }
 
+.sidebar li.active {
+  background-color: var(--bc-gray);
+  font-weight: bold;
+}
+
 .content {
   flex-grow: 1;
   display: flex;
@@ -557,11 +562,23 @@ h3 {
 }
 
 .progress-area {
+  padding: 10px;
+  border-bottom: 1px solid #d0d0d0;
+  border-radius: 16px 16px 0 0;
+}
+
+.page-area {
   margin-top: 8px;
   background: #fff;
-  padding: 10px;
   border-radius: 16px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.page-area .main {
+  border-radius: 0 0 16px 16px;
 }
 
 .progress-bar {
@@ -610,8 +627,9 @@ h3 {
 
 .back-btn {
   background-color: transparent;
-  color: var(--bc-text);
-  border: none;
+  color: var(--bc-teal);
+  border: 1px solid var(--bc-teal-dark);
+  border-radius: 16px;
   padding: 12px 24px;
   font-size: 1.1em;
   cursor: pointer;
@@ -658,12 +676,17 @@ h3 {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  min-height: calc(100vh - 200px);
 }
 
 .subpage-left {
   display: flex;
   flex-direction: column;
   gap: 6px;
+}
+
+.question {
+  margin-bottom: 10px;
 }
 
 .input-area {
@@ -699,6 +722,7 @@ h3 {
   height: 20px;
   color: var(--bc-purple);
   flex-shrink: 0;
+
 }
 
 .auto-suggest button {
@@ -737,7 +761,7 @@ h3 {
 .subpage-field .nav {
   border-top: 1px solid #d0d0d0;
   padding-top: 10px;
-  margin-top: 20px;
+  margin-top: auto;
 }
 
 .completion-text {
