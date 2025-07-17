@@ -217,6 +217,12 @@ function App() {
   }
 
   useEffect(() => {
+    if (step === 3) setCompanyFieldIdx(null);
+    if (step === 6) setGlFieldIdx(null);
+    if (step === 7) setSrFieldIdx(null);
+  }, [step]);
+
+  useEffect(() => {
     async function init() {
       try {
         logDebug('Loading starting data');
@@ -317,6 +323,39 @@ function App() {
       [nameKey]: basicInfo.companyName || f[nameKey] || '',
       [siteKey]: basicInfo.websiteUrl || f[siteKey] || '',
     }));
+
+    if (companyFields.length) {
+      const idxName = companyFields.findIndex(f => f.field === 'Company Name');
+      const idxSite = companyFields.findIndex(
+        f => f.field === 'Company Website'
+      );
+
+      if (idxName !== -1 && basicInfo.companyName) {
+        setCompanyProgress(p => {
+          const arr = [...p];
+          arr[idxName] = true;
+          return arr;
+        });
+        setCompanyVisited(v => {
+          const arr = [...v];
+          arr[idxName] = true;
+          return arr;
+        });
+      }
+
+      if (idxSite !== -1 && basicInfo.websiteUrl) {
+        setCompanyProgress(p => {
+          const arr = [...p];
+          arr[idxSite] = true;
+          return arr;
+        });
+        setCompanyVisited(v => {
+          const arr = [...v];
+          arr[idxSite] = true;
+          return arr;
+        });
+      }
+    }
   }, [basicInfo]);
 
   useEffect(() => {
@@ -744,7 +783,8 @@ function App() {
           <nav>
             <div className="group">
               <div className="group-title">
-                {strings.basicInfo} {basicSectionDone && <span className="check">✔</span>}
+                {basicSectionDone && <span className="check">✔</span>}
+                {strings.basicInfo}
               </div>
               <ul>
                 <li onClick={() => setStep(2)}>
@@ -759,12 +799,16 @@ function App() {
                 onClick={() => setConfigOpen(!configOpen)}
               >
                 <span className="toggle">{configOpen ? '-' : '+'}</span>
-                {strings.configurationData}{' '}
                 {configSectionDone && <span className="check">✔</span>}
+                {strings.configurationData}
               </div>
               {configOpen && (
                 <ul>
-                  <li onClick={() => setStep(3)}>
+                  <li
+                    onClick={() => {
+                      setCompanyFieldIdx(null);
+                      setStep(3);
+                    }}>
                     {companyDone && <span className="check">✔</span>}
                     {strings.companyInfo}
                   </li>
@@ -794,7 +838,11 @@ function App() {
                     {paymentDone && <span className="check">✔</span>}
                     {strings.paymentTerms}
                   </li>
-                  <li onClick={() => setStep(6)}>
+                  <li
+                    onClick={() => {
+                      setGlFieldIdx(null);
+                      setStep(6);
+                    }}>
                     {glDone && <span className="check">✔</span>}
                     {strings.generalLedgerSetup}
                   </li>
@@ -816,7 +864,11 @@ function App() {
                         ))}
                     </ul>
                   )}
-                  <li onClick={() => setStep(7)}>
+                  <li
+                    onClick={() => {
+                      setSrFieldIdx(null);
+                      setStep(7);
+                    }}>
                     {srDone && <span className="check">✔</span>}
                     {strings.salesReceivablesSetup}
                   </li>
@@ -847,8 +899,8 @@ function App() {
                 onClick={() => setMasterOpen(!masterOpen)}
               >
                 <span className="toggle">{masterOpen ? '-' : '+'}</span>
-                {strings.masterData}{' '}
                 {masterSectionDone && <span className="check">✔</span>}
+                {strings.masterData}
               </div>
               {masterOpen && (
                 <ul>
@@ -913,11 +965,20 @@ function App() {
             {step === 1 && (
               <ConfigMenuPage
                 goToBasicInfo={() => setStep(2)}
-                goToCompanyInfo={() => setStep(3)}
+                goToCompanyInfo={() => {
+                  setCompanyFieldIdx(null);
+                  setStep(3);
+                }}
                 goToPostingGroups={() => setStep(4)}
                 goToPaymentTerms={() => setStep(5)}
-              goToGLSetup={() => setStep(6)}
-              goToSRSetup={() => setStep(7)}
+              goToGLSetup={() => {
+                setGlFieldIdx(null);
+                setStep(6);
+              }}
+              goToSRSetup={() => {
+                setSrFieldIdx(null);
+                setStep(7);
+              }}
               goToCustomers={() => setStep(8)}
               goToVendors={() => setStep(9)}
               goToItems={() => setStep(10)}

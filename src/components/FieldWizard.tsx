@@ -43,11 +43,11 @@ function FieldWizard({
 
   type Stage = 'common' | 'finish' | 'sometimes' | 'unlikely';
   const [stage, setStage] = useState<Stage>(() =>
-    visited.every(Boolean) ? 'finish' : 'common'
+    progress.every(Boolean) ? 'finish' : 'common'
   );
 
   const [cIdx, setCIdx] = useState(() => {
-    const idx = visited.findIndex(v => !v);
+    const idx = progress.findIndex(v => !v);
     return idx === -1 ? 0 : idx;
   });
   const [sIdx, setSIdx] = useState(0);
