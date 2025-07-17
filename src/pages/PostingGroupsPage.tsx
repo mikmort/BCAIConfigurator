@@ -6,7 +6,7 @@ interface Props {
   handleBlur: (e: any) => void;
   next: () => void;
   back: () => void;
-  askAI: (field: string, key: string, cons?: string) => void;
+  askAI: (field: string, key: string, value: string, cons?: string) => void;
 }
 
 function PostingGroupsPage({
@@ -34,7 +34,13 @@ function PostingGroupsPage({
             className="icon"
             role="button"
             title="Ask AI"
-            onClick={() => askAI(strings.generalPostingGroupLabel, 'postingGroup')}
+            onClick={() =>
+              askAI(
+                strings.generalPostingGroupLabel,
+                'postingGroup',
+                formData.postingGroup || ''
+              )
+            }
           >
             🤖
           </span>
