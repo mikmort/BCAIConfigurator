@@ -28,6 +28,7 @@ export default {
   search: 'Search',
   help: 'Get Help from your Partner',
   review: 'Review',
+  reviewAndFinish: 'Review and Finish',
   configurationData: 'Configuration Data',
   masterData: 'Master Data',
   finishTitle: 'Finish',
