@@ -1023,17 +1023,19 @@ function App() {
               <span>{strings.search}</span>
               <button className="help-btn">{strings.help}</button>
             </div>
+          </div>
+          <div className="page-area">
             <div className="progress-area">
               <div className="progress-slider">
                 <div className={`progress-step ${currentGroup === 'basic' ? 'active' : ''}`}>
                   <div className="circle">1</div>
                   <span>{strings.basicInfoTitle}</span>
                 </div>
-                <div className={`progress-step ${currentGroup === 'config' ? 'active' : ''}`}> 
+                <div className={`progress-step ${currentGroup === 'config' ? 'active' : ''}`}>
                   <div className="circle">2</div>
                   <span>{strings.configurationData}</span>
                 </div>
-                <div className={`progress-step ${currentGroup === 'master' ? 'active' : ''}`}> 
+                <div className={`progress-step ${currentGroup === 'master' ? 'active' : ''}`}>
                   <div className="circle">3</div>
                   <span>{strings.masterData}</span>
                 </div>
@@ -1049,8 +1051,7 @@ function App() {
                 <div className="progress-bar-fill" style={{ width: `${progressPercent}%` }}></div>
               </div>
             </div>
-          </div>
-          <main className="main">
+            <main className="main">
             {step === 0 && <HomePage next={next} />}
             {step === 1 && (
               <ConfigMenuPage
@@ -1186,6 +1187,7 @@ function App() {
             />
           )}
           </main>
+          </div>
           {showAI && (
             <div className="modal-overlay" onClick={closeAIDialog}>
               <div className="modal" onClick={e => e.stopPropagation()}>
