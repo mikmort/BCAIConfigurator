@@ -643,6 +643,21 @@ function App() {
     return '';
   })();
 
+  const progressPercent = (() => {
+    switch (currentGroup) {
+      case 'basic':
+        return 25;
+      case 'config':
+        return 50;
+      case 'master':
+        return 75;
+      case 'review':
+        return 100;
+      default:
+        return 0;
+    }
+  })();
+
   if (step === 0) {
     return (
       <div className="app">
@@ -711,21 +726,25 @@ function App() {
             </div>
             <div className="progress-area">
               <div className="progress-slider">
-                <span className={currentGroup === 'basic' ? 'active' : ''}>
-                  {strings.basicInfo}
-                </span>
-                <span className={currentGroup === 'config' ? 'active' : ''}>
-                  {strings.configurationData}
-                </span>
-                <span className={currentGroup === 'master' ? 'active' : ''}>
-                  {strings.masterData}
-                </span>
-                <span className={currentGroup === 'review' ? 'active' : ''}>
-                  {strings.review}
-                </span>
+                <div className={`progress-step ${currentGroup === 'basic' ? 'active' : ''}`}> 
+                  <div className="circle">1</div>
+                  <span>{strings.basicInfo}</span>
+                </div>
+                <div className={`progress-step ${currentGroup === 'config' ? 'active' : ''}`}> 
+                  <div className="circle">2</div>
+                  <span>{strings.configurationData}</span>
+                </div>
+                <div className={`progress-step ${currentGroup === 'master' ? 'active' : ''}`}> 
+                  <div className="circle">3</div>
+                  <span>{strings.masterData}</span>
+                </div>
+                <div className={`progress-step ${currentGroup === 'review' ? 'active' : ''}`}> 
+                  <div className="circle">4</div>
+                  <span>{strings.review}</span>
+                </div>
               </div>
               <div className="progress-bar">
-                <div className="progress-bar-fill" style={{ width: '30%' }}></div>
+                <div className="progress-bar-fill" style={{ width: `${progressPercent}%` }}></div>
               </div>
             </div>
           </div>
