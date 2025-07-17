@@ -16,6 +16,11 @@ interface Props {
   handleRecommended: (cf: CompanyField) => void;
   formData: { [key: string]: any };
   onShowSometimes: () => void;
+  fetchAISuggestion: (
+    field: CompanyField,
+    currentValue: string
+  ) => Promise<{ suggested: string; confidence: string }>;
+  setFieldValue: (key: string, value: string) => void;
   goToFieldIndex?: number | null;
 }
 
@@ -31,6 +36,8 @@ function GLSetupPage({
   handleRecommended,
   formData,
   onShowSometimes,
+  fetchAISuggestion,
+  setFieldValue,
   goToFieldIndex,
 }: Props) {
   return (
@@ -48,6 +55,8 @@ function GLSetupPage({
       setVisited={setVisited}
       formData={formData}
       onShowSometimes={onShowSometimes}
+      fetchAISuggestion={fetchAISuggestion}
+      setFieldValue={setFieldValue}
       goToFieldIndex={goToFieldIndex}
     />
   );

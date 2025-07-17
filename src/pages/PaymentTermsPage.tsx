@@ -1,3 +1,4 @@
+import React from 'react';
 import strings from '../../res/strings';
 
 interface Props {
@@ -7,6 +8,13 @@ interface Props {
   next: () => void;
   back: () => void;
   askAI: (field: string, key: string, value: string, cons?: string) => void;
+  autoSuggest: (
+    field: string,
+    key: string,
+    value: string,
+    cons?: string
+  ) => Promise<{ suggested: string; confidence: string }>;
+  setFieldValue: (key: string, value: string) => void;
   options: { code: string; description: string }[];
 }
 
@@ -17,8 +25,26 @@ function PaymentTermsPage({
   next,
   back,
   askAI,
+  autoSuggest,
+  setFieldValue,
   options,
 }: Props) {
+  const [auto, setAuto] = React.useState<{ suggested: string; confidence: string } | null>(null);
+
+  React.useEffect(() => {
+    let mounted = true;
+    autoSuggest(strings.paymentTermsLabel, 'paymentTerms', formData.paymentTerms || '')
+      .then(res => {
+        if (mounted) setAuto(res);
+      })
+      .catch(() => {});
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const showAuto =
+    auto && auto.suggested && /^(very high|high)$/i.test(auto.confidence || '');
   return (
     <div>
       <div className="section-header">{strings.paymentTerms}</div>
@@ -55,6 +81,19 @@ function PaymentTermsPage({
             <span className="icon">✨</span>
             Ask AI to help
           </button>
+          <div className="auto-suggest">
+            {showAuto && (
+              <>
+                <span>AI Recommends: {auto!.suggested}</span>
+                <button
+                  type="button"
+                  onClick={() => setFieldValue('paymentTerms', auto!.suggested)}
+                >
+                  Accept
+                </button>
+              </>
+            )}
+          </div>
         </div>
         <div className="field-considerations"></div>
       </div>
