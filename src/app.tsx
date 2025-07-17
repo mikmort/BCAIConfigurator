@@ -12,6 +12,10 @@ import PaymentTermsPage from './pages/PaymentTermsPage';
 import FinishPage from './pages/FinishPage';
 import GLSetupPage from './pages/GLSetupPage';
 import SalesReceivablesPage from './pages/SalesReceivablesPage';
+import CustomersPage from './pages/CustomersPage';
+import VendorsPage from './pages/VendorsPage';
+import ItemsPage from './pages/ItemsPage';
+import BCLogo from './images/Examples/BC Logo.png';
 import strings from '../res/strings';
 import { CompanyField, BasicInfo } from './types';
 import {
@@ -181,6 +185,8 @@ function App() {
   const [aiExtra, setAiExtra] = useState('');
   const [aiFieldKey, setAiFieldKey] = useState('');
   const [aiPromptBase, setAiPromptBase] = useState('');
+  const [configOpen, setConfigOpen] = useState(true);
+  const [masterOpen, setMasterOpen] = useState(false);
 
   const suggestionFields = new Set(['Country/Region Code', 'Base Calendar Code']);
 
@@ -604,26 +610,99 @@ function App() {
     );
   }
 
+  const currentGroup = (() => {
+    if (step === 2) return 'basic';
+    if ([3, 4, 5, 6, 7].includes(step)) return 'config';
+    if ([8, 9, 10].includes(step)) return 'master';
+    if (step === 11) return 'review';
+    return '';
+  })();
+
   return (
     <div className="app">
-      <div className="navbar">
-        <a href="#" onClick={goHome}>
-          {strings.home}
-        </a>
-      </div>
-      {step !== 0 && <h1>{strings.appTitle}</h1>}
-      {step === 0 && <HomePage next={next} />}
-      {step === 1 && (
-        <ConfigMenuPage
-          goToBasicInfo={() => setStep(2)}
-          goToCompanyInfo={() => setStep(3)}
-          goToPostingGroups={() => setStep(4)}
-          goToPaymentTerms={() => setStep(5)}
-          goToGLSetup={() => setStep(6)}
-          goToSRSetup={() => setStep(7)}
-          back={back}
-        />
-      )}
+      <div className="layout">
+        <aside className="sidebar">
+          <div className="sidebar-header">
+            <img src={BCLogo} alt="BC" className="logo" />
+            <h2>Setup Business Central</h2>
+          </div>
+          <nav>
+            <div className="group">
+              <div className="group-title">{strings.basicInfo}</div>
+              <ul>
+                <li onClick={() => setStep(2)}>{strings.basicInfo}</li>
+              </ul>
+            </div>
+            <div className="group">
+              <div
+                className="group-title"
+                onClick={() => setConfigOpen(!configOpen)}
+              >
+                {strings.configurationData}
+              </div>
+              {configOpen && (
+                <ul>
+                  <li onClick={() => setStep(3)}>{strings.companyInfo}</li>
+                  <li onClick={() => setStep(4)}>Posting Information</li>
+                  <li onClick={() => setStep(5)}>{strings.paymentTerms}</li>
+                  <li onClick={() => setStep(6)}>{strings.generalLedgerSetup}</li>
+                  <li onClick={() => setStep(7)}>{strings.salesReceivablesSetup}</li>
+                </ul>
+              )}
+            </div>
+            <div className="group">
+              <div
+                className="group-title"
+                onClick={() => setMasterOpen(!masterOpen)}
+              >
+                {strings.masterData}
+              </div>
+              {masterOpen && (
+                <ul>
+                  <li onClick={() => setStep(8)}>{strings.customers}</li>
+                  <li onClick={() => setStep(9)}>{strings.vendors}</li>
+                  <li onClick={() => setStep(10)}>{strings.items}</li>
+                </ul>
+              )}
+          </div>
+          </nav>
+        </aside>
+        <div className="content">
+          <div className="topbar">
+            <div className="actions">
+              <span>{strings.search}</span>
+              <span>{strings.help}</span>
+            </div>
+            <div className="progress-slider">
+              <span className={currentGroup === 'basic' ? 'active' : ''}>
+                {strings.basicInfo}
+              </span>
+              <span className={currentGroup === 'config' ? 'active' : ''}>
+                {strings.configurationData}
+              </span>
+              <span className={currentGroup === 'master' ? 'active' : ''}>
+                {strings.masterData}
+              </span>
+              <span className={currentGroup === 'review' ? 'active' : ''}>
+                {strings.review}
+              </span>
+            </div>
+          </div>
+          {step === 0 && <HomePage next={next} />}
+          {step === 1 && (
+            <ConfigMenuPage
+              goToBasicInfo={() => setStep(2)}
+              goToCompanyInfo={() => setStep(3)}
+              goToPostingGroups={() => setStep(4)}
+              goToPaymentTerms={() => setStep(5)}
+              goToGLSetup={() => setStep(6)}
+              goToSRSetup={() => setStep(7)}
+              goToCustomers={() => setStep(8)}
+              goToVendors={() => setStep(9)}
+              goToItems={() => setStep(10)}
+              back={back}
+            />
+          )}
       {step === 2 && (
         <BasicInfoPage
           formData={basicInfo}
@@ -684,7 +763,10 @@ function App() {
           back={back}
         />
       )}
-      {step === 8 && (
+      {step === 8 && <CustomersPage next={next} back={back} />}
+      {step === 9 && <VendorsPage next={next} back={back} />}
+      {step === 10 && <ItemsPage next={next} back={back} />}
+      {step === 11 && (
         <FinishPage
           generate={generateCustomRapidStart}
           back={back}
@@ -711,6 +793,8 @@ function App() {
           </div>
         </div>
       )}
+        </div>
+      </div>
     </div>
   );
 }
