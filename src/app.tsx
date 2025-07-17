@@ -1023,6 +1023,7 @@ function App() {
           setProgress={setCompanyProgress}
           visited={companyVisited}
           setVisited={setCompanyVisited}
+          formData={formData}
           onShowSometimes={() => setShowCompanySometimes(true)}
           goToFieldIndex={companyFieldIdx}
         />
@@ -1059,6 +1060,7 @@ function App() {
           setProgress={setGlProgress}
           visited={glVisited}
           setVisited={setGlVisited}
+          formData={formData}
           onShowSometimes={() => setShowGLSometimes(true)}
           goToFieldIndex={glFieldIdx}
         />
@@ -1074,6 +1076,7 @@ function App() {
           setProgress={setSrProgress}
           visited={srVisited}
           setVisited={setSrVisited}
+          formData={formData}
           onShowSometimes={() => setShowSRSometimes(true)}
           goToFieldIndex={srFieldIdx}
         />

@@ -11,13 +11,9 @@ interface Props {
 }
 
 function ReviewPage({ fields, formData, back, next }: Props) {
-  const map: Record<string, string> = {};
-  fields.forEach(f => {
-    map[fieldKey(f.field)] = f.field;
-  });
-  const entries = Object.keys(formData).map(k => ({
-    name: map[k] || k,
-    value: formData[k],
+  const entries = fields.map(f => ({
+    name: f.field,
+    value: formData[fieldKey(f.field)],
   }));
 
   return (
