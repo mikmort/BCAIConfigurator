@@ -3,7 +3,7 @@ export function fieldKey(name: string): string {
 }
 
 export function mapFieldName(name: string): string {
-  return name.replace(/\s+/g, '').replace(/-/g, '_');
+  return name.replace(/\s+/g, '').replace(/\./g, '').replace(/-/g, '_');
 }
 
 export function findFieldValue(obj: any, field: string): any {
