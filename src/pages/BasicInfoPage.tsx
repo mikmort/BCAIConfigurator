@@ -99,9 +99,9 @@ function BasicInfoPage({
         <div className="field-considerations">{strings.descriptionHint}</div>
       </div>
       <div className="nav">
-        <button onClick={back}>{strings.back}</button>
+        <button className="next-btn" onClick={back}>{strings.back}</button>
         <button className="next-btn" onClick={next}>{strings.next}</button>
-        <button className="skip-link" onClick={next}>{strings.skip}</button>
+        <button className="skip-btn" onClick={next}>{strings.skip}</button>
       </div>
     </div>
   );
