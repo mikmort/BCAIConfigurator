@@ -1,22 +1,11 @@
 import strings from '../../res/strings';
+import ComingSoonPage from './ComingSoonPage';
 
 interface Props {
   next: () => void;
   back: () => void;
 }
 
-function VendorsPage({ next, back }: Props) {
-  return (
-    <div>
-      <div className="section-header">{strings.vendors}</div>
-      <p>Coming soon.</p>
-      <div className="nav">
-        <button className="back-btn" onClick={back}>{strings.back}</button>
-        <button className="next-btn" onClick={next}>{strings.next}</button>
-        <button className="skip-btn" onClick={next}>{strings.skip}</button>
-      </div>
-    </div>
-  );
+export default function VendorsPage(props: Props) {
+  return <ComingSoonPage {...props} title={strings.vendors} />;
 }
-
-export default VendorsPage;
