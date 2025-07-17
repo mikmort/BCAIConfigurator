@@ -14,7 +14,7 @@
     "FieldType": "Text",
     "DefaultValue": "(Blank)",
     "RecommendedSetting": "Company street address",
-    "Considerations": "Enter the primary street address for the company. In the US, format is usually Street, City, State ZIP. If a second address line is needed, use the Address 2 field. Ensure formatting is how you want it to print on forms.",
+    "Considerations": "Enter the primary street address for the company. In the US this is typically a street name. If a second address line is needed, use the Address 2 field. Ensure formatting is how you want it to print on forms.",
     "BC Field Name": "Address",
     "Question": "What is your company's primary street address?",
     "common": "Very Common"
