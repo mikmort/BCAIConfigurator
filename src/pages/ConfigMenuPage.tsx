@@ -40,7 +40,7 @@ function ConfigMenuPage({
         <div className="menu-grid">
           <div className="menu-box" onClick={goToBasicInfo}>
             <div className="icon" role="img" aria-label="Basic Info">ℹ️</div>
-            <div>{strings.basicInfo}</div>
+            <div>{strings.basicInfoTitle}</div>
           </div>
         </div>
       </div>

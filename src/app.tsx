@@ -725,7 +725,7 @@ function App() {
             <div className="group">
               <div className="group-title">{strings.basicInfo}</div>
               <ul>
-                <li onClick={() => setStep(2)}>{strings.basicInfo}</li>
+                <li onClick={() => setStep(2)}>{strings.basicInfoTitle}</li>
               </ul>
             </div>
             <div className="group">
@@ -811,9 +811,9 @@ function App() {
             </div>
             <div className="progress-area">
               <div className="progress-slider">
-                <div className={`progress-step ${currentGroup === 'basic' ? 'active' : ''}`}> 
+                <div className={`progress-step ${currentGroup === 'basic' ? 'active' : ''}`}>
                   <div className="circle">1</div>
-                  <span>{strings.basicInfo}</span>
+                  <span>{strings.basicInfoTitle}</span>
                 </div>
                 <div className={`progress-step ${currentGroup === 'config' ? 'active' : ''}`}> 
                   <div className="circle">2</div>
