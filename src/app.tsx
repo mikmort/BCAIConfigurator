@@ -17,6 +17,7 @@ import VendorsPage from './pages/VendorsPage';
 import ItemsPage from './pages/ItemsPage';
 import ReviewPage from './pages/ReviewPage';
 import BCLogo from './images/Examples/BC Logo.png';
+import copilotIcon from './images/copilot.svg';
 import strings from '../res/strings';
 import { CompanyField, BasicInfo } from './types';
 import {
@@ -658,6 +659,7 @@ function App() {
           title="Ask AI"
           onClick={() => openAIDialog(cf.field, key, cf.considerations)}
         >
+          <img src={copilotIcon} alt="" className="copilot-icon" />
           Ask AI to help
         </button>
       </>

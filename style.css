@@ -27,6 +27,11 @@ label {
 
 .nav {
   margin-top: 20px;
+  display: flex;
+  align-items: center;
+}
+.nav .skip-btn {
+  margin-left: auto;
 }
 
 .navbar {
@@ -244,8 +249,8 @@ h3 {
 }
 .field-input {
   display: flex;
-  align-items: flex-start;
-  gap: 6px;
+  align-items: center;
+  gap: 10px;
 }
 .field-considerations {
   font-size: 0.9em;
@@ -263,10 +268,18 @@ h3 {
   border: 1px solid var(--bc-teal-dark);
   border-radius: 4px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 .ai-btn:hover {
   background-color: var(--bc-teal-dark);
+}
+
+.copilot-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
 }
 
 .modal-overlay {
