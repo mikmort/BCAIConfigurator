@@ -10,7 +10,7 @@ interface Props {
 function FinishPage({ generate, back, downloadUrl, debugMessages }: Props) {
   return (
     <div>
-      <h2>{strings.finishTitle}</h2>
+      <div className="section-header">{strings.finishTitle}</div>
       <p>{strings.finishGeneratePrompt}</p>
       <button className="next-btn" onClick={generate}>{strings.generate}</button>
       {downloadUrl && (

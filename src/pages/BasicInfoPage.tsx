@@ -49,7 +49,7 @@ function BasicInfoPage({
   }
   return (
     <div>
-      <h2>{strings.basicInfoTitle}</h2>
+      <div className="section-header">{strings.basicInfoTitle}</div>
       <div className="field-row">
         <div className="field-name">{strings.companyNameLabel}</div>
         <div className="field-input">
