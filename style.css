@@ -255,6 +255,20 @@ h3 {
   cursor: pointer;
 }
 
+.ai-btn {
+  padding: 4px 8px;
+  font-size: 0.8em;
+  background-color: var(--bc-teal);
+  color: #fff;
+  border: 1px solid var(--bc-teal-dark);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.ai-btn:hover {
+  background-color: var(--bc-teal-dark);
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;
