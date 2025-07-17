@@ -16,6 +16,7 @@ interface Props {
   visited: boolean[];
   setVisited: (arr: boolean[]) => void;
   handleRecommended: (cf: CompanyField) => void;
+  onShowSometimes: () => void;
   goToFieldIndex?: number | null;
 }
 
@@ -29,6 +30,7 @@ function CompanyInfoPage({
   visited,
   setVisited,
   handleRecommended,
+  onShowSometimes,
   goToFieldIndex,
 }: Props) {
   return (
@@ -44,6 +46,7 @@ function CompanyInfoPage({
       setProgress={setProgress}
       visited={visited}
       setVisited={setVisited}
+      onShowSometimes={onShowSometimes}
       goToFieldIndex={goToFieldIndex}
     />
   );
