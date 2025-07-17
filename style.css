@@ -561,11 +561,23 @@ h3 {
 }
 
 .progress-area {
+  padding: 10px;
+  border-bottom: 1px solid #d0d0d0;
+  border-radius: 16px 16px 0 0;
+}
+
+.page-area {
   margin-top: 8px;
   background: #fff;
-  padding: 10px;
   border-radius: 16px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.page-area .main {
+  border-radius: 0 0 16px 16px;
 }
 
 .progress-bar {
