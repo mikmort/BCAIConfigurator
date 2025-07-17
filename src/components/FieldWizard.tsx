@@ -224,14 +224,9 @@ function FieldWizard({ title, fields, renderInput, next, back, progress, setProg
       )}
 
       {(stage === 'common' || stage === 'sometimes' || stage === 'unlikely') && (
-
-        <div className="status-bar">
-          <div className="status-fill" style={{ width: `${progressPct}%` }} />
-          <div className="status-text">
-            {stageProgress.done} of {stageProgress.total} tasks completed
-          </div>
+        <div className="completion-text">
+          {stageProgress.done} of {stageProgress.total} tasks completed
         </div>
-
       )}
     </div>
   );
