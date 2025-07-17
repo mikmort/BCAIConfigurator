@@ -934,13 +934,15 @@ function App() {
                 </ul>
               )}
             </div>
-            <div className="group">
-              <div className="group-title">{strings.reviewAndFinish}</div>
-              <ul>
-                <li onClick={() => setStep(12)}>{strings.reviewAndFinish}</li>
-              </ul>
-            </div>
             </nav>
+            <div className="review-footer">
+              <button
+                className="next-btn review-btn"
+                onClick={() => setStep(12)}
+              >
+                {strings.reviewAndFinish}
+              </button>
+            </div>
         </aside>
         <div className="content">
           <div className="topbar">
