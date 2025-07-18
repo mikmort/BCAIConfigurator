@@ -618,7 +618,14 @@ h3 {
 
 /* Remove vertical divider in favor of aligning the bar with the sidebar */
 .topbar::after {
-  display: none;
+  content: '';
+  position: absolute;
+  /* Align divider with the sidebar border accounting for left padding */
+  left: calc(var(--sidebar-total-width) - 16px);
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: #d0d0d0;
 }
 
 .topbar .actions {
