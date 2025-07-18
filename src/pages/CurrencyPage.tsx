@@ -6,6 +6,7 @@ import strings from '../../res/strings';
 import { getTableFields, TableField } from '../utils/schema';
 import { askOpenAI } from '../utils/ai';
 import AISuggestionModal from '../components/AISuggestionModal';
+import { ExcelIcon } from '../components/Icons';
 
 interface Props {
   rows: Record<string, string>[];
@@ -109,7 +110,7 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
         '\nCurrent currency rows:\n' +
         JSON.stringify(rowData, null, 2) +
         '\nSuggest the best rows for the currency table. ' +
-        'Return JSON with a "rows" array and an "explanation" string.' +
+        'Return JSON with a "rows" array and an "explanation" string no longer than 500 characters.' +
         (extra ? `\nAdditional Instructions:\n${extra}` : '');
       const ans = await askOpenAI(prompt, logDebug);
       const cleaned = ans.replace(/```json|```/g, '').trim();
@@ -241,10 +242,19 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
           columnDefs={columnDefs}
           rowSelection="multiple"
           rowHeight={36}
+          singleClickEdit={true}
+          onCellFocused={e => {
+            if (e.rowIndex == null || !e.column) return;
+            gridRef.current?.api.startEditingCell({
+              rowIndex: e.rowIndex,
+              colKey: e.column.getColId(),
+            });
+          }}
           onCellValueChanged={onCellValueChanged}
           defaultColDef={{ flex: 1, resizable: true, editable: true }}
         />
       </div>
+      <div className="grid-add-row" onClick={addRow}>+</div>
       <p style={{ marginTop: 20 }}>
         <input
           type="file"
@@ -255,7 +265,7 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
         />
         <button
           type="button"
-          className="next-btn"
+          className="download-template-btn"
           onClick={openFileDialog}
           style={{ marginRight: 10 }}
         >
@@ -263,10 +273,10 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
         </button>
         <button
           type="button"
-          className="download-template-btn"
+          className="download-template-link"
           onClick={downloadTemplate}
         >
-          Download template
+          <ExcelIcon className="excel-icon" /> Download Template
         </button>
       </p>
       <div className="divider" />

@@ -174,7 +174,8 @@ function App() {
       'Confidence must be one of "Very High", "High", "Medium", "Low", or "Very Low". ' +
       (options && options.length
         ? 'Choose a value only from the provided options.'
-        : '');
+        : '') +
+      ' The "Reasoning" text must be no more than 500 characters.';
     return prompt;
   }
 

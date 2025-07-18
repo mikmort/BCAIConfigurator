@@ -934,3 +934,39 @@ h3 {
 .download-template-btn:hover {
   background: var(--bc-gray);
 }
+.ag-theme-alpine .ag-cell {
+  display: flex;
+  align-items: center;
+}
+
+.grid-add-row {
+  margin-top: 6px;
+  text-align: center;
+  cursor: pointer;
+  color: var(--bc-blue);
+  font-size: 1.5em;
+}
+
+.grid-add-row:hover {
+  color: var(--bc-blue-dark);
+}
+
+.excel-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+}
+
+.download-template-link {
+  background: none;
+  border: none;
+  color: var(--bc-blue);
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+}
+
+.download-template-link:hover {
+  text-decoration: underline;
+}
