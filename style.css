@@ -1187,16 +1187,20 @@ select option:checked {
   text-align: left;
 }
 .defaults-table th {
-  font-size: 16px;
+  font-size: 15px;
 }
 .defaults-table td {
-  font-size: 14px;
+  font-size: 13px;
 }
 .defaults-table td:nth-child(1) {
   color: #555;
   font-weight: bold;
 }
 .defaults-table td:nth-child(2) {
+  color: #000;
+  font-weight: normal;
+}
+.defaults-table td:nth-child(3) {
   color: #000;
   font-weight: normal;
 }

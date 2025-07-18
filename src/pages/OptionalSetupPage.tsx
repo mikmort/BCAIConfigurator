@@ -32,15 +32,28 @@ export default function OptionalSetupPage({
           <tr>
             <th>Field</th>
             <th>Value</th>
+            <th>Considerations</th>
           </tr>
         </thead>
         <tbody>
-          {fields.map(f => (
-            <tr key={f.field}>
-              <td>{f.field}</td>
-              <td>{String(formData[fieldKey(f.field)] || '')}</td>
-            </tr>
-          ))}
+          {fields.map(f => {
+            const val = formData[fieldKey(f.field)];
+            const displayValue =
+              f.fieldType === 'Boolean'
+                ? val === '1' || val === 1 || val === true
+                  ? 'True'
+                  : val === '0' || val === 0 || val === false
+                  ? 'False'
+                  : ''
+                : String(val ?? '');
+            return (
+              <tr key={f.field}>
+                <td>{f.field}</td>
+                <td>{displayValue}</td>
+                <td>{f.considerations}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
       <div className="nav">
