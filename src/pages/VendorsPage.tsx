@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useRef } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
@@ -13,6 +13,7 @@ interface Props {
 
 export default function VendorsPage({ rows, next, back }: Props) {
   const [fields, setFields] = useState<TableField[]>([]);
+  const gridRef = useRef<AgGridReact<Record<string, string>>>(null);
 
   useEffect(() => {
     getTableFields('Vendor').then(setFields);
@@ -30,8 +31,21 @@ export default function VendorsPage({ rows, next, back }: Props) {
   return (
     <div>
       <div className="section-header">{strings.vendors}</div>
-      <div className="ag-theme-alpine" style={{ height: 400, width: '100%' }}>
-        <AgGridReact rowData={rows} columnDefs={columnDefs} defaultColDef={{ flex: 1, resizable: true }} />
+      <div
+        className="ag-theme-alpine"
+        style={{ height: 400, width: '100%' }}
+        tabIndex={0}
+        onFocus={() => {
+          if (!gridRef.current || !columnDefs.length) return;
+          gridRef.current.api.setFocusedCell(0, columnDefs[0].field);
+        }}
+      >
+        <AgGridReact
+          ref={gridRef}
+          rowData={rows}
+          columnDefs={columnDefs}
+          defaultColDef={{ flex: 1, resizable: true }}
+        />
       </div>
       <div className="nav">
         <button className="back-btn" onClick={back}>{strings.back}</button>
