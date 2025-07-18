@@ -892,9 +892,12 @@ function App() {
       const isCurrency = cf.lookupTable === 4;
       const lcy = formData[fieldKey("Local Currency (LCY) Code")] || "";
       if (isCurrency && lcy) {
-        opts = opts.filter((o) => o !== lcy);
+        const norm = lcy.trim().toLowerCase();
+        opts = opts.filter((o) => o.trim().toLowerCase() !== norm && o.trim() !== "");
+      } else {
+        opts = opts.filter((o) => o.trim() !== "");
       }
-      const defText = isCurrency ? defaultCurrencyText(lcy) : "";
+      const defText = isCurrency ? defaultCurrencyText(lcy.trim()) : "";
       inputEl = (
         <select {...inputProps}>
           <option value="">{defText}</option>
