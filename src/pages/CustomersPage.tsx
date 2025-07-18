@@ -15,7 +15,6 @@ import {
 import { askOpenAI, parseAIGrid } from '../utils/ai';
 import AISuggestionModal from '../components/AISuggestionModal';
 import { ExcelIcon } from '../components/Icons';
-import DatalistCellEditor from '../components/DatalistCellEditor';
 
 interface Props {
   rows: Record<string, string>[];
@@ -26,10 +25,6 @@ interface Props {
   formData: { [key: string]: any };
   confirmed: boolean;
   setConfirmed: (val: boolean) => void;
-  countries: { code: string; name: string }[];
-  currencies: { code: string; description: string }[];
-  currencyRows: Record<string, string>[];
-  postingGroups: string[];
 }
 
 export default function CustomersPage({
@@ -41,10 +36,6 @@ export default function CustomersPage({
   formData,
   confirmed,
   setConfirmed,
-  countries,
-  currencies,
-  currencyRows,
-  postingGroups,
 }: Props) {
   const [fields, setFields] = useState<TableField[]>([]);
   const [rowData, setRowData] = useState<Record<string, string>[]>([]);
@@ -73,30 +64,9 @@ export default function CustomersPage({
     setRowData(filterRows(fields, rows));
   }, [rows, fields]);
 
-  const lookupOpts = useMemo(() => {
-    const currencyCodes = Array.from(
-      new Set([
-        ...currencies.map(c => c.code),
-        ...currencyRows.map(r => r.Code).filter(Boolean),
-      ]),
-    );
-    const countryCodes = countries.map(c => c.code);
-    const postingCodes = Array.from(
-      new Set([
-        ...postingGroups,
-        ...rowData.map(r => r.CustomerPostingGroup).filter(Boolean),
-      ]),
-    );
-    return {
-      CurrencyCode: currencyCodes,
-      CountryRegionCode: countryCodes,
-      CustomerPostingGroup: postingCodes,
-    } as Record<string, string[]>;
-  }, [countries, currencies, currencyRows, postingGroups, rowData]);
-
   const columnDefs = useMemo(
-    () => createColumnDefs(rowData, fields, lookupOpts),
-    [rowData, fields, lookupOpts],
+    () => createColumnDefs(rowData, fields),
+    [rowData, fields],
   );
 
   const bottomRowData = useMemo(
@@ -247,7 +217,6 @@ export default function CustomersPage({
           ref={gridRef}
           rowData={rowData}
           columnDefs={columnDefs}
-          frameworkComponents={{ datalistEditor: DatalistCellEditor }}
           pinnedBottomRowData={bottomRowData}
           onCellClicked={onCellClicked}
           rowSelection="multiple"
