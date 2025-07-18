@@ -1080,6 +1080,8 @@ function App() {
               back={back}
               logDebug={logDebug}
               formData={formData}
+              confirmed={currenciesDone}
+              setConfirmed={setCurrenciesDone}
             />
           )}
           {step === 10 && (
