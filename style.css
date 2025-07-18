@@ -809,7 +809,10 @@ h3 {
   padding: 8px;
   display: flex;
   gap: 8px;
-  align-items: flex-start;
+  align-items: center;
+  /* Match the minimum height of the AI recommendation box so a one line
+     tip does not appear shorter. */
+  min-height: 44px;
 }
 
 .subpage-considerations .tip-icon {
