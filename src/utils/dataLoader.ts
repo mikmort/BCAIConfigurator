@@ -24,7 +24,9 @@ export async function loadConfigTables(): Promise<ConfigQuestion[]> {
   if (Array.isArray(data)) {
     data.forEach(t => {
       if (Array.isArray(t.Fields)) {
-        t.Fields.forEach((f: ConfigQuestion) => fields.push(f));
+        t.Fields.forEach((f: ConfigQuestion) =>
+          fields.push({ ...f, tableId: t.Number, tableName: t.Name })
+        );
       }
     });
   }

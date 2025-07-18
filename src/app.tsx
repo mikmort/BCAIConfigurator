@@ -1,33 +1,33 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-// Simple React app to guide users through Business Central setup
-const { useState, useEffect } = React;
-import HomePage from "./pages/HomePage";
-import ConfigMenuPage from "./pages/ConfigMenuPage";
-import BasicInfoPage from "./pages/BasicInfoPage";
-import CompanyInfoPage from "./pages/CompanyInfoPage";
-import FinishPage from "./pages/FinishPage";
-import GLSetupPage from "./pages/GLSetupPage";
-import SalesReceivablesPage from "./pages/SalesReceivablesPage";
-import PurchasePayablesPage from "./pages/PurchasePayablesPage";
-import CustomersPage from "./pages/CustomersPage";
-import VendorsPage from "./pages/VendorsPage";
-import ItemsPage from "./pages/ItemsPage";
-import CurrencyPage from "./pages/CurrencyPage";
-import CustomerTemplatePage from "./pages/CustomerTemplatePage";
-import VendorTemplatePage from "./pages/VendorTemplatePage";
-import ItemTemplatePage from "./pages/ItemTemplatePage";
-import GLAccountTemplatePage from "./pages/GLAccountTemplatePage";
-import BankAccountTemplatePage from "./pages/BankAccountTemplatePage";
-import FixedAssetTemplatePage from "./pages/FixedAssetTemplatePage";
-import ContactTemplatePage from "./pages/ContactTemplatePage";
-import EmployeeTemplatePage from "./pages/EmployeeTemplatePage";
-import ResourceTemplatePage from "./pages/ResourceTemplatePage";
-import ReviewPage from "./pages/ReviewPage";
-import BCLogo from "./images/Dynamics_365_business_Central_Logo.svg";
-import strings from "../res/strings";
-import { CompanyField, BasicInfo } from "./types";
+
+const { useState, useEffect, useRef } = React;
+import HomePage from './pages/HomePage';
+import ConfigMenuPage from './pages/ConfigMenuPage';
+import BasicInfoPage from './pages/BasicInfoPage';
+import CompanyInfoPage from './pages/CompanyInfoPage';
+import FinishPage from './pages/FinishPage';
+import GLSetupPage from './pages/GLSetupPage';
+import SalesReceivablesPage from './pages/SalesReceivablesPage';
+import PurchasePayablesPage from './pages/PurchasePayablesPage';
+import CustomersPage from './pages/CustomersPage';
+import VendorsPage from './pages/VendorsPage';
+import ItemsPage from './pages/ItemsPage';
+import CurrencyPage from './pages/CurrencyPage';
+import CustomerTemplatePage from './pages/CustomerTemplatePage';
+import VendorTemplatePage from './pages/VendorTemplatePage';
+import ItemTemplatePage from './pages/ItemTemplatePage';
+import GLAccountTemplatePage from './pages/GLAccountTemplatePage';
+import BankAccountTemplatePage from './pages/BankAccountTemplatePage';
+import FixedAssetTemplatePage from './pages/FixedAssetTemplatePage';
+import ContactTemplatePage from './pages/ContactTemplatePage';
+import EmployeeTemplatePage from './pages/EmployeeTemplatePage';
+import ResourceTemplatePage from './pages/ResourceTemplatePage';
+import ReviewPage from './pages/ReviewPage';
+import BCLogo from './images/Dynamics_365_business_Central_Logo.svg';
+import strings from '../res/strings';
+import { CompanyField, BasicInfo } from './types';
 import {
   fieldKey,
   findFieldValue,
@@ -236,6 +236,36 @@ function App() {
     setFormData((f) => ({ ...f, [key]: value }));
   }
 
+  // Track navigation history so the browser back button works
+  const popStep = useRef(false);
+  const initialLoad = useRef(true);
+
+  useEffect(() => {
+    window.history.replaceState({ step: 0 }, '');
+    const handler = (e: PopStateEvent) => {
+      popStep.current = true;
+      if (e.state && typeof e.state.step === 'number') {
+        setStep(e.state.step);
+      } else {
+        setStep(0);
+      }
+    };
+    window.addEventListener('popstate', handler);
+    return () => window.removeEventListener('popstate', handler);
+  }, []);
+
+  useEffect(() => {
+    if (initialLoad.current) {
+      initialLoad.current = false;
+      return;
+    }
+    if (popStep.current) {
+      popStep.current = false;
+      return;
+    }
+    window.history.pushState({ step }, '');
+  }, [step]);
+
   useEffect(() => {
     if (step === 3) setCompanyFieldIdx(null);
     if (step === 4) setGlFieldIdx(null);
@@ -376,10 +406,23 @@ function App() {
             }
           }
         }
+        if (val === undefined && cf.tableId) {
+          const rows = findTableRows(startData, cf.tableId) || [];
+          if (rows.length) {
+            val = rows[0][xmlName];
+            if (val && typeof val === 'object' && '#text' in val) {
+              val = val['#text'];
+            }
+          }
+        }
         if (val === undefined) {
           val = findFieldValue(startData, xmlName);
         }
         if (val !== undefined) {
+          if (typeof val === 'object') {
+            const textVal = findFieldValue(val, '#text');
+            val = typeof textVal === 'string' ? textVal : '';
+          }
           copy[key] = val;
         }
       });
@@ -594,7 +637,7 @@ function App() {
 
   // Go back one step
   function back(): void {
-    setStep(step - 1);
+    window.history.back();
   }
 
   // Return to the main menu
@@ -1025,31 +1068,66 @@ function App() {
                   </li>
                   {step === 5 && (
                     <ul className="subnav">
-                      {srFields
-                        .filter(
-                          (f) =>
-                            f.common === "common" ||
-                            (showSRSometimes && f.common === "sometimes"),
-                        )
-                        .map((f, i) => (
-                          <li
-                            key={f.field}
-                            className={srFieldIdx === i ? "active" : ""}
-                            onClick={() => {
-                              setSrFieldIdx(i);
-                              setStep(5);
-                            }}
-                          >
-                            {srProgress[i] && <span className="check">✔</span>}
-                            {f.field}
-                          </li>
-                        ))}
-                    </ul>
-                  )}
+                  {srFields
+                    .filter(
+                      f =>
+                        f.common === 'common' ||
+                        (showSRSometimes && f.common === 'sometimes')
+                    )
+                    .map((f, i) => (
+                      <li
+                        key={f.field}
+                        className={srFieldIdx === i ? 'active' : ''}
+                        onClick={() => {
+                          setSrFieldIdx(i);
+                          setStep(5);
+                        }}
+                      >
+                        {srProgress[i] && <span className="check">✔</span>}
+                        {f.field}
+                      </li>
+                    ))}
                 </ul>
               )}
-            </div>
-            <div className="group">
+              <li
+                onClick={() => {
+                  setPpFieldIdx(null);
+                  setStep(6);
+                }}
+              >
+                {ppDone && <span className="check">✔</span>}
+                {!ppDone && ppInProgress && (
+                  <span className="progress-dot">•</span>
+                )}
+                {strings.purchasePayablesSetup}
+              </li>
+              {step === 6 && (
+                <ul className="subnav">
+                  {ppFields
+                    .filter(
+                      f =>
+                        f.common === 'common' ||
+                        (showPPSometimes && f.common === 'sometimes')
+                    )
+                    .map((f, i) => (
+                      <li
+                        key={f.field}
+                        className={ppFieldIdx === i ? 'active' : ''}
+                        onClick={() => {
+                          setPpFieldIdx(i);
+                          setStep(6);
+                        }}
+                      >
+                        {ppProgress[i] && <span className="check">✔</span>}
+                        {f.field}
+                      </li>
+                    ))}
+                </ul>
+              )}
+            </ul>
+          )}
+        </div>
+        <div className="group">
               <div
                 className="group-title"
                 onClick={() => setMasterOpen(!masterOpen)}

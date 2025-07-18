@@ -7,6 +7,7 @@
   --bc-gray: #f3f2f1;
   --bc-light: #fafafa;
   --bc-text: #323130;
+  --sidebar-total-width: 246px; /* width + padding + border of sidebar */
 }
 
 body {
@@ -296,6 +297,7 @@ h3 {
   gap: 6px;
   opacity: 0;
   animation: start-here-fade 0.6s forwards;
+  animation-delay: 2s;
 }
 
 .start-here-tip .menu-svg-icon {
@@ -505,6 +507,8 @@ h3 {
   box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
+  /* Allow scrolling if the navigation is taller than the viewport */
+  overflow-y: auto;
 }
 
 .sidebar-header {
@@ -613,7 +617,7 @@ h3 {
 .topbar::after {
   content: '';
   position: absolute;
-  left: 246px;
+  left: var(--sidebar-total-width);
   top: 0;
   bottom: 0;
   width: 1px;
