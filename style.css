@@ -1118,9 +1118,13 @@ h3 {
 
 
 
-/* Highlight options on hover in grid dropdowns */
+/* Highlight options on hover or keyboard focus in grid dropdowns */
 .ag-select-cell-editor option:hover,
-.ag-cell-edit-input option:hover {
+.ag-select-cell-editor option:focus,
+.ag-select-cell-editor option:checked,
+.ag-cell-edit-input option:hover,
+.ag-cell-edit-input option:focus,
+.ag-cell-edit-input option:checked {
   background-color: var(--bc-gray);
   color: var(--bc-text);
 }
