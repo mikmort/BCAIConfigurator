@@ -2,7 +2,6 @@
   "compilerOptions": {
     "module": "ESNext",
     "target": "es5",
-    "jsx": "react",
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -11,7 +10,6 @@
     "rootDir": "src",
     "outDir": "dist",
     "jsx": "react-jsx"
-    
   },
   "include": ["src/**/*", "res/**/*"]
 }

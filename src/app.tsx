@@ -1040,6 +1040,8 @@ function App() {
           {step === 7 && <VendorsPage rows={vendorRows} next={next} back={back} />}
           {step === 8 && <ItemsPage next={next} back={back} />}
           {step === 9 && <CurrencyPage rows={currencyRows} next={next} back={back} />}
+          {step === 10 && (
+            <ReviewPage
               fields={[...companyFields, ...glFields, ...srFields]}
               formData={formData}
               back={back}
