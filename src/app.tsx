@@ -15,7 +15,7 @@ import VendorsPage from './pages/VendorsPage';
 import ItemsPage from './pages/ItemsPage';
 import CurrencyPage from './pages/CurrencyPage';
 import ReviewPage from './pages/ReviewPage';
-import BCLogo from './images/Examples/BC Logo.png';
+import BCLogo from './images/Dynamics_365_business_Central_Logo.svg';
 import strings from '../res/strings';
 import { CompanyField, BasicInfo } from './types';
 import {
