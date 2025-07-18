@@ -223,6 +223,7 @@ export default function NumberSeriesPage({
         }}
       >
         <AgGridReact
+          theme="legacy"
           ref={gridRef}
           rowData={rowData}
           columnDefs={columnDefs}

@@ -42,6 +42,7 @@ export default function AISuggestionModal({
       <div className="modal" onClick={e => e.stopPropagation()}>
         <div className="ag-theme-alpine" style={{ height: 300, width: '100%' }}>
           <AgGridReact
+            theme="legacy"
             ref={gridRef}
             rowData={rows}
             columnDefs={columnDefs}

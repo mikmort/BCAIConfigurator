@@ -44,6 +44,7 @@ export default function VendorsPage({ rows, next, back }: Props) {
         }}
       >
         <AgGridReact
+          theme="legacy"
           ref={gridRef}
           rowData={rows}
           columnDefs={columnDefs}
