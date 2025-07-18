@@ -21,7 +21,10 @@ export default function CurrencyPage({ rows, next, back, logDebug }: Props) {
 
   useEffect(() => {
     if (logDebug) logDebug(`CurrencyPage: loading grid with ${rows.length} rows`);
-  }, [rows, logDebug]);
+    // Only log when the row data changes to avoid infinite re-renders
+    // triggered by a new logDebug function on every parent render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rows]);
 
   const columnDefs = useMemo(() => {
     if (!rows.length) return [];
