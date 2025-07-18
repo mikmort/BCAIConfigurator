@@ -1155,6 +1155,7 @@ select option:checked {
   color: var(--bc-text) !important;
 }
 
+
 /* Highlight options in ag-rich-select dropdowns */
 .ag-rich-select-row:hover,
 .ag-rich-select-row.ag-rich-select-row-selected,
