@@ -15,9 +15,20 @@ interface Props {
   back: () => void;
   logDebug?: (msg: string) => void;
   formData: { [key: string]: any };
+  confirmed: boolean;
+  setConfirmed: (val: boolean) => void;
 }
 
-export default function CurrencyPage({ rows, setRows, next, back, logDebug, formData }: Props) {
+export default function CurrencyPage({
+  rows,
+  setRows,
+  next,
+  back,
+  logDebug,
+  formData,
+  confirmed,
+  setConfirmed,
+}: Props) {
   const [fields, setFields] = useState<TableField[]>([]);
   const [rowData, setRowData] = useState<Record<string, string>[]>([]);
   const [showAI, setShowAI] = useState(false);
@@ -226,9 +237,18 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
     URL.revokeObjectURL(url);
   }
 
+  function handleConfirm() {
+    if (confirmed) {
+      setConfirmed(false);
+    } else {
+      next();
+    }
+  }
+
   return (
     <div>
       <div className="section-header">{strings.currencies}</div>
+      {confirmed && <div className="confirmed-banner">Confirmed!</div>}
       <p>You can add, edit, or delete currencies directly below:</p>
       <div className="grid-toolbar">
         <button type="button" onClick={addRow}>Add Row</button>
@@ -287,10 +307,14 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
       <div className="divider" />
       <div className="nav">
         <button className="skip-btn" onClick={back}>{strings.back}</button>
-        <button className="next-btn" onClick={next}>Confirm</button>
-        <button className="skip-btn skip-right" onClick={next}>
-          {strings.skip}
+        <button className="next-btn" onClick={handleConfirm}>
+          {confirmed ? 'Mark as Not Confirmed' : 'Confirm'}
         </button>
+        {!confirmed && (
+          <button className="skip-btn skip-right" onClick={next}>
+            {strings.skip}
+          </button>
+        )}
       </div>
       <AISuggestionModal
         show={showAI}
