@@ -4,6 +4,14 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import strings from '../../res/strings';
 import { getTableFields, TableField } from '../utils/schema';
+import {
+  filterRows,
+  createColumnDefs,
+  createBottomRowData,
+  createEmptyRow,
+  parseFileUpload,
+  createTemplateBlob,
+} from '../utils/grid';
 import { askOpenAI, parseAIGrid } from '../utils/ai';
 import AISuggestionModal from '../components/AISuggestionModal';
 import { ExcelIcon } from '../components/Icons';
@@ -37,19 +45,6 @@ export default function CurrencyPage({
   const [aiLoading, setAiLoading] = useState(false);
   const gridRef = useRef<AgGridReact<Record<string, string>>>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  function filterRows(data: Record<string, string>[]): Record<string, string>[] {
-    if (!fields.length) return data;
-    const names = fields.map(f => f.xmlName);
-    return data.map(r => {
-      const obj: Record<string, string> = {};
-      names.forEach(n => {
-        obj[n] = r[n] ?? '';
-      });
-      return obj;
-    });
-  }
-
   function openFileDialog() {
     fileInputRef.current?.click();
   }
@@ -66,47 +61,21 @@ export default function CurrencyPage({
   }, [rows]);
 
   useEffect(() => {
-    setRowData(filterRows(rows));
+    setRowData(filterRows(fields, rows));
   }, [rows, fields]);
 
-  const columnDefs = useMemo(() => {
-    if (!fields.length) {
-      if (!rowData.length) return [];
-      return Object.keys(rowData[0]).map(key => ({
-        headerName: key,
-        field: key,
-        sortable: true,
-        filter: true,
-        editable: true,
-      }));
-    }
+  const columnDefs = useMemo(
+    () => createColumnDefs(rowData, fields),
+    [rowData, fields],
+  );
 
-    return fields.map(f => ({
-      headerName: f.name,
-      field: f.xmlName,
-      sortable: true,
-      filter: true,
-      editable: true,
-    }));
-  }, [rowData, fields]);
-
-  const bottomRowData = useMemo(() => {
-    if (!columnDefs.length) return [] as Record<string, string>[];
-    const firstField = columnDefs[0].field as string;
-    const row: Record<string, string> = {};
-    columnDefs.forEach(col => {
-      if (col.field) row[col.field] = '';
-    });
-    row[firstField] = '+';
-    return [row];
-  }, [columnDefs]);
+  const bottomRowData = useMemo(
+    () => createBottomRowData(columnDefs),
+    [columnDefs],
+  );
 
   function addRow() {
-    const keys = fields.length
-      ? fields.map(f => f.xmlName)
-      : Object.keys(rowData[0] || {});
-    const obj: Record<string, string> = {};
-    keys.forEach(k => (obj[k] = ''));
+    const obj = createEmptyRow(fields, rowData);
     const updated = [...rowData, obj];
     setRowData(updated);
     setRows(updated);
@@ -139,7 +108,7 @@ export default function CurrencyPage({
         (extra ? `\nAdditional Instructions:\n${extra}` : '');
       const ans = await askOpenAI(prompt, logDebug);
       const parsed = parseAIGrid(ans);
-      setAiRows(filterRows(parsed.rows));
+      setAiRows(filterRows(fields, parsed.rows));
       setAiExplanation(parsed.explanation);
     } catch (e) {
       console.error(e);
@@ -179,39 +148,11 @@ export default function CurrencyPage({
   async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
-    const name = file.name.toLowerCase();
     try {
-      if (name.endsWith('.csv')) {
-        const text = await file.text();
-        const lines = text.split(/\r?\n/).filter(l => l.trim());
-        if (!lines.length) return;
-        const headers = lines[0].split(',');
-        const rowsParsed: Record<string, string>[] = lines.slice(1).map(line => {
-          const parts = line.split(',');
-          const obj: Record<string, string> = {};
-          headers.forEach((h, i) => {
-            obj[h.trim()] = (parts[i] || '').trim();
-          });
-          return obj;
-        });
-        const filtered = filterRows(rowsParsed);
-        setRowData(filtered);
-        setRows(filtered);
-      } else if (name.endsWith('.xlsx')) {
-        const XLSX = (window as any).XLSX;
-        if (!XLSX) return;
-        const buf = await file.arrayBuffer();
-        const wb = XLSX.read(buf, { type: 'array' });
-        const sheet = wb.Sheets[wb.SheetNames[0]];
-        const json: Record<string, any>[] = XLSX.utils.sheet_to_json(sheet);
-        const rowsParsed: Record<string, string>[] = json.map(r => {
-          const obj: Record<string, string> = {};
-          Object.keys(r).forEach(k => (obj[k] = r[k] != null ? String(r[k]) : ''));
-          return obj;
-        });
-        const filtered = filterRows(rowsParsed);
-        setRowData(filtered);
-        setRows(filtered);
+      const rowsParsed = await parseFileUpload(file, fields);
+      if (rowsParsed.length) {
+        setRowData(rowsParsed);
+        setRows(rowsParsed);
       }
     } catch (err) {
       console.error('Failed to parse file', err);
@@ -221,31 +162,8 @@ export default function CurrencyPage({
   }
 
   function downloadTemplate() {
-    const XLSX = (window as any).XLSX;
-    if (!XLSX) return;
-    const headers =
-      fields.length > 0
-        ? fields.map(f => f.xmlName)
-        : Object.keys(rowData[0] || {
-            Code: '',
-            ISOCode: '',
-            CurrencySymbol: '',
-            Decimals: '',
-            RoundingPrecision: '',
-          });
-
-    // Use the current grid data if available, otherwise provide a single blank row
-    const data = rowData.length
-      ? rowData
-      : [Object.fromEntries(headers.map(h => [h, '']))];
-
-    const ws = XLSX.utils.json_to_sheet(data, { header: headers });
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Currency');
-    const buf = XLSX.write(wb, { type: 'array', bookType: 'xlsx' });
-    const blob = new Blob([buf], {
-      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    });
+    const blob = createTemplateBlob('Currency', rowData, fields);
+    if (!blob) return;
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
