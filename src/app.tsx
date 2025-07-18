@@ -451,7 +451,11 @@ function App() {
     if (step === 6) setCustomersDone(true);
     if (step === 7) setVendorsDone(true);
     if (step === 8) setItemsDone(true);
-    if (step === 9) setCurrenciesDone(true);
+    if (step === 9) {
+      setCurrenciesDone(true);
+      setStep(1);
+      return;
+    }
     setStep(step + 1);
   }
 
@@ -981,6 +985,10 @@ function App() {
               glInProgress={glInProgress}
               srDone={srDone}
               srInProgress={srInProgress}
+              customersDone={customersDone}
+              vendorsDone={vendorsDone}
+              itemsDone={itemsDone}
+              currenciesDone={currenciesDone}
               />
             )}
             {step === 2 && (

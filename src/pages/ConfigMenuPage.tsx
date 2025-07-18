@@ -27,6 +27,10 @@ interface Props {
   glInProgress: boolean;
   srDone: boolean;
   srInProgress: boolean;
+  customersDone: boolean;
+  vendorsDone: boolean;
+  itemsDone: boolean;
+  currenciesDone: boolean;
 }
 
 function ConfigMenuPage({
@@ -45,6 +49,10 @@ function ConfigMenuPage({
   glInProgress,
   srDone,
   srInProgress,
+  customersDone,
+  vendorsDone,
+  itemsDone,
+  currenciesDone,
 }: Props) {
   return (
     <div>
@@ -119,46 +127,50 @@ function ConfigMenuPage({
         <h3>{strings.masterData}</h3>
         <div className="menu-grid">
           <div
-            className="menu-box"
+            className={`menu-box ${customersDone ? 'done' : ''}`}
             onClick={goToCustomers}
             tabIndex={0}
             onKeyDown={e => {
               if (e.key === 'Enter' || e.key === ' ') goToCustomers();
             }}
           >
+            {customersDone && <div className="checkmark">✔</div>}
             <UserIcon />
             <div>{strings.customers}</div>
           </div>
           <div
-            className="menu-box"
+            className={`menu-box ${vendorsDone ? 'done' : ''}`}
             onClick={goToVendors}
             tabIndex={0}
             onKeyDown={e => {
               if (e.key === 'Enter' || e.key === ' ') goToVendors();
             }}
           >
+            {vendorsDone && <div className="checkmark">✔</div>}
             <FactoryIcon />
             <div>{strings.vendors}</div>
           </div>
           <div
-            className="menu-box"
+            className={`menu-box ${itemsDone ? 'done' : ''}`}
             onClick={goToItems}
             tabIndex={0}
             onKeyDown={e => {
               if (e.key === 'Enter' || e.key === ' ') goToItems();
             }}
           >
+            {itemsDone && <div className="checkmark">✔</div>}
             <CubeIcon />
             <div>{strings.items}</div>
           </div>
           <div
-            className="menu-box"
+            className={`menu-box ${currenciesDone ? 'done' : ''}`}
             onClick={goToCurrencies}
             tabIndex={0}
             onKeyDown={e => {
               if (e.key === 'Enter' || e.key === ' ') goToCurrencies();
             }}
           >
+            {currenciesDone && <div className="checkmark">✔</div>}
             <MoneyIcon />
             <div>{strings.currencies}</div>
           </div>
