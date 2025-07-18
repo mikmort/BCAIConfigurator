@@ -210,6 +210,10 @@ function App() {
   }, [step]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [step]);
+
+  useEffect(() => {
     async function init() {
       try {
         logDebug('Loading starting data');
@@ -861,15 +865,24 @@ function App() {
           <div className="page-area">
             <div className="progress-area">
               <div className="progress-slider">
-                <div className={`progress-step ${currentGroup === 'basic' ? 'active' : ''}`}>
+                <div
+                  className={`progress-step ${currentGroup === 'basic' ? 'active' : ''} clickable`}
+                  onClick={() => setStep(2)}
+                >
                   <div className="circle">1</div>
                   <span>{strings.basicInfoTitle}</span>
                 </div>
-                <div className={`progress-step ${currentGroup === 'config' ? 'active' : ''}`}>
+                <div
+                  className={`progress-step ${currentGroup === 'config' ? 'active' : ''} clickable`}
+                  onClick={() => setStep(3)}
+                >
                   <div className="circle">2</div>
                   <span>{strings.configurationData}</span>
                 </div>
-                <div className={`progress-step ${currentGroup === 'master' ? 'active' : ''}`}>
+                <div
+                  className={`progress-step ${currentGroup === 'master' ? 'active' : ''} clickable`}
+                  onClick={() => setStep(6)}
+                >
                   <div className="circle">3</div>
                   <span>{strings.masterData}</span>
                 </div>
