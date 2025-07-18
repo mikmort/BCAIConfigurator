@@ -210,7 +210,9 @@ export default function CurrencyPage({
         tabIndex={0}
         onFocus={() => {
           if (!gridRef.current || !columnDefs.length) return;
-          gridRef.current.api.setFocusedCell(0, columnDefs[0].field);
+          if (!gridRef.current.api.getFocusedCell()) {
+            gridRef.current.api.setFocusedCell(0, columnDefs[0].field);
+          }
         }}
       >
         <AgGridReact
