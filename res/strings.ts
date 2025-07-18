@@ -24,6 +24,7 @@ export default {
   items: 'Items',
   currencies: 'Currencies',
   chartOfAccounts: 'Chart of Accounts',
+  numberSeries: 'Number Series',
   search: 'Search',
   help: 'Get Help from your Partner',
   review: 'Review',
