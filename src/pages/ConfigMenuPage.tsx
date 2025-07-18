@@ -8,6 +8,7 @@ import {
   UserIcon,
   FactoryIcon,
   CubeIcon,
+  MoneyIcon,
 } from '../components/Icons';
 
 interface Props {
@@ -18,6 +19,7 @@ interface Props {
   goToCustomers: () => void;
   goToVendors: () => void;
   goToItems: () => void;
+  goToCurrencies: () => void;
   back: () => void;
   companyDone: boolean;
   companyInProgress: boolean;
@@ -35,6 +37,7 @@ function ConfigMenuPage({
   goToCustomers,
   goToVendors,
   goToItems,
+  goToCurrencies,
   back,
   companyDone,
   companyInProgress,
@@ -147,6 +150,17 @@ function ConfigMenuPage({
           >
             <CubeIcon />
             <div>{strings.items}</div>
+          </div>
+          <div
+            className="menu-box"
+            onClick={goToCurrencies}
+            tabIndex={0}
+            onKeyDown={e => {
+              if (e.key === 'Enter' || e.key === ' ') goToCurrencies();
+            }}
+          >
+            <MoneyIcon />
+            <div>{strings.currencies}</div>
           </div>
         </div>
       </div>

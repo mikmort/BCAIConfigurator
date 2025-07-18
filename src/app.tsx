@@ -13,6 +13,7 @@ import SalesReceivablesPage from './pages/SalesReceivablesPage';
 import CustomersPage from './pages/CustomersPage';
 import VendorsPage from './pages/VendorsPage';
 import ItemsPage from './pages/ItemsPage';
+import CurrencyPage from './pages/CurrencyPage';
 import ReviewPage from './pages/ReviewPage';
 import BCLogo from './images/Examples/BC Logo.png';
 import strings from '../res/strings';
@@ -75,6 +76,8 @@ function App() {
   const [customersDone, setCustomersDone] = useState(false);
   const [vendorsDone, setVendorsDone] = useState(false);
   const [itemsDone, setItemsDone] = useState(false);
+  const [currenciesDone, setCurrenciesDone] = useState(false);
+  const [currencyRows, setCurrencyRows] = useState<Record<string, string>[]>([]);
   const [companyFieldIdx, setCompanyFieldIdx] = useState<number | null>(null);
   const [glFieldIdx, setGlFieldIdx] = useState<number | null>(null);
   const [srFieldIdx, setSrFieldIdx] = useState<number | null>(null);
@@ -235,6 +238,18 @@ function App() {
             description: c.Description?.['#text'] || '',
           })) || [];
         setCurrencies(currencies);
+
+        const rows = findTableRows(data, 4) || [];
+        const simple = rows.map(r => {
+          const obj: Record<string, string> = {};
+          Object.keys(r).forEach(k => {
+            let v: any = (r as any)[k];
+            if (v && typeof v === 'object' && '#text' in v) v = v['#text'];
+            obj[k] = v !== undefined && v !== null ? String(v) : '';
+          });
+          return obj;
+        });
+        setCurrencyRows(simple);
 
       } catch (e) {
         console.error('Failed to load starting data', e);
@@ -421,6 +436,7 @@ function App() {
     if (step === 6) setCustomersDone(true);
     if (step === 7) setVendorsDone(true);
     if (step === 8) setItemsDone(true);
+    if (step === 9) setCurrenciesDone(true);
     setStep(step + 1);
   }
 
@@ -661,12 +677,12 @@ function App() {
   const configSectionDone =
     companyDone && glDone && srDone;
   const basicSectionDone = basicDone;
-  const masterSectionDone = customersDone && vendorsDone && itemsDone;
+  const masterSectionDone = customersDone && vendorsDone && itemsDone && currenciesDone;
   const currentGroup = (() => {
     if (step === 2) return 'basic';
     if ([3, 4, 5].includes(step)) return 'config';
-    if ([6, 7, 8].includes(step)) return 'master';
-    if (step === 9) return 'review';
+    if ([6, 7, 8, 9].includes(step)) return 'master';
+    if (step === 10) return 'review';
     return '';
   })();
 
@@ -854,6 +870,10 @@ function App() {
                     {itemsDone && <span className="check">✔</span>}
                     {strings.items}
                   </li>
+                  <li onClick={() => setStep(9)}>
+                    {currenciesDone && <span className="check">✔</span>}
+                    {strings.currencies}
+                  </li>
                 </ul>
               )}
             </div>
@@ -900,7 +920,7 @@ function App() {
                 </div>
                 <div
                   className={`progress-step ${currentGroup === 'review' ? 'active' : ''} clickable`}
-                  onClick={() => setStep(9)}
+                  onClick={() => setStep(10)}
                 >
                   <div className="circle">4</div>
                   <span>{strings.reviewAndFinish}</span>
@@ -930,6 +950,7 @@ function App() {
               goToCustomers={() => setStep(6)}
               goToVendors={() => setStep(7)}
               goToItems={() => setStep(8)}
+              goToCurrencies={() => setStep(9)}
               back={back}
               companyDone={companyDone}
               companyInProgress={companyInProgress}
@@ -1008,7 +1029,8 @@ function App() {
           {step === 6 && <CustomersPage next={next} back={back} />}
           {step === 7 && <VendorsPage next={next} back={back} />}
           {step === 8 && <ItemsPage next={next} back={back} />}
-          {step === 9 && (
+          {step === 9 && <CurrencyPage rows={currencyRows} next={next} back={back} />}
+          {step === 10 && (
             <ReviewPage
               fields={[...companyFields, ...glFields, ...srFields]}
               formData={formData}
@@ -1016,7 +1038,7 @@ function App() {
               next={next}
             />
           )}
-          {step === 10 && (
+          {step === 11 && (
             <FinishPage
               generate={generateCustomRapidStart}
               back={back}
