@@ -1078,6 +1078,7 @@ function App() {
               next={next}
               back={back}
               logDebug={logDebug}
+              formData={formData}
             />
           )}
           {step === 10 && (

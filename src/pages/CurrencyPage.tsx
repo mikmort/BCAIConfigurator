@@ -4,6 +4,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import strings from '../../res/strings';
 import { getTableFields, TableField } from '../utils/schema';
+import { askOpenAI } from '../utils/ai';
 
 interface Props {
   rows: Record<string, string>[];
@@ -11,11 +12,16 @@ interface Props {
   next: () => void;
   back: () => void;
   logDebug?: (msg: string) => void;
+  formData: { [key: string]: any };
 }
 
-export default function CurrencyPage({ rows, setRows, next, back, logDebug }: Props) {
+export default function CurrencyPage({ rows, setRows, next, back, logDebug, formData }: Props) {
   const [fields, setFields] = useState<TableField[]>([]);
   const [rowData, setRowData] = useState<Record<string, string>[]>([]);
+  const [showAI, setShowAI] = useState(false);
+  const [aiRows, setAiRows] = useState<Record<string, string>[]>([]);
+  const [aiExplanation, setAiExplanation] = useState('');
+  const [aiLoading, setAiLoading] = useState(false);
   const gridRef = useRef<AgGridReact<Record<string, string>>>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -90,6 +96,37 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug }: Pr
     const updated = rowData.filter(r => !selected.includes(r));
     setRowData(updated);
     setRows(updated);
+  }
+
+  async function askAIForGrid() {
+    try {
+      setShowAI(true);
+      setAiLoading(true);
+      const prompt =
+        'Given the following company setup data as JSON:\n' +
+        JSON.stringify(formData, null, 2) +
+        '\nCurrent currency rows:\n' +
+        JSON.stringify(rowData, null, 2) +
+        '\nSuggest the best rows for the currency table. ' +
+        'Return JSON with a "rows" array and an "explanation" string.';
+      const ans = await askOpenAI(prompt, logDebug);
+      const cleaned = ans.replace(/```json|```/g, '').trim();
+      const parsed = JSON.parse(cleaned);
+      setAiRows(filterRows(parsed.rows || []));
+      setAiExplanation(parsed.explanation || '');
+    } catch (e) {
+      console.error(e);
+      setAiRows([]);
+      setAiExplanation('Failed to get AI suggestion');
+    } finally {
+      setAiLoading(false);
+    }
+  }
+
+  function acceptAI() {
+    setRowData(aiRows);
+    setRows(aiRows);
+    setShowAI(false);
   }
 
   function onCellValueChanged(params: any) {
@@ -197,6 +234,9 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug }: Pr
       <div className="nav" style={{ marginTop: 10 }}>
         <button type="button" onClick={addRow}>Add Row</button>
         <button type="button" onClick={deleteSelected} style={{ marginLeft: 10 }}>Delete Selected</button>
+        <button type="button" className="ai-btn" onClick={askAIForGrid} style={{ marginLeft: 10 }}>
+          <span className="icon">✨</span> Ask AI to Help
+        </button>
       </div>
       <p style={{ marginTop: 20 }}>
         Alternatively, you can upload a file with a list of currencies.{' '}
@@ -222,6 +262,22 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug }: Pr
           {strings.skip}
         </button>
       </div>
+      {showAI && (
+        <div className="modal-overlay" onClick={() => setShowAI(false)}>
+          <div className="modal" onClick={e => e.stopPropagation()}>
+            <div className="ag-theme-alpine" style={{ height: 300, width: '100%' }}>
+              <AgGridReact rowData={aiRows} columnDefs={columnDefs} defaultColDef={{ flex: 1, resizable: true }} />
+            </div>
+            <p style={{ whiteSpace: 'pre-wrap', marginTop: 10 }}>
+              {aiLoading ? 'Loading...' : aiExplanation}
+            </p>
+            <div className="nav modal-actions">
+              <button className="next-btn" onClick={acceptAI} disabled={aiLoading}>Accept</button>
+              <button className="next-btn" onClick={() => setShowAI(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
