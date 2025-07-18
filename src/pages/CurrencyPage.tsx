@@ -5,6 +5,7 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 import strings from '../../res/strings';
 import { getTableFields, TableField } from '../utils/schema';
 import { askOpenAI } from '../utils/ai';
+import AISuggestionModal from '../components/AISuggestionModal';
 
 interface Props {
   rows: Record<string, string>[];
@@ -98,7 +99,7 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
     setRows(updated);
   }
 
-  async function askAIForGrid() {
+  async function askAIForGrid(extra: string = '') {
     try {
       setShowAI(true);
       setAiLoading(true);
@@ -108,7 +109,8 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
         '\nCurrent currency rows:\n' +
         JSON.stringify(rowData, null, 2) +
         '\nSuggest the best rows for the currency table. ' +
-        'Return JSON with a "rows" array and an "explanation" string.';
+        'Return JSON with a "rows" array and an "explanation" string.' +
+        (extra ? `\nAdditional Instructions:\n${extra}` : '');
       const ans = await askOpenAI(prompt, logDebug);
       const cleaned = ans.replace(/```json|```/g, '').trim();
       const parsed = JSON.parse(cleaned);
@@ -127,6 +129,10 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
     setRowData(aiRows);
     setRows(aiRows);
     setShowAI(false);
+  }
+
+  function suggestAgain(extra: string) {
+    askAIForGrid(extra);
   }
 
   function onCellValueChanged(params: any) {
@@ -295,6 +301,16 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
           </div>
         </div>
       )}
+      <AISuggestionModal
+        show={showAI}
+        rows={aiRows}
+        columnDefs={columnDefs}
+        explanation={aiExplanation}
+        loading={aiLoading}
+        onAccept={acceptAI}
+        onClose={() => setShowAI(false)}
+        onSuggestAgain={suggestAgain}
+      />
     </div>
   );
 }
