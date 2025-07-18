@@ -616,7 +616,8 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  /* Remove the shadow so the sidebar blends seamlessly with the top bar */
+  box-shadow: none;
   position: relative;
 
   /* Extend the bar across the entire window so it lines up with the sidebar */
