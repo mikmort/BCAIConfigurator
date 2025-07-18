@@ -102,8 +102,12 @@ export default function CustomersPage({
 
   const dropdowns = useMemo(() => {
     const map: Record<string, string[]> = {};
-    if (currencyField)
-      map[currencyField] = [defaultCurrency, ...currencies.map((c) => c.code)];
+    if (currencyField) {
+      const others = currencies
+        .filter((c) => c.code !== localCurrency)
+        .map((c) => c.code);
+      map[currencyField] = [defaultCurrency, ...others];
+    }
     if (countryField) map[countryField] = countries.map((c) => c.code);
     if (postingField) map[postingField] = postingGroups;
     return map;
