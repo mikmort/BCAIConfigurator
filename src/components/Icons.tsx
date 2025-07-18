@@ -1,9 +1,15 @@
 import React from 'react';
 import ExcelImg from '../images/Microsoft_Office_Excel_(2019–present).svg.png';
 
-export function InfoIcon() {
+export function InfoIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg className="menu-svg-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <svg
+      {...props}
+      className={props.className ? props.className + ' menu-svg-icon' : 'menu-svg-icon'}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+    >
       <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none" />
       <rect x="11" y="11" width="2" height="5" fill="currentColor" />
       <circle cx="12" cy="8" r="1" fill="currentColor" />
