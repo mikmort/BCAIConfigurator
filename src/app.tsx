@@ -393,6 +393,30 @@ function App() {
         });
         logDebug(`Chart of Accounts: prepared ${glSimple.length} rows for grid`);
         setChartRows(glSimple);
+
+        const nsFields = await getTableFields('No. Series', true);
+        const nsNames = nsFields.map(f => f.xmlName);
+        const nsRows = findTableRows(data, 308) || [];
+        logDebug(
+          `Number Series: read ${nsRows.length} rows from NAV27.0.US.ENU.STANDARD.xml`,
+        );
+        const nsSimple = nsRows.map(r => {
+          const obj: Record<string, string> = {};
+          if (nsNames.length) {
+            nsNames.forEach(n => {
+              let v: any = (r as any)[n];
+              obj[n] = valueToString(v);
+            });
+          } else {
+            Object.keys(r).forEach(k => {
+              let v: any = (r as any)[k];
+              obj[k] = valueToString(v);
+            });
+          }
+          return obj;
+        });
+        logDebug(`Number Series: prepared ${nsSimple.length} rows for grid`);
+        setNumberSeriesRows(nsSimple);
       } catch (e) {
         console.error("Failed to load starting data", e);
         logDebug(`Failed to load starting data: ${e}`);
