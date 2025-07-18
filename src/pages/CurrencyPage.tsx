@@ -250,6 +250,7 @@ export default function CurrencyPage({
         }}
       >
         <AgGridReact
+          theme="legacy"
           ref={gridRef}
           rowData={rowData}
           columnDefs={columnDefs}

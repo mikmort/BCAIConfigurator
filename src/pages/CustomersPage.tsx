@@ -313,6 +313,7 @@ export default function CustomersPage({
         }}
       >
         <AgGridReact
+          theme="legacy"
           ref={gridRef}
           rowData={rowData}
           columnDefs={columnDefs}
