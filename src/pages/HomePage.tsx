@@ -1,5 +1,6 @@
 import GettingStartImage from '../images/GettingStartImage.jpg';
 import strings from '../../res/strings';
+import { PrimaryButton } from '@fluentui/react';
 
 interface Props {
   next: () => void;
@@ -12,9 +13,7 @@ function HomePage({ next }: Props) {
         <div className="splash-content">
           <h1>{strings.appTitle}</h1>
           <p>{strings.splashWelcome}</p>
-          <button className="next-btn" onClick={next}>
-            {strings.getStarted}
-          </button>
+          <PrimaryButton onClick={next} text={strings.getStarted} />
         </div>
         <img
           className="splash-image"

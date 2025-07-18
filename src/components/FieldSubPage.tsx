@@ -4,6 +4,7 @@ import { fieldKey } from '../utils/helpers';
 
 import strings from '../../res/strings';
 import { LightbulbIcon, SparkleIcon } from './Icons';
+import { PrimaryButton, DefaultButton } from '@fluentui/react';
 
 interface Props {
   field: CompanyField;
@@ -109,11 +110,18 @@ function FieldSubPage({
       )}
       <div className="nav-spacer" />
       <div className={`nav${isFinal ? ' final' : ''}`}>
-        <button className="back-btn" onClick={onBack}>{strings.back}</button>
-        <button className="next-btn" onClick={onConfirm}>{confirmLabel}</button>
-        <button className="skip-section-btn" onClick={onSkipSection}>{strings.skipSection}</button>
+        <DefaultButton className="back-btn" onClick={onBack}>
+          {strings.back}
+        </DefaultButton>
+        <PrimaryButton className="next-btn" onClick={onConfirm}>
+          {confirmLabel}
+        </PrimaryButton>
+        <DefaultButton className="skip-section-btn" onClick={onSkipSection}>
+          {strings.skipSection}
+        </DefaultButton>
         {!isFinal && (
-          <button className="skip-btn" onClick={onSkip}>Skip</button>
+          <DefaultButton className="skip-btn" onClick={onSkip}
+            >Skip</DefaultButton>
         )}
       </div>
     </div>

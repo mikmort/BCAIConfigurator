@@ -1,6 +1,12 @@
 import strings from '../../res/strings';
 import { BasicInfo } from '../types';
 import React, { useState } from 'react';
+import {
+  TextField,
+  Dropdown,
+  IDropdownOption,
+  PrimaryButton,
+} from '@fluentui/react';
 
 interface Props {
   formData: BasicInfo;
@@ -40,9 +46,22 @@ function BasicInfoPage({
 }: Props) {
   const [industries, setIndustries] = useState(initialIndustries);
 
-  function handleIndustryBlur(e: any) {
-    handleBlur(e);
-    const val = e.target.value.trim();
+  const industryOptions: IDropdownOption[] = industries.map(ind => ({
+    key: ind,
+    text: ind,
+  }));
+
+  function onIndustryChange(_e: any, option?: IDropdownOption): void {
+    const synthetic = {
+      target: { name: 'industry', value: option ? option.text : '' },
+    } as any;
+    handleChange(synthetic);
+  }
+
+  function onIndustryBlur(): void {
+    const val = (data.industry || '').trim();
+    const synthetic = { target: { name: 'industry', value: val } } as any;
+    handleBlur(synthetic);
     if (val && !industries.includes(val)) {
       setIndustries([...industries, val]);
     }
@@ -53,7 +72,7 @@ function BasicInfoPage({
       <div className="field-row">
         <div className="field-name">{strings.companyNameLabel}</div>
         <div className="field-input">
-          <input
+          <TextField
             name="companyName"
             value={data.companyName || ''}
             onChange={handleChange}
@@ -65,25 +84,19 @@ function BasicInfoPage({
       <div className="field-row">
         <div className="field-name">{strings.industryLabel}</div>
         <div className="field-input">
-          <input
-            list="industry-list"
-            name="industry"
-            value={data.industry || ''}
-            onChange={handleChange}
-            onBlur={handleIndustryBlur}
+          <Dropdown
+            selectedKey={data.industry || undefined}
+            onChange={onIndustryChange}
+            onBlur={onIndustryBlur}
+            options={industryOptions}
           />
-          <datalist id="industry-list">
-            {industries.map(ind => (
-              <option value={ind} key={ind} />
-            ))}
-          </datalist>
         </div>
         <div className="field-considerations" />
       </div>
       <div className="field-row">
         <div className="field-name">{strings.websiteLabel}</div>
         <div className="field-input">
-          <input
+          <TextField
             type="url"
             name="websiteUrl"
             value={data.websiteUrl || ''}
@@ -96,7 +109,8 @@ function BasicInfoPage({
       <div className="field-row">
         <div className="field-name">{strings.descriptionLabel}</div>
         <div className="field-input">
-          <textarea
+          <TextField
+            multiline
             name="description"
             rows={8}
             value={data.description || ''}
@@ -107,7 +121,7 @@ function BasicInfoPage({
         <div className="field-considerations">{strings.descriptionHint}</div>
       </div>
       <div className="nav">
-        <button className="next-btn" onClick={next}>{strings.finishButton}</button>
+        <PrimaryButton onClick={next} text={strings.finishButton} />
       </div>
     </div>
   );
