@@ -15,6 +15,7 @@ export default {
   companyInfo: 'Company Information',
   generalLedgerSetup: 'General Ledger Setup',
   salesReceivablesSetup: 'Sales & Receivables Setup',
+  purchasePayablesSetup: 'Purchases & Payables Setup',
   common: 'Common',
   sometimes: 'Sometimes',
   additional: 'Additional',

@@ -81,6 +81,22 @@ export const srFieldNames = [
   'Copy Comments Blanket Order to Order',
 ];
 
+export const ppFieldNames = [
+  'Receipt on Invoice',
+  'Ext. Doc. No. Mandatory (Purchases)',
+  'Vendor Nos.',
+  'Quote Nos. (Purchases)',
+  'Order Nos. (Purchases)',
+  'Invoice Nos. (Purchases)',
+  'Posted Invoice Nos. (Purchases)',
+  'Credit Memo Nos. (Purchases)',
+  'Posted Credit Memo Nos. (Purchases)',
+  'Posted Receipt Nos.',
+  'Blanket Order Nos. (Purchases)',
+  'Return Order Nos. (Purchases)',
+  'Posted Return Shpt. Nos.',
+];
+
 /**
  * Convert a list of names into basic CompanyField objects.
  */
