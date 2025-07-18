@@ -129,6 +129,7 @@ function App() {
   const [showSRSometimes, setShowSRSometimes] = useState(false);
   const [showPPSometimes, setShowPPSometimes] = useState(false);
   const [showFASometimes, setShowFASometimes] = useState(false);
+  const [hideUncommon, setHideUncommon] = useState(true);
   const [companyIntro, setCompanyIntro] = useState(false);
   const [glIntro, setGlIntro] = useState(false);
   const [srIntro, setSrIntro] = useState(false);
@@ -1075,6 +1076,14 @@ function App() {
           Home
         </div>
         <div className="actions">
+          <label className="toggle-switch">
+            <input
+              type="checkbox"
+              checked={hideUncommon}
+              onChange={() => setHideUncommon(!hideUncommon)}
+            />
+            <span>{strings.hideUncommon}</span>
+          </label>
           <span>{strings.search}</span>
           <button className="help-btn">{strings.help}</button>
         </div>
@@ -1121,7 +1130,8 @@ function App() {
                         .filter(
                           (f) =>
                             f.common === "common" ||
-                            (showCompanySometimes && f.common === "sometimes"),
+                            ((showCompanySometimes || !hideUncommon) &&
+                              f.common === "sometimes"),
                         )
                         .map((f, i) => (
                           <li
@@ -1158,7 +1168,8 @@ function App() {
                         .filter(
                           (f) =>
                             f.common === "common" ||
-                            (showGLSometimes && f.common === "sometimes"),
+                            ((showGLSometimes || !hideUncommon) &&
+                              f.common === "sometimes"),
                         )
                         .map((f, i) => (
                           <li
@@ -1193,7 +1204,8 @@ function App() {
                     .filter(
                       f =>
                         f.common === 'common' ||
-                        (showSRSometimes && f.common === 'sometimes')
+                        ((showSRSometimes || !hideUncommon) &&
+                          f.common === 'sometimes')
                     )
                     .map((f, i) => (
                       <li
@@ -1228,7 +1240,8 @@ function App() {
                     .filter(
                       f =>
                         f.common === 'common' ||
-                        (showPPSometimes && f.common === 'sometimes')
+                        ((showPPSometimes || !hideUncommon) &&
+                          f.common === 'sometimes')
                     )
                     .map((f, i) => (
                       <li
