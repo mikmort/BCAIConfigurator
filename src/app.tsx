@@ -78,6 +78,7 @@ function App() {
   const [vendorsDone, setVendorsDone] = useState(false);
   const [itemsDone, setItemsDone] = useState(false);
   const [currenciesDone, setCurrenciesDone] = useState(false);
+  const [customerRows, setCustomerRows] = useState<Record<string, string>[]>([]);
   const [currencyRows, setCurrencyRows] = useState<Record<string, string>[]>([]);
   const [vendorRows, setVendorRows] = useState<Record<string, string>[]>([]);
   const [companyFieldIdx, setCompanyFieldIdx] = useState<number | null>(null);
@@ -247,12 +248,36 @@ function App() {
           const obj: Record<string, string> = {};
           Object.keys(r).forEach(k => {
             let v: any = (r as any)[k];
-            if (v && typeof v === "object" && "#text" in v) v = v["#text"];
-            obj[k] = v !== undefined && v !== null ? String(v) : "";
+            if (v && typeof v === 'object' && '#text' in v) v = v['#text'];
+            obj[k] = v !== undefined && v !== null ? String(v) : '';
           });
           return obj;
         });
         setVendorRows(vsimple);
+
+        const customerFields = await getTableFields('Customer');
+        const customerNames = customerFields.map(f => f.xmlName);
+        const custRows = findTableRows(data, 18) || [];
+        logDebug(`Customer: read ${custRows.length} rows from NAV27.0.US.ENU.STANDARD.xml`);
+        const custSimple = custRows.map(r => {
+          const obj: Record<string, string> = {};
+          if (customerNames.length) {
+            customerNames.forEach(n => {
+              let v: any = (r as any)[n];
+              if (v && typeof v === 'object' && '#text' in v) v = v['#text'];
+              obj[n] = v !== undefined && v !== null ? String(v) : '';
+            });
+          } else {
+            Object.keys(r).forEach(k => {
+              let v: any = (r as any)[k];
+              if (v && typeof v === 'object' && '#text' in v) v = v['#text'];
+              obj[k] = v !== undefined && v !== null ? String(v) : '';
+            });
+          }
+          return obj;
+        });
+        logDebug(`Customer: prepared ${custSimple.length} rows for grid`);
+        setCustomerRows(custSimple);
 
         const currencyFields = await getTableFields('Currency');
         const currencyNames = currencyFields.map(f => f.xmlName);
@@ -1069,7 +1094,18 @@ function App() {
           goToFieldIndex={srFieldIdx}
         />
       )}
-          {step === 6 && <CustomersPage next={next} back={back} />}
+          {step === 6 && (
+            <CustomersPage
+              rows={customerRows}
+              setRows={setCustomerRows}
+              next={next}
+              back={back}
+              logDebug={logDebug}
+              formData={formData}
+              confirmed={customersDone}
+              setConfirmed={setCustomersDone}
+            />
+          )}
           {step === 7 && <VendorsPage rows={vendorRows} next={next} back={back} />}
           {step === 8 && <ItemsPage next={next} back={back} />}
           {step === 9 && (
