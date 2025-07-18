@@ -1,0 +1,5078 @@
+[
+  {
+    "Number": 3,
+    "Name": "Payment Terms",
+    "Fields": [
+      {
+        "Field": "Code",
+        "FieldType": "Code",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Code",
+        "Question": "Payment term code? (e.g., NET30)",
+        "common": "Yes"
+      },
+      {
+        "Field": "Description",
+        "FieldType": "Text",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Provide a clear, human\u2011readable description that will help users recognise this record in look\u2011ups and reports.",
+        "BC Field Name": "Description",
+        "Question": "Description of payment term?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Due Date Calc.",
+        "FieldType": "Text",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for due date calc.. Avoid special characters unless they are required.",
+        "BC Field Name": "Due Date Calc.",
+        "Question": "Date formula for due date? (e.g., 30D)",
+        "common": "Yes"
+      },
+      {
+        "Field": "Discount %",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Discount %",
+        "Question": "Early payment discount percentage?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Discount Date Calc.",
+        "FieldType": "Text",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for discount date calc.. Avoid special characters unless they are required.",
+        "BC Field Name": "Discount Date Calc.",
+        "Question": "Date formula for discount deadline? (e.g., 10D)",
+        "common": "Yes"
+      }
+    ]
+  },
+  {
+    "Number": 4,
+    "Name": "Currency",
+    "Fields": [
+      {
+        "Field": "Code",
+        "FieldType": "Code",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Code",
+        "Question": "Currency code (e.g., USD)?",
+        "common": "Yes"
+      },
+      {
+        "Field": "ISO Code",
+        "FieldType": "Code",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for iso code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "ISO Code",
+        "Question": "ISO 4217 code?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Currency Symbol",
+        "FieldType": "Text",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for currency symbol. Avoid special characters unless they are required.",
+        "BC Field Name": "Currency Symbol",
+        "Question": "Currency symbol?$?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Decimals",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for decimals.",
+        "BC Field Name": "Decimals",
+        "Question": "Number of decimal places?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Rounding Precision",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Rounding Precision",
+        "Question": "Rounding precision?",
+        "common": "Yes"
+      }
+    ]
+  },
+  {
+    "Number": 14,
+    "Name": "Location",
+    "Fields": [
+      {
+        "Field": "Code",
+        "FieldType": "Code",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Code",
+        "Question": "Location code?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Name",
+        "FieldType": "Text",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Provide a clear, human\u2011readable name that will help users recognise this record in look\u2011ups and reports.",
+        "BC Field Name": "Name",
+        "Question": "Location name?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Require Shipment",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether require shipment applies.",
+        "BC Field Name": "Require Shipment",
+        "Question": "Require shipment processing?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Require Receipt",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether require receipt applies.",
+        "BC Field Name": "Require Receipt",
+        "Question": "Require receipt processing?",
+        "common": "Yes"
+      }
+    ]
+  },
+  {
+    "Number": 15,
+    "Name": "G/L Account",
+    "Fields": [
+      {
+        "Field": "No.",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for no..",
+        "BC Field Name": "No.",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Name",
+        "FieldType": "Text[100]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Provide a clear, human\u2011readable name that will help users recognise this record in look\u2011ups and reports.",
+        "BC Field Name": "Name",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Search Name",
+        "FieldType": "Code[100]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Provide a clear, human\u2011readable search name that will help users recognise this record in look\u2011ups and reports.",
+        "BC Field Name": "Search Name",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Account Type",
+        "FieldType": "Enum",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Pick the appropriate option from the drop\u2011down list that best represents the account type.",
+        "BC Field Name": "Account Type",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Global Dimension 1 Code",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for global dimension 1 code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Global Dimension 1 Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Global Dimension 2 Code",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for global dimension 2 code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Global Dimension 2 Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Account Category",
+        "FieldType": "Enum",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Pick the appropriate option from the drop\u2011down list that best represents the account category.",
+        "BC Field Name": "Account Category",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Income/Balance",
+        "FieldType": "Enum",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Pick the appropriate option from the drop\u2011down list that best represents the income/balance.",
+        "BC Field Name": "Income/Balance",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Debit/Credit",
+        "FieldType": "Option",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Pick the appropriate option from the drop\u2011down list that best represents the debit/credit.",
+        "BC Field Name": "Debit/Credit",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "No. 2",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for no. 2.",
+        "BC Field Name": "No. 2",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Comment",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether comment applies.",
+        "BC Field Name": "Comment",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Blocked",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether blocked applies.",
+        "BC Field Name": "Blocked",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Direct Posting",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether direct posting applies.",
+        "BC Field Name": "Direct Posting",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Reconciliation Account",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether reconciliation account applies.",
+        "BC Field Name": "Reconciliation Account",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "New Page",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether new page applies.",
+        "BC Field Name": "New Page",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "No. of Blank Lines",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for no. of blank lines.",
+        "BC Field Name": "No. of Blank Lines",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Indentation",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for indentation.",
+        "BC Field Name": "Indentation",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Source Currency Code",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for source currency code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Source Currency Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Source Currency Posting",
+        "FieldType": "Enum",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Pick the appropriate option from the drop\u2011down list that best represents the source currency posting.",
+        "BC Field Name": "Source Currency Posting",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Source Currency Revaluation",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether source currency revaluation applies.",
+        "BC Field Name": "Source Currency Revaluation",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Unrealized Revaluation",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether unrealized revaluation applies.",
+        "BC Field Name": "Unrealized Revaluation",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Last Modified Date Time",
+        "FieldType": "DateTime",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the full date and time (YYYY\u2011MM\u2011DD hh:mm) for last modified date time.",
+        "BC Field Name": "Last Modified Date Time",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Last Date Modified",
+        "FieldType": "Date",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the date in your local format (e.g., DD/MM/YYYY).",
+        "BC Field Name": "Last Date Modified",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Date Filter",
+        "FieldType": "Date",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the date in your local format (e.g., DD/MM/YYYY).",
+        "BC Field Name": "Date Filter",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Global Dimension 1 Filter",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for global dimension 1 filter.",
+        "BC Field Name": "Global Dimension 1 Filter",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Global Dimension 2 Filter",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for global dimension 2 filter.",
+        "BC Field Name": "Global Dimension 2 Filter",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Balance at Date",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Balance at Date",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Net Change",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Net Change",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Budgeted Amount",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Budgeted Amount",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Totaling",
+        "FieldType": "Text[250]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for totaling. Avoid special characters unless they are required.",
+        "BC Field Name": "Totaling",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Budget Filter",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for budget filter.",
+        "BC Field Name": "Budget Filter",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Balance",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Balance",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Budget at Date",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Budget at Date",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Consol. Translation Method",
+        "FieldType": "Option",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Pick the appropriate option from the drop\u2011down list that best represents the consol. translation method.",
+        "BC Field Name": "Consol. Translation Method",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Consol. Debit Acc.",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for consol. debit acc..",
+        "BC Field Name": "Consol. Debit Acc.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Consol. Credit Acc.",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for consol. credit acc..",
+        "BC Field Name": "Consol. Credit Acc.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Business Unit Filter",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for business unit filter.",
+        "BC Field Name": "Business Unit Filter",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Gen. Posting Type",
+        "FieldType": "Enum",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Pick the appropriate option from the drop\u2011down list that best represents the gen. posting type.",
+        "BC Field Name": "Gen. Posting Type",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Gen. Bus. Posting Group",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for gen. bus. posting group.",
+        "BC Field Name": "Gen. Bus. Posting Group",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Gen. Prod. Posting Group",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for gen. prod. posting group.",
+        "BC Field Name": "Gen. Prod. Posting Group",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Picture",
+        "FieldType": "Blob",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Add or upload media if you want to store a picture or document for picture.",
+        "BC Field Name": "Picture",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Debit Amount",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Debit Amount",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Credit Amount",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Credit Amount",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Automatic Ext. Texts",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether automatic ext. texts applies.",
+        "BC Field Name": "Automatic Ext. Texts",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Budgeted Debit Amount",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Budgeted Debit Amount",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Budgeted Credit Amount",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Budgeted Credit Amount",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Tax Area Code",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for tax area code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Tax Area Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Tax Liable",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether tax liable applies.",
+        "BC Field Name": "Tax Liable",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Tax Group Code",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for tax group code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Tax Group Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "VAT Bus. Posting Group",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for vat bus. posting group.",
+        "BC Field Name": "VAT Bus. Posting Group",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "VAT Prod. Posting Group",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for vat prod. posting group.",
+        "BC Field Name": "VAT Prod. Posting Group",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "VAT Amt.",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "VAT Amt.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Additional-Currency Net Change",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Additional-Currency Net Change",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Add.-Currency Balance at Date",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Add.-Currency Balance at Date",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Additional-Currency Balance",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Additional-Currency Balance",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Exchange Rate Adjustment",
+        "FieldType": "Enum",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Pick the appropriate option from the drop\u2011down list that best represents the exchange rate adjustment.",
+        "BC Field Name": "Exchange Rate Adjustment",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Add.-Currency Debit Amount",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Add.-Currency Debit Amount",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Add.-Currency Credit Amount",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Add.-Currency Credit Amount",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Default IC Partner G/L Acc. No",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for default ic partner g/l acc. no.",
+        "BC Field Name": "Default IC Partner G/L Acc. No",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Omit Default Descr. in Jnl.",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether omit default descr. in jnl. applies.",
+        "BC Field Name": "Omit Default Descr. in Jnl.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Source Currency Net Change",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Source Currency Net Change",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Source Curr. Balance at Date",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Source Curr. Balance at Date",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Source Currency Balance",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Source Currency Balance",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Account Subcategory Entry No.",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for account subcategory entry no..",
+        "BC Field Name": "Account Subcategory Entry No.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Account Subcategory Descript.",
+        "FieldType": "Text[80]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for account subcategory descript.. Avoid special characters unless they are required.",
+        "BC Field Name": "Account Subcategory Descript.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "VAT Reporting Date Filter",
+        "FieldType": "Date",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the date in your local format (e.g., DD/MM/YYYY).",
+        "BC Field Name": "VAT Reporting Date Filter",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Exclude From Consolidation",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether exclude from consolidation applies.",
+        "BC Field Name": "Exclude From Consolidation",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Dimension Set ID Filter",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for dimension set id filter.",
+        "BC Field Name": "Dimension Set ID Filter",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Cost Type No.",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for cost type no..",
+        "BC Field Name": "Cost Type No.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Default Deferral Template Code",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for default deferral template code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Default Deferral Template Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "API Account Type",
+        "FieldType": "Enum",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Pick the appropriate option from the drop\u2011down list that best represents the api account type.",
+        "BC Field Name": "API Account Type",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemId",
+        "FieldType": "Guid",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "This value is generated automatically; do not change unless instructed by Microsoft support.",
+        "BC Field Name": "SystemId",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemCreatedAt",
+        "FieldType": "DateTime",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the full date and time (YYYY\u2011MM\u2011DD hh:mm) for systemcreatedat.",
+        "BC Field Name": "SystemCreatedAt",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemCreatedBy",
+        "FieldType": "Guid",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "This value is generated automatically; do not change unless instructed by Microsoft support.",
+        "BC Field Name": "SystemCreatedBy",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemModifiedAt",
+        "FieldType": "DateTime",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the full date and time (YYYY\u2011MM\u2011DD hh:mm) for systemmodifiedat.",
+        "BC Field Name": "SystemModifiedAt",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemModifiedBy",
+        "FieldType": "Guid",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "This value is generated automatically; do not change unless instructed by Microsoft support.",
+        "BC Field Name": "SystemModifiedBy",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemRowVersion",
+        "FieldType": "BigInteger",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for systemrowversion.",
+        "BC Field Name": "SystemRowVersion",
+        "Question": "",
+        "common": "No"
+      }
+    ]
+  },
+  {
+    "Number": 18,
+    "Name": "Customer",
+    "Fields": [
+      {
+        "Field": "No.",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for no..",
+        "BC Field Name": "No.",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Name",
+        "FieldType": "Text[100]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Provide a clear, human\u2011readable name that will help users recognise this record in look\u2011ups and reports.",
+        "BC Field Name": "Name",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Search Name",
+        "FieldType": "Code[100]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Provide a clear, human\u2011readable search name that will help users recognise this record in look\u2011ups and reports.",
+        "BC Field Name": "Search Name",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Name 2",
+        "FieldType": "Text[50]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Provide a clear, human\u2011readable name 2 that will help users recognise this record in look\u2011ups and reports.",
+        "BC Field Name": "Name 2",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Address",
+        "FieldType": "Text[100]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for address. Avoid special characters unless they are required.",
+        "BC Field Name": "Address",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Address 2",
+        "FieldType": "Text[50]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for address 2. Avoid special characters unless they are required.",
+        "BC Field Name": "Address 2",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "City",
+        "FieldType": "Text[30]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for city. Avoid special characters unless they are required.",
+        "BC Field Name": "City",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Contact",
+        "FieldType": "Text[100]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for contact. Avoid special characters unless they are required.",
+        "BC Field Name": "Contact",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Phone No.",
+        "FieldType": "Text[30]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for phone no.. Avoid special characters unless they are required.",
+        "BC Field Name": "Phone No.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Telex No.",
+        "FieldType": "Text[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for telex no.. Avoid special characters unless they are required.",
+        "BC Field Name": "Telex No.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Document Sending Profile",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for document sending profile.",
+        "BC Field Name": "Document Sending Profile",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Ship-to Code",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for ship-to code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Ship-to Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Our Account No.",
+        "FieldType": "Text[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for our account no.. Avoid special characters unless they are required.",
+        "BC Field Name": "Our Account No.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Territory Code",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for territory code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Territory Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Global Dimension 1 Code",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for global dimension 1 code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Global Dimension 1 Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Global Dimension 2 Code",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for global dimension 2 code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Global Dimension 2 Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Chain Name",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for chain name.",
+        "BC Field Name": "Chain Name",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Budgeted Amount",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Budgeted Amount",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Credit Limit (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Credit Limit (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Customer Posting Group",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for customer posting group.",
+        "BC Field Name": "Customer Posting Group",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Currency Code",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for currency code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Currency Code",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Customer Price Group",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for customer price group.",
+        "BC Field Name": "Customer Price Group",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Language Code",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for language code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Language Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Registration Number",
+        "FieldType": "Text[50]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for registration number. Avoid special characters unless they are required.",
+        "BC Field Name": "Registration Number",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Statistics Group",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for statistics group.",
+        "BC Field Name": "Statistics Group",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Payment Terms Code",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for payment terms code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Payment Terms Code",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Fin. Charge Terms Code",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for fin. charge terms code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Fin. Charge Terms Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Salesperson Code",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for salesperson code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Salesperson Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Shipment Method Code",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for shipment method code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Shipment Method Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Shipping Agent Code",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for shipping agent code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Shipping Agent Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Place of Export",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for place of export.",
+        "BC Field Name": "Place of Export",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Invoice Disc. Code",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for invoice disc. code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Invoice Disc. Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Customer Disc. Group",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for customer disc. group.",
+        "BC Field Name": "Customer Disc. Group",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Country/Region Code",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for country/region code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Country/Region Code",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Collection Method",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for collection method.",
+        "BC Field Name": "Collection Method",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Amount",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Amount",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Comment",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether comment applies.",
+        "BC Field Name": "Comment",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Blocked",
+        "FieldType": "Enum",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Pick the appropriate option from the drop\u2011down list that best represents the blocked.",
+        "BC Field Name": "Blocked",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Invoice Copies",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for invoice copies.",
+        "BC Field Name": "Invoice Copies",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Last Statement No.",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for last statement no..",
+        "BC Field Name": "Last Statement No.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Print Statements",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether print statements applies.",
+        "BC Field Name": "Print Statements",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Bill-to Customer No.",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for bill-to customer no..",
+        "BC Field Name": "Bill-to Customer No.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Priority",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for priority.",
+        "BC Field Name": "Priority",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Payment Method Code",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for payment method code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Payment Method Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Format Region",
+        "FieldType": "Text[80]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for format region. Avoid special characters unless they are required.",
+        "BC Field Name": "Format Region",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Last Modified Date Time",
+        "FieldType": "DateTime",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the full date and time (YYYY\u2011MM\u2011DD hh:mm) for last modified date time.",
+        "BC Field Name": "Last Modified Date Time",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Last Date Modified",
+        "FieldType": "Date",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the date in your local format (e.g., DD/MM/YYYY).",
+        "BC Field Name": "Last Date Modified",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Date Filter",
+        "FieldType": "Date",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the date in your local format (e.g., DD/MM/YYYY).",
+        "BC Field Name": "Date Filter",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Global Dimension 1 Filter",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for global dimension 1 filter.",
+        "BC Field Name": "Global Dimension 1 Filter",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Global Dimension 2 Filter",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for global dimension 2 filter.",
+        "BC Field Name": "Global Dimension 2 Filter",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Balance",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Balance",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Balance (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Balance (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Net Change",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Net Change",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Net Change (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Net Change (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Sales (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Sales (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Profit (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Profit (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Inv. Discounts (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Inv. Discounts (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Pmt. Discounts (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Pmt. Discounts (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Balance Due",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Balance Due",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Balance Due (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Balance Due (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Payments",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Payments",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Invoice Amounts",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Invoice Amounts",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Cr. Memo Amounts",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Cr. Memo Amounts",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Finance Charge Memo Amounts",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Finance Charge Memo Amounts",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Payments (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Payments (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Inv. Amounts (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Inv. Amounts (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Cr. Memo Amounts (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Cr. Memo Amounts (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Fin. Charge Memo Amounts (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Fin. Charge Memo Amounts (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Outstanding Orders",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Outstanding Orders",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Shipped Not Invoiced",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Shipped Not Invoiced",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Application Method",
+        "FieldType": "Enum",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Pick the appropriate option from the drop\u2011down list that best represents the application method.",
+        "BC Field Name": "Application Method",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Prices Including VAT",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether prices including vat applies.",
+        "BC Field Name": "Prices Including VAT",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Location Code",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for location code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Location Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Fax No.",
+        "FieldType": "Text[30]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for fax no.. Avoid special characters unless they are required.",
+        "BC Field Name": "Fax No.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Telex Answer Back",
+        "FieldType": "Text[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for telex answer back. Avoid special characters unless they are required.",
+        "BC Field Name": "Telex Answer Back",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "VAT Registration No.",
+        "FieldType": "Text[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for vat registration no.. Avoid special characters unless they are required.",
+        "BC Field Name": "VAT Registration No.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Combine Shipments",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether combine shipments applies.",
+        "BC Field Name": "Combine Shipments",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Gen. Bus. Posting Group",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for gen. bus. posting group.",
+        "BC Field Name": "Gen. Bus. Posting Group",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "GLN",
+        "FieldType": "Code[13]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for gln.",
+        "BC Field Name": "GLN",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Post Code",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for post code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Post Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "County",
+        "FieldType": "Text[30]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for county. Avoid special characters unless they are required.",
+        "BC Field Name": "County",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "EORI Number",
+        "FieldType": "Text[40]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for eori number. Avoid special characters unless they are required.",
+        "BC Field Name": "EORI Number",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Use GLN in Electronic Document",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether use gln in electronic document applies.",
+        "BC Field Name": "Use GLN in Electronic Document",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Debit Amount",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Debit Amount",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Credit Amount",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Credit Amount",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Debit Amount (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Debit Amount (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Credit Amount (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Credit Amount (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "E-Mail",
+        "FieldType": "Text[80]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for e-mail. Avoid special characters unless they are required.",
+        "BC Field Name": "E-Mail",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Home Page",
+        "FieldType": "Text[80]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for home page. Avoid special characters unless they are required.",
+        "BC Field Name": "Home Page",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Reminder Terms Code",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for reminder terms code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Reminder Terms Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Reminder Amounts",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Reminder Amounts",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Reminder Amounts (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Reminder Amounts (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "No. Series",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for no. series.",
+        "BC Field Name": "No. Series",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Tax Area Code",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for tax area code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Tax Area Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Tax Liable",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether tax liable applies.",
+        "BC Field Name": "Tax Liable",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "VAT Bus. Posting Group",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for vat bus. posting group.",
+        "BC Field Name": "VAT Bus. Posting Group",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Currency Filter",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for currency filter.",
+        "BC Field Name": "Currency Filter",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Outstanding Orders (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Outstanding Orders (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Shipped Not Invoiced (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Shipped Not Invoiced (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Reserve",
+        "FieldType": "Enum",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Pick the appropriate option from the drop\u2011down list that best represents the reserve.",
+        "BC Field Name": "Reserve",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Block Payment Tolerance",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether block payment tolerance applies.",
+        "BC Field Name": "Block Payment Tolerance",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Pmt. Disc. Tolerance (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Pmt. Disc. Tolerance (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Pmt. Tolerance (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Pmt. Tolerance (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "IC Partner Code",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for ic partner code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "IC Partner Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Refunds",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Refunds",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Refunds (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Refunds (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Other Amounts",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Other Amounts",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Other Amounts (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Other Amounts (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Prepayment %",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Prepayment %",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Outstanding Invoices (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Outstanding Invoices (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Outstanding Invoices",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Outstanding Invoices",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Bill-to No. Of Archived Doc.",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for bill-to no. of archived doc..",
+        "BC Field Name": "Bill-to No. Of Archived Doc.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Sell-to No. Of Archived Doc.",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for sell-to no. of archived doc..",
+        "BC Field Name": "Sell-to No. Of Archived Doc.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Partner Type",
+        "FieldType": "Enum",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Pick the appropriate option from the drop\u2011down list that best represents the partner type.",
+        "BC Field Name": "Partner Type",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Intrastat Partner Type",
+        "FieldType": "Enum",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Pick the appropriate option from the drop\u2011down list that best represents the intrastat partner type.",
+        "BC Field Name": "Intrastat Partner Type",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Exclude from Pmt. Practices",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether exclude from pmt. practices applies.",
+        "BC Field Name": "Exclude from Pmt. Practices",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Image",
+        "FieldType": "Media",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Add or upload media if you want to store a picture or document for image.",
+        "BC Field Name": "Image",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Privacy Blocked",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether privacy blocked applies.",
+        "BC Field Name": "Privacy Blocked",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Disable Search by Name",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether disable search by name applies.",
+        "BC Field Name": "Disable Search by Name",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Allow Multiple Posting Groups",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether allow multiple posting groups applies.",
+        "BC Field Name": "Allow Multiple Posting Groups",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Preferred Bank Account Code",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for preferred bank account code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Preferred Bank Account Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Coupled to CRM",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether coupled to crm applies.",
+        "BC Field Name": "Coupled to CRM",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Coupled to Dataverse",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether coupled to dataverse applies.",
+        "BC Field Name": "Coupled to Dataverse",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Cash Flow Payment Terms Code",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for cash flow payment terms code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Cash Flow Payment Terms Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Primary Contact No.",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for primary contact no..",
+        "BC Field Name": "Primary Contact No.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Contact Type",
+        "FieldType": "Enum",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Pick the appropriate option from the drop\u2011down list that best represents the contact type.",
+        "BC Field Name": "Contact Type",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Mobile Phone No.",
+        "FieldType": "Text[30]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for mobile phone no.. Avoid special characters unless they are required.",
+        "BC Field Name": "Mobile Phone No.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Responsibility Center",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for responsibility center.",
+        "BC Field Name": "Responsibility Center",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Shipping Advice",
+        "FieldType": "Enum",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Pick the appropriate option from the drop\u2011down list that best represents the shipping advice.",
+        "BC Field Name": "Shipping Advice",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Shipping Time",
+        "FieldType": "DateFormula",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Supply a date formula such as '30D' or 'CM+1D' to let Business Central calculate dates automatically.",
+        "BC Field Name": "Shipping Time",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Shipping Agent Service Code",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for shipping agent service code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Shipping Agent Service Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Price Calculation Method",
+        "FieldType": "Enum",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Pick the appropriate option from the drop\u2011down list that best represents the price calculation method.",
+        "BC Field Name": "Price Calculation Method",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Allow Line Disc.",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether allow line disc. applies.",
+        "BC Field Name": "Allow Line Disc.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "No. of Quotes",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for no. of quotes.",
+        "BC Field Name": "No. of Quotes",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "No. of Blanket Orders",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for no. of blanket orders.",
+        "BC Field Name": "No. of Blanket Orders",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "No. of Orders",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for no. of orders.",
+        "BC Field Name": "No. of Orders",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "No. of Invoices",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for no. of invoices.",
+        "BC Field Name": "No. of Invoices",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "No. of Return Orders",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for no. of return orders.",
+        "BC Field Name": "No. of Return Orders",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "No. of Credit Memos",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for no. of credit memos.",
+        "BC Field Name": "No. of Credit Memos",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "No. of Pstd. Shipments",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for no. of pstd. shipments.",
+        "BC Field Name": "No. of Pstd. Shipments",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "No. of Pstd. Invoices",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for no. of pstd. invoices.",
+        "BC Field Name": "No. of Pstd. Invoices",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "No. of Pstd. Return Receipts",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for no. of pstd. return receipts.",
+        "BC Field Name": "No. of Pstd. Return Receipts",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "No. of Pstd. Credit Memos",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for no. of pstd. credit memos.",
+        "BC Field Name": "No. of Pstd. Credit Memos",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "No. of Ship-to Addresses",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for no. of ship-to addresses.",
+        "BC Field Name": "No. of Ship-to Addresses",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Bill-To No. of Quotes",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for bill-to no. of quotes.",
+        "BC Field Name": "Bill-To No. of Quotes",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Bill-To No. of Blanket Orders",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for bill-to no. of blanket orders.",
+        "BC Field Name": "Bill-To No. of Blanket Orders",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Bill-To No. of Orders",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for bill-to no. of orders.",
+        "BC Field Name": "Bill-To No. of Orders",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Bill-To No. of Invoices",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for bill-to no. of invoices.",
+        "BC Field Name": "Bill-To No. of Invoices",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Bill-To No. of Return Orders",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for bill-to no. of return orders.",
+        "BC Field Name": "Bill-To No. of Return Orders",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Bill-To No. of Credit Memos",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for bill-to no. of credit memos.",
+        "BC Field Name": "Bill-To No. of Credit Memos",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Bill-To No. of Pstd. Shipments",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for bill-to no. of pstd. shipments.",
+        "BC Field Name": "Bill-To No. of Pstd. Shipments",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Bill-To No. of Pstd. Invoices",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for bill-to no. of pstd. invoices.",
+        "BC Field Name": "Bill-To No. of Pstd. Invoices",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Bill-To No. of Pstd. Return R.",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for bill-to no. of pstd. return r..",
+        "BC Field Name": "Bill-To No. of Pstd. Return R.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Bill-To No. of Pstd. Cr. Memos",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for bill-to no. of pstd. cr. memos.",
+        "BC Field Name": "Bill-To No. of Pstd. Cr. Memos",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Base Calendar Code",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for base calendar code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Base Calendar Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Copy Sell-to Addr. to Qte From",
+        "FieldType": "Enum",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Pick the appropriate option from the drop\u2011down list that best represents the copy sell-to addr. to qte from.",
+        "BC Field Name": "Copy Sell-to Addr. to Qte From",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Validate EU Vat Reg. No.",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether validate eu vat reg. no. applies.",
+        "BC Field Name": "Validate EU Vat Reg. No.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Currency Id",
+        "FieldType": "Guid",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "This value is generated automatically; do not change unless instructed by Microsoft support.",
+        "BC Field Name": "Currency Id",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Payment Terms Id",
+        "FieldType": "Guid",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "This value is generated automatically; do not change unless instructed by Microsoft support.",
+        "BC Field Name": "Payment Terms Id",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Shipment Method Id",
+        "FieldType": "Guid",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "This value is generated automatically; do not change unless instructed by Microsoft support.",
+        "BC Field Name": "Shipment Method Id",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Payment Method Id",
+        "FieldType": "Guid",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "This value is generated automatically; do not change unless instructed by Microsoft support.",
+        "BC Field Name": "Payment Method Id",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Tax Area ID",
+        "FieldType": "Guid",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "This value is generated automatically; do not change unless instructed by Microsoft support.",
+        "BC Field Name": "Tax Area ID",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Contact ID",
+        "FieldType": "Guid",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "This value is generated automatically; do not change unless instructed by Microsoft support.",
+        "BC Field Name": "Contact ID",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Contact Graph Id",
+        "FieldType": "Text[250]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for contact graph id. Avoid special characters unless they are required.",
+        "BC Field Name": "Contact Graph Id",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemId",
+        "FieldType": "Guid",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "This value is generated automatically; do not change unless instructed by Microsoft support.",
+        "BC Field Name": "SystemId",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemCreatedAt",
+        "FieldType": "DateTime",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the full date and time (YYYY\u2011MM\u2011DD hh:mm) for systemcreatedat.",
+        "BC Field Name": "SystemCreatedAt",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemCreatedBy",
+        "FieldType": "Guid",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "This value is generated automatically; do not change unless instructed by Microsoft support.",
+        "BC Field Name": "SystemCreatedBy",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemModifiedAt",
+        "FieldType": "DateTime",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the full date and time (YYYY\u2011MM\u2011DD hh:mm) for systemmodifiedat.",
+        "BC Field Name": "SystemModifiedAt",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemModifiedBy",
+        "FieldType": "Guid",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "This value is generated automatically; do not change unless instructed by Microsoft support.",
+        "BC Field Name": "SystemModifiedBy",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemRowVersion",
+        "FieldType": "BigInteger",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for systemrowversion.",
+        "BC Field Name": "SystemRowVersion",
+        "Question": "",
+        "common": "No"
+      }
+    ]
+  },
+  {
+    "Number": 23,
+    "Name": "Vendor",
+    "Fields": [
+      {
+        "Field": "No.",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for no..",
+        "BC Field Name": "No.",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Name",
+        "FieldType": "Text[100]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Provide a clear, human\u2011readable name that will help users recognise this record in look\u2011ups and reports.",
+        "BC Field Name": "Name",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Search Name",
+        "FieldType": "Code[100]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Provide a clear, human\u2011readable search name that will help users recognise this record in look\u2011ups and reports.",
+        "BC Field Name": "Search Name",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Name 2",
+        "FieldType": "Text[50]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Provide a clear, human\u2011readable name 2 that will help users recognise this record in look\u2011ups and reports.",
+        "BC Field Name": "Name 2",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Address",
+        "FieldType": "Text[100]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for address. Avoid special characters unless they are required.",
+        "BC Field Name": "Address",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Address 2",
+        "FieldType": "Text[50]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for address 2. Avoid special characters unless they are required.",
+        "BC Field Name": "Address 2",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "City",
+        "FieldType": "Text[30]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for city. Avoid special characters unless they are required.",
+        "BC Field Name": "City",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Contact",
+        "FieldType": "Text[100]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for contact. Avoid special characters unless they are required.",
+        "BC Field Name": "Contact",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Phone No.",
+        "FieldType": "Text[30]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for phone no.. Avoid special characters unless they are required.",
+        "BC Field Name": "Phone No.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Telex No.",
+        "FieldType": "Text[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for telex no.. Avoid special characters unless they are required.",
+        "BC Field Name": "Telex No.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Our Account No.",
+        "FieldType": "Text[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for our account no.. Avoid special characters unless they are required.",
+        "BC Field Name": "Our Account No.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Territory Code",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for territory code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Territory Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Global Dimension 1 Code",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for global dimension 1 code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Global Dimension 1 Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Global Dimension 2 Code",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for global dimension 2 code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Global Dimension 2 Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Budgeted Amount",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Budgeted Amount",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Vendor Posting Group",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for vendor posting group.",
+        "BC Field Name": "Vendor Posting Group",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Currency Code",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for currency code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Currency Code",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Language Code",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for language code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Language Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Registration Number",
+        "FieldType": "Text[50]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for registration number. Avoid special characters unless they are required.",
+        "BC Field Name": "Registration Number",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Statistics Group",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for statistics group.",
+        "BC Field Name": "Statistics Group",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Payment Terms Code",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for payment terms code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Payment Terms Code",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Fin. Charge Terms Code",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for fin. charge terms code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Fin. Charge Terms Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Purchaser Code",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for purchaser code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Purchaser Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Shipment Method Code",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for shipment method code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Shipment Method Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Shipping Agent Code",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for shipping agent code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Shipping Agent Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Invoice Disc. Code",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for invoice disc. code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Invoice Disc. Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Country/Region Code",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for country/region code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Country/Region Code",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Comment",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether comment applies.",
+        "BC Field Name": "Comment",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Blocked",
+        "FieldType": "Enum",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Pick the appropriate option from the drop\u2011down list that best represents the blocked.",
+        "BC Field Name": "Blocked",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Pay-to Vendor No.",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for pay-to vendor no..",
+        "BC Field Name": "Pay-to Vendor No.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Priority",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for priority.",
+        "BC Field Name": "Priority",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Payment Method Code",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for payment method code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Payment Method Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Format Region",
+        "FieldType": "Text[80]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for format region. Avoid special characters unless they are required.",
+        "BC Field Name": "Format Region",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Last Modified Date Time",
+        "FieldType": "DateTime",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the full date and time (YYYY\u2011MM\u2011DD hh:mm) for last modified date time.",
+        "BC Field Name": "Last Modified Date Time",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Last Date Modified",
+        "FieldType": "Date",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the date in your local format (e.g., DD/MM/YYYY).",
+        "BC Field Name": "Last Date Modified",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Date Filter",
+        "FieldType": "Date",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the date in your local format (e.g., DD/MM/YYYY).",
+        "BC Field Name": "Date Filter",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Global Dimension 1 Filter",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for global dimension 1 filter.",
+        "BC Field Name": "Global Dimension 1 Filter",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Global Dimension 2 Filter",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for global dimension 2 filter.",
+        "BC Field Name": "Global Dimension 2 Filter",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Balance",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Balance",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Balance (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Balance (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Net Change",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Net Change",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Net Change (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Net Change (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Purchases (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Purchases (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Inv. Discounts (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Inv. Discounts (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Pmt. Discounts (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Pmt. Discounts (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Balance Due",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Balance Due",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Balance Due (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Balance Due (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Payments",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Payments",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Invoice Amounts",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Invoice Amounts",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Cr. Memo Amounts",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Cr. Memo Amounts",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Finance Charge Memo Amounts",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Finance Charge Memo Amounts",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Payments (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Payments (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Inv. Amounts (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Inv. Amounts (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Cr. Memo Amounts (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Cr. Memo Amounts (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Fin. Charge Memo Amounts (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Fin. Charge Memo Amounts (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Outstanding Orders",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Outstanding Orders",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Amt. Rcd. Not Invoiced",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Amt. Rcd. Not Invoiced",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Application Method",
+        "FieldType": "Enum",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Pick the appropriate option from the drop\u2011down list that best represents the application method.",
+        "BC Field Name": "Application Method",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Prices Including VAT",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether prices including vat applies.",
+        "BC Field Name": "Prices Including VAT",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Fax No.",
+        "FieldType": "Text[30]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for fax no.. Avoid special characters unless they are required.",
+        "BC Field Name": "Fax No.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Telex Answer Back",
+        "FieldType": "Text[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for telex answer back. Avoid special characters unless they are required.",
+        "BC Field Name": "Telex Answer Back",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "VAT Registration No.",
+        "FieldType": "Text[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for vat registration no.. Avoid special characters unless they are required.",
+        "BC Field Name": "VAT Registration No.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Gen. Bus. Posting Group",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for gen. bus. posting group.",
+        "BC Field Name": "Gen. Bus. Posting Group",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "GLN",
+        "FieldType": "Code[13]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for gln.",
+        "BC Field Name": "GLN",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Post Code",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for post code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Post Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "County",
+        "FieldType": "Text[30]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for county. Avoid special characters unless they are required.",
+        "BC Field Name": "County",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "EORI Number",
+        "FieldType": "Text[40]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for eori number. Avoid special characters unless they are required.",
+        "BC Field Name": "EORI Number",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Debit Amount",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Debit Amount",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Credit Amount",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Credit Amount",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Debit Amount (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Debit Amount (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Credit Amount (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Credit Amount (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "E-Mail",
+        "FieldType": "Text[80]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for e-mail. Avoid special characters unless they are required.",
+        "BC Field Name": "E-Mail",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Home Page",
+        "FieldType": "Text[80]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for home page. Avoid special characters unless they are required.",
+        "BC Field Name": "Home Page",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Reminder Amounts",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Reminder Amounts",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Reminder Amounts (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Reminder Amounts (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "No. Series",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for no. series.",
+        "BC Field Name": "No. Series",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Tax Area Code",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for tax area code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Tax Area Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Tax Liable",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether tax liable applies.",
+        "BC Field Name": "Tax Liable",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "VAT Bus. Posting Group",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for vat bus. posting group.",
+        "BC Field Name": "VAT Bus. Posting Group",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Currency Filter",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for currency filter.",
+        "BC Field Name": "Currency Filter",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Outstanding Orders (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Outstanding Orders (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Amt. Rcd. Not Invoiced (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Amt. Rcd. Not Invoiced (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Block Payment Tolerance",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether block payment tolerance applies.",
+        "BC Field Name": "Block Payment Tolerance",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Pmt. Disc. Tolerance (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Pmt. Disc. Tolerance (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Pmt. Tolerance (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Pmt. Tolerance (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "IC Partner Code",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for ic partner code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "IC Partner Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Refunds",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Refunds",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Refunds (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Refunds (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Other Amounts",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Other Amounts",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Other Amounts (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Other Amounts (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Prepayment %",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Prepayment %",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Outstanding Invoices",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Outstanding Invoices",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Outstanding Invoices (LCY)",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Outstanding Invoices (LCY)",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Pay-to No. Of Archived Doc.",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for pay-to no. of archived doc..",
+        "BC Field Name": "Pay-to No. Of Archived Doc.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Buy-from No. Of Archived Doc.",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for buy-from no. of archived doc..",
+        "BC Field Name": "Buy-from No. Of Archived Doc.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Partner Type",
+        "FieldType": "Enum",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Pick the appropriate option from the drop\u2011down list that best represents the partner type.",
+        "BC Field Name": "Partner Type",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Intrastat Partner Type",
+        "FieldType": "Enum",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Pick the appropriate option from the drop\u2011down list that best represents the intrastat partner type.",
+        "BC Field Name": "Intrastat Partner Type",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Exclude from Pmt. Practices",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether exclude from pmt. practices applies.",
+        "BC Field Name": "Exclude from Pmt. Practices",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Company Size Code",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for company size code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Company Size Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Image",
+        "FieldType": "Media",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Add or upload media if you want to store a picture or document for image.",
+        "BC Field Name": "Image",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Privacy Blocked",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether privacy blocked applies.",
+        "BC Field Name": "Privacy Blocked",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Disable Search by Name",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether disable search by name applies.",
+        "BC Field Name": "Disable Search by Name",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Creditor No.",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for creditor no..",
+        "BC Field Name": "Creditor No.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Allow Multiple Posting Groups",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether allow multiple posting groups applies.",
+        "BC Field Name": "Allow Multiple Posting Groups",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Preferred Bank Account Code",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for preferred bank account code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Preferred Bank Account Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Coupled to CRM",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether coupled to crm applies.",
+        "BC Field Name": "Coupled to CRM",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Coupled to Dataverse",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether coupled to dataverse applies.",
+        "BC Field Name": "Coupled to Dataverse",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Cash Flow Payment Terms Code",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for cash flow payment terms code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Cash Flow Payment Terms Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Primary Contact No.",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for primary contact no..",
+        "BC Field Name": "Primary Contact No.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Mobile Phone No.",
+        "FieldType": "Text[30]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for mobile phone no.. Avoid special characters unless they are required.",
+        "BC Field Name": "Mobile Phone No.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Responsibility Center",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for responsibility center.",
+        "BC Field Name": "Responsibility Center",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Location Code",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for location code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Location Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Lead Time Calculation",
+        "FieldType": "DateFormula",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Supply a date formula such as '30D' or 'CM+1D' to let Business Central calculate dates automatically.",
+        "BC Field Name": "Lead Time Calculation",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Price Calculation Method",
+        "FieldType": "Enum",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Pick the appropriate option from the drop\u2011down list that best represents the price calculation method.",
+        "BC Field Name": "Price Calculation Method",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "No. of Pstd. Receipts",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for no. of pstd. receipts.",
+        "BC Field Name": "No. of Pstd. Receipts",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "No. of Pstd. Invoices",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for no. of pstd. invoices.",
+        "BC Field Name": "No. of Pstd. Invoices",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "No. of Pstd. Return Shipments",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for no. of pstd. return shipments.",
+        "BC Field Name": "No. of Pstd. Return Shipments",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "No. of Pstd. Credit Memos",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for no. of pstd. credit memos.",
+        "BC Field Name": "No. of Pstd. Credit Memos",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Pay-to No. of Orders",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for pay-to no. of orders.",
+        "BC Field Name": "Pay-to No. of Orders",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Pay-to No. of Invoices",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for pay-to no. of invoices.",
+        "BC Field Name": "Pay-to No. of Invoices",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Pay-to No. of Return Orders",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for pay-to no. of return orders.",
+        "BC Field Name": "Pay-to No. of Return Orders",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Pay-to No. of Credit Memos",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for pay-to no. of credit memos.",
+        "BC Field Name": "Pay-to No. of Credit Memos",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Pay-to No. of Pstd. Receipts",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for pay-to no. of pstd. receipts.",
+        "BC Field Name": "Pay-to No. of Pstd. Receipts",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Pay-to No. of Pstd. Invoices",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for pay-to no. of pstd. invoices.",
+        "BC Field Name": "Pay-to No. of Pstd. Invoices",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Pay-to No. of Pstd. Return S.",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for pay-to no. of pstd. return s..",
+        "BC Field Name": "Pay-to No. of Pstd. Return S.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Pay-to No. of Pstd. Cr. Memos",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for pay-to no. of pstd. cr. memos.",
+        "BC Field Name": "Pay-to No. of Pstd. Cr. Memos",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "No. of Quotes",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for no. of quotes.",
+        "BC Field Name": "No. of Quotes",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "No. of Blanket Orders",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for no. of blanket orders.",
+        "BC Field Name": "No. of Blanket Orders",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "No. of Orders",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for no. of orders.",
+        "BC Field Name": "No. of Orders",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "No. of Invoices",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for no. of invoices.",
+        "BC Field Name": "No. of Invoices",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "No. of Return Orders",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for no. of return orders.",
+        "BC Field Name": "No. of Return Orders",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "No. of Credit Memos",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for no. of credit memos.",
+        "BC Field Name": "No. of Credit Memos",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "No. of Order Addresses",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for no. of order addresses.",
+        "BC Field Name": "No. of Order Addresses",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Pay-to No. of Quotes",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for pay-to no. of quotes.",
+        "BC Field Name": "Pay-to No. of Quotes",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Pay-to No. of Blanket Orders",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for pay-to no. of blanket orders.",
+        "BC Field Name": "Pay-to No. of Blanket Orders",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "No. of Incoming Documents",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for no. of incoming documents.",
+        "BC Field Name": "No. of Incoming Documents",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Base Calendar Code",
+        "FieldType": "Code[10]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for base calendar code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Base Calendar Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Document Sending Profile",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for document sending profile.",
+        "BC Field Name": "Document Sending Profile",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Validate EU Vat Reg. No.",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether validate eu vat reg. no. applies.",
+        "BC Field Name": "Validate EU Vat Reg. No.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Currency Id",
+        "FieldType": "Guid",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "This value is generated automatically; do not change unless instructed by Microsoft support.",
+        "BC Field Name": "Currency Id",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Payment Terms Id",
+        "FieldType": "Guid",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "This value is generated automatically; do not change unless instructed by Microsoft support.",
+        "BC Field Name": "Payment Terms Id",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Payment Method Id",
+        "FieldType": "Guid",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "This value is generated automatically; do not change unless instructed by Microsoft support.",
+        "BC Field Name": "Payment Method Id",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Over-Receipt Code",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for over-receipt code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Over-Receipt Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemId",
+        "FieldType": "Guid",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "This value is generated automatically; do not change unless instructed by Microsoft support.",
+        "BC Field Name": "SystemId",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemCreatedAt",
+        "FieldType": "DateTime",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the full date and time (YYYY\u2011MM\u2011DD hh:mm) for systemcreatedat.",
+        "BC Field Name": "SystemCreatedAt",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemCreatedBy",
+        "FieldType": "Guid",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "This value is generated automatically; do not change unless instructed by Microsoft support.",
+        "BC Field Name": "SystemCreatedBy",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemModifiedAt",
+        "FieldType": "DateTime",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the full date and time (YYYY\u2011MM\u2011DD hh:mm) for systemmodifiedat.",
+        "BC Field Name": "SystemModifiedAt",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemModifiedBy",
+        "FieldType": "Guid",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "This value is generated automatically; do not change unless instructed by Microsoft support.",
+        "BC Field Name": "SystemModifiedBy",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemRowVersion",
+        "FieldType": "BigInteger",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for systemrowversion.",
+        "BC Field Name": "SystemRowVersion",
+        "Question": "",
+        "common": "No"
+      }
+    ]
+  },
+  {
+    "Number": 27,
+    "Name": "Item",
+    "Fields": [
+      {
+        "Field": "No.",
+        "FieldType": "Code",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for no..",
+        "BC Field Name": "No.",
+        "Question": "Item number?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Description",
+        "FieldType": "Text",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Provide a clear, human\u2011readable description that will help users recognise this record in look\u2011ups and reports.",
+        "BC Field Name": "Description",
+        "Question": "Item description?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Base Unit of Measure",
+        "FieldType": "Code",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for base unit of measure.",
+        "BC Field Name": "Base Unit of Measure",
+        "Question": "Base unit of measure?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Item Category Code",
+        "FieldType": "Code",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for item category code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Item Category Code",
+        "Question": "Item category?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Inventory Posting Group",
+        "FieldType": "Code",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for inventory posting group.",
+        "BC Field Name": "Inventory Posting Group",
+        "Question": "Inventory posting group?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Gen. Prod. Posting Group",
+        "FieldType": "Code",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for gen. prod. posting group.",
+        "BC Field Name": "Gen. Prod. Posting Group",
+        "Question": "Product posting group?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Tax Group Code",
+        "FieldType": "Code",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for tax group code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Tax Group Code",
+        "Question": "Tax group?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Costing Method",
+        "FieldType": "Option",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Pick the appropriate option from the drop\u2011down list that best represents the costing method.",
+        "BC Field Name": "Costing Method",
+        "Question": "Costing method? (FIFO/Average/Standard)",
+        "common": "Yes"
+      }
+    ]
+  },
+  {
+    "Number": 92,
+    "Name": "Customer Posting Group",
+    "Fields": [
+      {
+        "Field": "Code",
+        "FieldType": "Code",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Code",
+        "Question": "Customer posting group code?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Receivables Account",
+        "FieldType": "Code",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for receivables account.",
+        "BC Field Name": "Receivables Account",
+        "Question": "Receivables account?",
+        "common": "No"
+      }
+    ]
+  },
+  {
+    "Number": 93,
+    "Name": "Vendor Posting Group",
+    "Fields": [
+      {
+        "Field": "Code",
+        "FieldType": "Code",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Code",
+        "Question": "Vendor posting group code?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Payables Account",
+        "FieldType": "Code",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for payables account.",
+        "BC Field Name": "Payables Account",
+        "Question": "Payables account?",
+        "common": "No"
+      }
+    ]
+  },
+  {
+    "Number": 94,
+    "Name": "Inventory Posting Group",
+    "Fields": [
+      {
+        "Field": "Code",
+        "FieldType": "Code",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Code",
+        "Question": "Inventory posting group code?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Description",
+        "FieldType": "Text",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Provide a clear, human\u2011readable description that will help users recognise this record in look\u2011ups and reports.",
+        "BC Field Name": "Description",
+        "Question": "Description of group?",
+        "common": "Yes"
+      }
+    ]
+  },
+  {
+    "Number": 156,
+    "Name": "Resource",
+    "Fields": [
+      {
+        "Field": "No.",
+        "FieldType": "Code",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for no..",
+        "BC Field Name": "No.",
+        "Question": "Resource number?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Name",
+        "FieldType": "Text",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Provide a clear, human\u2011readable name that will help users recognise this record in look\u2011ups and reports.",
+        "BC Field Name": "Name",
+        "Question": "Resource name?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Type",
+        "FieldType": "Option",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Pick the appropriate option from the drop\u2011down list that best represents the type.",
+        "BC Field Name": "Type",
+        "Question": "Resource type (Person/Machine)?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Base Unit of Measure",
+        "FieldType": "Code",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for base unit of measure.",
+        "BC Field Name": "Base Unit of Measure",
+        "Question": "Base unit of measure?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Direct Unit Cost",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Direct Unit Cost",
+        "Question": "Direct cost per unit?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Unit Price",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Unit Price",
+        "Question": "Billing rate per unit?",
+        "common": "No"
+      }
+    ]
+  },
+  {
+    "Number": 250,
+    "Name": "Gen. Business Posting Group",
+    "Fields": [
+      {
+        "Field": "Code",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Code",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Description",
+        "FieldType": "Text[100]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Provide a clear, human\u2011readable description that will help users recognise this record in look\u2011ups and reports.",
+        "BC Field Name": "Description",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Def. VAT Bus. Posting Group",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for def. vat bus. posting group.",
+        "BC Field Name": "Def. VAT Bus. Posting Group",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Auto Insert Default",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether auto insert default applies.",
+        "BC Field Name": "Auto Insert Default",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemId",
+        "FieldType": "Guid",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "This value is generated automatically; do not change unless instructed by Microsoft support.",
+        "BC Field Name": "SystemId",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemCreatedAt",
+        "FieldType": "DateTime",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the full date and time (YYYY\u2011MM\u2011DD hh:mm) for systemcreatedat.",
+        "BC Field Name": "SystemCreatedAt",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemCreatedBy",
+        "FieldType": "Guid",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "This value is generated automatically; do not change unless instructed by Microsoft support.",
+        "BC Field Name": "SystemCreatedBy",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemModifiedAt",
+        "FieldType": "DateTime",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the full date and time (YYYY\u2011MM\u2011DD hh:mm) for systemmodifiedat.",
+        "BC Field Name": "SystemModifiedAt",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemModifiedBy",
+        "FieldType": "Guid",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "This value is generated automatically; do not change unless instructed by Microsoft support.",
+        "BC Field Name": "SystemModifiedBy",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemRowVersion",
+        "FieldType": "BigInteger",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for systemrowversion.",
+        "BC Field Name": "SystemRowVersion",
+        "Question": "",
+        "common": "No"
+      }
+    ]
+  },
+  {
+    "Number": 251,
+    "Name": "Gen. Product Posting Group",
+    "Fields": [
+      {
+        "Field": "Code",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Code",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Description",
+        "FieldType": "Text[100]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Provide a clear, human\u2011readable description that will help users recognise this record in look\u2011ups and reports.",
+        "BC Field Name": "Description",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Def. VAT Prod. Posting Group",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for def. vat prod. posting group.",
+        "BC Field Name": "Def. VAT Prod. Posting Group",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Auto Insert Default",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether auto insert default applies.",
+        "BC Field Name": "Auto Insert Default",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemId",
+        "FieldType": "Guid",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "This value is generated automatically; do not change unless instructed by Microsoft support.",
+        "BC Field Name": "SystemId",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemCreatedAt",
+        "FieldType": "DateTime",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the full date and time (YYYY\u2011MM\u2011DD hh:mm) for systemcreatedat.",
+        "BC Field Name": "SystemCreatedAt",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemCreatedBy",
+        "FieldType": "Guid",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "This value is generated automatically; do not change unless instructed by Microsoft support.",
+        "BC Field Name": "SystemCreatedBy",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemModifiedAt",
+        "FieldType": "DateTime",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the full date and time (YYYY\u2011MM\u2011DD hh:mm) for systemmodifiedat.",
+        "BC Field Name": "SystemModifiedAt",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemModifiedBy",
+        "FieldType": "Guid",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "This value is generated automatically; do not change unless instructed by Microsoft support.",
+        "BC Field Name": "SystemModifiedBy",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemRowVersion",
+        "FieldType": "BigInteger",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for systemrowversion.",
+        "BC Field Name": "SystemRowVersion",
+        "Question": "",
+        "common": "No"
+      }
+    ]
+  },
+  {
+    "Number": 270,
+    "Name": "Bank Account",
+    "Fields": [
+      {
+        "Field": "No.",
+        "FieldType": "Code",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for no..",
+        "BC Field Name": "No.",
+        "Question": "Bank account code?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Name",
+        "FieldType": "Text",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Provide a clear, human\u2011readable name that will help users recognise this record in look\u2011ups and reports.",
+        "BC Field Name": "Name",
+        "Question": "Bank account name?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Bank Account No.",
+        "FieldType": "Text",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for bank account no.. Avoid special characters unless they are required.",
+        "BC Field Name": "Bank Account No.",
+        "Question": "Account number at bank?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Routing No.",
+        "FieldType": "Text",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for routing no.. Avoid special characters unless they are required.",
+        "BC Field Name": "Routing No.",
+        "Question": "Routing number (ACH/checks)?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Currency Code",
+        "FieldType": "Code",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for currency code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Currency Code",
+        "Question": "Currency code (e.g., USD)?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Last Check No.",
+        "FieldType": "Code",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for last check no..",
+        "BC Field Name": "Last Check No.",
+        "Question": "Last check number printed?",
+        "common": "No"
+      },
+      {
+        "Field": "Data Exch. Def. Code",
+        "FieldType": "Code",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for data exch. def. code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Data Exch. Def. Code",
+        "Question": "Export format code for electronic payments?",
+        "common": "No"
+      }
+    ]
+  },
+  {
+    "Number": 289,
+    "Name": "Payment Method",
+    "Fields": [
+      {
+        "Field": "Code",
+        "FieldType": "Code",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Code",
+        "Question": "Payment method code? (e.g., CHECK)",
+        "common": "Yes"
+      },
+      {
+        "Field": "Description",
+        "FieldType": "Text",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Provide a clear, human\u2011readable description that will help users recognise this record in look\u2011ups and reports.",
+        "BC Field Name": "Description",
+        "Question": "Description of payment method?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Bal. Account Type",
+        "FieldType": "Option",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Pick the appropriate option from the drop\u2011down list that best represents the bal. account type.",
+        "BC Field Name": "Bal. Account Type",
+        "Question": "Balancing account type if required?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Require Check No.",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether require check no. applies.",
+        "BC Field Name": "Require Check No.",
+        "Question": "Require check number entry for this method?",
+        "common": "No"
+      }
+    ]
+  },
+  {
+    "Number": 325,
+    "Name": "Tax Area",
+    "Fields": [
+      {
+        "Field": "Code",
+        "FieldType": "Code",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Code",
+        "Question": "Tax area code?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Description",
+        "FieldType": "Text",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Provide a clear, human\u2011readable description that will help users recognise this record in look\u2011ups and reports.",
+        "BC Field Name": "Description",
+        "Question": "Description of the tax area?",
+        "common": "Yes"
+      }
+    ]
+  },
+  {
+    "Number": 326,
+    "Name": "Tax Jurisdiction",
+    "Fields": [
+      {
+        "Field": "Code",
+        "FieldType": "Code",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Code",
+        "Question": "Tax jurisdiction code?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Description",
+        "FieldType": "Text",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Provide a clear, human\u2011readable description that will help users recognise this record in look\u2011ups and reports.",
+        "BC Field Name": "Description",
+        "Question": "Description of jurisdiction?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Tax Area Code",
+        "FieldType": "Code",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for tax area code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Tax Area Code",
+        "Question": "Linked tax area code?",
+        "common": "No"
+      },
+      {
+        "Field": "Tax %",
+        "FieldType": "Decimal",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a numeric amount; you can include decimals if required. Use a period for the decimal separator.",
+        "BC Field Name": "Tax %",
+        "Question": "Tax percentage rate?",
+        "common": "No"
+      }
+    ]
+  },
+  {
+    "Number": 328,
+    "Name": "Tax Group",
+    "Fields": [
+      {
+        "Field": "Code",
+        "FieldType": "Code",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Code",
+        "Question": "Tax group code?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Description",
+        "FieldType": "Text",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Provide a clear, human\u2011readable description that will help users recognise this record in look\u2011ups and reports.",
+        "BC Field Name": "Description",
+        "Question": "Description of tax group?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Type",
+        "FieldType": "Option",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Pick the appropriate option from the drop\u2011down list that best represents the type.",
+        "BC Field Name": "Type",
+        "Question": "Tax group type (Sales/Purchase)?",
+        "common": "No"
+      }
+    ]
+  },
+  {
+    "Number": 348,
+    "Name": "Dimension",
+    "Fields": [
+      {
+        "Field": "Code",
+        "FieldType": "Code",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Code",
+        "Question": "Dimension code?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Name",
+        "FieldType": "Text",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Provide a clear, human\u2011readable name that will help users recognise this record in look\u2011ups and reports.",
+        "BC Field Name": "Name",
+        "Question": "Dimension name?",
+        "common": "Yes"
+      }
+    ]
+  },
+  {
+    "Number": 349,
+    "Name": "Dimension Value",
+    "Fields": [
+      {
+        "Field": "Dimension Code",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for dimension code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Dimension Code",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Code",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Code",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Name",
+        "FieldType": "Text[50]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Provide a clear, human\u2011readable name that will help users recognise this record in look\u2011ups and reports.",
+        "BC Field Name": "Name",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Dimension Value Type",
+        "FieldType": "Option",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Pick the appropriate option from the drop\u2011down list that best represents the dimension value type.",
+        "BC Field Name": "Dimension Value Type",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Totaling",
+        "FieldType": "Text[250]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Type a concise text value for totaling. Avoid special characters unless they are required.",
+        "BC Field Name": "Totaling",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Blocked",
+        "FieldType": "Boolean",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Toggle to Yes or No to indicate whether blocked applies.",
+        "BC Field Name": "Blocked",
+        "Question": "",
+        "common": "Yes"
+      },
+      {
+        "Field": "Consolidation Code",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for consolidation code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Consolidation Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Indentation",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for indentation.",
+        "BC Field Name": "Indentation",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Global Dimension No.",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for global dimension no..",
+        "BC Field Name": "Global Dimension No.",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Map-to IC Dimension Code",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for map-to ic dimension code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Map-to IC Dimension Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Map-to IC Dimension Value Code",
+        "FieldType": "Code[20]",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for map-to ic dimension value code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Map-to IC Dimension Value Code",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Dimension Value ID",
+        "FieldType": "Integer",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for dimension value id.",
+        "BC Field Name": "Dimension Value ID",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Last Modified Date Time",
+        "FieldType": "DateTime",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the full date and time (YYYY\u2011MM\u2011DD hh:mm) for last modified date time.",
+        "BC Field Name": "Last Modified Date Time",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "Dimension Id",
+        "FieldType": "Guid",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "This value is generated automatically; do not change unless instructed by Microsoft support.",
+        "BC Field Name": "Dimension Id",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemId",
+        "FieldType": "Guid",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "This value is generated automatically; do not change unless instructed by Microsoft support.",
+        "BC Field Name": "SystemId",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemCreatedAt",
+        "FieldType": "DateTime",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the full date and time (YYYY\u2011MM\u2011DD hh:mm) for systemcreatedat.",
+        "BC Field Name": "SystemCreatedAt",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemCreatedBy",
+        "FieldType": "Guid",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "This value is generated automatically; do not change unless instructed by Microsoft support.",
+        "BC Field Name": "SystemCreatedBy",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemModifiedAt",
+        "FieldType": "DateTime",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the full date and time (YYYY\u2011MM\u2011DD hh:mm) for systemmodifiedat.",
+        "BC Field Name": "SystemModifiedAt",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemModifiedBy",
+        "FieldType": "Guid",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "This value is generated automatically; do not change unless instructed by Microsoft support.",
+        "BC Field Name": "SystemModifiedBy",
+        "Question": "",
+        "common": "No"
+      },
+      {
+        "Field": "SystemRowVersion",
+        "FieldType": "BigInteger",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter a whole number value for systemrowversion.",
+        "BC Field Name": "SystemRowVersion",
+        "Question": "",
+        "common": "No"
+      }
+    ]
+  },
+  {
+    "Number": 5722,
+    "Name": "Item Category",
+    "Fields": [
+      {
+        "Field": "Code",
+        "FieldType": "Code",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter the unique code or identifier for code. Keep it short, uppercase and without spaces so it is easy to reference.",
+        "BC Field Name": "Code",
+        "Question": "Item category code?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Description",
+        "FieldType": "Text",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Provide a clear, human\u2011readable description that will help users recognise this record in look\u2011ups and reports.",
+        "BC Field Name": "Description",
+        "Question": "Item category description?",
+        "common": "Yes"
+      },
+      {
+        "Field": "Parent Category",
+        "FieldType": "Code",
+        "DefaultValue": "(Blank)",
+        "RecommendedSetting": "",
+        "Considerations": "Enter an appropriate value for parent category.",
+        "BC Field Name": "Parent Category",
+        "Question": "Parent category code?",
+        "common": "Yes"
+      }
+    ]
+  }
+]
