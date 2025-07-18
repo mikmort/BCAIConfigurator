@@ -35,11 +35,30 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug }: Pr
 
   const columnDefs = useMemo(() => {
     if (!rowData.length) return [];
+    const normalize = (s: string) => s.replace(/[^a-z0-9]/gi, '').toLowerCase();
+
+    // Always base the columns on the actual keys in the data so every field
+    // is shown in the grid. Attempt to map the header names from the loaded
+    // schema when available by matching the normalized XML field names.
     if (!fields.length)
-      return Object.keys(rowData[0]).map(key => ({ headerName: key, field: key, sortable: true, filter: true, editable: true }));
-    return fields
-      .filter(f => Object.prototype.hasOwnProperty.call(rowData[0], f.xmlName))
-      .map(f => ({ headerName: f.name, field: f.xmlName, sortable: true, filter: true, editable: true }));
+      return Object.keys(rowData[0]).map(key => ({
+        headerName: key,
+        field: key,
+        sortable: true,
+        filter: true,
+        editable: true,
+      }));
+
+    return Object.keys(rowData[0]).map(key => {
+      const field = fields.find(f => normalize(f.xmlName) === normalize(key));
+      return {
+        headerName: field ? field.name : key,
+        field: key,
+        sortable: true,
+        filter: true,
+        editable: true,
+      };
+    });
   }, [rowData, fields]);
 
   function addRow() {
@@ -121,10 +140,20 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug }: Pr
     const headers =
       fields.length > 0
         ? fields.map(f => f.xmlName)
-        : ['Code', 'ISOCode', 'CurrencySymbol', 'Decimals', 'RoundingPrecision'];
-    const row: Record<string, string> = {};
-    headers.forEach(h => (row[h] = ''));
-    const ws = XLSX.utils.json_to_sheet([row], { header: headers });
+        : Object.keys(rowData[0] || {
+            Code: '',
+            ISOCode: '',
+            CurrencySymbol: '',
+            Decimals: '',
+            RoundingPrecision: '',
+          });
+
+    // Use the current grid data if available, otherwise provide a single blank row
+    const data = rowData.length
+      ? rowData
+      : [Object.fromEntries(headers.map(h => [h, '']))];
+
+    const ws = XLSX.utils.json_to_sheet(data, { header: headers });
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Currency');
     const buf = XLSX.write(wb, { type: 'array', bookType: 'xlsx' });
