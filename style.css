@@ -1173,6 +1173,31 @@ select option:checked {
 }
 
 
-.defaults-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-.defaults-table th, .defaults-table td { border: 1px solid #d0d0d0; padding: 6px 8px; text-align: left; }
+.defaults-table {
+  width: auto;
+  min-width: 400px;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+}
+.defaults-table th,
+.defaults-table td {
+  border: 1px solid #d0d0d0;
+  padding: 6px 8px;
+  text-align: left;
+}
+.defaults-table th {
+  font-size: 16px;
+}
+.defaults-table td {
+  font-size: 14px;
+}
+.defaults-table td:nth-child(1) {
+  color: #555;
+  font-weight: bold;
+}
+.defaults-table td:nth-child(2) {
+  color: #000;
+  font-weight: normal;
+}
 

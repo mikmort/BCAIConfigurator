@@ -45,7 +45,7 @@ export default function OptionalSetupPage({
       </table>
       <div className="nav">
         <button className="next-btn" onClick={onUseDefaults}>Use the defaults</button>
-        <button className="next-btn" onClick={onReview}>Let's review all the choices?</button>
+        <button className="next-btn" onClick={onReview}>Review all the choices</button>
         <button className="skip-btn skip-right" onClick={onSkip}>Decide later</button>
       </div>
     </div>
