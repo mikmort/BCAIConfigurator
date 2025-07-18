@@ -21,7 +21,7 @@ interface Props {
   fetchAISuggestion: (
     field: CompanyField,
     currentValue: string
-  ) => Promise<{ suggested: string; confidence: string }>;
+  ) => Promise<{ suggested: string; confidence: string; reasoning: string }>;
   setFieldValue: (key: string, value: string) => void;
   onFieldIndexChange?: (index: number | null) => void;
   /**

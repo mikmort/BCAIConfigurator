@@ -850,6 +850,15 @@ h3 {
   margin-left: 8px;
 }
 
+.auto-suggest .info-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--bc-blue);
+  cursor: pointer;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
 
 .confirmed-banner {
   background: var(--bc-teal);
