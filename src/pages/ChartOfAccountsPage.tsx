@@ -214,9 +214,12 @@ export default function ChartOfAccountsPage({
         className="ag-theme-alpine gl-grid"
         style={{ height: 400, width: '100%' }}
         tabIndex={0}
-        onFocus={() => {
+        onFocus={e => {
+          if (e.target !== e.currentTarget) return;
           if (!gridRef.current || !columnDefs.length) return;
-          gridRef.current.api.setFocusedCell(0, columnDefs[0].field);
+          if (!gridRef.current.api.getFocusedCell()) {
+            gridRef.current.api.setFocusedCell(0, columnDefs[0].field);
+          }
         }}
       >
         <AgGridReact
