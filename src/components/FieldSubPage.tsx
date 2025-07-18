@@ -3,7 +3,8 @@ import { CompanyField } from '../types';
 import { fieldKey } from '../utils/helpers';
 
 import strings from '../../res/strings';
-import { LightbulbIcon, SparkleIcon } from './Icons';
+import { LightbulbIcon, SparkleIcon, InfoIcon } from './Icons';
+import InfoPopup from './InfoPopup';
 
 interface Props {
   field: CompanyField;
@@ -17,7 +18,7 @@ interface Props {
   fetchAISuggestion?: (
     field: CompanyField,
     currentValue: string
-  ) => Promise<{ suggested: string; confidence: string }>;
+  ) => Promise<{ suggested: string; confidence: string; reasoning: string }>;
   setFieldValue?: (key: string, value: string) => void;
   confirmLabel?: string;
   confirmed?: boolean;
@@ -39,7 +40,8 @@ function FieldSubPage({
 }: Props) {
   const isFinal = !confirmed && confirmLabel === 'Confirm and Finish';
   const buttonLabel = confirmed ? 'Mark as Not Confirmed' : confirmLabel;
-  const [auto, setAuto] = useState<{ suggested: string; confidence: string } | null>(null);
+  const [auto, setAuto] = useState<{ suggested: string; confidence: string; reasoning: string } | null>(null);
+  const [showInfo, setShowInfo] = useState(false);
   const key = fieldKey(cf.field);
   const value = formData ? formData[key] || '' : '';
 
@@ -88,6 +90,12 @@ function FieldSubPage({
             <SparkleIcon className="sparkle-icon" />
             <div>
               <strong>AI Recommends:</strong> {auto!.suggested}
+              {auto!.reasoning && (
+                <InfoIcon
+                  className="info-icon"
+                  onClick={() => setShowInfo(true)}
+                />
+              )}
               {setFieldValue && (
                 <button
                   type="button"
@@ -117,6 +125,11 @@ function FieldSubPage({
           <button className="skip-btn" onClick={onSkip}>Skip</button>
         )}
       </div>
+      <InfoPopup
+        show={showInfo}
+        reasoning={auto?.reasoning || ''}
+        onClose={() => setShowInfo(false)}
+      />
     </div>
   );
 }
