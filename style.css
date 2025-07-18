@@ -5,13 +5,14 @@
   --bc-purple: #7f3fbf;
   --bc-blue-dark: #005a9e;
   --bc-gray: #f3f2f1;
+  --bc-light: #fafafa;
   --bc-text: #323130;
 }
 
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
-  background: #fff;
+  background: var(--bc-light);
   color: var(--bc-text);
 }
 
@@ -203,16 +204,16 @@ h3 {
 .menu-box {
   width: 200px;
   flex: 0 0 200px;
-  background: var(--bc-blue);
-  border: 1px solid var(--bc-blue-dark);
+  background: #fff;
+  border: 2px solid var(--bc-blue);
   border-radius: 16px;
   padding: 20px;
   text-align: center;
   cursor: pointer;
-  color: #fff;
+  color: var(--bc-blue);
   position: relative;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.2s, transform 0.1s;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.2s, color 0.2s, box-shadow 0.2s, transform 0.1s;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -220,8 +221,10 @@ h3 {
 }
 
 .menu-box:hover {
-  background: var(--bc-blue-dark);
+  background: var(--bc-blue);
+  color: #fff;
   transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .menu-box:focus {
@@ -232,6 +235,7 @@ h3 {
 .menu-box.done {
   background: var(--bc-teal);
   border-color: var(--bc-teal-dark);
+  color: #fff;
 }
 
 .menu-box .menu-svg-icon {
@@ -451,11 +455,11 @@ h3 {
 .sidebar {
   width: 225px;
   flex-shrink: 0;
-  background: #fff;
+  background: var(--bc-gray);
   padding: 10px;
   border-right: 1px solid #d0d0d0;
   border-radius: 0;
-  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
 }
@@ -533,11 +537,13 @@ h3 {
 }
 
 .sidebar li:hover {
-  background-color: var(--bc-gray);
+  background-color: var(--bc-blue);
+  color: #fff;
 }
 
 .sidebar li.active {
-  background-color: var(--bc-gray);
+  background-color: var(--bc-blue);
+  color: #fff;
   font-weight: bold;
 }
 
@@ -550,17 +556,18 @@ h3 {
 }
 
 .topbar {
-  background: none;
-  padding: 8px 10px;
+  background: #fff;
+  padding: 8px 16px;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .topbar .actions {
   display: flex;
-  justify-content: flex-end;
   gap: 20px;
+  align-items: center;
 }
 
 .progress-slider {
