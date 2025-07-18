@@ -215,7 +215,8 @@ export default function CurrencyPage({
         className="ag-theme-alpine currency-grid"
         style={{ height: 400, width: '100%' }}
         tabIndex={0}
-        onFocus={() => {
+        onFocus={e => {
+          if (e.target !== e.currentTarget) return;
           if (!gridRef.current || !columnDefs.length) return;
           if (!gridRef.current.api.getFocusedCell()) {
             gridRef.current.api.setFocusedCell(0, columnDefs[0].field);
