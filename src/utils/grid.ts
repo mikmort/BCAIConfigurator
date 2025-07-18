@@ -8,9 +8,26 @@ export interface ColumnDef {
   cellEditorParams?: any;
   valueFormatter?: (params: any) => string;
   valueParser?: (params: any) => any;
+  cellRenderer?: (params: any) => any;
+  cellClass?: string;
 }
 
 import type { TableField } from "./schema";
+
+function booleanCellRenderer(params: any) {
+  const input = document.createElement("input");
+  input.type = "checkbox";
+  input.checked = params.value === "1";
+  input.className = "grid-bool-checkbox";
+  if (params.value === "") {
+    input.classList.add("empty");
+  }
+  input.addEventListener("change", () => {
+    const val = input.checked ? "1" : "0";
+    params.node.setDataValue(params.column.getColId(), val);
+  });
+  return input;
+}
 
 export function filterRows(
   fields: TableField[],
@@ -60,6 +77,11 @@ export function createColumnDefs(
       filter: true,
       editable: true,
     };
+    if (f.fieldType === "Boolean") {
+      def.cellRenderer = booleanCellRenderer;
+      def.cellClass = "boolean-cell";
+      def.editable = false;
+    }
     if (dropdowns[f.xmlName]) {
       def.cellEditor = "agSelectCellEditor";
       const values = dropdowns[f.xmlName].includes('')

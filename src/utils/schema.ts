@@ -26,6 +26,7 @@ async function loadMappings() {
 export interface TableField {
   name: string;
   xmlName: string;
+  fieldType?: string;
 }
 
 export async function getTableFields(
@@ -44,7 +45,8 @@ export async function getTableFields(
         .map((f: any) => {
           const name = String(f['BC Field Name'] || f.Field);
           const xmlName = map[name] || mapFieldName(name);
-          return { name, xmlName };
+          const fieldType = f.FieldType ? String(f.FieldType) : undefined;
+          return { name, xmlName, fieldType };
         });
     }
   }

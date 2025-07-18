@@ -1155,3 +1155,20 @@ select option:checked {
   color: var(--bc-text) !important;
 }
 
+
+/* Highlight options in ag-rich-select dropdowns */
+.ag-rich-select-row:hover,
+.ag-rich-select-row.ag-rich-select-row-selected,
+.ag-rich-select-row.ag-rich-select-row-highlight {
+  background-color: var(--bc-gray) !important;
+  color: var(--bc-text) !important;
+}
+
+/* Boolean checkbox cells */
+.boolean-cell {
+  justify-content: center;
+}
+.grid-bool-checkbox.empty {
+  opacity: 0.5;
+}
+
