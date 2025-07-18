@@ -34,13 +34,31 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug }: Pr
   }, [rows]);
 
   const columnDefs = useMemo(() => {
-    if (!rowData.length) return [];
-    if (!fields.length)
-      return Object.keys(rowData[0]).map(key => ({ headerName: key, field: key, sortable: true, filter: true, editable: true }));
-    return fields
-      .filter(f => Object.prototype.hasOwnProperty.call(rowData[0], f.xmlName))
-      .map(f => ({ headerName: f.name, field: f.xmlName, sortable: true, filter: true, editable: true }));
-  }, [rowData, fields]);
+    if (fields.length)
+      return fields.map(f => ({
+        headerName: f.name,
+        field: f.xmlName,
+        sortable: true,
+        filter: true,
+        editable: true,
+      }));
+    if (rowData.length)
+      return Object.keys(rowData[0]).map(key => ({
+        headerName: key,
+        field: key,
+        sortable: true,
+        filter: true,
+        editable: true,
+      }));
+    return [];
+  }, [fields, rowData]);
+
+  useEffect(() => {
+    const api = gridRef.current?.api;
+    if (api) {
+      api.sizeColumnsToFit();
+    }
+  }, [columnDefs]);
 
   function addRow() {
     const keys = fields.length
@@ -122,9 +140,8 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug }: Pr
       fields.length > 0
         ? fields.map(f => f.xmlName)
         : ['Code', 'ISOCode', 'CurrencySymbol', 'Decimals', 'RoundingPrecision'];
-    const row: Record<string, string> = {};
-    headers.forEach(h => (row[h] = ''));
-    const ws = XLSX.utils.json_to_sheet([row], { header: headers });
+    const rowsForSheet = rowData.length ? rowData : [Object.fromEntries(headers.map(h => [h, '']))];
+    const ws = XLSX.utils.json_to_sheet(rowsForSheet, { header: headers });
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Currency');
     const buf = XLSX.write(wb, { type: 'array', bookType: 'xlsx' });
