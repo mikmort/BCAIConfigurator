@@ -19,7 +19,8 @@ body {
 
 .app {
   width: 100%;
-  height: 100vh;
+  /* Allow the page to grow taller than the viewport so scrolling works */
+  min-height: 100vh;
   margin: 0;
   padding: 0;
   display: flex;
@@ -611,9 +612,11 @@ h3 {
   justify-content: space-between;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   position: relative;
+  margin-left: var(--sidebar-total-width);
+  width: calc(100% - var(--sidebar-total-width));
 }
 
-/* Vertical divider continuing the sidebar border */
+/* Remove vertical divider in favor of aligning the bar with the sidebar */
 .topbar::after {
   content: '';
   position: absolute;
@@ -1051,6 +1054,29 @@ h3 {
 }
 
 .customer-grid .ag-row-pinned-bottom .ag-cell:hover {
+  color: var(--bc-blue-dark);
+}
+
+/* Chart of Accounts grid theme tweaks - same as currency grid */
+.gl-grid {
+  --ag-header-background-color: var(--bc-gray);
+  --ag-header-foreground-color: var(--bc-text);
+  --ag-row-hover-color: var(--bc-gray);
+  --ag-odd-row-background-color: #fafafa;
+  --ag-border-color: #e1dfdd;
+  --ag-row-height: 36px;
+  --ag-header-height: 38px;
+  --ag-grid-size: 6px;
+}
+
+.gl-grid .ag-row-pinned-bottom .ag-cell {
+  justify-content: center;
+  cursor: pointer;
+  color: var(--bc-blue);
+  font-size: 1.5em;
+}
+
+.gl-grid .ag-row-pinned-bottom .ag-cell:hover {
   color: var(--bc-blue-dark);
 }
 

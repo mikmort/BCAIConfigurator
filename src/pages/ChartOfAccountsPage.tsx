@@ -27,7 +27,7 @@ interface Props {
   setConfirmed: (val: boolean) => void;
 }
 
-export default function CurrencyPage({
+export default function ChartOfAccountsPage({
   rows,
   setRows,
   next,
@@ -50,13 +50,12 @@ export default function CurrencyPage({
   }
 
   useEffect(() => {
-    getTableFields('Currency', true).then(setFields);
+    getTableFields('G/L Account', true).then(setFields);
   }, []);
 
   useEffect(() => {
-    if (logDebug) logDebug(`CurrencyPage: loading grid with ${rows.length} rows`);
-    // Only log when the row data changes to avoid infinite re-renders
-    // triggered by a new logDebug function on every parent render.
+    if (logDebug)
+      logDebug(`ChartOfAccountsPage: loading grid with ${rows.length} rows`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rows]);
 
@@ -101,9 +100,9 @@ export default function CurrencyPage({
       const prompt =
         'Given the following company setup data as JSON:\n' +
         JSON.stringify(formData, null, 2) +
-        '\nCurrent currency rows:\n' +
+        '\nCurrent chart of accounts rows:\n' +
         JSON.stringify(currentRows ?? rowData, null, 2) +
-        '\nSuggest the best rows for the currency table. ' +
+        '\nSuggest the best rows for the chart of accounts table. ' +
         'Return JSON with a "rows" array and an "explanation" string no longer than 500 characters.' +
         (extra ? `\nAdditional Instructions:\n${extra}` : '');
       const ans = await askOpenAI(prompt, logDebug);
@@ -162,12 +161,12 @@ export default function CurrencyPage({
   }
 
   function downloadTemplate() {
-    const blob = createTemplateBlob('Currency', rowData, fields);
+    const blob = createTemplateBlob('G/L Account', rowData, fields);
     if (!blob) return;
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'currency_template.xlsx';
+    a.download = 'chart_of_accounts_template.xlsx';
     a.click();
     URL.revokeObjectURL(url);
   }
@@ -182,9 +181,9 @@ export default function CurrencyPage({
 
   return (
     <div>
-      <div className="section-header">{strings.currencies}</div>
+      <div className="section-header">{strings.chartOfAccounts}</div>
       {confirmed && <div className="confirmed-banner">Confirmed!</div>}
-      <p>You can add, edit, or delete currencies directly below:</p>
+      <p>You can add, edit, or delete accounts directly below:</p>
       <div className="grid-toolbar">
         <button type="button" className="grid-action-btn" onClick={addRow}>
           Add Row
@@ -205,14 +204,12 @@ export default function CurrencyPage({
         </button>
       </div>
       <div
-        className="ag-theme-alpine currency-grid"
+        className="ag-theme-alpine gl-grid"
         style={{ height: 400, width: '100%' }}
         tabIndex={0}
         onFocus={() => {
           if (!gridRef.current || !columnDefs.length) return;
-          if (!gridRef.current.api.getFocusedCell()) {
-            gridRef.current.api.setFocusedCell(0, columnDefs[0].field);
-          }
+          gridRef.current.api.setFocusedCell(0, columnDefs[0].field);
         }}
       >
         <AgGridReact
