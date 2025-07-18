@@ -80,5 +80,5 @@ export function extractFieldValues(rows: any[], field: string): string[] {
 }
 
 export function defaultCurrencyText(code: string): string {
-  return `(Default) LCY -- ${code}`;
+  return `(Default LCY) ${code}`;
 }

@@ -15,6 +15,7 @@ import {
 import { askOpenAI, parseAIGrid } from '../utils/ai';
 import AISuggestionModal from '../components/AISuggestionModal';
 import { ExcelIcon } from '../components/Icons';
+import { fieldKey, defaultCurrencyText } from '../utils/helpers';
 
 interface Props {
   rows: Record<string, string>[];
@@ -64,9 +65,34 @@ export default function CurrencyPage({
     setRowData(filterRows(fields, rows));
   }, [rows, fields]);
 
+  const codeField = useMemo(
+    () => fields.find(f => f.name === 'Code')?.xmlName,
+    [fields],
+  );
+  const localCurrency = useMemo(
+    () => formData[fieldKey('Local Currency (LCY) Code')] || '',
+    [formData],
+  );
+  const defaultCurrency = useMemo(
+    () => defaultCurrencyText(localCurrency),
+    [localCurrency],
+  );
+
   const columnDefs = useMemo(
-    () => createColumnDefs(rowData, fields),
-    [rowData, fields],
+    () => {
+      const defs = createColumnDefs(rowData, fields);
+      if (codeField) {
+        const col = defs.find(d => d.field === codeField);
+        if (col) {
+          col.valueFormatter = (p: any) =>
+            p.node.rowPinned === 'bottom' ? '' : p.value || defaultCurrency;
+          col.valueParser = (p: any) =>
+            p.newValue === defaultCurrency ? '' : p.newValue;
+        }
+      }
+      return defs;
+    },
+    [rowData, fields, codeField, defaultCurrency],
   );
 
   const bottomRowData = useMemo(
