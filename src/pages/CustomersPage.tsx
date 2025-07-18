@@ -96,14 +96,23 @@ export default function CustomersPage({
     [formData],
   );
   const defaultCurrency = useMemo(
-    () => defaultCurrencyText(localCurrency),
+    () => defaultCurrencyText(localCurrency.trim()),
     [localCurrency],
   );
 
   const dropdowns = useMemo(() => {
     const map: Record<string, string[]> = {};
-    if (currencyField)
-      map[currencyField] = [defaultCurrency, ...currencies.map((c) => c.code)];
+    if (currencyField) {
+      const norm = localCurrency.trim().toLowerCase();
+      const others = Array.from(
+        new Set(
+          currencies
+            .map((c) => c.code.trim())
+            .filter((c) => c && c.toLowerCase() !== norm),
+        ),
+      );
+      map[currencyField] = [defaultCurrency, ...others];
+    }
     if (countryField) map[countryField] = countries.map((c) => c.code);
     if (postingField) map[postingField] = postingGroups;
     return map;

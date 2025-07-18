@@ -888,10 +888,16 @@ function App() {
       inputEl = <input {...inputProps} />;
     } else if (cf.lookupTable && startData) {
       const rows = findTableRows(startData, cf.lookupTable) || [];
-      const opts = extractFieldValues(rows, cf.lookupField || "Code");
+      let opts = extractFieldValues(rows, cf.lookupField || "Code");
       const isCurrency = cf.lookupTable === 4;
       const lcy = formData[fieldKey("Local Currency (LCY) Code")] || "";
-      const defText = isCurrency ? defaultCurrencyText(lcy) : "";
+      if (isCurrency && lcy) {
+        const norm = lcy.trim().toLowerCase();
+        opts = opts.filter((o) => o.trim().toLowerCase() !== norm && o.trim() !== "");
+      } else {
+        opts = opts.filter((o) => o.trim() !== "");
+      }
+      const defText = isCurrency ? defaultCurrencyText(lcy.trim()) : "";
       inputEl = (
         <select {...inputProps}>
           <option value="">{defText}</option>
