@@ -268,8 +268,16 @@ export default function CurrencyPage({
       {confirmed && <div className="confirmed-banner">Confirmed!</div>}
       <p>You can add, edit, or delete currencies directly below:</p>
       <div className="grid-toolbar">
-        <button type="button" onClick={addRow}>Add Row</button>
-        <button type="button" onClick={deleteSelected}>Delete Selected</button>
+        <button type="button" className="grid-action-btn" onClick={addRow}>
+          Add Row
+        </button>
+        <button
+          type="button"
+          className="grid-action-btn"
+          onClick={deleteSelected}
+        >
+          Delete Selected
+        </button>
         <button
           type="button"
           className="ai-btn"
