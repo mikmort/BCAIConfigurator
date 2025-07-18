@@ -42,7 +42,10 @@ export function createColumnDefs(
       };
       if (dropdowns[key]) {
         def.cellEditor = "agSelectCellEditor";
-        def.cellEditorParams = { values: dropdowns[key] };
+        const values = dropdowns[key].includes('')
+          ? dropdowns[key]
+          : ['', ...dropdowns[key]];
+        def.cellEditorParams = { values };
       }
       return def;
     });
@@ -57,7 +60,10 @@ export function createColumnDefs(
     };
     if (dropdowns[f.xmlName]) {
       def.cellEditor = "agSelectCellEditor";
-      def.cellEditorParams = { values: dropdowns[f.xmlName] };
+      const values = dropdowns[f.xmlName].includes('')
+        ? dropdowns[f.xmlName]
+        : ['', ...dropdowns[f.xmlName]];
+      def.cellEditorParams = { values };
     }
     return def;
   });
