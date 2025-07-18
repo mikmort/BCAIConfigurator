@@ -28,6 +28,7 @@ import ContactTemplatePage from './pages/ContactTemplatePage';
 import EmployeeTemplatePage from './pages/EmployeeTemplatePage';
 import ResourceTemplatePage from './pages/ResourceTemplatePage';
 import ReviewPage from './pages/ReviewPage';
+import OptionalSetupPage from './pages/OptionalSetupPage';
 import BCLogo from './images/Dynamics_365_business_Central_Logo.svg';
 import strings from '../res/strings';
 import { CompanyField, BasicInfo } from './types';
@@ -128,6 +129,11 @@ function App() {
   const [showSRSometimes, setShowSRSometimes] = useState(false);
   const [showPPSometimes, setShowPPSometimes] = useState(false);
   const [showFASometimes, setShowFASometimes] = useState(false);
+  const [companyIntro, setCompanyIntro] = useState(false);
+  const [glIntro, setGlIntro] = useState(false);
+  const [srIntro, setSrIntro] = useState(false);
+  const [ppIntro, setPpIntro] = useState(false);
+  const [faIntro, setFaIntro] = useState(false);
   const [aiParsed, setAiParsed] = useState({
     suggested: "",
     confidence: "",
@@ -547,6 +553,9 @@ function App() {
         setCompanyVisited(
           company.filter((f) => f.common === "common").map(() => false),
         );
+        setCompanyIntro(
+          (company[0]?.setupOptional || '').toLowerCase() === 'yes'
+        );
         setFormData((f: FormData) => {
           const copy: FormData = { ...f };
           company.forEach((cf) => {
@@ -560,6 +569,7 @@ function App() {
         setGlFields(gl);
         setGlProgress(gl.filter((f) => f.common === "common").map(() => false));
         setGlVisited(gl.filter((f) => f.common === "common").map(() => false));
+        setGlIntro((gl[0]?.setupOptional || '').toLowerCase() === 'yes');
         setFormData((f: FormData) => {
           const copy: FormData = { ...f };
           gl.forEach((cf) => {
@@ -573,6 +583,7 @@ function App() {
         setSrFields(sr);
         setSrProgress(sr.filter((f) => f.common === "common").map(() => false));
         setSrVisited(sr.filter((f) => f.common === "common").map(() => false));
+        setSrIntro((sr[0]?.setupOptional || '').toLowerCase() === 'yes');
         setFormData((f: FormData) => {
           const copy: FormData = { ...f };
           sr.forEach((cf) => {
@@ -586,6 +597,7 @@ function App() {
         setPpFields(pp);
         setPpProgress(pp.filter((f) => f.common === "common").map(() => false));
         setPpVisited(pp.filter((f) => f.common === "common").map(() => false));
+        setPpIntro((pp[0]?.setupOptional || '').toLowerCase() === 'yes');
         setFormData((f: FormData) => {
           const copy: FormData = { ...f };
           pp.forEach((cf) => {
@@ -599,6 +611,7 @@ function App() {
         setFaFields(fa);
         setFaProgress(fa.filter((f) => f.common === "common").map(() => false));
         setFaVisited(fa.filter((f) => f.common === "common").map(() => false));
+        setFaIntro((fa[0]?.setupOptional || '').toLowerCase() === 'yes');
         setFormData((f: FormData) => {
           const copy: FormData = { ...f };
           fa.forEach((cf) => {
@@ -789,6 +802,16 @@ function App() {
         applyRecommendedValue(cf);
       }
     }
+  }
+
+  function confirmAll(
+    progress: boolean[],
+    setProg: (arr: boolean[]) => void,
+    visited: boolean[],
+    setVisitedArr: (arr: boolean[]) => void,
+  ) {
+    setProg(progress.map(() => true));
+    setVisitedArr(visited.map(() => true));
   }
 
   // Upload a basic RapidStart template to Azure
@@ -1422,7 +1445,30 @@ function App() {
                   setConfirmed={setBasicDone}
                 />
               )}
-              {step === 3 && (
+              {step === 3 && companyIntro && (
+                <OptionalSetupPage
+                  title={strings.companyInfo}
+                  fields={companyFields}
+                  formData={formData}
+                  onUseDefaults={() => {
+                    confirmAll(
+                      companyProgress,
+                      setCompanyProgress,
+                      companyVisited,
+                      setCompanyVisited,
+                    );
+                    setCompanyIntro(false);
+                    next();
+                  }}
+                  onReview={() => {
+                    setCompanyIntro(false);
+                  }}
+                  onSkip={() => {
+                    next();
+                  }}
+                />
+              )}
+              {step === 3 && !companyIntro && (
                 <CompanyInfoPage
                   fields={companyFields}
                   renderInput={renderInput}
@@ -1441,7 +1487,30 @@ function App() {
                   goToFieldIndex={companyFieldIdx}
                 />
               )}
-              {step === 4 && (
+              {step === 4 && glIntro && (
+                <OptionalSetupPage
+                  title={strings.generalLedgerSetup}
+                  fields={glFields}
+                  formData={formData}
+                  onUseDefaults={() => {
+                    confirmAll(
+                      glProgress,
+                      setGlProgress,
+                      glVisited,
+                      setGlVisited,
+                    );
+                    setGlIntro(false);
+                    next();
+                  }}
+                  onReview={() => {
+                    setGlIntro(false);
+                  }}
+                  onSkip={() => {
+                    next();
+                  }}
+                />
+              )}
+              {step === 4 && !glIntro && (
                 <GLSetupPage
                   fields={glFields}
                   renderInput={renderInput}
@@ -1460,7 +1529,30 @@ function App() {
                   goToFieldIndex={glFieldIdx}
                 />
               )}
-              {step === 5 && (
+              {step === 5 && srIntro && (
+                <OptionalSetupPage
+                  title={strings.salesReceivablesSetup}
+                  fields={srFields}
+                  formData={formData}
+                  onUseDefaults={() => {
+                    confirmAll(
+                      srProgress,
+                      setSrProgress,
+                      srVisited,
+                      setSrVisited,
+                    );
+                    setSrIntro(false);
+                    next();
+                  }}
+                  onReview={() => {
+                    setSrIntro(false);
+                  }}
+                  onSkip={() => {
+                    next();
+                  }}
+                />
+              )}
+              {step === 5 && !srIntro && (
                 <SalesReceivablesPage
                   fields={srFields}
                   renderInput={renderInput}
@@ -1479,7 +1571,30 @@ function App() {
                   goToFieldIndex={srFieldIdx}
                 />
               )}
-              {step === 6 && (
+              {step === 6 && ppIntro && (
+                <OptionalSetupPage
+                  title={strings.purchasePayablesSetup}
+                  fields={ppFields}
+                  formData={formData}
+                  onUseDefaults={() => {
+                    confirmAll(
+                      ppProgress,
+                      setPpProgress,
+                      ppVisited,
+                      setPpVisited,
+                    );
+                    setPpIntro(false);
+                    next();
+                  }}
+                  onReview={() => {
+                    setPpIntro(false);
+                  }}
+                  onSkip={() => {
+                    next();
+                  }}
+                />
+              )}
+              {step === 6 && !ppIntro && (
                 <PurchasePayablesPage
                   fields={ppFields}
                   renderInput={renderInput}
@@ -1498,7 +1613,30 @@ function App() {
                   goToFieldIndex={ppFieldIdx}
                 />
               )}
-              {step === 7 && (
+              {step === 7 && faIntro && (
+                <OptionalSetupPage
+                  title={strings.fixedAssetSetup}
+                  fields={faFields}
+                  formData={formData}
+                  onUseDefaults={() => {
+                    confirmAll(
+                      faProgress,
+                      setFaProgress,
+                      faVisited,
+                      setFaVisited,
+                    );
+                    setFaIntro(false);
+                    next();
+                  }}
+                  onReview={() => {
+                    setFaIntro(false);
+                  }}
+                  onSkip={() => {
+                    next();
+                  }}
+                />
+              )}
+              {step === 7 && !faIntro && (
                 <FixedAssetSetupPage
                   fields={faFields}
                   renderInput={renderInput}

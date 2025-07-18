@@ -9,6 +9,8 @@ export interface CompanyField {
   lookupTable?: number;
   lookupField?: string;
   tableId?: number;
+  tableName?: string;
+  setupOptional?: string;
 }
 
 export interface BasicInfo {

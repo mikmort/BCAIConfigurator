@@ -18,14 +18,19 @@ export async function loadStartingData(): Promise<any> {
 }
 
 export async function loadConfigTables(): Promise<ConfigQuestion[]> {
-  const resp = await fetch('/BC_Setup_All_Tables_and_Fields_grouped_ordered.json');
+  const resp = await fetch('/BC_Setup_All_Tables_and_Fields_grouped_ordered_with_setup.json');
   const data = await resp.json();
   const fields: ConfigQuestion[] = [];
   if (Array.isArray(data)) {
     data.forEach(t => {
       if (Array.isArray(t.Fields)) {
         t.Fields.forEach((f: ConfigQuestion) =>
-          fields.push({ ...f, tableId: t.Number, tableName: t.Name })
+          fields.push({
+            ...f,
+            tableId: t.Number,
+            tableName: t.Name,
+            SetupOptional: t.SetupOptional,
+          })
         );
       }
     });

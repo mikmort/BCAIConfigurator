@@ -12,6 +12,7 @@ export interface ConfigQuestion {
   'Lookup Field'?: string;
   tableId?: number;
   tableName?: string;
+  SetupOptional?: string;
 }
 
 export function recommendedCode(text: string): string {
@@ -51,6 +52,8 @@ export function parseQuestions(
         ? String((q as any)['Lookup Field'])
         : undefined,
       tableId: q?.tableId,
+      tableName: q?.tableName,
+      setupOptional: q?.SetupOptional,
     };
   });
 }
