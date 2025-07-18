@@ -12,21 +12,30 @@ export interface ColumnDef {
   cellClass?: string;
 }
 
+import React from "react";
 import type { TableField } from "./schema";
 
-function booleanCellRenderer(params: any) {
-  const input = document.createElement("input");
-  input.type = "checkbox";
-  input.checked = params.value === "1";
-  input.className = "grid-bool-checkbox";
-  if (params.value === "") {
-    input.classList.add("empty");
-  }
-  input.addEventListener("change", () => {
-    const val = input.checked ? "1" : "0";
+// React implementation of a boolean cell renderer for ag-grid
+function BooleanCellRenderer(params: any) {
+  const { value } = params;
+  const [checked, setChecked] = React.useState(value === "1");
+
+  function onChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const isChecked = e.target.checked;
+    setChecked(isChecked);
+    const val = isChecked ? "1" : "0";
     params.node.setDataValue(params.column.getColId(), val);
+  }
+
+  const className =
+    "grid-bool-checkbox" + (value === "" ? " empty" : "");
+
+  return React.createElement("input", {
+    type: "checkbox",
+    className,
+    checked,
+    onChange,
   });
-  return input;
 }
 
 export function filterRows(
@@ -78,7 +87,7 @@ export function createColumnDefs(
       editable: true,
     };
     if (f.fieldType === "Boolean") {
-      def.cellRenderer = booleanCellRenderer;
+      def.cellRenderer = BooleanCellRenderer;
       def.cellClass = "boolean-cell";
       def.editable = false;
     }
