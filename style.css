@@ -1151,7 +1151,7 @@ h3 {
 select option:hover,
 select option:focus,
 select option:checked {
-  background-color: var(--bc-gray);
-  color: var(--bc-text);
+  background-color: var(--bc-gray) !important;
+  color: var(--bc-text) !important;
 }
 
