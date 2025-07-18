@@ -56,3 +56,26 @@ export function parseAISuggestion(text: string): AISuggestion {
     return { suggested: text, confidence: '', reasoning: '' };
   }
 }
+
+/**
+ * Try to parse JSON that may be embedded inside arbitrary text.
+ * Returns the parsed object or null if no JSON could be extracted.
+ */
+export function parseJSONFromText(text: string): any | null {
+  if (!text) return null;
+  // First look for a ```json code block
+  const block = text.match(/```json\s*([\s\S]*?)\s*```/i);
+  let cleaned = block ? block[1].trim() : text.trim();
+  // If there's additional text before or after the JSON, slice from the first
+  // opening brace to the last closing brace.
+  const start = cleaned.indexOf('{');
+  const end = cleaned.lastIndexOf('}');
+  if (start !== -1 && end !== -1) {
+    cleaned = cleaned.slice(start, end + 1);
+  }
+  try {
+    return JSON.parse(cleaned);
+  } catch {
+    return null;
+  }
+}

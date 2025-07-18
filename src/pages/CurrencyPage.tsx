@@ -4,7 +4,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import strings from '../../res/strings';
 import { getTableFields, TableField } from '../utils/schema';
-import { askOpenAI } from '../utils/ai';
+import { askOpenAI, parseJSONFromText } from '../utils/ai';
 
 interface Props {
   rows: Record<string, string>[];
@@ -110,8 +110,7 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
         '\nSuggest the best rows for the currency table. ' +
         'Return JSON with a "rows" array and an "explanation" string.';
       const ans = await askOpenAI(prompt, logDebug);
-      const cleaned = ans.replace(/```json|```/g, '').trim();
-      const parsed = JSON.parse(cleaned);
+      const parsed = parseJSONFromText(ans) || {};
       setAiRows(filterRows(parsed.rows || []));
       setAiExplanation(parsed.explanation || '');
     } catch (e) {
