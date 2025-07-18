@@ -35,6 +35,7 @@ import {
   mapFieldName,
   findTableRows,
   extractFieldValues,
+  valueToString,
   defaultCurrencyText,
 } from "./utils/helpers";
 import { parseQuestions, recommendedCode } from "./utils/jsonParsing";
@@ -312,8 +313,7 @@ function App() {
           const obj: Record<string, string> = {};
           Object.keys(r).forEach((k) => {
             let v: any = (r as any)[k];
-            if (v && typeof v === "object" && "#text" in v) v = v["#text"];
-            obj[k] = v !== undefined && v !== null ? String(v) : "";
+            obj[k] = valueToString(v);
           });
           return obj;
         });
@@ -330,14 +330,12 @@ function App() {
           if (customerNames.length) {
             customerNames.forEach((n) => {
               let v: any = (r as any)[n];
-              if (v && typeof v === "object" && "#text" in v) v = v["#text"];
-              obj[n] = v !== undefined && v !== null ? String(v) : "";
+              obj[n] = valueToString(v);
             });
           } else {
             Object.keys(r).forEach((k) => {
               let v: any = (r as any)[k];
-              if (v && typeof v === "object" && "#text" in v) v = v["#text"];
-              obj[k] = v !== undefined && v !== null ? String(v) : "";
+              obj[k] = valueToString(v);
             });
           }
           return obj;
@@ -356,14 +354,12 @@ function App() {
           if (currencyNames.length) {
             currencyNames.forEach((n) => {
               let v: any = (r as any)[n];
-              if (v && typeof v === "object" && "#text" in v) v = v["#text"];
-              obj[n] = v !== undefined && v !== null ? String(v) : "";
+              obj[n] = valueToString(v);
             });
           } else {
             Object.keys(r).forEach((k) => {
               let v: any = (r as any)[k];
-              if (v && typeof v === "object" && "#text" in v) v = v["#text"];
-              obj[k] = v !== undefined && v !== null ? String(v) : "";
+              obj[k] = valueToString(v);
             });
           }
           return obj;
@@ -382,14 +378,12 @@ function App() {
           if (glNames.length) {
             glNames.forEach((n) => {
               let v: any = (r as any)[n];
-              if (v && typeof v === 'object' && '#text' in v) v = v['#text'];
-              obj[n] = v !== undefined && v !== null ? String(v) : '';
+              obj[n] = valueToString(v);
             });
           } else {
             Object.keys(r).forEach((k) => {
               let v: any = (r as any)[k];
-              if (v && typeof v === 'object' && '#text' in v) v = v['#text'];
-              obj[k] = v !== undefined && v !== null ? String(v) : '';
+              obj[k] = valueToString(v);
             });
           }
           return obj;

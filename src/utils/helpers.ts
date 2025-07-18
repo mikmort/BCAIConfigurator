@@ -6,6 +6,19 @@ export function mapFieldName(name: string): string {
   return name.replace(/\s+/g, '').replace(/\./g, '').replace(/-/g, '_');
 }
 
+export function valueToString(val: any): string {
+  if (val === undefined || val === null) return '';
+  if (Array.isArray(val)) return valueToString(val[0]);
+  if (typeof val === 'object') {
+    if ('#text' in val) {
+      const v = (val as any)['#text'];
+      return v != null ? String(v) : '';
+    }
+    return '';
+  }
+  return String(val);
+}
+
 export function findFieldValue(obj: any, field: string): any {
   if (!obj || typeof obj !== 'object') return undefined;
   if (Object.prototype.hasOwnProperty.call(obj, field)) {
@@ -68,12 +81,9 @@ export function extractFieldValues(rows: any[], field: string): string[] {
   const vals: string[] = [];
   rows.forEach(r => {
     let v: any = r ? r[field] : undefined;
-    if (v !== undefined && v !== null) {
-      if (typeof v === 'object' && '#text' in v) v = v['#text'];
-      if (v !== undefined && v !== null) {
-        const s = String(v);
-        if (s && !vals.includes(s)) vals.push(s);
-      }
+    const s = valueToString(v);
+    if (s && !vals.includes(s)) {
+      vals.push(s);
     }
   });
   return vals;
