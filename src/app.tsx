@@ -375,6 +375,10 @@ function App() {
           val = findFieldValue(startData, xmlName);
         }
         if (val !== undefined) {
+          if (typeof val === 'object') {
+            const textVal = findFieldValue(val, '#text');
+            val = typeof textVal === 'string' ? textVal : '';
+          }
           copy[key] = val;
         }
       });
