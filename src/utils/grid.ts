@@ -43,7 +43,8 @@ export function createColumnDefs(
         editable: true,
       };
       if (dropdowns[key]) {
-        def.cellEditor = "agSelectCellEditor";
+        def.cellEditor = "agRichSelectCellEditor";
+        def.cellEditorPopup = true;
         const values = dropdowns[key].includes('')
           ? dropdowns[key]
           : ['', ...dropdowns[key]];
@@ -61,7 +62,8 @@ export function createColumnDefs(
       editable: true,
     };
     if (dropdowns[f.xmlName]) {
-      def.cellEditor = "agSelectCellEditor";
+      def.cellEditor = "agRichSelectCellEditor";
+      def.cellEditorPopup = true;
       const values = dropdowns[f.xmlName].includes('')
         ? dropdowns[f.xmlName]
         : ['', ...dropdowns[f.xmlName]];
