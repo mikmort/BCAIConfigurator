@@ -19,6 +19,7 @@ interface Props {
   goToGLSetup: () => void;
   goToSRSetup: () => void;
   goToPPSetup: () => void;
+  goToFASetup: () => void;
   goToCustomers: () => void;
   goToVendors: () => void;
   goToItems: () => void;
@@ -44,6 +45,8 @@ interface Props {
   srInProgress: boolean;
   ppDone: boolean;
   ppInProgress: boolean;
+  faDone: boolean;
+  faInProgress: boolean;
   customersDone: boolean;
   vendorsDone: boolean;
   itemsDone: boolean;
@@ -58,6 +61,7 @@ function ConfigMenuPage({
   goToGLSetup,
   goToSRSetup,
   goToPPSetup,
+  goToFASetup,
   goToCustomers,
   goToVendors,
   goToItems,
@@ -83,6 +87,8 @@ function ConfigMenuPage({
   srInProgress,
   ppDone,
   ppInProgress,
+  faDone,
+  faInProgress,
   customersDone,
   vendorsDone,
   itemsDone,
@@ -95,6 +101,7 @@ function ConfigMenuPage({
     !companyDone &&
     !glDone &&
     !srDone &&
+    !faDone &&
     !customersDone &&
     !vendorsDone &&
     !itemsDone &&
@@ -188,6 +195,19 @@ function ConfigMenuPage({
             )}
             <BoxIcon />
             <div>{strings.purchasePayablesSetup}</div>
+          </div>
+          <div
+            className={`menu-box ${faDone ? 'done' : ''}`}
+            onClick={goToFASetup}
+            tabIndex={0}
+            onKeyDown={e => {
+              if (e.key === 'Enter' || e.key === ' ') goToFASetup();
+            }}
+          >
+            {faDone && <div className="checkmark">✔</div>}
+            {!faDone && faInProgress && <div className="progress-dot">•</div>}
+            <BoxIcon />
+            <div>{strings.fixedAssetSetup}</div>
           </div>
         </div>
       </div>

@@ -16,6 +16,7 @@ export default {
   generalLedgerSetup: 'General Ledger Setup',
   salesReceivablesSetup: 'Sales & Receivables Setup',
   purchasePayablesSetup: 'Purchases & Payables Setup',
+  fixedAssetSetup: 'Fixed Asset Setup',
   common: 'Common',
   sometimes: 'Sometimes',
   additional: 'Additional',
