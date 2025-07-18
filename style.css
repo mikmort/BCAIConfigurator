@@ -951,6 +951,14 @@ h3 {
   color: var(--bc-blue-dark);
 }
 
+.file-controls {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
 .excel-icon {
   width: 16px;
   height: 16px;
