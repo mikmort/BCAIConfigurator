@@ -910,6 +910,23 @@ h3 {
   align-items: center;
 }
 
+.grid-toolbar .ai-btn {
+  margin-left: auto;
+}
+
+.grid-action-btn {
+  background: transparent;
+  border: 1px solid var(--bc-blue);
+  color: var(--bc-blue);
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.grid-action-btn:hover {
+  background: var(--bc-gray);
+}
+
 /* Currency grid theme tweaks */
 .currency-grid {
   --ag-header-background-color: var(--bc-gray);

@@ -231,8 +231,16 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
       <div className="section-header">{strings.currencies}</div>
       <p>You can add, edit, or delete currencies directly below:</p>
       <div className="grid-toolbar">
-        <button type="button" onClick={addRow}>Add Row</button>
-        <button type="button" onClick={deleteSelected}>Delete Selected</button>
+        <button type="button" className="grid-action-btn" onClick={addRow}>
+          Add Row
+        </button>
+        <button
+          type="button"
+          className="grid-action-btn"
+          onClick={deleteSelected}
+        >
+          Delete Selected
+        </button>
         <button
           type="button"
           className="ai-btn"
