@@ -41,7 +41,7 @@ export function createColumnDefs(
         editable: true,
       };
       if (dropdowns[key]) {
-        def.cellEditor = "agRichSelectCellEditor";
+        def.cellEditor = "agSelectCellEditor";
         def.cellEditorParams = { values: dropdowns[key] };
       }
       return def;
@@ -56,7 +56,7 @@ export function createColumnDefs(
       editable: true,
     };
     if (dropdowns[f.xmlName]) {
-      def.cellEditor = "agRichSelectCellEditor";
+      def.cellEditor = "agSelectCellEditor";
       def.cellEditorParams = { values: dropdowns[f.xmlName] };
     }
     return def;
