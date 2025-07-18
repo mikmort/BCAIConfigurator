@@ -1,7 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import React from "react";
+import ReactDOM from "react-dom/client";
 
-// Simple React app to guide users through Business Central setup
+
 const { useState, useEffect, useRef } = React;
 import HomePage from './pages/HomePage';
 import ConfigMenuPage from './pages/ConfigMenuPage';
@@ -34,33 +34,31 @@ import {
   mapFieldName,
   findTableRows,
   extractFieldValues,
-} from './utils/helpers';
-import { parseQuestions, recommendedCode } from './utils/jsonParsing';
-import { loadStartingData, loadConfigTables } from './utils/dataLoader';
-import { getTableFields } from './utils/schema';
+} from "./utils/helpers";
+import { parseQuestions, recommendedCode } from "./utils/jsonParsing";
+import { loadStartingData, loadConfigTables } from "./utils/dataLoader";
+import { getTableFields } from "./utils/schema";
 import {
   companyFieldNames,
   glFieldNames,
   srFieldNames,
   ppFieldNames,
-} from './fieldNames';
-import { askOpenAI, parseAISuggestion } from './utils/ai';
-
+} from "./fieldNames";
+import { askOpenAI, parseAISuggestion } from "./utils/ai";
 
 interface FormData {
   [key: string]: any;
 }
 
-
 function App() {
   const [step, setStep] = useState(0 as number);
-  const [rapidStart, setRapidStart] = useState('' as string);
+  const [rapidStart, setRapidStart] = useState("" as string);
   const [formData, setFormData] = useState({} as FormData);
   const [basicInfo, setBasicInfo] = useState<BasicInfo>({
-    companyName: '',
-    industry: '',
-    websiteUrl: '',
-    description: '',
+    companyName: "",
+    industry: "",
+    websiteUrl: "",
+    description: "",
   });
   const [companyFields, setCompanyFields] = useState([] as CompanyField[]);
   const [glFields, setGlFields] = useState([] as CompanyField[]);
@@ -74,17 +72,24 @@ function App() {
   const [glVisited, setGlVisited] = useState<boolean[]>([]);
   const [srVisited, setSrVisited] = useState<boolean[]>([]);
   const [ppVisited, setPpVisited] = useState<boolean[]>([]);
-  const [downloadUrl, setDownloadUrl] = useState('');
+  const [downloadUrl, setDownloadUrl] = useState("");
   const [debugMessages, setDebugMessages] = useState([] as string[]);
-  const [countries, setCountries] = useState([] as { code: string; name: string }[]);
-  const [currencies, setCurrencies] = useState([] as { code: string; description: string }[]);
+  const [countries, setCountries] = useState(
+    [] as { code: string; name: string }[],
+  );
+  const [currencies, setCurrencies] = useState(
+    [] as { code: string; description: string }[],
+  );
+  const [customerPostingGroups, setCustomerPostingGroups] = useState<string[]>(
+    [],
+  );
   const [startData, setStartData] = useState<any>(null);
-  const [baseCalendarOptions, setBaseCalendarOptions] = useState(['STANDARD']);
+  const [baseCalendarOptions, setBaseCalendarOptions] = useState(["STANDARD"]);
   const [showAI, setShowAI] = useState(false);
-  const [aiSuggested, setAiSuggested] = useState('');
-  const [aiExtra, setAiExtra] = useState('');
-  const [aiFieldKey, setAiFieldKey] = useState('');
-  const [aiPromptBase, setAiPromptBase] = useState('');
+  const [aiSuggested, setAiSuggested] = useState("");
+  const [aiExtra, setAiExtra] = useState("");
+  const [aiFieldKey, setAiFieldKey] = useState("");
+  const [aiPromptBase, setAiPromptBase] = useState("");
   const [configOpen, setConfigOpen] = useState(true);
   const [masterOpen, setMasterOpen] = useState(false);
   const [templatesOpen, setTemplatesOpen] = useState(false);
@@ -93,8 +98,12 @@ function App() {
   const [vendorsDone, setVendorsDone] = useState(false);
   const [itemsDone, setItemsDone] = useState(false);
   const [currenciesDone, setCurrenciesDone] = useState(false);
-  const [customerRows, setCustomerRows] = useState<Record<string, string>[]>([]);
-  const [currencyRows, setCurrencyRows] = useState<Record<string, string>[]>([]);
+  const [customerRows, setCustomerRows] = useState<Record<string, string>[]>(
+    [],
+  );
+  const [currencyRows, setCurrencyRows] = useState<Record<string, string>[]>(
+    [],
+  );
   const [vendorRows, setVendorRows] = useState<Record<string, string>[]>([]);
   const [companyFieldIdx, setCompanyFieldIdx] = useState<number | null>(null);
   const [glFieldIdx, setGlFieldIdx] = useState<number | null>(null);
@@ -105,12 +114,15 @@ function App() {
   const [showSRSometimes, setShowSRSometimes] = useState(false);
   const [showPPSometimes, setShowPPSometimes] = useState(false);
   const [aiParsed, setAiParsed] = useState({
-    suggested: '',
-    confidence: '',
-    reasoning: '',
+    suggested: "",
+    confidence: "",
+    reasoning: "",
   });
 
-  const suggestionFields = new Set(['Country/Region Code', 'Base Calendar Code']);
+  const suggestionFields = new Set([
+    "Country/Region Code",
+    "Base Calendar Code",
+  ]);
 
   // Record debug information for the final page
   function logDebug(msg: string): void {
@@ -120,15 +132,15 @@ function App() {
 
   // Options used for datalist or select elements for certain fields
   function getDropdownOptions(cf: CompanyField): string[] | null {
-    if (cf.field === 'Base Calendar Code') {
+    if (cf.field === "Base Calendar Code") {
       return baseCalendarOptions;
     }
-    if (cf.field === 'Country/Region Code') {
-      return countries.map(c => c.code);
+    if (cf.field === "Country/Region Code") {
+      return countries.map((c) => c.code);
     }
     if (cf.lookupTable && startData) {
       const rows = findTableRows(startData, cf.lookupTable) || [];
-      return extractFieldValues(rows, cf.lookupField || 'Code');
+      return extractFieldValues(rows, cf.lookupField || "Code");
     }
     return null;
   }
@@ -137,11 +149,11 @@ function App() {
   function buildAIPrompt(
     fieldName: any,
     currentValue: string,
-    considerations: string = '',
-    options?: string[]
+    considerations: string = "",
+    options?: string[],
   ): string {
     let name: string;
-    if (typeof fieldName === 'object' && fieldName !== null) {
+    if (typeof fieldName === "object" && fieldName !== null) {
       name =
         (fieldName.field as string) ||
         (fieldName.name as string) ||
@@ -152,16 +164,16 @@ function App() {
     }
 
     let prompt =
-      'We are configuring Dynamics Business Central\n\n' +
-      'We are looking for a recommended value for the field:\n\n' +
+      "We are configuring Dynamics Business Central\n\n" +
+      "We are looking for a recommended value for the field:\n\n" +
       `${name}\n\n` +
-      `The current value is: ${currentValue || '(blank)'}\n\n` +
-      'Please us the following information to help determine the recommended value\n--------------\n';
+      `The current value is: ${currentValue || "(blank)"}\n\n` +
+      "Please us the following information to help determine the recommended value\n--------------\n";
 
     const parts: string[] = [];
 
     const addConfirmed = (fields: CompanyField[], progress: boolean[]) => {
-      const common = fields.filter(f => f.common === 'common');
+      const common = fields.filter((f) => f.common === "common");
       common.forEach((cf, idx) => {
         if (progress[idx]) {
           const val = formData[fieldKey(cf.field)];
@@ -176,7 +188,7 @@ function App() {
     addConfirmed(ppFields, ppProgress);
 
     if (parts.length) {
-      prompt += parts.join('\n') + '\n';
+      prompt += parts.join("\n") + "\n";
     }
 
     if (considerations) {
@@ -184,40 +196,36 @@ function App() {
     }
 
     if (options && options.length) {
-      prompt += `Valid options for ${name}: ${options.join(', ')}\n`;
+      prompt += `Valid options for ${name}: ${options.join(", ")}\n`;
     }
 
     prompt +=
       '---------------\nPlease return the response strictly as JSON with the properties "Suggested Value", "Confidence", and "Reasoning". ' +
-      'Confidence should indicate how certain you are that this is the final value the user will want for this field in Dynamics Business Central. ' +
+      "Confidence should indicate how certain you are that this is the final value the user will want for this field in Dynamics Business Central. " +
       'Confidence must be one of "Very High", "High", "Medium", "Low", or "Very Low". ' +
       (options && options.length
-        ? 'Choose a value only from the provided options.'
-        : '') +
+        ? "Choose a value only from the provided options."
+        : "") +
       ' The "Reasoning" text must be no more than 500 characters.';
     return prompt;
   }
 
-
   // Query OpenAI for a recommended field value
-  async function fetchAISuggestion(
-    field: CompanyField,
-    currentValue: string
-  ) {
+  async function fetchAISuggestion(field: CompanyField, currentValue: string) {
     const fieldName = field.bcFieldName || field.field;
     const options = getDropdownOptions(field);
     const prompt = buildAIPrompt(
       fieldName,
       currentValue,
-      field.considerations || '',
-      options || undefined
+      field.considerations || "",
+      options || undefined,
     );
     const ans = await askOpenAI(prompt, logDebug);
     const parsed = parseAISuggestion(ans);
     if (options && options.length) {
-      const norm = options.map(o => o.toLowerCase());
+      const norm = options.map((o) => o.toLowerCase());
       if (!norm.includes(parsed.suggested.trim().toLowerCase())) {
-        return { suggested: '', confidence: '', reasoning: '' };
+        return { suggested: "", confidence: "", reasoning: "" };
       }
     }
     return parsed;
@@ -225,7 +233,7 @@ function App() {
 
   // Helper to update a single form value
   function setFieldValue(key: string, value: string) {
-    setFormData(f => ({ ...f, [key]: value }));
+    setFormData((f) => ({ ...f, [key]: value }));
   }
 
   // Track navigation history so the browser back button works
@@ -272,55 +280,60 @@ function App() {
   useEffect(() => {
     async function init() {
       try {
-        logDebug('Loading starting data');
+        logDebug("Loading starting data");
         const data = await loadStartingData();
-        logDebug('Starting data loaded');
+        logDebug("Starting data loaded");
         setRapidStart(JSON.stringify(data));
         setStartData(data);
 
         const countries =
           data?.DataList?.CountryRegionList?.CountryRegion?.map((c: any) => ({
-            code: c.Code?.['#text'] || '',
-            name: c.Name?.['#text'] || '',
+            code: c.Code?.["#text"] || "",
+            name: c.Name?.["#text"] || "",
           })) || [];
         setCountries(countries);
 
         const currencies =
           data?.DataList?.CurrencyList?.Currency?.map((c: any) => ({
-            code: c.Code?.['#text'] || '',
-            description: c.Description?.['#text'] || '',
+            code: c.Code?.["#text"] || "",
+            description: c.Description?.["#text"] || "",
           })) || [];
         setCurrencies(currencies);
 
+        const cpgRows = findTableRows(data, 92) || [];
+        setCustomerPostingGroups(extractFieldValues(cpgRows, "Code"));
+
         const vrows = findTableRows(data, 23) || [];
-        const vsimple = vrows.map(r => {
+        const vsimple = vrows.map((r) => {
           const obj: Record<string, string> = {};
-          Object.keys(r).forEach(k => {
+          Object.keys(r).forEach((k) => {
             let v: any = (r as any)[k];
-            if (v && typeof v === 'object' && '#text' in v) v = v['#text'];
-            obj[k] = v !== undefined && v !== null ? String(v) : '';
+            if (v && typeof v === "object" && "#text" in v) v = v["#text"];
+            obj[k] = v !== undefined && v !== null ? String(v) : "";
           });
           return obj;
         });
         setVendorRows(vsimple);
 
-        const customerFields = await getTableFields('Customer', true);
-        const customerNames = customerFields.map(f => f.xmlName);
+        const customerFields = await getTableFields("Customer", true);
+        const customerNames = customerFields.map((f) => f.xmlName);
         const custRows = findTableRows(data, 18) || [];
-        logDebug(`Customer: read ${custRows.length} rows from NAV27.0.US.ENU.STANDARD.xml`);
-        const custSimple = custRows.map(r => {
+        logDebug(
+          `Customer: read ${custRows.length} rows from NAV27.0.US.ENU.STANDARD.xml`,
+        );
+        const custSimple = custRows.map((r) => {
           const obj: Record<string, string> = {};
           if (customerNames.length) {
-            customerNames.forEach(n => {
+            customerNames.forEach((n) => {
               let v: any = (r as any)[n];
-              if (v && typeof v === 'object' && '#text' in v) v = v['#text'];
-              obj[n] = v !== undefined && v !== null ? String(v) : '';
+              if (v && typeof v === "object" && "#text" in v) v = v["#text"];
+              obj[n] = v !== undefined && v !== null ? String(v) : "";
             });
           } else {
-            Object.keys(r).forEach(k => {
+            Object.keys(r).forEach((k) => {
               let v: any = (r as any)[k];
-              if (v && typeof v === 'object' && '#text' in v) v = v['#text'];
-              obj[k] = v !== undefined && v !== null ? String(v) : '';
+              if (v && typeof v === "object" && "#text" in v) v = v["#text"];
+              obj[k] = v !== undefined && v !== null ? String(v) : "";
             });
           }
           return obj;
@@ -328,32 +341,33 @@ function App() {
         logDebug(`Customer: prepared ${custSimple.length} rows for grid`);
         setCustomerRows(custSimple);
 
-        const currencyFields = await getTableFields('Currency', true);
-        const currencyNames = currencyFields.map(f => f.xmlName);
+        const currencyFields = await getTableFields("Currency", true);
+        const currencyNames = currencyFields.map((f) => f.xmlName);
         const rows = findTableRows(data, 4) || [];
-        logDebug(`Currency: read ${rows.length} rows from NAV27.0.US.ENU.STANDARD.xml`);
-        const simple = rows.map(r => {
+        logDebug(
+          `Currency: read ${rows.length} rows from NAV27.0.US.ENU.STANDARD.xml`,
+        );
+        const simple = rows.map((r) => {
           const obj: Record<string, string> = {};
           if (currencyNames.length) {
-            currencyNames.forEach(n => {
+            currencyNames.forEach((n) => {
               let v: any = (r as any)[n];
-              if (v && typeof v === 'object' && '#text' in v) v = v['#text'];
-              obj[n] = v !== undefined && v !== null ? String(v) : '';
+              if (v && typeof v === "object" && "#text" in v) v = v["#text"];
+              obj[n] = v !== undefined && v !== null ? String(v) : "";
             });
           } else {
-            Object.keys(r).forEach(k => {
+            Object.keys(r).forEach((k) => {
               let v: any = (r as any)[k];
-              if (v && typeof v === 'object' && '#text' in v) v = v['#text'];
-              obj[k] = v !== undefined && v !== null ? String(v) : '';
+              if (v && typeof v === "object" && "#text" in v) v = v["#text"];
+              obj[k] = v !== undefined && v !== null ? String(v) : "";
             });
           }
           return obj;
         });
         logDebug(`Currency: prepared ${simple.length} rows for grid`);
         setCurrencyRows(simple);
-
       } catch (e) {
-        console.error('Failed to load starting data', e);
+        console.error("Failed to load starting data", e);
         logDebug(`Failed to load starting data: ${e}`);
       }
     }
@@ -362,23 +376,23 @@ function App() {
 
   useEffect(() => {
     if (!aiSuggested) {
-      setAiParsed({ suggested: '', confidence: '', reasoning: '' });
+      setAiParsed({ suggested: "", confidence: "", reasoning: "" });
       return;
     }
     try {
       setAiParsed(parseAISuggestion(aiSuggested));
     } catch (e) {
       logDebug(`Failed to parse JSON suggestion: ${e}`);
-      setAiParsed({ suggested: aiSuggested, confidence: '', reasoning: '' });
+      setAiParsed({ suggested: aiSuggested, confidence: "", reasoning: "" });
     }
   }, [aiSuggested]);
 
   useEffect(() => {
     if (!startData) return;
     const all = [...companyFields, ...glFields, ...srFields, ...ppFields];
-    setFormData(f => {
+    setFormData((f) => {
       const copy: FormData = { ...f };
-      all.forEach(cf => {
+      all.forEach((cf) => {
         const key = fieldKey(cf.field);
         if (copy[key]) return;
         const xmlName = mapFieldName(cf.bcFieldName || cf.field);
@@ -387,8 +401,8 @@ function App() {
           const rows = findTableRows(startData, cf.lookupTable) || [];
           if (rows.length) {
             val = rows[0][xmlName];
-            if (val && typeof val === 'object' && '#text' in val) {
-              val = val['#text'];
+            if (val && typeof val === "object" && "#text" in val) {
+              val = val["#text"];
             }
           }
         }
@@ -417,27 +431,29 @@ function App() {
   }, [startData, companyFields, glFields, srFields, ppFields]);
 
   useEffect(() => {
-    const nameKey = fieldKey('Company Name');
-    const siteKey = fieldKey('Company Website');
-    setFormData(f => ({
+    const nameKey = fieldKey("Company Name");
+    const siteKey = fieldKey("Company Website");
+    setFormData((f) => ({
       ...f,
-      [nameKey]: basicInfo.companyName || f[nameKey] || '',
-      [siteKey]: basicInfo.websiteUrl || f[siteKey] || '',
+      [nameKey]: basicInfo.companyName || f[nameKey] || "",
+      [siteKey]: basicInfo.websiteUrl || f[siteKey] || "",
     }));
 
     if (companyFields.length) {
-      const idxName = companyFields.findIndex(f => f.field === 'Company Name');
+      const idxName = companyFields.findIndex(
+        (f) => f.field === "Company Name",
+      );
       const idxSite = companyFields.findIndex(
-        f => f.field === 'Company Website'
+        (f) => f.field === "Company Website",
       );
 
       if (idxName !== -1 && basicInfo.companyName) {
-        setCompanyProgress(p => {
+        setCompanyProgress((p) => {
           const arr = [...p];
           arr[idxName] = true;
           return arr;
         });
-        setCompanyVisited(v => {
+        setCompanyVisited((v) => {
           const arr = [...v];
           arr[idxName] = true;
           return arr;
@@ -445,12 +461,12 @@ function App() {
       }
 
       if (idxSite !== -1 && basicInfo.websiteUrl) {
-        setCompanyProgress(p => {
+        setCompanyProgress((p) => {
           const arr = [...p];
           arr[idxSite] = true;
           return arr;
         });
-        setCompanyVisited(v => {
+        setCompanyVisited((v) => {
           const arr = [...v];
           arr[idxSite] = true;
           return arr;
@@ -462,61 +478,65 @@ function App() {
   useEffect(() => {
     async function init() {
       try {
-        logDebug('Loading config tables');
+        logDebug("Loading config tables");
         const data = await loadConfigTables();
         const company = parseQuestions(data, companyFieldNames);
         setCompanyFields(company);
-        setCompanyProgress(company.filter(f => f.common === 'common').map(() => false));
-        setCompanyVisited(company.filter(f => f.common === 'common').map(() => false));
+        setCompanyProgress(
+          company.filter((f) => f.common === "common").map(() => false),
+        );
+        setCompanyVisited(
+          company.filter((f) => f.common === "common").map(() => false),
+        );
         setFormData((f: FormData) => {
           const copy: FormData = { ...f };
-          company.forEach(cf => {
+          company.forEach((cf) => {
             const key = fieldKey(cf.field);
-            if (!(key in copy)) copy[key] = '';
+            if (!(key in copy)) copy[key] = "";
           });
           return copy;
         });
 
         const gl = parseQuestions(data, glFieldNames);
         setGlFields(gl);
-        setGlProgress(gl.filter(f => f.common === 'common').map(() => false));
-        setGlVisited(gl.filter(f => f.common === 'common').map(() => false));
+        setGlProgress(gl.filter((f) => f.common === "common").map(() => false));
+        setGlVisited(gl.filter((f) => f.common === "common").map(() => false));
         setFormData((f: FormData) => {
           const copy: FormData = { ...f };
-          gl.forEach(cf => {
+          gl.forEach((cf) => {
             const key = fieldKey(cf.field);
-            if (!(key in copy)) copy[key] = '';
+            if (!(key in copy)) copy[key] = "";
           });
           return copy;
         });
 
         const sr = parseQuestions(data, srFieldNames);
         setSrFields(sr);
-        setSrProgress(sr.filter(f => f.common === 'common').map(() => false));
-        setSrVisited(sr.filter(f => f.common === 'common').map(() => false));
+        setSrProgress(sr.filter((f) => f.common === "common").map(() => false));
+        setSrVisited(sr.filter((f) => f.common === "common").map(() => false));
         setFormData((f: FormData) => {
           const copy: FormData = { ...f };
-          sr.forEach(cf => {
+          sr.forEach((cf) => {
             const key = fieldKey(cf.field);
-            if (!(key in copy)) copy[key] = '';
+            if (!(key in copy)) copy[key] = "";
           });
           return copy;
         });
 
         const pp = parseQuestions(data, ppFieldNames);
         setPpFields(pp);
-        setPpProgress(pp.filter(f => f.common === 'common').map(() => false));
-        setPpVisited(pp.filter(f => f.common === 'common').map(() => false));
+        setPpProgress(pp.filter((f) => f.common === "common").map(() => false));
+        setPpVisited(pp.filter((f) => f.common === "common").map(() => false));
         setFormData((f: FormData) => {
           const copy: FormData = { ...f };
-          pp.forEach(cf => {
+          pp.forEach((cf) => {
             const key = fieldKey(cf.field);
-            if (!(key in copy)) copy[key] = '';
+            if (!(key in copy)) copy[key] = "";
           });
           return copy;
         });
       } catch (e) {
-        console.error('Failed to load config tables', e);
+        console.error("Failed to load config tables", e);
         logDebug(`Failed to load config tables: ${e}`);
       }
     }
@@ -526,7 +546,7 @@ function App() {
   // Generic change handler for all inputs
   function handleChange(e: any) {
     const { name, type, value, files } = e.target;
-    if (type === 'file') {
+    if (type === "file") {
       setFormData({ ...formData, [name]: files && files[0] ? files[0] : null });
       return;
     }
@@ -539,23 +559,63 @@ function App() {
   // Validation and option caching on blur
   function handleBlur(e: any): void {
     if (!e.target.checkValidity()) {
-      alert('Invalid value');
+      alert("Invalid value");
     }
     const { name, value } = e.target;
-    if (name === fieldKey('Base Calendar Code')) {
+    if (name === fieldKey("Base Calendar Code")) {
       if (value && !baseCalendarOptions.includes(value)) {
         setBaseCalendarOptions([...baseCalendarOptions, value]);
       }
-    } else if (name === fieldKey('Country/Region Code')) {
-      if (value && !countries.find(c => c.code === value)) {
+    } else if (name === fieldKey("Country/Region Code")) {
+      if (value && !countries.find((c) => c.code === value)) {
         setCountries([...countries, { code: value, name: value }]);
       }
-    } else if (name === fieldKey('Local Currency (LCY) Code')) {
-      if (value && !currencies.find(c => c.code === value)) {
+    } else if (name === fieldKey("Local Currency (LCY) Code")) {
+      if (value && !currencies.find((c) => c.code === value)) {
         setCurrencies([...currencies, { code: value, description: value }]);
       }
     }
   }
+
+  useEffect(() => {
+    setCurrencies((prev) => {
+      const map = new Map(prev.map((c) => [c.code, c]));
+      currencyRows.forEach((r) => {
+        const code = r.Code || r["Code"];
+        if (code && !map.has(code)) {
+          map.set(code, { code, description: r.Description || "" });
+        }
+      });
+      return Array.from(map.values());
+    });
+  }, [currencyRows]);
+
+  useEffect(() => {
+    setCountries((prev) => {
+      const arr = [...prev];
+      customerRows.forEach((r) => {
+        const code =
+          r.CountryRegionCode ||
+          (r as any)["Country_Region_Code"] ||
+          (r as any)["Country/Region Code"];
+        if (code && !arr.find((c) => c.code === code)) {
+          arr.push({ code, name: code });
+        }
+      });
+      return arr;
+    });
+    setCustomerPostingGroups((prev) => {
+      const arr = [...prev];
+      customerRows.forEach((r) => {
+        const pg =
+          r.CustomerPostingGroup ||
+          (r as any)["Customer_Posting_Group"] ||
+          (r as any)["Customer Posting Group"];
+        if (pg && !arr.includes(pg)) arr.push(pg);
+      });
+      return arr;
+    });
+  }, [customerRows]);
 
   // Advance to the next wizard step
   function next(): void {
@@ -590,17 +650,22 @@ function App() {
     field: CompanyField,
     key: string,
     currentValue: string,
-    considerations: string = ''
+    considerations: string = "",
   ): void {
     const fieldName = field.bcFieldName || field.field;
     const options = getDropdownOptions(field);
-    const prompt = buildAIPrompt(fieldName, currentValue, considerations, options || undefined);
+    const prompt = buildAIPrompt(
+      fieldName,
+      currentValue,
+      considerations,
+      options || undefined,
+    );
     setAiPromptBase(prompt);
-    setAiExtra('');
+    setAiExtra("");
     setAiFieldKey(key);
-    setAiSuggested('');
+    setAiSuggested("");
     setShowAI(true);
-    askOpenAI(prompt, logDebug).then(ans => setAiSuggested(ans));
+    askOpenAI(prompt, logDebug).then((ans) => setAiSuggested(ans));
   }
 
   // Hide the AI dialog
@@ -611,15 +676,15 @@ function App() {
   // Request another suggestion using extra user instructions
   function askAgain(): void {
     const prompt = `${aiPromptBase} Additional Instructions: ${aiExtra}`;
-    setAiSuggested('');
-    askOpenAI(prompt, logDebug).then(ans => setAiSuggested(ans));
+    setAiSuggested("");
+    askOpenAI(prompt, logDebug).then((ans) => setAiSuggested(ans));
   }
 
   // User accepts the AI suggested value
   function acceptSuggested() {
     try {
       const val = aiParsed.suggested;
-      setFormData(f => ({ ...f, [aiFieldKey]: val }));
+      setFormData((f) => ({ ...f, [aiFieldKey]: val }));
     } catch (e) {
       console.error(e);
       logDebug(`Failed to accept suggestion: ${e}`);
@@ -628,11 +693,10 @@ function App() {
     }
   }
 
-
   // Apply the canned recommendation for a field
   function applyRecommendedValue(cf: CompanyField) {
     const key = fieldKey(cf.field);
-    setFormData(f => ({ ...f, [key]: recommendedCode(cf.recommended) }));
+    setFormData((f) => ({ ...f, [key]: recommendedCode(cf.recommended) }));
   }
 
   // Prompt the user before applying the recommended value
@@ -647,43 +711,47 @@ function App() {
 
   // Upload a basic RapidStart template to Azure
   async function generateCustomRapidStart(): Promise<void> {
-    logDebug('Preparing RapidStart XML');
+    logDebug("Preparing RapidStart XML");
     const currencyXml = currencyRows
-      .map(r => {
+      .map((r) => {
         const fields = Object.entries(r)
           .map(([k, v]) => `    <${k}>${v}</${k}>`)
-          .join('\n');
+          .join("\n");
         return `  <Currency>\n${fields}\n  </Currency>`;
       })
-      .join('\n');
+      .join("\n");
     const xml = `<?xml version="1.0"?>\n<CustomRapidStart>\n  <CompanyName>${formData.companyName}</CompanyName>\n  <Address>${formData.address}</Address>\n  <Country>${formData.country}</Country>\n  <CurrencyList>\n${currencyXml}\n  </CurrencyList>\n</CustomRapidStart>`;
 
-    const fileName = `${(formData.companyName || 'CustomRapidStart')
-      .replace(/\s+/g, '_')}.rapidstart`;
+    const fileName = `${(formData.companyName || "CustomRapidStart").replace(
+      /\s+/g,
+      "_",
+    )}.rapidstart`;
 
     try {
       const cfg = (window as any).azureStorageConfig || {};
       if (!cfg.connectionString) {
-        throw new Error('Azure connection string not configured');
+        throw new Error("Azure connection string not configured");
       }
-      logDebug('Connecting to Azure Blob Storage');
+      logDebug("Connecting to Azure Blob Storage");
       const az = (window as any).azblob;
       if (!az) {
-        throw new Error('Azure Storage library not loaded');
+        throw new Error("Azure Storage library not loaded");
       }
       const blobServiceClient = az.BlobServiceClient.fromConnectionString(
-        cfg.connectionString
+        cfg.connectionString,
       );
-      const containerClient = blobServiceClient.getContainerClient(cfg.containerName || 'bctemplates');
+      const containerClient = blobServiceClient.getContainerClient(
+        cfg.containerName || "bctemplates",
+      );
       logDebug(`Using container: ${containerClient.containerName}`);
       const blockBlobClient = containerClient.getBlockBlobClient(fileName);
       logDebug(`Uploading ${fileName}`);
       await blockBlobClient.upload(xml, xml.length);
-      logDebug('Upload succeeded');
+      logDebug("Upload succeeded");
       setDownloadUrl(blockBlobClient.url);
       logDebug(`File URL: ${blockBlobClient.url}`);
     } catch (e) {
-      console.error('Upload failed', e);
+      console.error("Upload failed", e);
       logDebug(`Upload failed: ${e}`);
     }
   }
@@ -691,43 +759,65 @@ function App() {
   // Render an input element appropriate for the given field
   function renderInput(cf: CompanyField) {
     const key = fieldKey(cf.field);
-    const val = formData[key] || '';
+    const val = formData[key] || "";
     let inputProps: any = {
       name: key,
       value: val,
       onChange: handleChange,
       onBlur: handleBlur,
     };
-    if (cf.fieldType === 'Boolean') {
+    if (cf.fieldType === "Boolean") {
       return (
         <>
-          <label><input type="radio" name={key} value="1" checked={val === '1'} onChange={handleChange}/> Yes</label>
-          <label><input type="radio" name={key} value="0" checked={val === '0'} onChange={handleChange}/> No</label>
-          <label><input type="radio" name={key} value="" checked={val === ''} onChange={handleChange}/> I'm not sure</label>
+          <label>
+            <input
+              type="radio"
+              name={key}
+              value="1"
+              checked={val === "1"}
+              onChange={handleChange}
+            />{" "}
+            Yes
+          </label>
+          <label>
+            <input
+              type="radio"
+              name={key}
+              value="0"
+              checked={val === "0"}
+              onChange={handleChange}
+            />{" "}
+            No
+          </label>
+          <label>
+            <input
+              type="radio"
+              name={key}
+              value=""
+              checked={val === ""}
+              onChange={handleChange}
+            />{" "}
+            I'm not sure
+          </label>
         </>
       );
     }
     if (/phone/i.test(cf.field)) {
-      inputProps.type = 'tel';
-      inputProps.pattern = '[0-9+()\- ]+';
-    } else if (cf.fieldType === 'Date' || /date/i.test(cf.field)) {
-      inputProps.type = 'date';
+      inputProps.type = "tel";
+      inputProps.pattern = "[0-9+()\- ]+";
+    } else if (cf.fieldType === "Date" || /date/i.test(cf.field)) {
+      inputProps.type = "date";
     } else if (/number|amount|qty|quantity/i.test(cf.field)) {
-      inputProps.type = 'number';
+      inputProps.type = "number";
     }
 
     let inputEl: any = <input {...inputProps} />;
     if (/address|description|notes|comment/i.test(cf.field)) {
-      inputEl = (
-        <textarea
-          {...inputProps}
-          rows={4}
-        />
-      );
+      inputEl = <textarea {...inputProps} rows={4} />;
     }
-    if (cf.field === 'Logo (Picture)') {
+    if (cf.field === "Logo (Picture)") {
       inputEl = <input type="file" name={key} onChange={handleChange} />;
-    } else if (cf.field === 'Base Calendar Code') {
+    } else if (cf.field === "Base Calendar Code") {
       inputEl = (
         <>
           <input
@@ -739,13 +829,13 @@ function App() {
           />
           <datalist id="base-calendar-list">
             <option value="" />
-            {baseCalendarOptions.map(o => (
+            {baseCalendarOptions.map((o) => (
               <option key={o} value={o} />
             ))}
           </datalist>
         </>
       );
-    } else if (cf.field === 'Country/Region Code') {
+    } else if (cf.field === "Country/Region Code") {
       inputEl = (
         <>
           <input
@@ -765,15 +855,15 @@ function App() {
           </datalist>
         </>
       );
-    } else if (cf.field === 'Local Currency (LCY) Code') {
+    } else if (cf.field === "Local Currency (LCY) Code") {
       inputEl = <input {...inputProps} />;
     } else if (cf.lookupTable && startData) {
       const rows = findTableRows(startData, cf.lookupTable) || [];
-      const opts = extractFieldValues(rows, cf.lookupField || 'Code');
+      const opts = extractFieldValues(rows, cf.lookupField || "Code");
       inputEl = (
         <select {...inputProps}>
           <option value="" />
-          {opts.map(o => (
+          {opts.map((o) => (
             <option key={o} value={o}>
               {o}
             </option>
@@ -811,7 +901,8 @@ function App() {
     );
   }
 
-  const companyDone = companyProgress.length > 0 && companyProgress.every(Boolean);
+  const companyDone =
+    companyProgress.length > 0 && companyProgress.every(Boolean);
   const companyInProgress = !companyDone && companyProgress.some(Boolean);
   const glDone = glProgress.length > 0 && glProgress.every(Boolean);
   const glInProgress = !glDone && glProgress.some(Boolean);
@@ -819,29 +910,29 @@ function App() {
   const srInProgress = !srDone && srProgress.some(Boolean);
   const ppDone = ppProgress.length > 0 && ppProgress.every(Boolean);
   const ppInProgress = !ppDone && ppProgress.some(Boolean);
-  const configSectionDone =
-    companyDone && glDone && srDone && ppDone;
-  const masterSectionDone = customersDone && vendorsDone && itemsDone && currenciesDone;
+  const configSectionDone = companyDone && glDone && srDone && ppDone;
+  const masterSectionDone =
+    customersDone && vendorsDone && itemsDone && currenciesDone;
   const currentGroup = (() => {
-    if (step === 2) return 'basic';
-    if ([3, 4, 5, 6].includes(step)) return 'config';
-    if ([7, 8, 9, 10].includes(step)) return 'master';
-    if ([11, 12, 13, 14, 15, 16, 17, 18, 19].includes(step)) return 'template';
-    if (step === 20) return 'review';
-    return '';
+    if (step === 2) return "basic";
+    if ([3, 4, 5, 6].includes(step)) return "config";
+    if ([7, 8, 9, 10].includes(step)) return "master";
+    if ([11, 12, 13, 14, 15, 16, 17, 18, 19].includes(step)) return "template";
+    if (step === 20) return "review";
+    return "";
   })();
 
   const progressPercent = (() => {
     switch (currentGroup) {
-      case 'basic':
+      case "basic":
         return 20;
-      case 'config':
+      case "config":
         return 40;
-      case 'master':
+      case "master":
         return 60;
-      case 'template':
+      case "template":
         return 80;
-      case 'review':
+      case "review":
         return 100;
       default:
         return 0;
@@ -859,7 +950,9 @@ function App() {
   return (
     <div className="app">
       <div className="topbar">
-        <div className="home-link" onClick={() => setStep(1)}>Home</div>
+        <div className="home-link" onClick={() => setStep(1)}>
+          Home
+        </div>
         <div className="actions">
           <span>{strings.search}</span>
           <button className="help-btn">{strings.help}</button>
@@ -883,7 +976,7 @@ function App() {
                 className="group-title"
                 onClick={() => setConfigOpen(!configOpen)}
               >
-                <span className="toggle">{configOpen ? '-' : '+'}</span>
+                <span className="toggle">{configOpen ? "-" : "+"}</span>
                 {configSectionDone && <span className="check">✔</span>}
                 {strings.configurationData}
               </div>
@@ -893,7 +986,8 @@ function App() {
                     onClick={() => {
                       setCompanyFieldIdx(null);
                       setStep(3);
-                    }}>
+                    }}
+                  >
                     {companyDone && <span className="check">✔</span>}
                     {!companyDone && companyInProgress && (
                       <span className="progress-dot">•</span>
@@ -904,20 +998,22 @@ function App() {
                     <ul className="subnav">
                       {companyFields
                         .filter(
-                          f =>
-                            f.common === 'common' ||
-                            (showCompanySometimes && f.common === 'sometimes')
+                          (f) =>
+                            f.common === "common" ||
+                            (showCompanySometimes && f.common === "sometimes"),
                         )
                         .map((f, i) => (
                           <li
                             key={f.field}
-                            className={companyFieldIdx === i ? 'active' : ''}
+                            className={companyFieldIdx === i ? "active" : ""}
                             onClick={() => {
                               setCompanyFieldIdx(i);
                               setStep(3);
                             }}
                           >
-                            {companyProgress[i] && <span className="check">✔</span>}
+                            {companyProgress[i] && (
+                              <span className="check">✔</span>
+                            )}
                             {f.field}
                           </li>
                         ))}
@@ -927,7 +1023,8 @@ function App() {
                     onClick={() => {
                       setGlFieldIdx(null);
                       setStep(4);
-                    }}>
+                    }}
+                  >
                     {glDone && <span className="check">✔</span>}
                     {!glDone && glInProgress && (
                       <span className="progress-dot">•</span>
@@ -938,17 +1035,17 @@ function App() {
                     <ul className="subnav">
                       {glFields
                         .filter(
-                          f =>
-                            f.common === 'common' ||
-                            (showGLSometimes && f.common === 'sometimes')
+                          (f) =>
+                            f.common === "common" ||
+                            (showGLSometimes && f.common === "sometimes"),
                         )
                         .map((f, i) => (
                           <li
                             key={f.field}
-                            className={glFieldIdx === i ? 'active' : ''}
+                            className={glFieldIdx === i ? "active" : ""}
                             onClick={() => {
                               setGlFieldIdx(i);
-                                setStep(4);
+                              setStep(4);
                             }}
                           >
                             {glProgress[i] && <span className="check">✔</span>}
@@ -961,7 +1058,8 @@ function App() {
                     onClick={() => {
                       setSrFieldIdx(null);
                       setStep(5);
-                    }}>
+                    }}
+                  >
                     {srDone && <span className="check">✔</span>}
                     {!srDone && srInProgress && (
                       <span className="progress-dot">•</span>
@@ -1034,7 +1132,7 @@ function App() {
                 className="group-title"
                 onClick={() => setMasterOpen(!masterOpen)}
               >
-                <span className="toggle">{masterOpen ? '-' : '+'}</span>
+                <span className="toggle">{masterOpen ? "-" : "+"}</span>
                 {masterSectionDone && <span className="check">✔</span>}
                 {strings.masterData}
               </div>
@@ -1064,67 +1162,76 @@ function App() {
                 className="group-title"
                 onClick={() => setTemplatesOpen(!templatesOpen)}
               >
-                <span className="toggle">{templatesOpen ? '-' : '+'}</span>
+                <span className="toggle">{templatesOpen ? "-" : "+"}</span>
                 {strings.configureTemplates}
               </div>
               {templatesOpen && (
                 <ul>
-                  <li onClick={() => setStep(11)}>{strings.customerTemplate}</li>
+                  <li onClick={() => setStep(11)}>
+                    {strings.customerTemplate}
+                  </li>
                   <li onClick={() => setStep(12)}>{strings.vendorTemplate}</li>
                   <li onClick={() => setStep(13)}>{strings.itemTemplate}</li>
-                  <li onClick={() => setStep(14)}>{strings.glAccountTemplate}</li>
-                  <li onClick={() => setStep(15)}>{strings.bankAccountTemplate}</li>
-                  <li onClick={() => setStep(16)}>{strings.fixedAssetTemplate}</li>
+                  <li onClick={() => setStep(14)}>
+                    {strings.glAccountTemplate}
+                  </li>
+                  <li onClick={() => setStep(15)}>
+                    {strings.bankAccountTemplate}
+                  </li>
+                  <li onClick={() => setStep(16)}>
+                    {strings.fixedAssetTemplate}
+                  </li>
                   <li onClick={() => setStep(17)}>{strings.contactTemplate}</li>
-                  <li onClick={() => setStep(18)}>{strings.employeeTemplate}</li>
-                  <li onClick={() => setStep(19)}>{strings.resourceTemplate}</li>
+                  <li onClick={() => setStep(18)}>
+                    {strings.employeeTemplate}
+                  </li>
+                  <li onClick={() => setStep(19)}>
+                    {strings.resourceTemplate}
+                  </li>
                 </ul>
               )}
             </div>
-            </nav>
-            <div className="review-footer">
-              <button
-                className="next-btn review-btn"
-                onClick={() => setStep(20)}
-              >
-                {strings.reviewAndFinish}
-              </button>
-            </div>
+          </nav>
+          <div className="review-footer">
+            <button className="next-btn review-btn" onClick={() => setStep(20)}>
+              {strings.reviewAndFinish}
+            </button>
+          </div>
         </aside>
         <div className="content">
           <div className="page-area">
             <div className="progress-area">
               <div className="progress-slider">
                 <div
-                  className={`progress-step ${currentGroup === 'basic' ? 'active' : ''} clickable`}
+                  className={`progress-step ${currentGroup === "basic" ? "active" : ""} clickable`}
                   onClick={() => setStep(2)}
                 >
                   <div className="circle">1</div>
                   <span>{strings.basicInfoTitle}</span>
                 </div>
                 <div
-                  className={`progress-step ${currentGroup === 'config' ? 'active' : ''} clickable`}
+                  className={`progress-step ${currentGroup === "config" ? "active" : ""} clickable`}
                   onClick={() => setStep(3)}
                 >
                   <div className="circle">2</div>
                   <span>{strings.configurationData}</span>
                 </div>
                 <div
-                  className={`progress-step ${currentGroup === 'master' ? 'active' : ''} clickable`}
+                  className={`progress-step ${currentGroup === "master" ? "active" : ""} clickable`}
                   onClick={() => setStep(7)}
                 >
                   <div className="circle">3</div>
                   <span>{strings.masterData}</span>
                 </div>
                 <div
-                  className={`progress-step ${currentGroup === 'template' ? 'active' : ''} clickable`}
+                  className={`progress-step ${currentGroup === "template" ? "active" : ""} clickable`}
                   onClick={() => setStep(11)}
                 >
                   <div className="circle">4</div>
                   <span>{strings.configureTemplates}</span>
                 </div>
                 <div
-                  className={`progress-step ${currentGroup === 'review' ? 'active' : ''} clickable`}
+                  className={`progress-step ${currentGroup === "review" ? "active" : ""} clickable`}
                   onClick={() => setStep(20)}
                 >
                   <div className="circle">5</div>
@@ -1132,238 +1239,272 @@ function App() {
                 </div>
               </div>
               <div className="progress-bar">
-                <div className="progress-bar-fill" style={{ width: `${progressPercent}%` }}></div>
+                <div
+                  className="progress-bar-fill"
+                  style={{ width: `${progressPercent}%` }}
+                ></div>
               </div>
             </div>
             <main className="main">
-            {step === 0 && <HomePage next={next} />}
-            {step === 1 && (
-              <ConfigMenuPage
-                goToBasicInfo={() => setStep(2)}
-                goToCompanyInfo={() => {
-                  setCompanyFieldIdx(null);
-                  setStep(3);
-                }}
-              goToGLSetup={() => {
-                setGlFieldIdx(null);
-                setStep(4);
-              }}
-              goToSRSetup={() => {
-                setSrFieldIdx(null);
-                setStep(5);
-              }}
-              goToPPSetup={() => {
-                setPpFieldIdx(null);
-                setStep(6);
-              }}
-              goToCustomers={() => setStep(7)}
-              goToVendors={() => setStep(8)}
-              goToItems={() => setStep(9)}
-              goToCurrencies={() => setStep(10)}
-              goToCustomerTemplate={() => setStep(11)}
-              goToVendorTemplate={() => setStep(12)}
-              goToItemTemplate={() => setStep(13)}
-              goToGLAccountTemplate={() => setStep(14)}
-              goToBankAccountTemplate={() => setStep(15)}
-              goToFixedAssetTemplate={() => setStep(16)}
-              goToContactTemplate={() => setStep(17)}
-              goToEmployeeTemplate={() => setStep(18)}
-              goToResourceTemplate={() => setStep(19)}
-              back={back}
-              basicDone={basicDone}
-              companyDone={companyDone}
-              companyInProgress={companyInProgress}
-              glDone={glDone}
-              glInProgress={glInProgress}
-              srDone={srDone}
-              srInProgress={srInProgress}
-              ppDone={ppDone}
-              ppInProgress={ppInProgress}
-              customersDone={customersDone}
-              vendorsDone={vendorsDone}
-              itemsDone={itemsDone}
-              currenciesDone={currenciesDone}
-              />
-            )}
-            {step === 2 && (
-              <BasicInfoPage
-                formData={basicInfo}
-                handleChange={handleChange}
-                handleBlur={handleBlur}
-                next={next}
-                back={() => setStep(1)}
-                confirmed={basicDone}
-                setConfirmed={setBasicDone}
-              />
-      )}
-      {step === 3 && (
-        <CompanyInfoPage
-          fields={companyFields}
-          renderInput={renderInput}
-          handleRecommended={handleRecommended}
-          next={next}
-          back={() => setStep(1)}
-          progress={companyProgress}
-          setProgress={setCompanyProgress}
-          visited={companyVisited}
-          setVisited={setCompanyVisited}
-          formData={formData}
-          onShowSometimes={() => setShowCompanySometimes(true)}
-          fetchAISuggestion={fetchAISuggestion}
-          setFieldValue={setFieldValue}
-          onFieldIndexChange={setCompanyFieldIdx}
-          goToFieldIndex={companyFieldIdx}
-        />
-      )}
-      {step === 4 && (
-        <GLSetupPage
-          fields={glFields}
-          renderInput={renderInput}
-          handleRecommended={handleRecommended}
-          next={next}
-          back={back}
-          progress={glProgress}
-          setProgress={setGlProgress}
-          visited={glVisited}
-          setVisited={setGlVisited}
-          formData={formData}
-          onShowSometimes={() => setShowGLSometimes(true)}
-          fetchAISuggestion={fetchAISuggestion}
-          setFieldValue={setFieldValue}
-          onFieldIndexChange={setGlFieldIdx}
-          goToFieldIndex={glFieldIdx}
-        />
-      )}
-      {step === 5 && (
-        <SalesReceivablesPage
-          fields={srFields}
-          renderInput={renderInput}
-          handleRecommended={handleRecommended}
-          next={next}
-          back={back}
-          progress={srProgress}
-          setProgress={setSrProgress}
-          visited={srVisited}
-          setVisited={setSrVisited}
-          formData={formData}
-          onShowSometimes={() => setShowSRSometimes(true)}
-          fetchAISuggestion={fetchAISuggestion}
-          setFieldValue={setFieldValue}
-          onFieldIndexChange={setSrFieldIdx}
-          goToFieldIndex={srFieldIdx}
-        />
-      )}
-      {step === 6 && (
-        <PurchasePayablesPage
-          fields={ppFields}
-          renderInput={renderInput}
-          handleRecommended={handleRecommended}
-          next={next}
-          back={back}
-          progress={ppProgress}
-          setProgress={setPpProgress}
-          visited={ppVisited}
-          setVisited={setPpVisited}
-          formData={formData}
-          onShowSometimes={() => setShowPPSometimes(true)}
-          fetchAISuggestion={fetchAISuggestion}
-          setFieldValue={setFieldValue}
-          onFieldIndexChange={setPpFieldIdx}
-          goToFieldIndex={ppFieldIdx}
-        />
-      )}
-          {step === 7 && (
-            <CustomersPage
-              rows={customerRows}
-              setRows={setCustomerRows}
-              next={next}
-              back={back}
-              logDebug={logDebug}
-              formData={formData}
-              confirmed={customersDone}
-              setConfirmed={setCustomersDone}
-            />
-          )}
-          {step === 8 && <VendorsPage rows={vendorRows} next={next} back={back} />}
-          {step === 9 && <ItemsPage next={next} back={back} />}
-          {step === 10 && (
-            <CurrencyPage
-              rows={currencyRows}
-              setRows={setCurrencyRows}
-              next={next}
-              back={back}
-              logDebug={logDebug}
-              formData={formData}
-              confirmed={currenciesDone}
-              setConfirmed={setCurrenciesDone}
-            />
-          )}
-          {step === 11 && <CustomerTemplatePage next={next} back={back} />}
-          {step === 12 && <VendorTemplatePage next={next} back={back} />}
-          {step === 13 && <ItemTemplatePage next={next} back={back} />}
-          {step === 14 && <GLAccountTemplatePage next={next} back={back} />}
-          {step === 15 && <BankAccountTemplatePage next={next} back={back} />}
-          {step === 16 && <FixedAssetTemplatePage next={next} back={back} />}
-          {step === 17 && <ContactTemplatePage next={next} back={back} />}
-          {step === 18 && <EmployeeTemplatePage next={next} back={back} />}
-          {step === 19 && <ResourceTemplatePage next={next} back={back} />}
-          {step === 20 && (
-            <ReviewPage
-              fields={[...companyFields, ...glFields, ...srFields, ...ppFields]}
-              formData={formData}
-              back={back}
-              next={next}
-            />
-          )}
-          {step === 21 && (
-            <FinishPage
-              generate={generateCustomRapidStart}
-              back={back}
-              downloadUrl={downloadUrl}
-              debugMessages={debugMessages}
-            />
-          )}
-          </main>
+              {step === 0 && <HomePage next={next} />}
+              {step === 1 && (
+                <ConfigMenuPage
+                  goToBasicInfo={() => setStep(2)}
+                  goToCompanyInfo={() => {
+                    setCompanyFieldIdx(null);
+                    setStep(3);
+                  }}
+                  goToGLSetup={() => {
+                    setGlFieldIdx(null);
+                    setStep(4);
+                  }}
+                  goToSRSetup={() => {
+                    setSrFieldIdx(null);
+                    setStep(5);
+                  }}
+                  goToPPSetup={() => {
+                    setPpFieldIdx(null);
+                    setStep(6);
+                  }}
+                  goToCustomers={() => setStep(7)}
+                  goToVendors={() => setStep(8)}
+                  goToItems={() => setStep(9)}
+                  goToCurrencies={() => setStep(10)}
+                  goToCustomerTemplate={() => setStep(11)}
+                  goToVendorTemplate={() => setStep(12)}
+                  goToItemTemplate={() => setStep(13)}
+                  goToGLAccountTemplate={() => setStep(14)}
+                  goToBankAccountTemplate={() => setStep(15)}
+                  goToFixedAssetTemplate={() => setStep(16)}
+                  goToContactTemplate={() => setStep(17)}
+                  goToEmployeeTemplate={() => setStep(18)}
+                  goToResourceTemplate={() => setStep(19)}
+                  back={back}
+                  basicDone={basicDone}
+                  companyDone={companyDone}
+                  companyInProgress={companyInProgress}
+                  glDone={glDone}
+                  glInProgress={glInProgress}
+                  srDone={srDone}
+                  srInProgress={srInProgress}
+                  ppDone={ppDone}
+                  ppInProgress={ppInProgress}
+                  customersDone={customersDone}
+                  vendorsDone={vendorsDone}
+                  itemsDone={itemsDone}
+                  currenciesDone={currenciesDone}
+                />
+              )}
+              {step === 2 && (
+                <BasicInfoPage
+                  formData={basicInfo}
+                  handleChange={handleChange}
+                  handleBlur={handleBlur}
+                  next={next}
+                  back={() => setStep(1)}
+                  confirmed={basicDone}
+                  setConfirmed={setBasicDone}
+                />
+              )}
+              {step === 3 && (
+                <CompanyInfoPage
+                  fields={companyFields}
+                  renderInput={renderInput}
+                  handleRecommended={handleRecommended}
+                  next={next}
+                  back={() => setStep(1)}
+                  progress={companyProgress}
+                  setProgress={setCompanyProgress}
+                  visited={companyVisited}
+                  setVisited={setCompanyVisited}
+                  formData={formData}
+                  onShowSometimes={() => setShowCompanySometimes(true)}
+                  fetchAISuggestion={fetchAISuggestion}
+                  setFieldValue={setFieldValue}
+                  onFieldIndexChange={setCompanyFieldIdx}
+                  goToFieldIndex={companyFieldIdx}
+                />
+              )}
+              {step === 4 && (
+                <GLSetupPage
+                  fields={glFields}
+                  renderInput={renderInput}
+                  handleRecommended={handleRecommended}
+                  next={next}
+                  back={back}
+                  progress={glProgress}
+                  setProgress={setGlProgress}
+                  visited={glVisited}
+                  setVisited={setGlVisited}
+                  formData={formData}
+                  onShowSometimes={() => setShowGLSometimes(true)}
+                  fetchAISuggestion={fetchAISuggestion}
+                  setFieldValue={setFieldValue}
+                  onFieldIndexChange={setGlFieldIdx}
+                  goToFieldIndex={glFieldIdx}
+                />
+              )}
+              {step === 5 && (
+                <SalesReceivablesPage
+                  fields={srFields}
+                  renderInput={renderInput}
+                  handleRecommended={handleRecommended}
+                  next={next}
+                  back={back}
+                  progress={srProgress}
+                  setProgress={setSrProgress}
+                  visited={srVisited}
+                  setVisited={setSrVisited}
+                  formData={formData}
+                  onShowSometimes={() => setShowSRSometimes(true)}
+                  fetchAISuggestion={fetchAISuggestion}
+                  setFieldValue={setFieldValue}
+                  onFieldIndexChange={setSrFieldIdx}
+                  goToFieldIndex={srFieldIdx}
+                />
+              )}
+              {step === 6 && (
+                <PurchasePayablesPage
+                  fields={ppFields}
+                  renderInput={renderInput}
+                  handleRecommended={handleRecommended}
+                  next={next}
+                  back={back}
+                  progress={ppProgress}
+                  setProgress={setPpProgress}
+                  visited={ppVisited}
+                  setVisited={setPpVisited}
+                  formData={formData}
+                  onShowSometimes={() => setShowPPSometimes(true)}
+                  fetchAISuggestion={fetchAISuggestion}
+                  setFieldValue={setFieldValue}
+                  onFieldIndexChange={setPpFieldIdx}
+                  goToFieldIndex={ppFieldIdx}
+                />
+              )}
+              {step === 7 && (
+                <CustomersPage
+                  rows={customerRows}
+                  setRows={setCustomerRows}
+                  next={next}
+                  back={back}
+                  logDebug={logDebug}
+                  formData={formData}
+                  confirmed={customersDone}
+                  setConfirmed={setCustomersDone}
+                  countries={countries}
+                  setCountries={setCountries}
+                  currencies={currencies}
+                  setCurrencies={setCurrencies}
+                  postingGroups={customerPostingGroups}
+                  setPostingGroups={setCustomerPostingGroups}
+                />
+              )}
+              {step === 8 && (
+                <VendorsPage rows={vendorRows} next={next} back={back} />
+              )}
+              {step === 9 && <ItemsPage next={next} back={back} />}
+              {step === 10 && (
+                <CurrencyPage
+                  rows={currencyRows}
+                  setRows={setCurrencyRows}
+                  next={next}
+                  back={back}
+                  logDebug={logDebug}
+                  formData={formData}
+                  confirmed={currenciesDone}
+                  setConfirmed={setCurrenciesDone}
+                />
+              )}
+              {step === 11 && <CustomerTemplatePage next={next} back={back} />}
+              {step === 12 && <VendorTemplatePage next={next} back={back} />}
+              {step === 13 && <ItemTemplatePage next={next} back={back} />}
+              {step === 14 && <GLAccountTemplatePage next={next} back={back} />}
+              {step === 15 && (
+                <BankAccountTemplatePage next={next} back={back} />
+              )}
+              {step === 16 && (
+                <FixedAssetTemplatePage next={next} back={back} />
+              )}
+              {step === 17 && <ContactTemplatePage next={next} back={back} />}
+              {step === 18 && <EmployeeTemplatePage next={next} back={back} />}
+              {step === 19 && <ResourceTemplatePage next={next} back={back} />}
+              {step === 20 && (
+                <ReviewPage
+                  fields={[
+                    ...companyFields,
+                    ...glFields,
+                    ...srFields,
+                    ...ppFields,
+                  ]}
+                  formData={formData}
+                  back={back}
+                  next={next}
+                />
+              )}
+              {step === 21 && (
+                <FinishPage
+                  generate={generateCustomRapidStart}
+                  back={back}
+                  downloadUrl={downloadUrl}
+                  debugMessages={debugMessages}
+                />
+              )}
+            </main>
           </div>
           {showAI && (
             <div className="modal-overlay" onClick={closeAIDialog}>
-              <div className="modal" onClick={e => e.stopPropagation()}>
+              <div className="modal" onClick={(e) => e.stopPropagation()}>
                 <div className="suggested-box">
                   <div className="suggested-label">Suggested Value</div>
-                  <div className="suggested-value">{aiParsed.suggested || 'Loading...'}</div>
+                  <div className="suggested-value">
+                    {aiParsed.suggested || "Loading..."}
+                  </div>
                 </div>
-                {aiParsed.confidence && (
-                  aiParsed.confidence.trim().toLowerCase() === 'very high' ? (
-                    <div className="ai-valid">AI returned a result it believes is valid</div>
+                {aiParsed.confidence &&
+                  (aiParsed.confidence.trim().toLowerCase() === "very high" ? (
+                    <div className="ai-valid">
+                      AI returned a result it believes is valid
+                    </div>
                   ) : (
-                    <div className="ai-warning">Not Confident -- please review carefully</div>
-                  )
-                )}
+                    <div className="ai-warning">
+                      Not Confident -- please review carefully
+                    </div>
+                  ))}
                 <div className="ai-answer">
-                  <strong>Why did AI suggest this?:</strong> {aiParsed.reasoning}
+                  <strong>Why did AI suggest this?:</strong>{" "}
+                  {aiParsed.reasoning}
                 </div>
-            <label htmlFor="ai-extra" className="ai-extra-label">Additional Instructions</label>
-            <textarea
-              id="ai-extra"
-              value={aiExtra}
-              onChange={e => setAiExtra(e.target.value)}
-              rows={6}
-            />
-            <button className="go-btn" onClick={askAgain}>SUGGEST AGAIN</button>
-            <div className="nav modal-actions">
-              <button className="next-btn" onClick={acceptSuggested}>Accept</button>
-              <button className="next-btn" onClick={closeAIDialog}>Cancel</button>
+                <label htmlFor="ai-extra" className="ai-extra-label">
+                  Additional Instructions
+                </label>
+                <textarea
+                  id="ai-extra"
+                  value={aiExtra}
+                  onChange={(e) => setAiExtra(e.target.value)}
+                  rows={6}
+                />
+                <button className="go-btn" onClick={askAgain}>
+                  SUGGEST AGAIN
+                </button>
+                <div className="nav modal-actions">
+                  <button className="next-btn" onClick={acceptSuggested}>
+                    Accept
+                  </button>
+                  <button className="next-btn" onClick={closeAIDialog}>
+                    Cancel
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
-          </div>
+          )}
         </div>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
-const container = document.getElementById('root') as HTMLElement;
+const container = document.getElementById("root") as HTMLElement;
 ReactDOM.createRoot(container).render(<App />);
 
 export default App;
