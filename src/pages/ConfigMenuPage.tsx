@@ -43,7 +43,14 @@ function ConfigMenuPage({
       <div className="menu-section">
         <h3>{strings.basicInfo}</h3>
         <div className="menu-grid">
-          <div className="menu-box" onClick={goToBasicInfo}>
+          <div
+            className="menu-box"
+            onClick={goToBasicInfo}
+            tabIndex={0}
+            onKeyDown={e => {
+              if (e.key === 'Enter' || e.key === ' ') goToBasicInfo();
+            }}
+          >
             <InfoIcon />
             <div>{strings.basicInfoTitle}</div>
           </div>
@@ -52,17 +59,38 @@ function ConfigMenuPage({
       <div className="menu-section">
         <h3>{strings.configurationData}</h3>
         <div className="menu-grid">
-          <div className={`menu-box ${companyDone ? 'done' : ''}`} onClick={goToCompanyInfo}>
+          <div
+            className={`menu-box ${companyDone ? 'done' : ''}`}
+            onClick={goToCompanyInfo}
+            tabIndex={0}
+            onKeyDown={e => {
+              if (e.key === 'Enter' || e.key === ' ') goToCompanyInfo();
+            }}
+          >
             {companyDone && <div className="checkmark">✔</div>}
             <CompanyIcon />
             <div>{strings.companyInfo}</div>
           </div>
-          <div className={`menu-box ${glDone ? 'done' : ''}`} onClick={goToGLSetup}>
+          <div
+            className={`menu-box ${glDone ? 'done' : ''}`}
+            onClick={goToGLSetup}
+            tabIndex={0}
+            onKeyDown={e => {
+              if (e.key === 'Enter' || e.key === ' ') goToGLSetup();
+            }}
+          >
             {glDone && <div className="checkmark">✔</div>}
             <BookIcon />
             <div>{strings.generalLedgerSetup}</div>
           </div>
-          <div className={`menu-box ${srDone ? 'done' : ''}`} onClick={goToSRSetup}>
+          <div
+            className={`menu-box ${srDone ? 'done' : ''}`}
+            onClick={goToSRSetup}
+            tabIndex={0}
+            onKeyDown={e => {
+              if (e.key === 'Enter' || e.key === ' ') goToSRSetup();
+            }}
+          >
             {srDone && <div className="checkmark">✔</div>}
             <CartIcon />
             <div>{strings.salesReceivablesSetup}</div>
@@ -72,15 +100,36 @@ function ConfigMenuPage({
       <div className="menu-section">
         <h3>{strings.masterData}</h3>
         <div className="menu-grid">
-          <div className="menu-box" onClick={goToCustomers}>
+          <div
+            className="menu-box"
+            onClick={goToCustomers}
+            tabIndex={0}
+            onKeyDown={e => {
+              if (e.key === 'Enter' || e.key === ' ') goToCustomers();
+            }}
+          >
             <UserIcon />
             <div>{strings.customers}</div>
           </div>
-          <div className="menu-box" onClick={goToVendors}>
+          <div
+            className="menu-box"
+            onClick={goToVendors}
+            tabIndex={0}
+            onKeyDown={e => {
+              if (e.key === 'Enter' || e.key === ' ') goToVendors();
+            }}
+          >
             <FactoryIcon />
             <div>{strings.vendors}</div>
           </div>
-          <div className="menu-box" onClick={goToItems}>
+          <div
+            className="menu-box"
+            onClick={goToItems}
+            tabIndex={0}
+            onKeyDown={e => {
+              if (e.key === 'Enter' || e.key === ' ') goToItems();
+            }}
+          >
             <CubeIcon />
             <div>{strings.items}</div>
           </div>
