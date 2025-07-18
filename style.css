@@ -1172,3 +1172,7 @@ select option:checked {
   opacity: 0.5;
 }
 
+
+.defaults-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+.defaults-table th, .defaults-table td { border: 1px solid #d0d0d0; padding: 6px 8px; text-align: left; }
+
