@@ -750,10 +750,16 @@ function App() {
 
   return (
     <div className="app">
+      <div className="topbar">
+        <div className="home-link" onClick={() => setStep(1)}>Home</div>
+        <div className="actions">
+          <span>{strings.search}</span>
+          <button className="help-btn">{strings.help}</button>
+        </div>
+      </div>
       <div className="layout">
         <aside className="sidebar">
           <div className="sidebar-header">
-            <div className="home-link" onClick={() => setStep(1)}>Home</div>
             <img src={BCLogo} alt="BC" className="logo" />
             <h2>Setup Business Central</h2>
           </div>
@@ -927,12 +933,6 @@ function App() {
             </div>
         </aside>
         <div className="content">
-          <div className="topbar">
-            <div className="actions">
-              <span>{strings.search}</span>
-              <button className="help-btn">{strings.help}</button>
-            </div>
-          </div>
           <div className="page-area">
             <div className="progress-area">
               <div className="progress-slider">
