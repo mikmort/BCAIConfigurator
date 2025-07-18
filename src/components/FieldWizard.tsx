@@ -124,6 +124,11 @@ function FieldWizard({
 
   function confirmCommon() {
     const arr = [...progress];
+    if (arr[cIdx]) {
+      arr[cIdx] = false;
+      setProgress(arr);
+      return;
+    }
     const vArr = [...visited];
     arr[cIdx] = true;
     vArr[cIdx] = true;
@@ -231,7 +236,7 @@ function FieldWizard({
           onRecommended={() => handleRecommended(common[cIdx])}
           onSkip={skipCommon}
           onSkipSection={skipSection}
-          confirmLabel={cIdx === common.length - 1 ? 'Confirm and Finish' : 'Confirm'}
+          confirmLabel={progress[cIdx] ? 'Mark as Not Confirmed' : cIdx === common.length - 1 ? 'Confirm and Finish' : 'Confirm'}
           confirmed={progress[cIdx]}
         />
       )}

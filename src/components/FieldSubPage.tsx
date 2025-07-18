@@ -37,7 +37,8 @@ function FieldSubPage({
   confirmLabel = 'Confirm',
   confirmed,
 }: Props) {
-  const isFinal = confirmLabel === 'Confirm and Finish';
+  const isFinal = !confirmed && confirmLabel === 'Confirm and Finish';
+  const buttonLabel = confirmed ? 'Mark as Not Confirmed' : confirmLabel;
   const [auto, setAuto] = useState<{ suggested: string; confidence: string } | null>(null);
   const key = fieldKey(cf.field);
   const value = formData ? formData[key] || '' : '';
@@ -110,7 +111,7 @@ function FieldSubPage({
       <div className="nav-spacer" />
       <div className={`nav${isFinal ? ' final' : ''}`}>
         <button className="back-btn" onClick={onBack}>{strings.back}</button>
-        <button className="next-btn" onClick={onConfirm}>{confirmLabel}</button>
+        <button className="next-btn" onClick={onConfirm}>{buttonLabel}</button>
         <button className="skip-section-btn" onClick={onSkipSection}>{strings.skipSection}</button>
         {!isFinal && (
           <button className="skip-btn" onClick={onSkip}>Skip</button>
