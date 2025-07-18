@@ -100,30 +100,32 @@ export default function CustomersPage({
     [localCurrency],
   );
 
+  const currencyOptions = useMemo(() => {
+    const norm = localCurrency.trim().toLowerCase();
+    return Array.from(
+      new Set(
+        currencies
+          .map(c => c.code.trim())
+          .filter(c => c && c.toLowerCase() !== norm),
+      ),
+    );
+  }, [currencies, localCurrency]);
+
   const dropdowns = useMemo(() => {
     const map: Record<string, string[]> = {};
     if (currencyField) {
-      const norm = localCurrency.trim().toLowerCase();
-      const others = Array.from(
-        new Set(
-          currencies
-            .map((c) => c.code.trim())
-            .filter((c) => c && c.toLowerCase() !== norm),
-        ),
-      );
-      map[currencyField] = [defaultCurrency, ...others];
+      map[currencyField] = currencyOptions;
     }
-    if (countryField) map[countryField] = countries.map((c) => c.code);
+    if (countryField) map[countryField] = countries.map(c => c.code);
     if (postingField) map[postingField] = postingGroups;
     return map;
   }, [
     currencyField,
     countryField,
     postingField,
-    currencies,
+    currencyOptions,
     countries,
     postingGroups,
-    defaultCurrency,
   ]);
 
   const columnDefs = useMemo(() => {
@@ -135,10 +137,11 @@ export default function CustomersPage({
           p.node?.rowPinned === 'bottom' ? '' : p.value || defaultCurrency;
         col.valueParser = (p: any) =>
           p.newValue === defaultCurrency ? '' : p.newValue;
+        col.cellEditorParams = { values: [defaultCurrency, ...currencyOptions] };
       }
     }
     return defs;
-  }, [rowData, fields, dropdowns, currencyField, defaultCurrency]);
+  }, [rowData, fields, dropdowns, currencyField, defaultCurrency, currencyOptions]);
 
   const bottomRowData = useMemo(
     () => createBottomRowData(columnDefs),
