@@ -100,7 +100,10 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
     setRows(updated);
   }
 
-  async function askAIForGrid(extra: string = '') {
+  async function askAIForGrid(
+    extra: string = '',
+    currentRows?: Record<string, string>[]
+  ) {
     try {
       setShowAI(true);
       setAiLoading(true);
@@ -108,7 +111,7 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
         'Given the following company setup data as JSON:\n' +
         JSON.stringify(formData, null, 2) +
         '\nCurrent currency rows:\n' +
-        JSON.stringify(rowData, null, 2) +
+        JSON.stringify(currentRows ?? rowData, null, 2) +
         '\nSuggest the best rows for the currency table. ' +
         'Return JSON with a "rows" array and an "explanation" string no longer than 500 characters.' +
         (extra ? `\nAdditional Instructions:\n${extra}` : '');
@@ -132,7 +135,7 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
   }
 
   function suggestAgain(extra: string) {
-    askAIForGrid(extra);
+    askAIForGrid(extra, aiRows);
   }
 
   function onCellValueChanged(params: any) {
@@ -230,7 +233,11 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
       <div className="grid-toolbar">
         <button type="button" onClick={addRow}>Add Row</button>
         <button type="button" onClick={deleteSelected}>Delete Selected</button>
-        <button type="button" className="ai-btn" onClick={askAIForGrid}>
+        <button
+          type="button"
+          className="ai-btn"
+          onClick={() => askAIForGrid()}
+        >
           <span className="icon">✨</span> Ask AI to Help
         </button>
       </div>
