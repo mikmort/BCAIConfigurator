@@ -513,6 +513,7 @@ h3 {
 .group-title {
   font-weight: 600;
   margin-top: 10px;
+  margin-bottom: 10px;
   cursor: pointer;
   display: flex;
   align-items: center;
