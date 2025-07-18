@@ -503,9 +503,11 @@ h3 {
   flex-shrink: 0;
   background: var(--bc-gray);
   padding: 10px;
-  border-right: 1px solid #d0d0d0;
+  /* Remove borders and shadows so the sidebar blends into the gray
+     background without visible lines. */
+  border-right: none;
   border-radius: 0;
-  box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.05);
+  box-shadow: none;
   display: flex;
   flex-direction: column;
   /* Allow scrolling if the navigation is taller than the viewport */
@@ -519,7 +521,8 @@ h3 {
   gap: 4px;
   margin-bottom: 10px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #d0d0d0;
+  /* Remove the dividing line at the top of the sidebar */
+  border-bottom: none;
 }
 
 .sidebar-header h2 {
@@ -607,6 +610,9 @@ h3 {
 .topbar {
   background: var(--bc-gray);
   padding: 8px 16px;
+  /* Ensure padding does not expand width so content fits without causing
+     horizontal scroll */
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
