@@ -528,7 +528,15 @@ function App() {
   // Upload a basic RapidStart template to Azure
   async function generateCustomRapidStart(): Promise<void> {
     logDebug('Preparing RapidStart XML');
-    const xml = `<?xml version="1.0"?>\n<CustomRapidStart>\n  <CompanyName>${formData.companyName}</CompanyName>\n  <Address>${formData.address}</Address>\n  <Country>${formData.country}</Country>\n</CustomRapidStart>`;
+    const currencyXml = currencyRows
+      .map(r => {
+        const fields = Object.entries(r)
+          .map(([k, v]) => `    <${k}>${v}</${k}>`)
+          .join('\n');
+        return `  <Currency>\n${fields}\n  </Currency>`;
+      })
+      .join('\n');
+    const xml = `<?xml version="1.0"?>\n<CustomRapidStart>\n  <CompanyName>${formData.companyName}</CompanyName>\n  <Address>${formData.address}</Address>\n  <Country>${formData.country}</Country>\n  <CurrencyList>\n${currencyXml}\n  </CurrencyList>\n</CustomRapidStart>`;
 
     const fileName = `${(formData.companyName || 'CustomRapidStart')
       .replace(/\s+/g, '_')}.rapidstart`;
@@ -1047,6 +1055,7 @@ function App() {
           {step === 9 && (
             <CurrencyPage
               rows={currencyRows}
+              setRows={setCurrencyRows}
               next={next}
               back={back}
               logDebug={logDebug}
