@@ -15,6 +15,7 @@ import {
 import { askOpenAI, parseAIGrid } from "../utils/ai";
 import AISuggestionModal from "../components/AISuggestionModal";
 import { ExcelIcon } from "../components/Icons";
+import { fieldKey, defaultCurrencyText } from "../utils/helpers";
 
 interface Props {
   rows: Record<string, string>[];
@@ -90,9 +91,19 @@ export default function CustomersPage({
     [fields],
   );
 
+  const localCurrency = useMemo(
+    () => formData[fieldKey("Local Currency (LCY) Code")] || "",
+    [formData],
+  );
+  const defaultCurrency = useMemo(
+    () => defaultCurrencyText(localCurrency),
+    [localCurrency],
+  );
+
   const dropdowns = useMemo(() => {
     const map: Record<string, string[]> = {};
-    if (currencyField) map[currencyField] = currencies.map((c) => c.code);
+    if (currencyField)
+      map[currencyField] = [defaultCurrency, ...currencies.map((c) => c.code)];
     if (countryField) map[countryField] = countries.map((c) => c.code);
     if (postingField) map[postingField] = postingGroups;
     return map;
@@ -103,12 +114,22 @@ export default function CustomersPage({
     currencies,
     countries,
     postingGroups,
+    defaultCurrency,
   ]);
 
-  const columnDefs = useMemo(
-    () => createColumnDefs(rowData, fields, dropdowns),
-    [rowData, fields, dropdowns],
-  );
+  const columnDefs = useMemo(() => {
+    const defs = createColumnDefs(rowData, fields, dropdowns);
+    if (currencyField) {
+      const col = defs.find(d => d.field === currencyField);
+      if (col) {
+        col.valueFormatter = (p: any) =>
+          p.node.rowPinned === 'bottom' ? '' : p.value || defaultCurrency;
+        col.valueParser = (p: any) =>
+          p.newValue === defaultCurrency ? '' : p.newValue;
+      }
+    }
+    return defs;
+  }, [rowData, fields, dropdowns, currencyField, defaultCurrency]);
 
   const bottomRowData = useMemo(
     () => createBottomRowData(columnDefs),
@@ -139,11 +160,21 @@ export default function CustomersPage({
     try {
       setShowAI(true);
       setAiLoading(true);
+      let optionsInfo = "";
+      const lines = Object.entries(dropdowns).map(([field, vals]) => {
+        const name = fields.find(f => f.xmlName === field)?.name || field;
+        return `${name}: ${vals.join(", ")}`;
+      });
+      if (lines.length) {
+        optionsInfo = "\nField options:\n" + lines.join("\n");
+      }
+
       const prompt =
         "Given the following company setup data as JSON:\n" +
         JSON.stringify(formData, null, 2) +
         "\nCurrent customer rows:\n" +
         JSON.stringify(currentRows ?? rowData, null, 2) +
+        optionsInfo +
         "\nSuggest the best rows for the customer table. " +
         'Return JSON with a "rows" array and an "explanation" string no longer than 500 characters.' +
         (extra ? `\nAdditional Instructions:\n${extra}` : "");

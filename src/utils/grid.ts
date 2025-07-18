@@ -6,6 +6,8 @@ export interface ColumnDef {
   editable?: boolean;
   cellEditor?: string;
   cellEditorParams?: any;
+  valueFormatter?: (params: any) => string;
+  valueParser?: (params: any) => any;
 }
 
 import type { TableField } from "./schema";
@@ -42,7 +44,10 @@ export function createColumnDefs(
       };
       if (dropdowns[key]) {
         def.cellEditor = "agSelectCellEditor";
-        def.cellEditorParams = { values: dropdowns[key] };
+        const values = dropdowns[key].includes('')
+          ? dropdowns[key]
+          : ['', ...dropdowns[key]];
+        def.cellEditorParams = { values };
       }
       return def;
     });
@@ -57,7 +62,10 @@ export function createColumnDefs(
     };
     if (dropdowns[f.xmlName]) {
       def.cellEditor = "agSelectCellEditor";
-      def.cellEditorParams = { values: dropdowns[f.xmlName] };
+      const values = dropdowns[f.xmlName].includes('')
+        ? dropdowns[f.xmlName]
+        : ['', ...dropdowns[f.xmlName]];
+      def.cellEditorParams = { values };
     }
     return def;
   });
