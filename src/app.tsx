@@ -362,6 +362,15 @@ function App() {
             }
           }
         }
+        if (val === undefined && cf.tableId) {
+          const rows = findTableRows(startData, cf.tableId) || [];
+          if (rows.length) {
+            val = rows[0][xmlName];
+            if (val && typeof val === 'object' && '#text' in val) {
+              val = val['#text'];
+            }
+          }
+        }
         if (val === undefined) {
           val = findFieldValue(startData, xmlName);
         }
@@ -927,31 +936,66 @@ function App() {
                   </li>
                   {step === 5 && (
                     <ul className="subnav">
-                      {srFields
-                        .filter(
-                          f =>
-                            f.common === 'common' ||
-                            (showSRSometimes && f.common === 'sometimes')
-                        )
-                        .map((f, i) => (
-                          <li
-                            key={f.field}
-                            className={srFieldIdx === i ? 'active' : ''}
-                            onClick={() => {
-                              setSrFieldIdx(i);
-                                setStep(5);
-                            }}
-                          >
-                            {srProgress[i] && <span className="check">✔</span>}
-                            {f.field}
-                          </li>
-                        ))}
-                    </ul>
-                  )}
+                  {srFields
+                    .filter(
+                      f =>
+                        f.common === 'common' ||
+                        (showSRSometimes && f.common === 'sometimes')
+                    )
+                    .map((f, i) => (
+                      <li
+                        key={f.field}
+                        className={srFieldIdx === i ? 'active' : ''}
+                        onClick={() => {
+                          setSrFieldIdx(i);
+                          setStep(5);
+                        }}
+                      >
+                        {srProgress[i] && <span className="check">✔</span>}
+                        {f.field}
+                      </li>
+                    ))}
                 </ul>
               )}
-            </div>
-            <div className="group">
+              <li
+                onClick={() => {
+                  setPpFieldIdx(null);
+                  setStep(6);
+                }}
+              >
+                {ppDone && <span className="check">✔</span>}
+                {!ppDone && ppInProgress && (
+                  <span className="progress-dot">•</span>
+                )}
+                {strings.purchasePayablesSetup}
+              </li>
+              {step === 6 && (
+                <ul className="subnav">
+                  {ppFields
+                    .filter(
+                      f =>
+                        f.common === 'common' ||
+                        (showPPSometimes && f.common === 'sometimes')
+                    )
+                    .map((f, i) => (
+                      <li
+                        key={f.field}
+                        className={ppFieldIdx === i ? 'active' : ''}
+                        onClick={() => {
+                          setPpFieldIdx(i);
+                          setStep(6);
+                        }}
+                      >
+                        {ppProgress[i] && <span className="check">✔</span>}
+                        {f.field}
+                      </li>
+                    ))}
+                </ul>
+              )}
+            </ul>
+          )}
+        </div>
+        <div className="group">
               <div
                 className="group-title"
                 onClick={() => setMasterOpen(!masterOpen)}

@@ -10,6 +10,8 @@ export interface ConfigQuestion {
   'BC Field Name'?: string;
   'Lookup Table'?: number;
   'Lookup Field'?: string;
+  tableId?: number;
+  tableName?: string;
 }
 
 export function recommendedCode(text: string): string {
@@ -48,6 +50,7 @@ export function parseQuestions(
       lookupField: (q as any)?.['Lookup Field']
         ? String((q as any)['Lookup Field'])
         : undefined,
+      tableId: q?.tableId,
     };
   });
 }
