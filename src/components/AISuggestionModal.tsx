@@ -34,6 +34,7 @@ export default function AISuggestionModal({
             rowData={rows}
             columnDefs={columnDefs}
             defaultColDef={{ flex: 1, resizable: true }}
+            overlayNoRowsTemplate={loading ? '...' : 'No rows'}
           />
         </div>
         <p style={{ whiteSpace: 'pre-wrap', marginTop: 10 }}>
