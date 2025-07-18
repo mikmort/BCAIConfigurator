@@ -1155,10 +1155,3 @@ select option:checked {
   color: var(--bc-text);
 }
 
-/* Rich select dropdown (AG Grid) */
-.ag-rich-select-row:hover,
-.ag-rich-select-row[aria-selected='true'] {
-  background-color: var(--bc-gray);
-  color: var(--bc-text);
-}
-
