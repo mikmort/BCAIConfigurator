@@ -275,7 +275,15 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
         <div className="modal-overlay" onClick={() => setShowAI(false)}>
           <div className="modal" onClick={e => e.stopPropagation()}>
             <div className="ag-theme-alpine" style={{ height: 300, width: '100%' }}>
-              <AgGridReact rowData={aiRows} columnDefs={columnDefs} defaultColDef={{ flex: 1, resizable: true }} />
+              {aiLoading && aiRows.length === 0 ? (
+                <div style={{ padding: 10, textAlign: 'center' }}>...</div>
+              ) : (
+                <AgGridReact
+                  rowData={aiRows}
+                  columnDefs={columnDefs}
+                  defaultColDef={{ flex: 1, resizable: true }}
+                />
+              )}
             </div>
             <p style={{ whiteSpace: 'pre-wrap', marginTop: 10 }}>
               {aiLoading ? 'Loading...' : aiExplanation}
