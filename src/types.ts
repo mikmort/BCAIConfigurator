@@ -8,6 +8,7 @@ export interface CompanyField {
   bcFieldName?: string;
   lookupTable?: number;
   lookupField?: string;
+  tableId?: number;
 }
 
 export interface BasicInfo {
