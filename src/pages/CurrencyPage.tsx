@@ -15,9 +15,21 @@ interface Props {
 
 export default function CurrencyPage({ rows, setRows, next, back, logDebug }: Props) {
   const [fields, setFields] = useState<TableField[]>([]);
-  const [rowData, setRowData] = useState<Record<string, string>[]>(rows);
+  const [rowData, setRowData] = useState<Record<string, string>[]>([]);
   const gridRef = useRef<AgGridReact<Record<string, string>>>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  function filterRows(data: Record<string, string>[]): Record<string, string>[] {
+    if (!fields.length) return data;
+    const names = fields.map(f => f.xmlName);
+    return data.map(r => {
+      const obj: Record<string, string> = {};
+      names.forEach(n => {
+        obj[n] = r[n] ?? '';
+      });
+      return obj;
+    });
+  }
 
   function openFileDialog() {
     fileInputRef.current?.click();
@@ -35,17 +47,12 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug }: Pr
   }, [rows]);
 
   useEffect(() => {
-    setRowData(rows);
-  }, [rows]);
+    setRowData(filterRows(rows));
+  }, [rows, fields]);
 
   const columnDefs = useMemo(() => {
-    if (!rowData.length) return [];
-    const normalize = (s: string) => s.replace(/[^a-z0-9]/gi, '').toLowerCase();
-
-    // Always base the columns on the actual keys in the data so every field
-    // is shown in the grid. Attempt to map the header names from the loaded
-    // schema when available by matching the normalized XML field names.
-    if (!fields.length)
+    if (!fields.length) {
+      if (!rowData.length) return [];
       return Object.keys(rowData[0]).map(key => ({
         headerName: key,
         field: key,
@@ -53,17 +60,15 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug }: Pr
         filter: true,
         editable: true,
       }));
+    }
 
-    return Object.keys(rowData[0]).map(key => {
-      const field = fields.find(f => normalize(f.xmlName) === normalize(key));
-      return {
-        headerName: field ? field.name : key,
-        field: key,
-        sortable: true,
-        filter: true,
-        editable: true,
-      };
-    });
+    return fields.map(f => ({
+      headerName: f.name,
+      field: f.xmlName,
+      sortable: true,
+      filter: true,
+      editable: true,
+    }));
   }, [rowData, fields]);
 
   function addRow() {
@@ -115,8 +120,9 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug }: Pr
           });
           return obj;
         });
-        setRowData(rowsParsed);
-        setRows(rowsParsed);
+        const filtered = filterRows(rowsParsed);
+        setRowData(filtered);
+        setRows(filtered);
       } else if (name.endsWith('.xlsx')) {
         const XLSX = (window as any).XLSX;
         if (!XLSX) return;
@@ -129,8 +135,9 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug }: Pr
           Object.keys(r).forEach(k => (obj[k] = r[k] != null ? String(r[k]) : ''));
           return obj;
         });
-        setRowData(rowsParsed);
-        setRows(rowsParsed);
+        const filtered = filterRows(rowsParsed);
+        setRowData(filtered);
+        setRows(filtered);
       }
     } catch (err) {
       console.error('Failed to parse file', err);

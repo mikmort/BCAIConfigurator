@@ -27,6 +27,7 @@ import {
 } from './utils/helpers';
 import { parseQuestions, recommendedCode } from './utils/jsonParsing';
 import { loadStartingData, loadConfigTables } from './utils/dataLoader';
+import { getTableFields } from './utils/schema';
 import {
   companyFieldNames,
   glFieldNames,
@@ -252,15 +253,25 @@ function App() {
         });
         setVendorRows(vsimple);
 
+        const currencyFields = await getTableFields('Currency');
+        const currencyNames = currencyFields.map(f => f.xmlName);
         const rows = findTableRows(data, 4) || [];
         logDebug(`Currency: read ${rows.length} rows from NAV27.0.US.ENU.STANDARD.xml`);
         const simple = rows.map(r => {
           const obj: Record<string, string> = {};
-          Object.keys(r).forEach(k => {
-            let v: any = (r as any)[k];
-            if (v && typeof v === 'object' && '#text' in v) v = v['#text'];
-            obj[k] = v !== undefined && v !== null ? String(v) : '';
-          });
+          if (currencyNames.length) {
+            currencyNames.forEach(n => {
+              let v: any = (r as any)[n];
+              if (v && typeof v === 'object' && '#text' in v) v = v['#text'];
+              obj[n] = v !== undefined && v !== null ? String(v) : '';
+            });
+          } else {
+            Object.keys(r).forEach(k => {
+              let v: any = (r as any)[k];
+              if (v && typeof v === 'object' && '#text' in v) v = v['#text'];
+              obj[k] = v !== undefined && v !== null ? String(v) : '';
+            });
+          }
           return obj;
         });
         logDebug(`Currency: prepared ${simple.length} rows for grid`);
