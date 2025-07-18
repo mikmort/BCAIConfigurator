@@ -14,6 +14,7 @@ import PurchasePayablesPage from './pages/PurchasePayablesPage';
 import CustomersPage from './pages/CustomersPage';
 import VendorsPage from './pages/VendorsPage';
 import ItemsPage from './pages/ItemsPage';
+import ChartOfAccountsPage from './pages/ChartOfAccountsPage';
 import CurrencyPage from './pages/CurrencyPage';
 import CustomerTemplatePage from './pages/CustomerTemplatePage';
 import VendorTemplatePage from './pages/VendorTemplatePage';
@@ -93,8 +94,10 @@ function App() {
   const [vendorsDone, setVendorsDone] = useState(false);
   const [itemsDone, setItemsDone] = useState(false);
   const [currenciesDone, setCurrenciesDone] = useState(false);
+  const [chartDone, setChartDone] = useState(false);
   const [customerRows, setCustomerRows] = useState<Record<string, string>[]>([]);
   const [currencyRows, setCurrencyRows] = useState<Record<string, string>[]>([]);
+  const [chartRows, setChartRows] = useState<Record<string, string>[]>([]);
   const [vendorRows, setVendorRows] = useState<Record<string, string>[]>([]);
   const [companyFieldIdx, setCompanyFieldIdx] = useState<number | null>(null);
   const [glFieldIdx, setGlFieldIdx] = useState<number | null>(null);
@@ -273,6 +276,30 @@ function App() {
           return obj;
         });
         setVendorRows(vsimple);
+
+        const chartFields = await getTableFields('G/L Account', true);
+        const chartNames = chartFields.map(f => f.xmlName);
+        const chartSource = findTableRows(data, 15) || [];
+        logDebug(`Chart of Accounts: read ${chartSource.length} rows from NAV27.0.US.ENU.STANDARD.xml`);
+        const chartSimple = chartSource.map(r => {
+          const obj: Record<string, string> = {};
+          if (chartNames.length) {
+            chartNames.forEach(n => {
+              let v: any = (r as any)[n];
+              if (v && typeof v === 'object' && '#text' in v) v = v['#text'];
+              obj[n] = v !== undefined && v !== null ? String(v) : '';
+            });
+          } else {
+            Object.keys(r).forEach(k => {
+              let v: any = (r as any)[k];
+              if (v && typeof v === 'object' && '#text' in v) v = v['#text'];
+              obj[k] = v !== undefined && v !== null ? String(v) : '';
+            });
+          }
+          return obj;
+        });
+        logDebug(`Chart of Accounts: prepared ${chartSimple.length} rows for grid`);
+        setChartRows(chartSimple);
 
         const customerFields = await getTableFields('Customer', true);
         const customerNames = customerFields.map(f => f.xmlName);
@@ -787,12 +814,13 @@ function App() {
   const ppInProgress = !ppDone && ppProgress.some(Boolean);
   const configSectionDone =
     companyDone && glDone && srDone && ppDone;
-  const masterSectionDone = customersDone && vendorsDone && itemsDone && currenciesDone;
+  const masterSectionDone =
+    customersDone && vendorsDone && itemsDone && chartDone && currenciesDone;
   const currentGroup = (() => {
     if (step === 2) return 'basic';
     if ([3, 4, 5, 6].includes(step)) return 'config';
-    if ([7, 8, 9, 10].includes(step)) return 'master';
-    if ([11, 12, 13, 14, 15, 16, 17, 18, 19].includes(step)) return 'template';
+    if ([7, 8, 9, 10, 11].includes(step)) return 'master';
+    if ([12, 13, 14, 15, 16, 17, 18, 19, 20].includes(step)) return 'template';
     if (step === 20) return 'review';
     return '';
   })();
@@ -1019,6 +1047,10 @@ function App() {
                     {strings.items}
                   </li>
                   <li onClick={() => setStep(10)}>
+                    {chartDone && <span className="check">✔</span>}
+                    {strings.chartOfAccounts}
+                  </li>
+                  <li onClick={() => setStep(11)}>
                     {currenciesDone && <span className="check">✔</span>}
                     {strings.currencies}
                   </li>
@@ -1035,15 +1067,15 @@ function App() {
               </div>
               {templatesOpen && (
                 <ul>
-                  <li onClick={() => setStep(11)}>{strings.customerTemplate}</li>
-                  <li onClick={() => setStep(12)}>{strings.vendorTemplate}</li>
-                  <li onClick={() => setStep(13)}>{strings.itemTemplate}</li>
-                  <li onClick={() => setStep(14)}>{strings.glAccountTemplate}</li>
-                  <li onClick={() => setStep(15)}>{strings.bankAccountTemplate}</li>
-                  <li onClick={() => setStep(16)}>{strings.fixedAssetTemplate}</li>
-                  <li onClick={() => setStep(17)}>{strings.contactTemplate}</li>
-                  <li onClick={() => setStep(18)}>{strings.employeeTemplate}</li>
-                  <li onClick={() => setStep(19)}>{strings.resourceTemplate}</li>
+                  <li onClick={() => setStep(12)}>{strings.customerTemplate}</li>
+                  <li onClick={() => setStep(13)}>{strings.vendorTemplate}</li>
+                  <li onClick={() => setStep(14)}>{strings.itemTemplate}</li>
+                  <li onClick={() => setStep(15)}>{strings.glAccountTemplate}</li>
+                  <li onClick={() => setStep(16)}>{strings.bankAccountTemplate}</li>
+                  <li onClick={() => setStep(17)}>{strings.fixedAssetTemplate}</li>
+                  <li onClick={() => setStep(18)}>{strings.contactTemplate}</li>
+                  <li onClick={() => setStep(19)}>{strings.employeeTemplate}</li>
+                  <li onClick={() => setStep(20)}>{strings.resourceTemplate}</li>
                 </ul>
               )}
             </div>
@@ -1051,7 +1083,7 @@ function App() {
             <div className="review-footer">
               <button
                 className="next-btn review-btn"
-                onClick={() => setStep(20)}
+                onClick={() => setStep(21)}
               >
                 {strings.reviewAndFinish}
               </button>
@@ -1091,7 +1123,7 @@ function App() {
                 </div>
                 <div
                   className={`progress-step ${currentGroup === 'review' ? 'active' : ''} clickable`}
-                  onClick={() => setStep(20)}
+                  onClick={() => setStep(21)}
                 >
                   <div className="circle">5</div>
                   <span>{strings.reviewAndFinish}</span>
@@ -1125,16 +1157,17 @@ function App() {
               goToCustomers={() => setStep(7)}
               goToVendors={() => setStep(8)}
               goToItems={() => setStep(9)}
-              goToCurrencies={() => setStep(10)}
-              goToCustomerTemplate={() => setStep(11)}
-              goToVendorTemplate={() => setStep(12)}
-              goToItemTemplate={() => setStep(13)}
-              goToGLAccountTemplate={() => setStep(14)}
-              goToBankAccountTemplate={() => setStep(15)}
-              goToFixedAssetTemplate={() => setStep(16)}
-              goToContactTemplate={() => setStep(17)}
-              goToEmployeeTemplate={() => setStep(18)}
-              goToResourceTemplate={() => setStep(19)}
+              goToChartOfAccounts={() => setStep(10)}
+              goToCurrencies={() => setStep(11)}
+              goToCustomerTemplate={() => setStep(12)}
+              goToVendorTemplate={() => setStep(13)}
+              goToItemTemplate={() => setStep(14)}
+              goToGLAccountTemplate={() => setStep(15)}
+              goToBankAccountTemplate={() => setStep(16)}
+              goToFixedAssetTemplate={() => setStep(17)}
+              goToContactTemplate={() => setStep(18)}
+              goToEmployeeTemplate={() => setStep(19)}
+              goToResourceTemplate={() => setStep(20)}
               back={back}
               basicDone={basicDone}
               companyDone={companyDone}
@@ -1148,6 +1181,7 @@ function App() {
               customersDone={customersDone}
               vendorsDone={vendorsDone}
               itemsDone={itemsDone}
+              chartDone={chartDone}
               currenciesDone={currenciesDone}
               />
             )}
@@ -1253,6 +1287,18 @@ function App() {
           {step === 8 && <VendorsPage rows={vendorRows} next={next} back={back} />}
           {step === 9 && <ItemsPage next={next} back={back} />}
           {step === 10 && (
+            <ChartOfAccountsPage
+              rows={chartRows}
+              setRows={setChartRows}
+              next={next}
+              back={back}
+              logDebug={logDebug}
+              formData={formData}
+              confirmed={chartDone}
+              setConfirmed={setChartDone}
+            />
+          )}
+          {step === 11 && (
             <CurrencyPage
               rows={currencyRows}
               setRows={setCurrencyRows}
@@ -1264,16 +1310,16 @@ function App() {
               setConfirmed={setCurrenciesDone}
             />
           )}
-          {step === 11 && <CustomerTemplatePage next={next} back={back} />}
-          {step === 12 && <VendorTemplatePage next={next} back={back} />}
-          {step === 13 && <ItemTemplatePage next={next} back={back} />}
-          {step === 14 && <GLAccountTemplatePage next={next} back={back} />}
-          {step === 15 && <BankAccountTemplatePage next={next} back={back} />}
-          {step === 16 && <FixedAssetTemplatePage next={next} back={back} />}
-          {step === 17 && <ContactTemplatePage next={next} back={back} />}
-          {step === 18 && <EmployeeTemplatePage next={next} back={back} />}
-          {step === 19 && <ResourceTemplatePage next={next} back={back} />}
-          {step === 20 && (
+          {step === 12 && <CustomerTemplatePage next={next} back={back} />}
+          {step === 13 && <VendorTemplatePage next={next} back={back} />}
+          {step === 14 && <ItemTemplatePage next={next} back={back} />}
+          {step === 15 && <GLAccountTemplatePage next={next} back={back} />}
+          {step === 16 && <BankAccountTemplatePage next={next} back={back} />}
+          {step === 17 && <FixedAssetTemplatePage next={next} back={back} />}
+          {step === 18 && <ContactTemplatePage next={next} back={back} />}
+          {step === 19 && <EmployeeTemplatePage next={next} back={back} />}
+          {step === 20 && <ResourceTemplatePage next={next} back={back} />}
+          {step === 21 && (
             <ReviewPage
               fields={[...companyFields, ...glFields, ...srFields, ...ppFields]}
               formData={formData}
@@ -1281,7 +1327,7 @@ function App() {
               next={next}
             />
           )}
-          {step === 21 && (
+          {step === 22 && (
             <FinishPage
               generate={generateCustomRapidStart}
               back={back}

@@ -1012,6 +1012,18 @@ h3 {
   --ag-grid-size: 6px;
 }
 
+/* Chart of Accounts grid theme tweaks - same as currency grid */
+.chart-grid {
+  --ag-header-background-color: var(--bc-gray);
+  --ag-header-foreground-color: var(--bc-text);
+  --ag-row-hover-color: var(--bc-gray);
+  --ag-odd-row-background-color: #fafafa;
+  --ag-border-color: #e1dfdd;
+  --ag-row-height: 36px;
+  --ag-header-height: 38px;
+  --ag-grid-size: 6px;
+}
+
 .download-template-btn {
   background: transparent;
   border: 1px solid var(--bc-blue);
@@ -1050,6 +1062,17 @@ h3 {
 }
 
 .customer-grid .ag-row-pinned-bottom .ag-cell:hover {
+  color: var(--bc-blue-dark);
+}
+
+.chart-grid .ag-row-pinned-bottom .ag-cell {
+  justify-content: center;
+  cursor: pointer;
+  color: var(--bc-blue);
+  font-size: 1.5em;
+}
+
+.chart-grid .ag-row-pinned-bottom .ag-cell:hover {
   color: var(--bc-blue-dark);
 }
 

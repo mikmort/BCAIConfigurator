@@ -22,6 +22,7 @@ export default {
   customers: 'Customers',
   vendors: 'Vendors',
   items: 'Items',
+  chartOfAccounts: 'Chart of Accounts',
   currencies: 'Currencies',
   search: 'Search',
   help: 'Get Help from your Partner',

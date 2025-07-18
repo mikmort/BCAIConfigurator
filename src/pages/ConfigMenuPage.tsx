@@ -22,6 +22,7 @@ interface Props {
   goToCustomers: () => void;
   goToVendors: () => void;
   goToItems: () => void;
+  goToChartOfAccounts: () => void;
   goToCurrencies: () => void;
   goToCustomerTemplate: () => void;
   goToVendorTemplate: () => void;
@@ -45,6 +46,7 @@ interface Props {
   customersDone: boolean;
   vendorsDone: boolean;
   itemsDone: boolean;
+  chartDone: boolean;
   currenciesDone: boolean;
 }
 
@@ -57,6 +59,7 @@ function ConfigMenuPage({
   goToCustomers,
   goToVendors,
   goToItems,
+  goToChartOfAccounts,
   goToCurrencies,
   goToCustomerTemplate,
   goToVendorTemplate,
@@ -80,6 +83,7 @@ function ConfigMenuPage({
   customersDone,
   vendorsDone,
   itemsDone,
+  chartDone,
   currenciesDone,
 }: Props) {
   const nothingConfirmed =
@@ -90,6 +94,7 @@ function ConfigMenuPage({
     !customersDone &&
     !vendorsDone &&
     !itemsDone &&
+    !chartDone &&
     !currenciesDone;
   return (
     <div>
@@ -219,6 +224,18 @@ function ConfigMenuPage({
             {itemsDone && <div className="checkmark">✔</div>}
             <CubeIcon />
             <div>{strings.items}</div>
+          </div>
+          <div
+            className={`menu-box ${chartDone ? 'done' : ''}`}
+            onClick={goToChartOfAccounts}
+            tabIndex={0}
+            onKeyDown={e => {
+              if (e.key === 'Enter' || e.key === ' ') goToChartOfAccounts();
+            }}
+          >
+            {chartDone && <div className="checkmark">✔</div>}
+            <BookIcon />
+            <div>{strings.chartOfAccounts}</div>
           </div>
           <div
             className={`menu-box ${currenciesDone ? 'done' : ''}`}
