@@ -9,14 +9,19 @@ interface Props {
   rows: Record<string, string>[];
   next: () => void;
   back: () => void;
+  logDebug?: (msg: string) => void;
 }
 
-export default function CurrencyPage({ rows, next, back }: Props) {
+export default function CurrencyPage({ rows, next, back, logDebug }: Props) {
   const [fields, setFields] = useState<TableField[]>([]);
 
   useEffect(() => {
     getTableFields('Currency').then(setFields);
   }, []);
+
+  useEffect(() => {
+    if (logDebug) logDebug(`CurrencyPage: loading grid with ${rows.length} rows`);
+  }, [rows, logDebug]);
 
   const columnDefs = useMemo(() => {
     if (!rows.length) return [];

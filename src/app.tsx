@@ -250,6 +250,7 @@ function App() {
         setVendorRows(vsimple);
 
         const rows = findTableRows(data, 4) || [];
+        logDebug(`Currency: read ${rows.length} rows from NAV27.0.US.ENU.STANDARD.xml`);
         const simple = rows.map(r => {
           const obj: Record<string, string> = {};
           Object.keys(r).forEach(k => {
@@ -259,6 +260,7 @@ function App() {
           });
           return obj;
         });
+        logDebug(`Currency: prepared ${simple.length} rows for grid`);
         setCurrencyRows(simple);
 
       } catch (e) {
@@ -1039,7 +1041,14 @@ function App() {
           {step === 6 && <CustomersPage next={next} back={back} />}
           {step === 7 && <VendorsPage rows={vendorRows} next={next} back={back} />}
           {step === 8 && <ItemsPage next={next} back={back} />}
-          {step === 9 && <CurrencyPage rows={currencyRows} next={next} back={back} />}
+          {step === 9 && (
+            <CurrencyPage
+              rows={currencyRows}
+              next={next}
+              back={back}
+              logDebug={logDebug}
+            />
+          )}
           {step === 10 && (
             <ReviewPage
               fields={[...companyFields, ...glFields, ...srFields]}
