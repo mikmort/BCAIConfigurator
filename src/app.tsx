@@ -78,9 +78,7 @@ function App() {
   const [itemsDone, setItemsDone] = useState(false);
   const [currenciesDone, setCurrenciesDone] = useState(false);
   const [currencyRows, setCurrencyRows] = useState<Record<string, string>[]>([]);
-  const [companyFieldIdx, setCompanyFieldIdx] = useState<number | null>(null);
-  const [glFieldIdx, setGlFieldIdx] = useState<number | null>(null);
-  const [srFieldIdx, setSrFieldIdx] = useState<number | null>(null);
+  const [vendorRows, setVendorRows] = useState<Record<string, string>[]>([]);
   const [showCompanySometimes, setShowCompanySometimes] = useState(false);
   const [showGLSometimes, setShowGLSometimes] = useState(false);
   const [showSRSometimes, setShowSRSometimes] = useState(false);
@@ -238,6 +236,18 @@ function App() {
             description: c.Description?.['#text'] || '',
           })) || [];
         setCurrencies(currencies);
+
+        const vrows = findTableRows(data, 23) || [];
+        const vsimple = vrows.map(r => {
+          const obj: Record<string, string> = {};
+          Object.keys(r).forEach(k => {
+            let v: any = (r as any)[k];
+            if (v && typeof v === "object" && "#text" in v) v = v["#text"];
+            obj[k] = v !== undefined && v !== null ? String(v) : "";
+          });
+          return obj;
+        });
+        setVendorRows(vsimple);
 
         const rows = findTableRows(data, 4) || [];
         const simple = rows.map(r => {
@@ -1027,11 +1037,9 @@ function App() {
         />
       )}
           {step === 6 && <CustomersPage next={next} back={back} />}
-          {step === 7 && <VendorsPage next={next} back={back} />}
+          {step === 7 && <VendorsPage rows={vendorRows} next={next} back={back} />}
           {step === 8 && <ItemsPage next={next} back={back} />}
           {step === 9 && <CurrencyPage rows={currencyRows} next={next} back={back} />}
-          {step === 10 && (
-            <ReviewPage
               fields={[...companyFields, ...glFields, ...srFields]}
               formData={formData}
               back={back}

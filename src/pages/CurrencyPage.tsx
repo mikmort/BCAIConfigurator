@@ -1,8 +1,9 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import strings from '../../res/strings';
+import { getTableFields, TableField } from '../utils/schema';
 
 interface Props {
   rows: Record<string, string>[];
@@ -11,10 +12,20 @@ interface Props {
 }
 
 export default function CurrencyPage({ rows, next, back }: Props) {
+  const [fields, setFields] = useState<TableField[]>([]);
+
+  useEffect(() => {
+    getTableFields('Currency').then(setFields);
+  }, []);
+
   const columnDefs = useMemo(() => {
     if (!rows.length) return [];
-    return Object.keys(rows[0]).map(key => ({ headerName: key, field: key, sortable: true, filter: true }));
-  }, [rows]);
+    if (!fields.length)
+      return Object.keys(rows[0]).map(key => ({ headerName: key, field: key, sortable: true, filter: true }));
+    return fields
+      .filter(f => Object.prototype.hasOwnProperty.call(rows[0], f.xmlName))
+      .map(f => ({ headerName: f.name, field: f.xmlName, sortable: true, filter: true }));
+  }, [rows, fields]);
 
   return (
     <div>
