@@ -1,0 +1,11 @@
+[
+  { "template": "Customer",       "tableNo": 18   },
+  { "template": "Vendor",         "tableNo": 23   },
+  { "template": "Item",           "tableNo": 27   },
+  { "template": "G/L Account",    "tableNo": 15   },
+  { "template": "Bank Account",   "tableNo": 270  },
+  { "template": "Fixed Asset",    "tableNo": 5600 },
+  { "template": "Contact",        "tableNo": 5050 },
+  { "template": "Employee",       "tableNo": 5200 },
+  { "template": "Resource",       "tableNo": 156  }
+]
