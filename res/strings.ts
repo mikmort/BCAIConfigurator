@@ -26,6 +26,7 @@ export default {
   currencies: 'Currencies',
   chartOfAccounts: 'Chart of Accounts',
   numberSeries: 'Number Series',
+  hideUncommon: 'Hide uncommon settings',
   search: 'Search',
   help: 'Get Help from your Partner',
   review: 'Review',
