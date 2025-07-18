@@ -617,7 +617,8 @@ h3 {
 .topbar::after {
   content: '';
   position: absolute;
-  left: var(--sidebar-total-width);
+  /* Align divider with the sidebar border accounting for left padding */
+  left: calc(var(--sidebar-total-width) - 16px);
   top: 0;
   bottom: 0;
   width: 1px;
