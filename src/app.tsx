@@ -653,8 +653,11 @@ function App() {
   }
 
   const companyDone = companyProgress.length > 0 && companyProgress.every(Boolean);
+  const companyInProgress = !companyDone && companyProgress.some(Boolean);
   const glDone = glProgress.length > 0 && glProgress.every(Boolean);
+  const glInProgress = !glDone && glProgress.some(Boolean);
   const srDone = srProgress.length > 0 && srProgress.every(Boolean);
+  const srInProgress = !srDone && srProgress.some(Boolean);
   const configSectionDone =
     companyDone && glDone && srDone;
   const basicSectionDone = basicDone;
@@ -729,6 +732,9 @@ function App() {
                       setStep(3);
                     }}>
                     {companyDone && <span className="check">✔</span>}
+                    {!companyDone && companyInProgress && (
+                      <span className="progress-dot">•</span>
+                    )}
                     {strings.companyInfo}
                   </li>
                   {step === 3 && (
@@ -760,6 +766,9 @@ function App() {
                       setStep(4);
                     }}>
                     {glDone && <span className="check">✔</span>}
+                    {!glDone && glInProgress && (
+                      <span className="progress-dot">•</span>
+                    )}
                     {strings.generalLedgerSetup}
                   </li>
                   {step === 4 && (
@@ -791,6 +800,9 @@ function App() {
                       setStep(5);
                     }}>
                     {srDone && <span className="check">✔</span>}
+                    {!srDone && srInProgress && (
+                      <span className="progress-dot">•</span>
+                    )}
                     {strings.salesReceivablesSetup}
                   </li>
                   {step === 5 && (
@@ -920,8 +932,11 @@ function App() {
               goToItems={() => setStep(8)}
               back={back}
               companyDone={companyDone}
+              companyInProgress={companyInProgress}
               glDone={glDone}
+              glInProgress={glInProgress}
               srDone={srDone}
+              srInProgress={srInProgress}
               />
             )}
             {step === 2 && (

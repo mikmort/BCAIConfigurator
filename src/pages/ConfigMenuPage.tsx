@@ -20,8 +20,11 @@ interface Props {
   goToItems: () => void;
   back: () => void;
   companyDone: boolean;
+  companyInProgress: boolean;
   glDone: boolean;
+  glInProgress: boolean;
   srDone: boolean;
+  srInProgress: boolean;
 }
 
 function ConfigMenuPage({
@@ -34,8 +37,11 @@ function ConfigMenuPage({
   goToItems,
   back,
   companyDone,
+  companyInProgress,
   glDone,
+  glInProgress,
   srDone,
+  srInProgress,
 }: Props) {
   return (
     <div>
@@ -68,6 +74,9 @@ function ConfigMenuPage({
             }}
           >
             {companyDone && <div className="checkmark">✔</div>}
+            {!companyDone && companyInProgress && (
+              <div className="progress-dot">•</div>
+            )}
             <CompanyIcon />
             <div>{strings.companyInfo}</div>
           </div>
@@ -80,6 +89,9 @@ function ConfigMenuPage({
             }}
           >
             {glDone && <div className="checkmark">✔</div>}
+            {!glDone && glInProgress && (
+              <div className="progress-dot">•</div>
+            )}
             <BookIcon />
             <div>{strings.generalLedgerSetup}</div>
           </div>
@@ -92,6 +104,9 @@ function ConfigMenuPage({
             }}
           >
             {srDone && <div className="checkmark">✔</div>}
+            {!srDone && srInProgress && (
+              <div className="progress-dot">•</div>
+            )}
             <CartIcon />
             <div>{strings.salesReceivablesSetup}</div>
           </div>
