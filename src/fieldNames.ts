@@ -97,6 +97,12 @@ export const ppFieldNames = [
   'Posted Return Shpt. Nos.',
 ];
 
+export const faFieldNames = [
+  'FA Nos.',
+  'Depreciation Book Nos.',
+  'FA Journal Batch Name',
+];
+
 /**
  * Convert a list of names into basic CompanyField objects.
  */
