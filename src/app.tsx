@@ -1463,6 +1463,7 @@ function App() {
                   title={strings.companyInfo}
                   fields={companyFields}
                   formData={formData}
+                  hideUncommon={hideUncommon}
                   onUseDefaults={() => {
                     confirmAll(
                       companyProgress,
@@ -1505,6 +1506,7 @@ function App() {
                   title={strings.generalLedgerSetup}
                   fields={glFields}
                   formData={formData}
+                  hideUncommon={hideUncommon}
                   onUseDefaults={() => {
                     confirmAll(
                       glProgress,
@@ -1547,6 +1549,7 @@ function App() {
                   title={strings.salesReceivablesSetup}
                   fields={srFields}
                   formData={formData}
+                  hideUncommon={hideUncommon}
                   onUseDefaults={() => {
                     confirmAll(
                       srProgress,
@@ -1589,6 +1592,7 @@ function App() {
                   title={strings.purchasePayablesSetup}
                   fields={ppFields}
                   formData={formData}
+                  hideUncommon={hideUncommon}
                   onUseDefaults={() => {
                     confirmAll(
                       ppProgress,
@@ -1631,6 +1635,7 @@ function App() {
                   title={strings.fixedAssetSetup}
                   fields={faFields}
                   formData={formData}
+                  hideUncommon={hideUncommon}
                   onUseDefaults={() => {
                     confirmAll(
                       faProgress,
