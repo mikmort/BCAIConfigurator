@@ -34,12 +34,10 @@ export default function AISuggestionModal({
             rowData={rows}
             columnDefs={columnDefs}
             defaultColDef={{ flex: 1, resizable: true }}
-            overlayNoRowsTemplate={loading ? '...' : 'No rows'}
+            overlayNoRowsTemplate={loading ? 'Loading...' : 'No rows'}
           />
         </div>
-        <p style={{ whiteSpace: 'pre-wrap', marginTop: 10 }}>
-          {loading ? 'Loading...' : explanation}
-        </p>
+        <p style={{ whiteSpace: 'pre-wrap', marginTop: 10 }}>{explanation}</p>
         <label htmlFor="ai-extra" className="ai-extra-label">
           Additional Instructions
         </label>
