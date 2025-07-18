@@ -612,20 +612,8 @@ h3 {
   justify-content: space-between;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   position: relative;
-  margin-left: var(--sidebar-total-width);
-  width: calc(100% - var(--sidebar-total-width));
-}
-
-/* Remove vertical divider in favor of aligning the bar with the sidebar */
-.topbar::after {
-  content: '';
-  position: absolute;
-  /* Align divider with the sidebar border accounting for left padding */
-  left: calc(var(--sidebar-total-width) - 16px);
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: #d0d0d0;
+  margin-left: 0;
+  width: 100%;
 }
 
 .topbar .actions {
