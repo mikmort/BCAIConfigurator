@@ -139,11 +139,21 @@ export default function CustomersPage({
     try {
       setShowAI(true);
       setAiLoading(true);
+      let optionsInfo = "";
+      const lines = Object.entries(dropdowns).map(([field, vals]) => {
+        const name = fields.find(f => f.xmlName === field)?.name || field;
+        return `${name}: ${vals.join(", ")}`;
+      });
+      if (lines.length) {
+        optionsInfo = "\nField options:\n" + lines.join("\n");
+      }
+
       const prompt =
         "Given the following company setup data as JSON:\n" +
         JSON.stringify(formData, null, 2) +
         "\nCurrent customer rows:\n" +
         JSON.stringify(currentRows ?? rowData, null, 2) +
+        optionsInfo +
         "\nSuggest the best rows for the customer table. " +
         'Return JSON with a "rows" array and an "explanation" string no longer than 500 characters.' +
         (extra ? `\nAdditional Instructions:\n${extra}` : "");
