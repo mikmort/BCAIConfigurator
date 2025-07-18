@@ -123,7 +123,7 @@ export default function CustomersPage({
       const col = defs.find(d => d.field === currencyField);
       if (col) {
         col.valueFormatter = (p: any) =>
-          p.node.rowPinned === 'bottom' ? '' : p.value || defaultCurrency;
+          p.node?.rowPinned === 'bottom' ? '' : p.value || defaultCurrency;
         col.valueParser = (p: any) =>
           p.newValue === defaultCurrency ? '' : p.newValue;
       }
