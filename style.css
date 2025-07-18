@@ -1050,6 +1050,29 @@ h3 {
   color: var(--bc-blue-dark);
 }
 
+/* Chart of Accounts grid theme tweaks - same as currency grid */
+.gl-grid {
+  --ag-header-background-color: var(--bc-gray);
+  --ag-header-foreground-color: var(--bc-text);
+  --ag-row-hover-color: var(--bc-gray);
+  --ag-odd-row-background-color: #fafafa;
+  --ag-border-color: #e1dfdd;
+  --ag-row-height: 36px;
+  --ag-header-height: 38px;
+  --ag-grid-size: 6px;
+}
+
+.gl-grid .ag-row-pinned-bottom .ag-cell {
+  justify-content: center;
+  cursor: pointer;
+  color: var(--bc-blue);
+  font-size: 1.5em;
+}
+
+.gl-grid .ag-row-pinned-bottom .ag-cell:hover {
+  color: var(--bc-blue-dark);
+}
+
 .file-controls {
   margin-top: 20px;
   display: flex;
