@@ -1,0 +1,23 @@
+[
+  { "TableName": "Currency",                       "TableNo": 4  },
+  { "TableName": "G/L Account (Chart of Accounts)","TableNo": 15 },
+  { "TableName": "Customer",                       "TableNo": 18 },
+  { "TableName": "Vendor",                         "TableNo": 23 },
+  { "TableName": "Item",                           "TableNo": 27 },
+  { "TableName": "Location",                       "TableNo": 14 },
+  { "TableName": "Resource",                       "TableNo": 156 },
+  { "TableName": "Bank Account",                   "TableNo": 270 },
+  { "TableName": "Dimension",                      "TableNo": 348 },
+  { "TableName": "Dimension Value",                "TableNo": 349 },
+  { "TableName": "Item Category",                  "TableNo": 5722 },
+  { "TableName": "Payment Terms",                  "TableNo": 3  },
+  { "TableName": "Payment Method",                 "TableNo": 289 },
+  { "TableName": "Customer Posting Group",         "TableNo": 92 },
+  { "TableName": "Vendor Posting Group",           "TableNo": 93 },
+  { "TableName": "Inventory Posting Group",        "TableNo": 94 },
+  { "TableName": "Gen. Business Posting Group",    "TableNo": 250},
+  { "TableName": "Gen. Product Posting Group",     "TableNo": 251},
+  { "TableName": "Tax Group",                      "TableNo": 321},
+  { "TableName": "Tax Area",                       "TableNo": 318},
+  { "TableName": "Tax Jurisdiction",               "TableNo": 320}
+]
