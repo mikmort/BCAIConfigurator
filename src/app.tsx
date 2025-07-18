@@ -10,6 +10,7 @@ import CompanyInfoPage from './pages/CompanyInfoPage';
 import FinishPage from './pages/FinishPage';
 import GLSetupPage from './pages/GLSetupPage';
 import SalesReceivablesPage from './pages/SalesReceivablesPage';
+import PurchasePayablesPage from './pages/PurchasePayablesPage';
 import CustomersPage from './pages/CustomersPage';
 import VendorsPage from './pages/VendorsPage';
 import ItemsPage from './pages/ItemsPage';
@@ -32,6 +33,7 @@ import {
   companyFieldNames,
   glFieldNames,
   srFieldNames,
+  ppFieldNames,
 } from './fieldNames';
 import { askOpenAI, parseAISuggestion } from './utils/ai';
 
@@ -54,12 +56,15 @@ function App() {
   const [companyFields, setCompanyFields] = useState([] as CompanyField[]);
   const [glFields, setGlFields] = useState([] as CompanyField[]);
   const [srFields, setSrFields] = useState([] as CompanyField[]);
+  const [ppFields, setPpFields] = useState([] as CompanyField[]);
   const [companyProgress, setCompanyProgress] = useState<boolean[]>([]);
   const [glProgress, setGlProgress] = useState<boolean[]>([]);
   const [srProgress, setSrProgress] = useState<boolean[]>([]);
+  const [ppProgress, setPpProgress] = useState<boolean[]>([]);
   const [companyVisited, setCompanyVisited] = useState<boolean[]>([]);
   const [glVisited, setGlVisited] = useState<boolean[]>([]);
   const [srVisited, setSrVisited] = useState<boolean[]>([]);
+  const [ppVisited, setPpVisited] = useState<boolean[]>([]);
   const [downloadUrl, setDownloadUrl] = useState('');
   const [debugMessages, setDebugMessages] = useState([] as string[]);
   const [countries, setCountries] = useState([] as { code: string; name: string }[]);
@@ -84,9 +89,11 @@ function App() {
   const [companyFieldIdx, setCompanyFieldIdx] = useState<number | null>(null);
   const [glFieldIdx, setGlFieldIdx] = useState<number | null>(null);
   const [srFieldIdx, setSrFieldIdx] = useState<number | null>(null);
+  const [ppFieldIdx, setPpFieldIdx] = useState<number | null>(null);
   const [showCompanySometimes, setShowCompanySometimes] = useState(false);
   const [showGLSometimes, setShowGLSometimes] = useState(false);
   const [showSRSometimes, setShowSRSometimes] = useState(false);
+  const [showPPSometimes, setShowPPSometimes] = useState(false);
   const [aiParsed, setAiParsed] = useState({
     suggested: '',
     confidence: '',
@@ -156,6 +163,7 @@ function App() {
     addConfirmed(companyFields, companyProgress);
     addConfirmed(glFields, glProgress);
     addConfirmed(srFields, srProgress);
+    addConfirmed(ppFields, ppProgress);
 
     if (parts.length) {
       prompt += parts.join('\n') + '\n';
@@ -214,6 +222,7 @@ function App() {
     if (step === 3) setCompanyFieldIdx(null);
     if (step === 4) setGlFieldIdx(null);
     if (step === 5) setSrFieldIdx(null);
+    if (step === 6) setPpFieldIdx(null);
   }, [step]);
 
   useEffect(() => {
@@ -326,7 +335,7 @@ function App() {
 
   useEffect(() => {
     if (!startData) return;
-    const all = [...companyFields, ...glFields, ...srFields];
+    const all = [...companyFields, ...glFields, ...srFields, ...ppFields];
     setFormData(f => {
       const copy: FormData = { ...f };
       all.forEach(cf => {
@@ -352,7 +361,7 @@ function App() {
       });
       return copy;
     });
-  }, [startData, companyFields, glFields, srFields]);
+  }, [startData, companyFields, glFields, srFields, ppFields]);
 
   useEffect(() => {
     const nameKey = fieldKey('Company Name');
@@ -440,6 +449,19 @@ function App() {
           });
           return copy;
         });
+
+        const pp = parseQuestions(data, ppFieldNames);
+        setPpFields(pp);
+        setPpProgress(pp.filter(f => f.common === 'common').map(() => false));
+        setPpVisited(pp.filter(f => f.common === 'common').map(() => false));
+        setFormData((f: FormData) => {
+          const copy: FormData = { ...f };
+          pp.forEach(cf => {
+            const key = fieldKey(cf.field);
+            if (!(key in copy)) copy[key] = '';
+          });
+          return copy;
+        });
       } catch (e) {
         console.error('Failed to load config tables', e);
         logDebug(`Failed to load config tables: ${e}`);
@@ -485,10 +507,10 @@ function App() {
   // Advance to the next wizard step
   function next(): void {
     if (step === 2) setBasicDone(true);
-    if (step === 6) setCustomersDone(true);
-    if (step === 7) setVendorsDone(true);
-    if (step === 8) setItemsDone(true);
-    if (step === 9) {
+    if (step === 7) setCustomersDone(true);
+    if (step === 8) setVendorsDone(true);
+    if (step === 9) setItemsDone(true);
+    if (step === 10) {
       setCurrenciesDone(true);
       setStep(1);
       return;
@@ -738,14 +760,16 @@ function App() {
   const glInProgress = !glDone && glProgress.some(Boolean);
   const srDone = srProgress.length > 0 && srProgress.every(Boolean);
   const srInProgress = !srDone && srProgress.some(Boolean);
+  const ppDone = ppProgress.length > 0 && ppProgress.every(Boolean);
+  const ppInProgress = !ppDone && ppProgress.some(Boolean);
   const configSectionDone =
-    companyDone && glDone && srDone;
+    companyDone && glDone && srDone && ppDone;
   const masterSectionDone = customersDone && vendorsDone && itemsDone && currenciesDone;
   const currentGroup = (() => {
     if (step === 2) return 'basic';
-    if ([3, 4, 5].includes(step)) return 'config';
-    if ([6, 7, 8, 9].includes(step)) return 'master';
-    if (step === 10) return 'review';
+    if ([3, 4, 5, 6].includes(step)) return 'config';
+    if ([7, 8, 9, 10].includes(step)) return 'master';
+    if (step === 11) return 'review';
     return '';
   })();
 
@@ -921,19 +945,19 @@ function App() {
               </div>
               {masterOpen && (
                 <ul>
-                  <li onClick={() => setStep(6)}>
+                  <li onClick={() => setStep(7)}>
                     {customersDone && <span className="check">✔</span>}
                     {strings.customers}
                   </li>
-                  <li onClick={() => setStep(7)}>
+                  <li onClick={() => setStep(8)}>
                     {vendorsDone && <span className="check">✔</span>}
                     {strings.vendors}
                   </li>
-                  <li onClick={() => setStep(8)}>
+                  <li onClick={() => setStep(9)}>
                     {itemsDone && <span className="check">✔</span>}
                     {strings.items}
                   </li>
-                  <li onClick={() => setStep(9)}>
+                  <li onClick={() => setStep(11)}>
                     {currenciesDone && <span className="check">✔</span>}
                     {strings.currencies}
                   </li>
@@ -944,7 +968,7 @@ function App() {
             <div className="review-footer">
               <button
                 className="next-btn review-btn"
-                onClick={() => setStep(10)}
+                onClick={() => setStep(11)}
               >
                 {strings.reviewAndFinish}
               </button>
@@ -970,14 +994,14 @@ function App() {
                 </div>
                 <div
                   className={`progress-step ${currentGroup === 'master' ? 'active' : ''} clickable`}
-                  onClick={() => setStep(6)}
+                  onClick={() => setStep(7)}
                 >
                   <div className="circle">3</div>
                   <span>{strings.masterData}</span>
                 </div>
                 <div
                   className={`progress-step ${currentGroup === 'review' ? 'active' : ''} clickable`}
-                  onClick={() => setStep(10)}
+                  onClick={() => setStep(11)}
                 >
                   <div className="circle">4</div>
                   <span>{strings.reviewAndFinish}</span>
@@ -1004,10 +1028,14 @@ function App() {
                 setSrFieldIdx(null);
                 setStep(5);
               }}
-              goToCustomers={() => setStep(6)}
-              goToVendors={() => setStep(7)}
-              goToItems={() => setStep(8)}
-              goToCurrencies={() => setStep(9)}
+              goToPPSetup={() => {
+                setPpFieldIdx(null);
+                setStep(6);
+              }}
+              goToCustomers={() => setStep(7)}
+              goToVendors={() => setStep(8)}
+              goToItems={() => setStep(9)}
+              goToCurrencies={() => setStep(10)}
               back={back}
               companyDone={companyDone}
               companyInProgress={companyInProgress}
@@ -1015,6 +1043,8 @@ function App() {
               glInProgress={glInProgress}
               srDone={srDone}
               srInProgress={srInProgress}
+              ppDone={ppDone}
+              ppInProgress={ppInProgress}
               customersDone={customersDone}
               vendorsDone={vendorsDone}
               itemsDone={itemsDone}
@@ -1089,7 +1119,26 @@ function App() {
           goToFieldIndex={srFieldIdx}
         />
       )}
-          {step === 6 && (
+      {step === 6 && (
+        <PurchasePayablesPage
+          fields={ppFields}
+          renderInput={renderInput}
+          handleRecommended={handleRecommended}
+          next={next}
+          back={back}
+          progress={ppProgress}
+          setProgress={setPpProgress}
+          visited={ppVisited}
+          setVisited={setPpVisited}
+          formData={formData}
+          onShowSometimes={() => setShowPPSometimes(true)}
+          fetchAISuggestion={fetchAISuggestion}
+          setFieldValue={setFieldValue}
+          onFieldIndexChange={setPpFieldIdx}
+          goToFieldIndex={ppFieldIdx}
+        />
+      )}
+          {step === 7 && (
             <CustomersPage
               rows={customerRows}
               setRows={setCustomerRows}
@@ -1101,9 +1150,9 @@ function App() {
               setConfirmed={setCustomersDone}
             />
           )}
-          {step === 7 && <VendorsPage rows={vendorRows} next={next} back={back} />}
-          {step === 8 && <ItemsPage next={next} back={back} />}
-          {step === 9 && (
+          {step === 8 && <VendorsPage rows={vendorRows} next={next} back={back} />}
+          {step === 9 && <ItemsPage next={next} back={back} />}
+          {step === 10 && (
             <CurrencyPage
               rows={currencyRows}
               setRows={setCurrencyRows}
@@ -1115,15 +1164,15 @@ function App() {
               setConfirmed={setCurrenciesDone}
             />
           )}
-          {step === 10 && (
+          {step === 11 && (
             <ReviewPage
-              fields={[...companyFields, ...glFields, ...srFields]}
+              fields={[...companyFields, ...glFields, ...srFields, ...ppFields]}
               formData={formData}
               back={back}
               next={next}
             />
           )}
-          {step === 11 && (
+          {step === 12 && (
             <FinishPage
               generate={generateCustomRapidStart}
               back={back}

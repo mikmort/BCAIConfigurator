@@ -5,6 +5,7 @@ import {
   CompanyIcon,
   BookIcon,
   CartIcon,
+  BoxIcon,
   UserIcon,
   FactoryIcon,
   CubeIcon,
@@ -16,6 +17,7 @@ interface Props {
   goToCompanyInfo: () => void;
   goToGLSetup: () => void;
   goToSRSetup: () => void;
+  goToPPSetup: () => void;
   goToCustomers: () => void;
   goToVendors: () => void;
   goToItems: () => void;
@@ -27,6 +29,8 @@ interface Props {
   glInProgress: boolean;
   srDone: boolean;
   srInProgress: boolean;
+  ppDone: boolean;
+  ppInProgress: boolean;
   customersDone: boolean;
   vendorsDone: boolean;
   itemsDone: boolean;
@@ -38,6 +42,7 @@ function ConfigMenuPage({
   goToCompanyInfo,
   goToGLSetup,
   goToSRSetup,
+  goToPPSetup,
   goToCustomers,
   goToVendors,
   goToItems,
@@ -49,6 +54,8 @@ function ConfigMenuPage({
   glInProgress,
   srDone,
   srInProgress,
+  ppDone,
+  ppInProgress,
   customersDone,
   vendorsDone,
   itemsDone,
@@ -120,6 +127,21 @@ function ConfigMenuPage({
             )}
             <CartIcon />
             <div>{strings.salesReceivablesSetup}</div>
+          </div>
+          <div
+            className={`menu-box ${ppDone ? 'done' : ''}`}
+            onClick={goToPPSetup}
+            tabIndex={0}
+            onKeyDown={e => {
+              if (e.key === 'Enter' || e.key === ' ') goToPPSetup();
+            }}
+          >
+            {ppDone && <div className="checkmark">✔</div>}
+            {!ppDone && ppInProgress && (
+              <div className="progress-dot">•</div>
+            )}
+            <BoxIcon />
+            <div>{strings.purchasePayablesSetup}</div>
           </div>
         </div>
       </div>
