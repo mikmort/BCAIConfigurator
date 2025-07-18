@@ -24,6 +24,7 @@ interface Props {
   goToItems: () => void;
   goToCurrencies: () => void;
   goToChartOfAccounts: () => void;
+  goToNumberSeries: () => void;
   goToCustomerTemplate: () => void;
   goToVendorTemplate: () => void;
   goToItemTemplate: () => void;
@@ -48,6 +49,7 @@ interface Props {
   itemsDone: boolean;
   currenciesDone: boolean;
   chartAccountsDone: boolean;
+  numberSeriesDone: boolean;
 }
 
 function ConfigMenuPage({
@@ -61,6 +63,7 @@ function ConfigMenuPage({
   goToItems,
   goToCurrencies,
   goToChartOfAccounts,
+  goToNumberSeries,
   goToCustomerTemplate,
   goToVendorTemplate,
   goToItemTemplate,
@@ -85,6 +88,7 @@ function ConfigMenuPage({
   itemsDone,
   currenciesDone,
   chartAccountsDone,
+  numberSeriesDone,
 }: Props) {
   const nothingConfirmed =
     !basicDone &&
@@ -95,7 +99,8 @@ function ConfigMenuPage({
     !vendorsDone &&
     !itemsDone &&
     !currenciesDone &&
-    !chartAccountsDone;
+    !chartAccountsDone &&
+    !numberSeriesDone;
   return (
     <div>
       <div className="section-header">{strings.selectConfigArea}</div>
@@ -248,6 +253,18 @@ function ConfigMenuPage({
             {chartAccountsDone && <div className="checkmark">✔</div>}
             <BookIcon />
             <div>{strings.chartOfAccounts}</div>
+          </div>
+          <div
+            className={`menu-box ${numberSeriesDone ? 'done' : ''}`}
+            onClick={goToNumberSeries}
+            tabIndex={0}
+            onKeyDown={e => {
+              if (e.key === 'Enter' || e.key === ' ') goToNumberSeries();
+            }}
+          >
+            {numberSeriesDone && <div className="checkmark">✔</div>}
+            <BoxIcon />
+            <div>{strings.numberSeries}</div>
           </div>
         </div>
       </div>
