@@ -221,39 +221,48 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
     <div>
       <div className="section-header">{strings.currencies}</div>
       <p>You can add, edit, or delete currencies directly below:</p>
-      <div className="ag-theme-alpine" style={{ height: 400, width: '100%' }}>
+      <div className="grid-toolbar">
+        <button type="button" onClick={addRow}>Add Row</button>
+        <button type="button" onClick={deleteSelected}>Delete Selected</button>
+        <button type="button" className="ai-btn" onClick={askAIForGrid}>
+          <span className="icon">✨</span> Ask AI to Help
+        </button>
+      </div>
+      <div className="ag-theme-alpine currency-grid" style={{ height: 400, width: '100%' }}>
         <AgGridReact
           ref={gridRef}
           rowData={rowData}
           columnDefs={columnDefs}
           rowSelection="multiple"
+          rowHeight={36}
           onCellValueChanged={onCellValueChanged}
           defaultColDef={{ flex: 1, resizable: true, editable: true }}
         />
       </div>
-      <div className="nav" style={{ marginTop: 10 }}>
-        <button type="button" onClick={addRow}>Add Row</button>
-        <button type="button" onClick={deleteSelected} style={{ marginLeft: 10 }}>Delete Selected</button>
-        <button type="button" className="ai-btn" onClick={askAIForGrid} style={{ marginLeft: 10 }}>
-          <span className="icon">✨</span> Ask AI to Help
-        </button>
-      </div>
       <p style={{ marginTop: 20 }}>
-        Alternatively, you can upload a file with a list of currencies.{' '}
-        <a href="#" onClick={e => { e.preventDefault(); downloadTemplate(); }}>
+        <input
+          type="file"
+          accept=".xlsx,.csv"
+          onChange={handleFileUpload}
+          ref={fileInputRef}
+          style={{ display: 'none' }}
+        />
+        <button
+          type="button"
+          className="next-btn"
+          onClick={openFileDialog}
+          style={{ marginRight: 10 }}
+        >
+          Upload CSV/XSLX
+        </button>
+        <button
+          type="button"
+          className="download-template-btn"
+          onClick={downloadTemplate}
+        >
           Download template
-        </a>
+        </button>
       </p>
-      <input
-        type="file"
-        accept=".xlsx,.csv"
-        onChange={handleFileUpload}
-        ref={fileInputRef}
-        style={{ display: 'none' }}
-      />
-      <button type="button" className="next-btn" onClick={openFileDialog}>
-        Upload
-      </button>
       <div className="divider" />
       <div className="nav">
         <button className="skip-btn" onClick={back}>{strings.back}</button>

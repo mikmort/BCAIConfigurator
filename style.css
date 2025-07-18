@@ -901,3 +901,36 @@ h3 {
   font-weight: normal;
   color: #555;
 }
+
+/* Grid toolbar above ag-grid */
+.grid-toolbar {
+  margin-bottom: 6px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Currency grid theme tweaks */
+.currency-grid {
+  --ag-header-background-color: var(--bc-gray);
+  --ag-header-foreground-color: var(--bc-text);
+  --ag-row-hover-color: var(--bc-gray);
+  --ag-odd-row-background-color: #fafafa;
+  --ag-border-color: #e1dfdd;
+  --ag-row-height: 36px;
+  --ag-header-height: 38px;
+  --ag-grid-size: 6px;
+}
+
+.download-template-btn {
+  background: transparent;
+  border: 1px solid var(--bc-blue);
+  color: var(--bc-blue);
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.download-template-btn:hover {
+  background: var(--bc-gray);
+}
