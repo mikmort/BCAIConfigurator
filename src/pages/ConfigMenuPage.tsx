@@ -22,6 +22,15 @@ interface Props {
   goToVendors: () => void;
   goToItems: () => void;
   goToCurrencies: () => void;
+  goToCustomerTemplate: () => void;
+  goToVendorTemplate: () => void;
+  goToItemTemplate: () => void;
+  goToGLAccountTemplate: () => void;
+  goToBankAccountTemplate: () => void;
+  goToFixedAssetTemplate: () => void;
+  goToContactTemplate: () => void;
+  goToEmployeeTemplate: () => void;
+  goToResourceTemplate: () => void;
   back: () => void;
   companyDone: boolean;
   companyInProgress: boolean;
@@ -47,6 +56,15 @@ function ConfigMenuPage({
   goToVendors,
   goToItems,
   goToCurrencies,
+  goToCustomerTemplate,
+  goToVendorTemplate,
+  goToItemTemplate,
+  goToGLAccountTemplate,
+  goToBankAccountTemplate,
+  goToFixedAssetTemplate,
+  goToContactTemplate,
+  goToEmployeeTemplate,
+  goToResourceTemplate,
   back,
   companyDone,
   companyInProgress,
@@ -195,6 +213,47 @@ function ConfigMenuPage({
             {currenciesDone && <div className="checkmark">✔</div>}
             <MoneyIcon />
             <div>{strings.currencies}</div>
+          </div>
+        </div>
+      </div>
+      <div className="menu-section">
+        <h3>{strings.configureTemplates}</h3>
+        <div className="menu-grid">
+          <div className="menu-box" onClick={goToCustomerTemplate} tabIndex={0} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') goToCustomerTemplate(); }}>
+            <UserIcon />
+            <div>{strings.customerTemplate}</div>
+          </div>
+          <div className="menu-box" onClick={goToVendorTemplate} tabIndex={0} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') goToVendorTemplate(); }}>
+            <FactoryIcon />
+            <div>{strings.vendorTemplate}</div>
+          </div>
+          <div className="menu-box" onClick={goToItemTemplate} tabIndex={0} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') goToItemTemplate(); }}>
+            <CubeIcon />
+            <div>{strings.itemTemplate}</div>
+          </div>
+          <div className="menu-box" onClick={goToGLAccountTemplate} tabIndex={0} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') goToGLAccountTemplate(); }}>
+            <BookIcon />
+            <div>{strings.glAccountTemplate}</div>
+          </div>
+          <div className="menu-box" onClick={goToBankAccountTemplate} tabIndex={0} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') goToBankAccountTemplate(); }}>
+            <MoneyIcon />
+            <div>{strings.bankAccountTemplate}</div>
+          </div>
+          <div className="menu-box" onClick={goToFixedAssetTemplate} tabIndex={0} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') goToFixedAssetTemplate(); }}>
+            <BoxIcon />
+            <div>{strings.fixedAssetTemplate}</div>
+          </div>
+          <div className="menu-box" onClick={goToContactTemplate} tabIndex={0} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') goToContactTemplate(); }}>
+            <UserIcon />
+            <div>{strings.contactTemplate}</div>
+          </div>
+          <div className="menu-box" onClick={goToEmployeeTemplate} tabIndex={0} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') goToEmployeeTemplate(); }}>
+            <UserIcon />
+            <div>{strings.employeeTemplate}</div>
+          </div>
+          <div className="menu-box" onClick={goToResourceTemplate} tabIndex={0} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') goToResourceTemplate(); }}>
+            <CubeIcon />
+            <div>{strings.resourceTemplate}</div>
           </div>
         </div>
       </div>
