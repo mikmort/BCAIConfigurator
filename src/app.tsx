@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 // Simple React app to guide users through Business Central setup
-const { useState, useEffect } = React;
+const { useState, useEffect, useRef } = React;
 import HomePage from './pages/HomePage';
 import ConfigMenuPage from './pages/ConfigMenuPage';
 import BasicInfoPage from './pages/BasicInfoPage';
@@ -228,6 +228,36 @@ function App() {
   function setFieldValue(key: string, value: string) {
     setFormData(f => ({ ...f, [key]: value }));
   }
+
+  // Track navigation history so the browser back button works
+  const popStep = useRef(false);
+  const initialLoad = useRef(true);
+
+  useEffect(() => {
+    window.history.replaceState({ step: 0 }, '');
+    const handler = (e: PopStateEvent) => {
+      popStep.current = true;
+      if (e.state && typeof e.state.step === 'number') {
+        setStep(e.state.step);
+      } else {
+        setStep(0);
+      }
+    };
+    window.addEventListener('popstate', handler);
+    return () => window.removeEventListener('popstate', handler);
+  }, []);
+
+  useEffect(() => {
+    if (initialLoad.current) {
+      initialLoad.current = false;
+      return;
+    }
+    if (popStep.current) {
+      popStep.current = false;
+      return;
+    }
+    window.history.pushState({ step }, '');
+  }, [step]);
 
   useEffect(() => {
     if (step === 3) setCompanyFieldIdx(null);
@@ -551,7 +581,7 @@ function App() {
 
   // Go back one step
   function back(): void {
-    setStep(step - 1);
+    window.history.back();
   }
 
   // Return to the main menu
