@@ -79,6 +79,17 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
     }));
   }, [rowData, fields]);
 
+  const bottomRowData = useMemo(() => {
+    if (!columnDefs.length) return [] as Record<string, string>[];
+    const firstField = columnDefs[0].field as string;
+    const row: Record<string, string> = {};
+    columnDefs.forEach(col => {
+      if (col.field) row[col.field] = '';
+    });
+    row[firstField] = '+';
+    return [row];
+  }, [columnDefs]);
+
   function addRow() {
     const keys = fields.length
       ? fields.map(f => f.xmlName)
@@ -146,6 +157,12 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
     };
     setRowData(updated);
     setRows(updated);
+  }
+
+  function onCellClicked(params: any) {
+    if (params.node.rowPinned === 'bottom') {
+      addRow();
+    }
   }
 
   async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -246,6 +263,8 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
           ref={gridRef}
           rowData={rowData}
           columnDefs={columnDefs}
+          pinnedBottomRowData={bottomRowData}
+          onCellClicked={onCellClicked}
           rowSelection="multiple"
           rowHeight={36}
           singleClickEdit={true}
@@ -260,7 +279,6 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
           defaultColDef={{ flex: 1, resizable: true, editable: true }}
         />
       </div>
-      <div className="grid-add-row" onClick={addRow}>+</div>
       <div className="file-controls">
         <input
           type="file"

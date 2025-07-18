@@ -939,15 +939,16 @@ h3 {
   align-items: center;
 }
 
-.grid-add-row {
-  margin-top: 6px;
-  text-align: center;
+
+/* Add-row button inside the grid */
+.currency-grid .ag-row-pinned-bottom .ag-cell {
+  justify-content: center;
   cursor: pointer;
   color: var(--bc-blue);
   font-size: 1.5em;
 }
 
-.grid-add-row:hover {
+.currency-grid .ag-row-pinned-bottom .ag-cell:hover {
   color: var(--bc-blue-dark);
 }
 
