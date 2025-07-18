@@ -93,6 +93,7 @@ function FieldSubPage({
               {auto!.reasoning && (
                 <InfoIcon
                   className="info-icon"
+                  title={auto!.reasoning}
                   onClick={() => setShowInfo(true)}
                 />
               )}
