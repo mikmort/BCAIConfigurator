@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 
 interface Props {
@@ -23,6 +23,17 @@ export default function AISuggestionModal({
   onSuggestAgain,
 }: Props) {
   const [extra, setExtra] = useState('');
+  const gridRef = useRef<AgGridReact<Record<string, string>> | null>(null);
+
+  useEffect(() => {
+    const api = gridRef.current?.api;
+    if (!api) return;
+    if (loading) {
+      api.showLoadingOverlay();
+    } else {
+      api.hideOverlay();
+    }
+  }, [loading]);
 
   if (!show) return null;
 
@@ -31,10 +42,12 @@ export default function AISuggestionModal({
       <div className="modal" onClick={e => e.stopPropagation()}>
         <div className="ag-theme-alpine" style={{ height: 300, width: '100%' }}>
           <AgGridReact
+            ref={gridRef}
             rowData={rows}
             columnDefs={columnDefs}
             defaultColDef={{ flex: 1, resizable: true }}
-            overlayNoRowsTemplate={loading ? 'Loading...' : 'No rows'}
+            overlayNoRowsTemplate="No rows"
+            overlayLoadingTemplate="Loading..."
           />
         </div>
         <p style={{ whiteSpace: 'pre-wrap', marginTop: 10 }}>{explanation}</p>
