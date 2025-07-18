@@ -255,7 +255,7 @@ function App() {
         });
         setVendorRows(vsimple);
 
-        const customerFields = await getTableFields('Customer');
+        const customerFields = await getTableFields('Customer', true);
         const customerNames = customerFields.map(f => f.xmlName);
         const custRows = findTableRows(data, 18) || [];
         logDebug(`Customer: read ${custRows.length} rows from NAV27.0.US.ENU.STANDARD.xml`);
@@ -279,7 +279,7 @@ function App() {
         logDebug(`Customer: prepared ${custSimple.length} rows for grid`);
         setCustomerRows(custSimple);
 
-        const currencyFields = await getTableFields('Currency');
+        const currencyFields = await getTableFields('Currency', true);
         const currencyNames = currencyFields.map(f => f.xmlName);
         const rows = findTableRows(data, 4) || [];
         logDebug(`Currency: read ${rows.length} rows from NAV27.0.US.ENU.STANDARD.xml`);
