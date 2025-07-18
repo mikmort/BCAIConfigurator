@@ -48,4 +48,12 @@ function WizardPage({ title, fields, renderInput, next, back, skipSection = back
   );
 }
 
+export function createWizardPage(title: string) {
+  return function GeneratedPage(
+    props: Omit<WizardPageProps, 'title' | 'skipSection'>
+  ) {
+    return <WizardPage {...props} title={title} />;
+  };
+}
+
 export default WizardPage;

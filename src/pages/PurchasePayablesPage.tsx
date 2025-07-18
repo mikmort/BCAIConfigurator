@@ -1,8 +1,4 @@
 import strings from '../../res/strings';
-import WizardPage, { WizardPageProps } from './WizardPage';
+import { createWizardPage } from './WizardPage';
 
-export default function PurchasePayablesPage(
-  props: Omit<WizardPageProps, 'title' | 'skipSection'>,
-) {
-  return <WizardPage {...props} title={strings.purchasePayablesSetup} />;
-}
+export default createWizardPage(strings.purchasePayablesSetup);
