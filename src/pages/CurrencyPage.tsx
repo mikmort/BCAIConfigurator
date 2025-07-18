@@ -4,7 +4,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import strings from '../../res/strings';
 import { getTableFields, TableField } from '../utils/schema';
-import { askOpenAI } from '../utils/ai';
+import { askOpenAI, parseAIGrid } from '../utils/ai';
 import AISuggestionModal from '../components/AISuggestionModal';
 import { ExcelIcon } from '../components/Icons';
 
@@ -113,10 +113,9 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
         'Return JSON with a "rows" array and an "explanation" string no longer than 500 characters.' +
         (extra ? `\nAdditional Instructions:\n${extra}` : '');
       const ans = await askOpenAI(prompt, logDebug);
-      const cleaned = ans.replace(/```json|```/g, '').trim();
-      const parsed = JSON.parse(cleaned);
-      setAiRows(filterRows(parsed.rows || []));
-      setAiExplanation(parsed.explanation || '');
+      const parsed = parseAIGrid(ans);
+      setAiRows(filterRows(parsed.rows));
+      setAiExplanation(parsed.explanation);
     } catch (e) {
       console.error(e);
       setAiRows([]);
