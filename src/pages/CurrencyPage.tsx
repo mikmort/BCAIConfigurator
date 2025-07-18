@@ -50,7 +50,7 @@ export default function CurrencyPage({
   }
 
   useEffect(() => {
-    getTableFields('Currency').then(setFields);
+    getTableFields('Currency', true).then(setFields);
   }, []);
 
   useEffect(() => {

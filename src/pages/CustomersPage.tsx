@@ -50,7 +50,7 @@ export default function CustomersPage({
   }
 
   useEffect(() => {
-    getTableFields('Customer').then(setFields);
+    getTableFields('Customer', true).then(setFields);
   }, []);
 
   useEffect(() => {
