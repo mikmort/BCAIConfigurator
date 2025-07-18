@@ -6,6 +6,8 @@ export interface ColumnDef {
   editable?: boolean;
   cellEditor?: string;
   cellEditorParams?: any;
+  valueFormatter?: (params: any) => string;
+  valueParser?: (params: any) => any;
 }
 
 import type { TableField } from "./schema";

@@ -15,6 +15,7 @@ import {
 import { askOpenAI, parseAIGrid } from "../utils/ai";
 import AISuggestionModal from "../components/AISuggestionModal";
 import { ExcelIcon } from "../components/Icons";
+import { fieldKey, defaultCurrencyText } from "../utils/helpers";
 
 interface Props {
   rows: Record<string, string>[];
@@ -90,9 +91,19 @@ export default function CustomersPage({
     [fields],
   );
 
+  const localCurrency = useMemo(
+    () => formData[fieldKey("Local Currency (LCY) Code")] || "",
+    [formData],
+  );
+  const defaultCurrency = useMemo(
+    () => defaultCurrencyText(localCurrency),
+    [localCurrency],
+  );
+
   const dropdowns = useMemo(() => {
     const map: Record<string, string[]> = {};
-    if (currencyField) map[currencyField] = currencies.map((c) => c.code);
+    if (currencyField)
+      map[currencyField] = [defaultCurrency, ...currencies.map((c) => c.code)];
     if (countryField) map[countryField] = countries.map((c) => c.code);
     if (postingField) map[postingField] = postingGroups;
     return map;
@@ -103,12 +114,22 @@ export default function CustomersPage({
     currencies,
     countries,
     postingGroups,
+    defaultCurrency,
   ]);
 
-  const columnDefs = useMemo(
-    () => createColumnDefs(rowData, fields, dropdowns),
-    [rowData, fields, dropdowns],
-  );
+  const columnDefs = useMemo(() => {
+    const defs = createColumnDefs(rowData, fields, dropdowns);
+    if (currencyField) {
+      const col = defs.find(d => d.field === currencyField);
+      if (col) {
+        col.valueFormatter = (p: any) =>
+          p.node.rowPinned === 'bottom' ? '' : p.value || defaultCurrency;
+        col.valueParser = (p: any) =>
+          p.newValue === defaultCurrency ? '' : p.newValue;
+      }
+    }
+    return defs;
+  }, [rowData, fields, dropdowns, currencyField, defaultCurrency]);
 
   const bottomRowData = useMemo(
     () => createBottomRowData(columnDefs),

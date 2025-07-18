@@ -35,6 +35,7 @@ import {
   mapFieldName,
   findTableRows,
   extractFieldValues,
+  defaultCurrencyText,
 } from "./utils/helpers";
 import { parseQuestions, recommendedCode } from "./utils/jsonParsing";
 import { loadStartingData, loadConfigTables } from "./utils/dataLoader";
@@ -894,9 +895,12 @@ function App() {
     } else if (cf.lookupTable && startData) {
       const rows = findTableRows(startData, cf.lookupTable) || [];
       const opts = extractFieldValues(rows, cf.lookupField || "Code");
+      const isCurrency = cf.lookupTable === 4;
+      const lcy = formData[fieldKey("Local Currency (LCY) Code")] || "";
+      const defText = isCurrency ? defaultCurrencyText(lcy) : "";
       inputEl = (
         <select {...inputProps}>
-          <option value="" />
+          <option value="">{defText}</option>
           {opts.map((o) => (
             <option key={o} value={o}>
               {o}
