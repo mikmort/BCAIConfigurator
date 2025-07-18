@@ -1037,6 +1037,7 @@ function App() {
               goToItems={() => setStep(9)}
               goToCurrencies={() => setStep(10)}
               back={back}
+              basicDone={basicDone}
               companyDone={companyDone}
               companyInProgress={companyInProgress}
               glDone={glDone}

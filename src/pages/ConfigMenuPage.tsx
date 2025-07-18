@@ -10,6 +10,7 @@ import {
   FactoryIcon,
   CubeIcon,
   MoneyIcon,
+  ArrowDownIcon,
 } from '../components/Icons';
 
 interface Props {
@@ -23,6 +24,7 @@ interface Props {
   goToItems: () => void;
   goToCurrencies: () => void;
   back: () => void;
+  basicDone: boolean;
   companyDone: boolean;
   companyInProgress: boolean;
   glDone: boolean;
@@ -48,6 +50,7 @@ function ConfigMenuPage({
   goToItems,
   goToCurrencies,
   back,
+  basicDone,
   companyDone,
   companyInProgress,
   glDone,
@@ -61,6 +64,15 @@ function ConfigMenuPage({
   itemsDone,
   currenciesDone,
 }: Props) {
+  const nothingConfirmed =
+    !basicDone &&
+    !companyDone &&
+    !glDone &&
+    !srDone &&
+    !customersDone &&
+    !vendorsDone &&
+    !itemsDone &&
+    !currenciesDone;
   return (
     <div>
       <div className="section-header">{strings.selectConfigArea}</div>
@@ -68,7 +80,7 @@ function ConfigMenuPage({
         <h3>{strings.basicInfo}</h3>
         <div className="menu-grid">
           <div
-            className="menu-box"
+            className="menu-box basic-info-box"
             onClick={goToBasicInfo}
             tabIndex={0}
             onKeyDown={e => {
@@ -77,6 +89,12 @@ function ConfigMenuPage({
           >
             <InfoIcon />
             <div>{strings.basicInfoTitle}</div>
+            {nothingConfirmed && (
+              <div className="start-here-tip">
+                <span>Start Here</span>
+                <ArrowDownIcon />
+              </div>
+            )}
           </div>
         </div>
       </div>
