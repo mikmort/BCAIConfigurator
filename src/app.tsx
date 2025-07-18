@@ -78,6 +78,7 @@ function App() {
   const [debugMessages, setDebugMessages] = useState([] as string[]);
   const [countries, setCountries] = useState([] as { code: string; name: string }[]);
   const [currencies, setCurrencies] = useState([] as { code: string; description: string }[]);
+  const [customerPostingGroups, setCustomerPostingGroups] = useState<string[]>([]);
   const [startData, setStartData] = useState<any>(null);
   const [baseCalendarOptions, setBaseCalendarOptions] = useState(['STANDARD']);
   const [showAI, setShowAI] = useState(false);
@@ -321,6 +322,9 @@ function App() {
         });
         logDebug(`Currency: prepared ${simple.length} rows for grid`);
         setCurrencyRows(simple);
+
+        const groupRows = findTableRows(data, 92) || [];
+        setCustomerPostingGroups(extractFieldValues(groupRows, 'Code'));
 
       } catch (e) {
         console.error('Failed to load starting data', e);
@@ -1248,6 +1252,10 @@ function App() {
               formData={formData}
               confirmed={customersDone}
               setConfirmed={setCustomersDone}
+              countries={countries}
+              currencies={currencies}
+              currencyRows={currencyRows}
+              postingGroups={customerPostingGroups}
             />
           )}
           {step === 8 && <VendorsPage rows={vendorRows} next={next} back={back} />}
