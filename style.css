@@ -644,6 +644,12 @@ h3 {
   gap: 6px;
 }
 
+.toggle-switch span {
+  display: flex;
+  align-items: center;
+  line-height: 18px;
+}
+
 .toggle-switch input[type='checkbox'] {
   appearance: none;
   width: 34px;

@@ -6,6 +6,7 @@ interface Props {
   title: string;
   fields: CompanyField[];
   formData: { [key: string]: any };
+  hideUncommon: boolean;
   onUseDefaults: () => void;
   onReview: () => void;
   onSkip: () => void;
@@ -15,10 +16,14 @@ export default function OptionalSetupPage({
   title,
   fields,
   formData,
+  hideUncommon,
   onUseDefaults,
   onReview,
   onSkip,
 }: Props) {
+  const visibleFields = hideUncommon
+    ? fields.filter(f => f.common === 'common')
+    : fields;
   return (
     <div>
       <div className="section-header">{title}</div>
@@ -36,7 +41,7 @@ export default function OptionalSetupPage({
           </tr>
         </thead>
         <tbody>
-          {fields.map(f => {
+          {visibleFields.map(f => {
             const val = formData[fieldKey(f.field)];
             const displayValue =
               f.fieldType === 'Boolean'
