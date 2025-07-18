@@ -37,6 +37,6 @@ export default {
   skip: 'Skip',
   skipSection: 'Skip Section',
   allCommonComplete: 'All common fields completed',
-  finishButton: 'Finish',
+  finishButton: 'Confirm and Continue',
   bcFieldNameLabel: 'Business Central Field Name:',
 };

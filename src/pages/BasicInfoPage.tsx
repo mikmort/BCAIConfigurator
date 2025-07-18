@@ -8,6 +8,8 @@ interface Props {
   handleBlur: (e: any) => void;
   next: () => void;
   back: () => void;
+  confirmed: boolean;
+  setConfirmed: (val: boolean) => void;
 }
 
 const initialIndustries = [
@@ -37,6 +39,8 @@ function BasicInfoPage({
   handleBlur,
   next,
   back,
+  confirmed,
+  setConfirmed,
 }: Props) {
   const [industries, setIndustries] = useState(initialIndustries);
 
@@ -45,6 +49,14 @@ function BasicInfoPage({
     const val = e.target.value.trim();
     if (val && !industries.includes(val)) {
       setIndustries([...industries, val]);
+    }
+  }
+
+  function handleConfirm() {
+    if (confirmed) {
+      setConfirmed(false);
+    } else {
+      next();
     }
   }
   return (
@@ -107,7 +119,9 @@ function BasicInfoPage({
         <div className="field-considerations">{strings.descriptionHint}</div>
       </div>
       <div className="nav">
-        <button className="next-btn" onClick={next}>{strings.finishButton}</button>
+        <button className="next-btn" onClick={handleConfirm}>
+          {confirmed ? 'Mark as Not Confirmed' : strings.finishButton}
+        </button>
       </div>
     </div>
   );

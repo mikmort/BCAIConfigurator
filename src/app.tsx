@@ -1001,9 +1001,11 @@ function App() {
                 formData={basicInfo}
                 handleChange={handleChange}
                 handleBlur={handleBlur}
-          next={next}
-          back={() => setStep(1)}
-        />
+                next={next}
+                back={() => setStep(1)}
+                confirmed={basicDone}
+                setConfirmed={setBasicDone}
+              />
       )}
       {step === 3 && (
         <CompanyInfoPage
