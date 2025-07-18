@@ -944,6 +944,18 @@ h3 {
   --ag-grid-size: 6px;
 }
 
+/* Customer grid theme tweaks - same as currency grid */
+.customer-grid {
+  --ag-header-background-color: var(--bc-gray);
+  --ag-header-foreground-color: var(--bc-text);
+  --ag-row-hover-color: var(--bc-gray);
+  --ag-odd-row-background-color: #fafafa;
+  --ag-border-color: #e1dfdd;
+  --ag-row-height: 36px;
+  --ag-header-height: 38px;
+  --ag-grid-size: 6px;
+}
+
 .download-template-btn {
   background: transparent;
   border: 1px solid var(--bc-blue);
@@ -970,7 +982,18 @@ h3 {
   font-size: 1.5em;
 }
 
+.customer-grid .ag-row-pinned-bottom .ag-cell {
+  justify-content: center;
+  cursor: pointer;
+  color: var(--bc-blue);
+  font-size: 1.5em;
+}
+
 .currency-grid .ag-row-pinned-bottom .ag-cell:hover {
+  color: var(--bc-blue-dark);
+}
+
+.customer-grid .ag-row-pinned-bottom .ag-cell:hover {
   color: var(--bc-blue-dark);
 }
 
