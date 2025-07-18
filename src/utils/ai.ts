@@ -56,3 +56,36 @@ export function parseAISuggestion(text: string): AISuggestion {
     return { suggested: text, confidence: '', reasoning: '' };
   }
 }
+
+/**
+ * Parse a grid suggestion from OpenAI which should contain
+ * an object with a `rows` array and optional `explanation`.
+ * The response might contain extraneous text before or after
+ * the JSON so we attempt to extract the first JSON object.
+ */
+export function parseAIGrid(text: string): {
+  rows: Record<string, string>[];
+  explanation: string;
+} {
+  const empty = { rows: [] as Record<string, string>[], explanation: '' };
+  if (!text) return empty;
+  let cleaned = text.replace(/```json|```/g, '').trim();
+  try {
+    return JSON.parse(cleaned);
+  } catch {
+    const start = cleaned.indexOf('{');
+    const end = cleaned.lastIndexOf('}');
+    if (start !== -1 && end !== -1 && end > start) {
+      try {
+        const obj = JSON.parse(cleaned.slice(start, end + 1));
+        return {
+          rows: (obj as any).rows || [],
+          explanation: (obj as any).explanation || '',
+        };
+      } catch {
+        return empty;
+      }
+    }
+    return empty;
+  }
+}
