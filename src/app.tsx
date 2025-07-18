@@ -715,7 +715,6 @@ function App() {
   const srInProgress = !srDone && srProgress.some(Boolean);
   const configSectionDone =
     companyDone && glDone && srDone;
-  const basicSectionDone = basicDone;
   const masterSectionDone = customersDone && vendorsDone && itemsDone && currenciesDone;
   const currentGroup = (() => {
     if (step === 2) return 'basic';
@@ -759,16 +758,10 @@ function App() {
           </div>
           <nav>
             <div className="group">
-              <div className="group-title">
-                {basicSectionDone && <span className="check">✔</span>}
+              <div className="group-title" onClick={() => setStep(2)}>
+                {basicDone && <span className="check">✔</span>}
                 {strings.basicInfo}
               </div>
-              <ul>
-                <li onClick={() => setStep(2)}>
-                  {basicDone && <span className="check">✔</span>}
-                  {strings.basicInfo}
-                </li>
-              </ul>
             </div>
             <div className="group">
               <div
