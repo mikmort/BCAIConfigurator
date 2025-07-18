@@ -1124,7 +1124,10 @@ h3 {
 .ag-select-cell-editor option:checked,
 .ag-cell-edit-input option:hover,
 .ag-cell-edit-input option:focus,
-.ag-cell-edit-input option:checked {
+.ag-cell-edit-input option:checked,
+select option:hover,
+select option:focus,
+select option:checked {
   background-color: var(--bc-gray);
   color: var(--bc-text);
 }
