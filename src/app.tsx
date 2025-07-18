@@ -1259,27 +1259,27 @@ function App() {
               </div>
               {masterOpen && (
                 <ul>
-                  <li onClick={() => setStep(7)}>
+                  <li onClick={() => setStep(8)}>
                     {customersDone && <span className="check">✔</span>}
                     {strings.customers}
                   </li>
-                  <li onClick={() => setStep(8)}>
+                  <li onClick={() => setStep(9)}>
                     {vendorsDone && <span className="check">✔</span>}
                     {strings.vendors}
                   </li>
-                  <li onClick={() => setStep(9)}>
+                  <li onClick={() => setStep(10)}>
                     {itemsDone && <span className="check">✔</span>}
                     {strings.items}
                   </li>
-                  <li onClick={() => setStep(10)}>
+                  <li onClick={() => setStep(11)}>
                     {currenciesDone && <span className="check">✔</span>}
                     {strings.currencies}
                   </li>
-                  <li onClick={() => setStep(11)}>
+                  <li onClick={() => setStep(12)}>
                     {chartAccountsDone && <span className="check">✔</span>}
                     {strings.chartOfAccounts}
                   </li>
-                  <li onClick={() => setStep(12)}>
+                  <li onClick={() => setStep(13)}>
                     {numberSeriesDone && <span className="check">✔</span>}
                     {strings.numberSeries}
                   </li>
