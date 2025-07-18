@@ -204,7 +204,15 @@ export default function CustomersPage({
           <span className="icon">✨</span> Ask AI to Help
         </button>
       </div>
-      <div className="ag-theme-alpine customer-grid" style={{ height: 400, width: '100%' }}>
+      <div
+        className="ag-theme-alpine customer-grid"
+        style={{ height: 400, width: '100%' }}
+        tabIndex={0}
+        onFocus={() => {
+          if (!gridRef.current || !columnDefs.length) return;
+          gridRef.current.api.setFocusedCell(0, columnDefs[0].field);
+        }}
+      >
         <AgGridReact
           ref={gridRef}
           rowData={rowData}
