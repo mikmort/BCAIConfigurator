@@ -1,0 +1,655 @@
+[
+  {
+    "Id": 36,
+    "Name": "Sales Document Type",
+    "Extensible": true,
+    "Values": [
+      {
+        "Ordinal": 0,
+        "Name": "Quote",
+        "Caption": "Quote"
+      },
+      {
+        "Ordinal": 1,
+        "Name": "Order",
+        "Caption": "Order"
+      },
+      {
+        "Ordinal": 2,
+        "Name": "Invoice",
+        "Caption": "Invoice"
+      },
+      {
+        "Ordinal": 3,
+        "Name": "Credit Memo",
+        "Caption": "Credit Memo"
+      },
+      {
+        "Ordinal": 4,
+        "Name": "Blanket Order",
+        "Caption": "Blanket Order"
+      },
+      {
+        "Ordinal": 5,
+        "Name": "Return Order",
+        "Caption": "Return Order"
+      }
+    ]
+  },
+  {
+    "Id": 38,
+    "Name": "Purchase Document Type",
+    "Extensible": true,
+    "Values": [
+      {
+        "Ordinal": 0,
+        "Name": "Quote",
+        "Caption": "Quote"
+      },
+      {
+        "Ordinal": 1,
+        "Name": "Order",
+        "Caption": "Order"
+      },
+      {
+        "Ordinal": 2,
+        "Name": "Invoice",
+        "Caption": "Invoice"
+      },
+      {
+        "Ordinal": 3,
+        "Name": "Credit Memo",
+        "Caption": "Credit Memo"
+      },
+      {
+        "Ordinal": 4,
+        "Name": "Blanket Order",
+        "Caption": "Blanket Order"
+      },
+      {
+        "Ordinal": 5,
+        "Name": "Return Order",
+        "Caption": "Return Order"
+      }
+    ]
+  },
+  {
+    "Id": 37,
+    "Name": "Sales Line Type",
+    "Extensible": true,
+    "Values": [
+      {
+        "Ordinal": 0,
+        "Name": "",
+        "Caption": ""
+      },
+      {
+        "Ordinal": 1,
+        "Name": "G/L Account",
+        "Caption": "G/L Account"
+      },
+      {
+        "Ordinal": 2,
+        "Name": "Item",
+        "Caption": "Item"
+      },
+      {
+        "Ordinal": 3,
+        "Name": "Resource",
+        "Caption": "Resource"
+      },
+      {
+        "Ordinal": 4,
+        "Name": "Fixed Asset",
+        "Caption": "Fixed Asset"
+      },
+      {
+        "Ordinal": 5,
+        "Name": "Charge (Item)",
+        "Caption": "Charge (Item)"
+      },
+      {
+        "Ordinal": 6,
+        "Name": "Allocation Account",
+        "Caption": "Allocation Account"
+      }
+    ]
+  },
+  {
+    "Id": 57,
+    "Name": "General Posting Type",
+    "Extensible": true,
+    "Values": [
+      {
+        "Ordinal": 0,
+        "Name": "",
+        "Caption": ""
+      },
+      {
+        "Ordinal": 1,
+        "Name": "Purchase",
+        "Caption": "Purchase"
+      },
+      {
+        "Ordinal": 2,
+        "Name": "Sale",
+        "Caption": "Sale"
+      },
+      {
+        "Ordinal": 3,
+        "Name": "Settlement",
+        "Caption": "Settlement"
+      }
+    ]
+  },
+  {
+    "Id": 6,
+    "Name": "Gen. Journal Document Type",
+    "Extensible": true,
+    "Values": [
+      {
+        "Ordinal": 0,
+        "Name": "",
+        "Caption": ""
+      },
+      {
+        "Ordinal": 1,
+        "Name": "Payment",
+        "Caption": "Payment"
+      },
+      {
+        "Ordinal": 2,
+        "Name": "Invoice",
+        "Caption": "Invoice"
+      },
+      {
+        "Ordinal": 3,
+        "Name": "Credit Memo",
+        "Caption": "Credit Memo"
+      },
+      {
+        "Ordinal": 4,
+        "Name": "Finance Charge Memo",
+        "Caption": "Finance Charge Memo"
+      },
+      {
+        "Ordinal": 5,
+        "Name": "Reminder",
+        "Caption": "Reminder"
+      },
+      {
+        "Ordinal": 6,
+        "Name": "Refund",
+        "Caption": "Refund"
+      }
+    ]
+  },
+  {
+    "Id": 81,
+    "Name": "Gen. Journal Account Type",
+    "Extensible": true,
+    "Values": [
+      {
+        "Ordinal": 0,
+        "Name": "G/L Account",
+        "Caption": "G/L Account"
+      },
+      {
+        "Ordinal": 1,
+        "Name": "Customer",
+        "Caption": "Customer"
+      },
+      {
+        "Ordinal": 2,
+        "Name": "Vendor",
+        "Caption": "Vendor"
+      },
+      {
+        "Ordinal": 3,
+        "Name": "Bank Account",
+        "Caption": "Bank Account"
+      },
+      {
+        "Ordinal": 4,
+        "Name": "Fixed Asset",
+        "Caption": "Fixed Asset"
+      },
+      {
+        "Ordinal": 5,
+        "Name": "IC Partner",
+        "Caption": "IC Partner"
+      },
+      {
+        "Ordinal": 6,
+        "Name": "Employee",
+        "Caption": "Employee"
+      },
+      {
+        "Ordinal": 7,
+        "Name": "Allocation Account",
+        "Caption": "Allocation Account"
+      }
+    ]
+  },
+  {
+    "Id": 53,
+    "Name": "Gen. Journal Recurring Method",
+    "Extensible": true,
+    "Values": [
+      {
+        "Ordinal": 0,
+        "Name": "",
+        "Caption": ""
+      },
+      {
+        "Ordinal": 1,
+        "Name": "F Fixed",
+        "Caption": "F Fixed"
+      },
+      {
+        "Ordinal": 2,
+        "Name": "V Variable",
+        "Caption": "V Variable"
+      },
+      {
+        "Ordinal": 3,
+        "Name": "B Balance",
+        "Caption": "B Balance"
+      },
+      {
+        "Ordinal": 4,
+        "Name": "RF Reversing Fixed",
+        "Caption": "RF Reversing Fixed"
+      },
+      {
+        "Ordinal": 5,
+        "Name": "RV Reversing Variable",
+        "Caption": "RV Reversing Variable"
+      },
+      {
+        "Ordinal": 6,
+        "Name": "RB Reversing Balance",
+        "Caption": "RB Reversing Balance"
+      },
+      {
+        "Ordinal": 7,
+        "Name": "BD Balance by Dimension",
+        "Caption": "BD Balance by Dimension"
+      },
+      {
+        "Ordinal": 8,
+        "Name": "RBD Reversing Balance by Dimension",
+        "Caption": "RBD Reversing Balance by Dimension"
+      }
+    ]
+  },
+  {
+    "Id": 272,
+    "Name": "Bank Payment Type",
+    "Extensible": true,
+    "Values": [
+      {
+        "Ordinal": 0,
+        "Name": "",
+        "Caption": ""
+      },
+      {
+        "Ordinal": 1,
+        "Name": "Computer Check",
+        "Caption": "Computer Check"
+      },
+      {
+        "Ordinal": 2,
+        "Name": "Manual Check",
+        "Caption": "Manual Check"
+      },
+      {
+        "Ordinal": 3,
+        "Name": "Electronic Payment",
+        "Caption": "Electronic Payment"
+      },
+      {
+        "Ordinal": 4,
+        "Name": "Electronic Payment-IAT",
+        "Caption": "Electronic Payment-IAT"
+      }
+    ]
+  },
+  {
+    "Id": 5419,
+    "Name": "Replenishment System",
+    "Extensible": true,
+    "Values": [
+      {
+        "Ordinal": 0,
+        "Name": "Purchase",
+        "Caption": "Purchase"
+      },
+      {
+        "Ordinal": 1,
+        "Name": "Prod. Order",
+        "Caption": "Prod. Order"
+      },
+      {
+        "Ordinal": 2,
+        "Name": "Transfer",
+        "Caption": "Transfer"
+      },
+      {
+        "Ordinal": 3,
+        "Name": "Assembly",
+        "Caption": "Assembly"
+      },
+      {
+        "Ordinal": 4,
+        "Name": "",
+        "Caption": ""
+      }
+    ]
+  },
+  {
+    "Id": 1248,
+    "Name": "Matching Ledger Account Type",
+    "Extensible": true,
+    "Values": [
+      {
+        "Ordinal": 0,
+        "Name": "Customer",
+        "Caption": "Customer"
+      },
+      {
+        "Ordinal": 1,
+        "Name": "Vendor",
+        "Caption": "Vendor"
+      },
+      {
+        "Ordinal": 2,
+        "Name": "G/L Account",
+        "Caption": "G/L Account"
+      },
+      {
+        "Ordinal": 3,
+        "Name": "Bank Account",
+        "Caption": "Bank Account"
+      },
+      {
+        "Ordinal": 4,
+        "Name": "Employee",
+        "Caption": "Employee"
+      }
+    ]
+  },
+  {
+    "Id": 5726,
+    "Name": "Item Reference Type",
+    "Extensible": true,
+    "Values": [
+      {
+        "Ordinal": 0,
+        "Name": "",
+        "Caption": ""
+      },
+      {
+        "Ordinal": 1,
+        "Name": "Customer",
+        "Caption": "Customer"
+      },
+      {
+        "Ordinal": 2,
+        "Name": "Vendor",
+        "Caption": "Vendor"
+      },
+      {
+        "Ordinal": 3,
+        "Name": "Bar Code",
+        "Caption": "Bar Code"
+      }
+    ]
+  },
+  {
+    "Id": 5224,
+    "Name": "Employee Gender",
+    "Extensible": true,
+    "Values": [
+      {
+        "Ordinal": 0,
+        "Name": "",
+        "Caption": ""
+      },
+      {
+        "Ordinal": 1,
+        "Name": "Female",
+        "Caption": "Female"
+      },
+      {
+        "Ordinal": 2,
+        "Name": "Male",
+        "Caption": "Male"
+      },
+      {
+        "Ordinal": 3,
+        "Name": "Non-binary",
+        "Caption": "Non-binary"
+      },
+      {
+        "Ordinal": 4,
+        "Name": "Self-Described",
+        "Caption": "Self-Described"
+      },
+      {
+        "Ordinal": 5,
+        "Name": "I don’t wish to answer",
+        "Caption": "I don’t wish to answer"
+      }
+    ]
+  },
+  {
+    "Id": 5557,
+    "Name": "Licenses",
+    "Extensible": false,
+    "Values": [
+      {
+        "Ordinal": 0,
+        "Name": "Basic",
+        "Caption": "Basic"
+      },
+      {
+        "Ordinal": 1,
+        "Name": "Team Member",
+        "Caption": "Team Member"
+      },
+      {
+        "Ordinal": 2,
+        "Name": "Essential",
+        "Caption": "Essential"
+      },
+      {
+        "Ordinal": 3,
+        "Name": "Premium",
+        "Caption": "Premium"
+      },
+      {
+        "Ordinal": 4,
+        "Name": "Device",
+        "Caption": "Device"
+      },
+      {
+        "Ordinal": 5,
+        "Name": "External Accountant",
+        "Caption": "External Accountant"
+      },
+      {
+        "Ordinal": 6,
+        "Name": "Internal Admin",
+        "Caption": "Internal Admin"
+      },
+      {
+        "Ordinal": 7,
+        "Name": "Delegated Admin",
+        "Caption": "Delegated Admin"
+      },
+      {
+        "Ordinal": 8,
+        "Name": "HelpDesk",
+        "Caption": "HelpDesk"
+      },
+      {
+        "Ordinal": 9,
+        "Name": "Viral",
+        "Caption": "Viral"
+      },
+      {
+        "Ordinal": 10,
+        "Name": "D365 Admin",
+        "Caption": "D365 Admin"
+      }
+    ]
+  },
+  {
+    "Id": 253,
+    "Name": "Tax Identification Type",
+    "Extensible": true,
+    "Values": [
+      {
+        "Ordinal": 0,
+        "Name": "Legal Entity",
+        "Caption": "Legal Entity"
+      },
+      {
+        "Ordinal": 1,
+        "Name": "Natural Person",
+        "Caption": "Natural Person"
+      }
+    ]
+  },
+  {
+    "Id": 254,
+    "Name": "Tax Calculation Type",
+    "Extensible": true,
+    "Values": [
+      {
+        "Ordinal": 0,
+        "Name": "Normal VAT",
+        "Caption": "Normal VAT"
+      },
+      {
+        "Ordinal": 1,
+        "Name": "Reverse Charge VAT",
+        "Caption": "Reverse Charge VAT"
+      },
+      {
+        "Ordinal": 2,
+        "Name": "Full VAT",
+        "Caption": "Full VAT"
+      },
+      {
+        "Ordinal": 3,
+        "Name": "Sales Tax",
+        "Caption": "Sales Tax"
+      }
+    ]
+  },
+  {
+    "Id": 16,
+    "Name": "G/L Account Type",
+    "Extensible": false,
+    "Values": [
+      {
+        "Ordinal": 0,
+        "Name": "Posting",
+        "Caption": "Posting"
+      },
+      {
+        "Ordinal": 1,
+        "Name": "Heading",
+        "Caption": "Heading"
+      },
+      {
+        "Ordinal": 2,
+        "Name": "Total",
+        "Caption": "Total"
+      },
+      {
+        "Ordinal": 3,
+        "Name": "Begin-Total",
+        "Caption": "Begin-Total"
+      },
+      {
+        "Ordinal": 4,
+        "Name": "End-Total",
+        "Caption": "End-Total"
+      }
+    ]
+  },
+  {
+    "Id": 1619,
+    "Name": "Job Status",
+    "Extensible": true,
+    "Values": [
+      {
+        "Ordinal": 0,
+        "Name": "Planning",
+        "Caption": "Planning"
+      },
+      {
+        "Ordinal": 1,
+        "Name": "Quote",
+        "Caption": "Quote"
+      },
+      {
+        "Ordinal": 2,
+        "Name": "Open",
+        "Caption": "Open"
+      },
+      {
+        "Ordinal": 3,
+        "Name": "Completed",
+        "Caption": "Completed"
+      }
+    ]
+  },
+  {
+    "Id": 950,
+    "Name": "Time Sheet Status",
+    "Extensible": true,
+    "Values": [
+      {
+        "Ordinal": 0,
+        "Name": "Open",
+        "Caption": "Open"
+      },
+      {
+        "Ordinal": 1,
+        "Name": "Submitted",
+        "Caption": "Submitted"
+      },
+      {
+        "Ordinal": 2,
+        "Name": "Rejected",
+        "Caption": "Rejected"
+      },
+      {
+        "Ordinal": 3,
+        "Name": "Approved",
+        "Caption": "Approved"
+      }
+    ]
+  },
+  {
+    "Id": 1562,
+    "Name": "Resource Type",
+    "Extensible": true,
+    "Values": [
+      {
+        "Ordinal": 0,
+        "Name": "Person",
+        "Caption": "Person"
+      },
+      {
+        "Ordinal": 1,
+        "Name": "Machine",
+        "Caption": "Machine"
+      }
+    ]
+  }
+]
