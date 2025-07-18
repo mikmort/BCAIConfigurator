@@ -38,6 +38,9 @@ label {
 .nav .skip-btn {
   margin-left: 10px;
 }
+.nav .skip-right {
+  margin-left: auto;
+}
 .nav.final .next-btn {
   margin-left: auto;
 }
@@ -718,6 +721,11 @@ h3 {
 
 .skip-section-btn:hover {
   background-color: rgba(0, 128, 128, 0.1);
+}
+
+.divider {
+  border-top: 1px solid #d0d0d0;
+  margin: 20px 0;
 }
 
 /* Field wizard layout */

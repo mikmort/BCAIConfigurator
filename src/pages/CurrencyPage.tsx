@@ -17,6 +17,11 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug }: Pr
   const [fields, setFields] = useState<TableField[]>([]);
   const [rowData, setRowData] = useState<Record<string, string>[]>(rows);
   const gridRef = useRef<AgGridReact<Record<string, string>>>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  function openFileDialog() {
+    fileInputRef.current?.click();
+  }
 
   useEffect(() => {
     getTableFields('Currency').then(setFields);
@@ -163,11 +168,23 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug }: Pr
           Download template
         </a>
       </p>
-      <input type="file" accept=".xlsx,.csv" onChange={handleFileUpload} />
+      <input
+        type="file"
+        accept=".xlsx,.csv"
+        onChange={handleFileUpload}
+        ref={fileInputRef}
+        style={{ display: 'none' }}
+      />
+      <button type="button" className="next-btn" onClick={openFileDialog}>
+        Upload
+      </button>
+      <div className="divider" />
       <div className="nav">
-        <button className="back-btn" onClick={back}>{strings.back}</button>
-        <button className="next-btn" onClick={next}>{strings.next}</button>
-        <button className="skip-btn" onClick={next}>{strings.skip}</button>
+        <button className="skip-btn" onClick={back}>{strings.back}</button>
+        <button className="next-btn" onClick={next}>Confirm</button>
+        <button className="skip-btn skip-right" onClick={next}>
+          {strings.skip}
+        </button>
       </div>
     </div>
   );
