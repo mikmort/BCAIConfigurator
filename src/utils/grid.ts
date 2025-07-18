@@ -4,6 +4,8 @@ export interface ColumnDef {
   sortable?: boolean;
   filter?: boolean;
   editable?: boolean;
+  cellEditor?: any;
+  cellEditorParams?: any;
 }
 
 import type { TableField } from './schema';
@@ -26,24 +28,27 @@ export function filterRows(
 export function createColumnDefs(
   rowData: Record<string, string>[],
   fields: TableField[],
+  lookups?: Record<string, string[]>,
 ): ColumnDef[] {
-  if (!fields.length) {
-    if (!rowData.length) return [];
-    return Object.keys(rowData[0]).map(key => ({
-      headerName: key,
-      field: key,
-      sortable: true,
-      filter: true,
-      editable: true,
-    }));
-  }
-  return fields.map(f => ({
-    headerName: f.name,
-    field: f.xmlName,
-    sortable: true,
-    filter: true,
-    editable: true,
-  }));
+  const defs = (fields.length
+    ? fields.map(f => ({ headerName: f.name, field: f.xmlName }))
+    : Object.keys(rowData[0] || {}).map(key => ({ headerName: key, field: key }))
+  ) as ColumnDef[];
+
+  return defs.map(d => {
+    const opts = lookups?.[d.field];
+    if (opts && opts.length) {
+      return {
+        ...d,
+        sortable: true,
+        filter: true,
+        editable: true,
+        cellEditor: 'datalistEditor',
+        cellEditorParams: { values: opts },
+      } as ColumnDef;
+    }
+    return { ...d, sortable: true, filter: true, editable: true } as ColumnDef;
+  });
 }
 
 export function createBottomRowData(
