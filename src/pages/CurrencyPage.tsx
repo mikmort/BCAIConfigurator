@@ -98,11 +98,18 @@ export default function CurrencyPage({
     try {
       setShowAI(true);
       setAiLoading(true);
+      let optionsInfo = '';
+      const lines: string[] = [];
+      if (lines.length) {
+        optionsInfo = '\nField options:\n' + lines.join('\n');
+      }
+
       const prompt =
         'Given the following company setup data as JSON:\n' +
         JSON.stringify(formData, null, 2) +
         '\nCurrent currency rows:\n' +
         JSON.stringify(currentRows ?? rowData, null, 2) +
+        optionsInfo +
         '\nSuggest the best rows for the currency table. ' +
         'Return JSON with a "rows" array and an "explanation" string no longer than 500 characters.' +
         (extra ? `\nAdditional Instructions:\n${extra}` : '');
