@@ -18,8 +18,11 @@ body {
 
 .app {
   width: 100%;
+  height: 100vh;
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 label {
@@ -451,7 +454,8 @@ h3 {
 /* Layout and navigation */
 .layout {
   display: flex;
-  height: 100vh;
+  flex: 1;
+  height: 100%;
   overflow: hidden;
 }
 
@@ -489,10 +493,10 @@ h3 {
   height: 100px;
 }
 .home-link {
-  align-self: flex-start;
   cursor: pointer;
   color: var(--bc-teal);
   margin-bottom: 4px;
+  margin-right: 10px;
   padding: 4px 8px;
   border: 1px solid var(--bc-teal);
   border-radius: 4px;
@@ -554,7 +558,7 @@ h3 {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
   overflow: hidden;
 }
 
