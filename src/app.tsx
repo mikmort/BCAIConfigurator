@@ -79,6 +79,9 @@ function App() {
   const [currenciesDone, setCurrenciesDone] = useState(false);
   const [currencyRows, setCurrencyRows] = useState<Record<string, string>[]>([]);
   const [vendorRows, setVendorRows] = useState<Record<string, string>[]>([]);
+  const [companyFieldIdx, setCompanyFieldIdx] = useState<number | null>(null);
+  const [glFieldIdx, setGlFieldIdx] = useState<number | null>(null);
+  const [srFieldIdx, setSrFieldIdx] = useState<number | null>(null);
   const [showCompanySometimes, setShowCompanySometimes] = useState(false);
   const [showGLSometimes, setShowGLSometimes] = useState(false);
   const [showSRSometimes, setShowSRSometimes] = useState(false);
