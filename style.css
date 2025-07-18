@@ -7,6 +7,7 @@
   --bc-gray: #f3f2f1;
   --bc-light: #fafafa;
   --bc-text: #323130;
+  --sidebar-total-width: 246px; /* width + padding + border of sidebar */
 }
 
 body {
@@ -613,7 +614,7 @@ h3 {
 .topbar::after {
   content: '';
   position: absolute;
-  left: 246px;
+  left: var(--sidebar-total-width);
   top: 0;
   bottom: 0;
   width: 1px;
