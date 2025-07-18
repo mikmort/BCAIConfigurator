@@ -254,7 +254,7 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
         />
       </div>
       <div className="grid-add-row" onClick={addRow}>+</div>
-      <p style={{ marginTop: 20 }}>
+      <div className="file-controls">
         <input
           type="file"
           accept=".xlsx,.csv"
@@ -266,7 +266,6 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
           type="button"
           className="download-template-btn"
           onClick={openFileDialog}
-          style={{ marginRight: 10 }}
         >
           Upload CSV/XSLX
         </button>
@@ -277,7 +276,7 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
         >
           <ExcelIcon className="excel-icon" /> Download Template
         </button>
-      </p>
+      </div>
       <div className="divider" />
       <div className="nav">
         <button className="skip-btn" onClick={back}>{strings.back}</button>
