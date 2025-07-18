@@ -173,12 +173,12 @@ button:hover {
 }
 
 h3 {
-  background: #f3f2f1;
-  padding: 6px 10px;
-  border-radius: 4px;
   color: #323130;
   font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
   font-weight: 600;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #d0d0d0;
 }
 
 .splash-image {
@@ -1118,9 +1118,13 @@ h3 {
 
 
 
-/* Highlight options on hover in grid dropdowns */
+/* Highlight options on hover or keyboard focus in grid dropdowns */
 .ag-select-cell-editor option:hover,
-.ag-cell-edit-input option:hover {
+.ag-select-cell-editor option:focus,
+.ag-select-cell-editor option:checked,
+.ag-cell-edit-input option:hover,
+.ag-cell-edit-input option:focus,
+.ag-cell-edit-input option:checked {
   background-color: var(--bc-gray);
   color: var(--bc-text);
 }
