@@ -1116,3 +1116,11 @@ h3 {
 }
 
 
+
+/* Highlight options on hover in grid dropdowns */
+.ag-select-cell-editor option:hover,
+.ag-cell-edit-input option:hover {
+  background-color: var(--bc-gray);
+  color: var(--bc-text);
+}
+
