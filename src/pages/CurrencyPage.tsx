@@ -5,6 +5,7 @@ import 'ag-grid-community/styles/ag-theme-alpine.css';
 import strings from '../../res/strings';
 import { getTableFields, TableField } from '../utils/schema';
 import { askOpenAI } from '../utils/ai';
+import { ExcelIcon } from '../components/Icons';
 
 interface Props {
   rows: Record<string, string>[];
@@ -108,12 +109,12 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
         '\nCurrent currency rows:\n' +
         JSON.stringify(rowData, null, 2) +
         '\nSuggest the best rows for the currency table. ' +
-        'Return JSON with a "rows" array and an "explanation" string.';
+        'Return JSON with a "rows" array and an "explanation" string no longer than 500 characters.';
       const ans = await askOpenAI(prompt, logDebug);
       const cleaned = ans.replace(/```json|```/g, '').trim();
       const parsed = JSON.parse(cleaned);
       setAiRows(filterRows(parsed.rows || []));
-      setAiExplanation(parsed.explanation || '');
+      setAiExplanation((parsed.explanation || '').slice(0, 500));
     } catch (e) {
       console.error(e);
       setAiRows([]);
@@ -237,8 +238,10 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
           rowHeight={36}
           onCellValueChanged={onCellValueChanged}
           defaultColDef={{ flex: 1, resizable: true, editable: true }}
+          singleClickEdit={true}
         />
       </div>
+      <div className="add-row-icon" onClick={addRow}>+</div>
       <p style={{ marginTop: 20 }}>
         <input
           type="file"
@@ -249,7 +252,7 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
         />
         <button
           type="button"
-          className="next-btn"
+          className="download-template-btn"
           onClick={openFileDialog}
           style={{ marginRight: 10 }}
         >
@@ -257,10 +260,11 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
         </button>
         <button
           type="button"
-          className="download-template-btn"
+          className="download-link"
           onClick={downloadTemplate}
         >
-          Download template
+          <ExcelIcon />
+          Download Template
         </button>
       </p>
       <div className="divider" />
@@ -275,7 +279,12 @@ export default function CurrencyPage({ rows, setRows, next, back, logDebug, form
         <div className="modal-overlay" onClick={() => setShowAI(false)}>
           <div className="modal" onClick={e => e.stopPropagation()}>
             <div className="ag-theme-alpine" style={{ height: 300, width: '100%' }}>
-              <AgGridReact rowData={aiRows} columnDefs={columnDefs} defaultColDef={{ flex: 1, resizable: true }} />
+              <AgGridReact
+                rowData={aiRows}
+                columnDefs={columnDefs}
+                defaultColDef={{ flex: 1, resizable: true }}
+                singleClickEdit={true}
+              />
             </div>
             <p style={{ whiteSpace: 'pre-wrap', marginTop: 10 }}>
               {aiLoading ? 'Loading...' : aiExplanation}

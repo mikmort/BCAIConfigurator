@@ -109,3 +109,17 @@ export function SparkleIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
+export function ExcelIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      className={props.className ? props.className + ' excel-icon' : 'excel-icon'}
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <rect x="3" y="4" width="18" height="16" rx="2" fill="#107C41" />
+      <path d="M10 9l2 3-2 3m4-6l-2 3 2 3" stroke="#fff" strokeWidth="2" fill="none" />
+    </svg>
+  );
+}
+

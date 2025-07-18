@@ -934,3 +934,35 @@ h3 {
 .download-template-btn:hover {
   background: var(--bc-gray);
 }
+
+/* Center text vertically in ag-grid rows */
+.ag-theme-alpine .ag-cell {
+  display: flex;
+  align-items: center;
+}
+
+/* Simple plus icon below grid */
+.add-row-icon {
+  color: var(--bc-blue);
+  cursor: pointer;
+  font-size: 1.5em;
+  text-align: center;
+  margin-top: 4px;
+}
+
+/* Download template link style */
+.download-link {
+  background: none;
+  border: none;
+  color: var(--bc-blue);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.download-link .excel-icon {
+  width: 16px;
+  height: 16px;
+}

@@ -31,7 +31,12 @@ export default function VendorsPage({ rows, next, back }: Props) {
     <div>
       <div className="section-header">{strings.vendors}</div>
       <div className="ag-theme-alpine" style={{ height: 400, width: '100%' }}>
-        <AgGridReact rowData={rows} columnDefs={columnDefs} defaultColDef={{ flex: 1, resizable: true }} />
+        <AgGridReact
+          rowData={rows}
+          columnDefs={columnDefs}
+          defaultColDef={{ flex: 1, resizable: true }}
+          singleClickEdit={true}
+        />
       </div>
       <div className="nav">
         <button className="back-btn" onClick={back}>{strings.back}</button>
