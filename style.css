@@ -1275,8 +1275,7 @@ select option:checked {
   color: var(--bc-purple);
   display: inline-flex;
   align-items: center;
-  animation: slideLeft 0.5s ease-in;
-  cursor: pointer;
+  animation: fadeIn 0.5s ease-in;
   margin-left: 10px;
 }
 
