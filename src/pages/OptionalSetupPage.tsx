@@ -115,17 +115,6 @@ export default function OptionalSetupPage({
           </span>
         )}
         <button className="skip-btn skip-right" onClick={onSkip}>Decide later</button>
-        {aiAnswer.trim().toLowerCase() === 'no' && (
-          <span className="ai-skip-hint">
-            <SparkleIcon className="sparkle-icon" />
-            AI recommends 'Skip It' -- The defaults are fine
-            <InfoIcon
-              className="info-icon"
-              title={aiReason}
-              onClick={() => setShowInfo(true)}
-            />
-          </span>
-        )}
       </div>
       <InfoPopup show={showInfo} reasoning={aiReason} onClose={() => setShowInfo(false)} />
     </div>
