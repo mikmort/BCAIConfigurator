@@ -18,7 +18,15 @@ import type { TableField } from "./schema";
 // React implementation of a boolean cell renderer for ag-grid
 function BooleanCellRenderer(params: any) {
   const { value } = params;
-  const [checked, setChecked] = React.useState(value === "1");
+  const checkedVal = value === "1" || value === 1 || value === true;
+  const [checked, setChecked] = React.useState(checkedVal);
+  const ref = React.useRef<HTMLInputElement>(null);
+
+  React.useEffect(() => {
+    if (ref.current) {
+      ref.current.indeterminate = value === "" || value == null;
+    }
+  }, [value]);
 
   function onChange(e: React.ChangeEvent<HTMLInputElement>) {
     const isChecked = e.target.checked;
@@ -28,13 +36,14 @@ function BooleanCellRenderer(params: any) {
   }
 
   const className =
-    "grid-bool-checkbox" + (value === "" ? " empty" : "");
+    "grid-bool-checkbox" + (value === "" || value == null ? " empty" : "");
 
   return React.createElement("input", {
     type: "checkbox",
     className,
     checked,
     onChange,
+    ref,
   });
 }
 
