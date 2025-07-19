@@ -1139,6 +1139,7 @@ function App() {
                             className={companyFieldIdx === i ? "active" : ""}
                             onClick={() => {
                               setCompanyFieldIdx(i);
+                              setCompanyIntro(false);
                               setStep(3);
                             }}
                           >
@@ -1177,6 +1178,7 @@ function App() {
                             className={glFieldIdx === i ? "active" : ""}
                             onClick={() => {
                               setGlFieldIdx(i);
+                              setGlIntro(false);
                               setStep(4);
                             }}
                           >
@@ -1213,6 +1215,7 @@ function App() {
                         className={srFieldIdx === i ? 'active' : ''}
                         onClick={() => {
                           setSrFieldIdx(i);
+                          setSrIntro(false);
                           setStep(5);
                         }}
                       >
@@ -1249,6 +1252,7 @@ function App() {
                         className={ppFieldIdx === i ? 'active' : ''}
                         onClick={() => {
                           setPpFieldIdx(i);
+                          setPpIntro(false);
                           setStep(6);
                         }}
                       >
