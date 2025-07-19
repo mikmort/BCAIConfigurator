@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { AgGridReact } from 'ag-grid-react';
+import strings from '../../res/strings';
 
 interface Props {
   show: boolean;
@@ -47,13 +48,13 @@ export default function AISuggestionModal({
             rowData={rows}
             columnDefs={columnDefs}
             defaultColDef={{ flex: 1, resizable: true }}
-            overlayNoRowsTemplate="No rows"
-            overlayLoadingTemplate="Loading..."
+            overlayNoRowsTemplate={strings.overlayNoRows}
+            overlayLoadingTemplate={strings.overlayLoading}
           />
         </div>
         <p style={{ whiteSpace: 'pre-wrap', marginTop: 10 }}>{explanation}</p>
         <label htmlFor="ai-extra" className="ai-extra-label">
-          Additional Instructions
+          {strings.additionalInstructions}
         </label>
         <textarea
           id="ai-extra"
@@ -62,14 +63,14 @@ export default function AISuggestionModal({
           rows={6}
         />
         <button className="go-btn" onClick={() => onSuggestAgain(extra)}>
-          Suggest again
+          {strings.suggestAgain}
         </button>
         <div className="nav modal-actions">
           <button className="next-btn" onClick={onAccept} disabled={loading}>
-            Accept
+            {strings.accept}
           </button>
           <button className="next-btn" onClick={onClose}>
-            Cancel
+            {strings.cancel}
           </button>
         </div>
       </div>

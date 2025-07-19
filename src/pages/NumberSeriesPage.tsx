@@ -211,25 +211,25 @@ export default function NumberSeriesPage({
   return (
     <div>
       <div className="section-header">{strings.numberSeries}</div>
-      {confirmed && <div className="confirmed-banner">Confirmed!</div>}
-      <p>You can add, edit, or delete number series directly below:</p>
+      {confirmed && <div className="confirmed-banner">{strings.confirmedBanner}</div>}
+      <p>{strings.numberSeriesIntro}</p>
       <div className="grid-toolbar">
         <button type="button" className="grid-action-btn" onClick={addRow}>
-          Add Row
+          {strings.addRow}
         </button>
         <button
           type="button"
           className="grid-action-btn"
           onClick={deleteSelected}
         >
-          Delete Selected
+          {strings.deleteSelected}
         </button>
         <button
           type="button"
           className="ai-btn"
           onClick={() => askAIForGrid()}
         >
-          <span className="icon">✨</span> Ask AI to Help
+          <span className="icon">✨</span> {strings.askAiToHelp}
         </button>
       </div>
       <div
@@ -287,21 +287,21 @@ export default function NumberSeriesPage({
           className="download-template-btn"
           onClick={openFileDialog}
         >
-          Upload CSV/XSLX
+          {strings.uploadCsv}
         </button>
         <button
           type="button"
           className="download-template-link"
           onClick={downloadTemplate}
         >
-          <ExcelIcon className="excel-icon" /> Download Template
+          <ExcelIcon className="excel-icon" /> {strings.downloadTemplate}
         </button>
       </div>
       <div className="divider" />
       <div className="nav">
         <button className="skip-btn" onClick={back}>{strings.back}</button>
         <button className="next-btn" onClick={handleConfirm}>
-          {confirmed ? 'Mark as Not Confirmed' : 'Confirm'}
+          {confirmed ? strings.markNotConfirmed : strings.confirm}
         </button>
         {!confirmed && (
           <button className="skip-btn skip-right" onClick={next}>

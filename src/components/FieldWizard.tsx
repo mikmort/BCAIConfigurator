@@ -236,7 +236,13 @@ function FieldWizard({
           onRecommended={() => handleRecommended(common[cIdx])}
           onSkip={skipCommon}
           onSkipSection={skipSection}
-          confirmLabel={progress[cIdx] ? 'Mark as Not Confirmed' : cIdx === common.length - 1 ? 'Confirm and Finish' : 'Confirm'}
+          confirmLabel={
+            progress[cIdx]
+              ? strings.markNotConfirmed
+              : cIdx === common.length - 1
+              ? strings.confirmAndFinish
+              : strings.confirm
+          }
           confirmed={progress[cIdx]}
         />
       )}
@@ -253,7 +259,11 @@ function FieldWizard({
           onRecommended={() => handleRecommended(sometimes[sIdx])}
           onSkip={skipSome}
           onSkipSection={skipSection}
-          confirmLabel={sIdx === sometimes.length - 1 ? 'Confirm and Finish' : 'Confirm'}
+          confirmLabel={
+            sIdx === sometimes.length - 1
+              ? strings.confirmAndFinish
+              : strings.confirm
+          }
         />
       )}
 
@@ -269,7 +279,11 @@ function FieldWizard({
           onRecommended={() => handleRecommended(unlikely[uIdx])}
           onSkip={skipUnlikelyField}
           onSkipSection={skipSection}
-          confirmLabel={uIdx === unlikely.length - 1 ? 'Confirm and Finish' : 'Confirm'}
+          confirmLabel={
+            uIdx === unlikely.length - 1
+              ? strings.confirmAndFinish
+              : strings.confirm
+          }
         />
       )}
 
@@ -279,27 +293,23 @@ function FieldWizard({
             <span className="icon" role="img" aria-label="celebration">
               🎉
             </span>{' '}
-            Congratulations
+            {strings.congratulations}
           </div>
           <p className="completed-text">
-            Completed {progress.filter(Boolean).length} of {common.length} tasks
+            {strings.completedTasks} {progress.filter(Boolean).length} of {common.length} tasks
           </p>
           {!sDone && sometimes.length > 0 && (
             <div className="finish-section">
-              <p>
-                Below are a list of additional fields that some companies
-                configure when setting up Dynamics Business Central. Would you
-                like to review these now?
-              </p>
+              <p>{strings.additionalFieldsIntro}</p>
               <ul>
                 {sometimes.map(f => (
                   <li key={f.field}>{f.field}</li>
                 ))}
               </ul>
               <div className="nav">
-                <button className="next-btn" onClick={reviewSometimes}>Yes</button>
+                <button className="next-btn" onClick={reviewSometimes}>{strings.yes}</button>
                 <button className="next-btn" onClick={skipSometimes}>
-                  No, let's finish and Review
+                  {strings.noFinishReview}
                 </button>
               </div>
             </div>

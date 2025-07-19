@@ -120,7 +120,7 @@ function BasicInfoPage({
       </div>
       <div className="nav">
         <button className="next-btn" onClick={handleConfirm}>
-          {confirmed ? 'Mark as Not Confirmed' : strings.finishButton}
+          {confirmed ? strings.markNotConfirmed : strings.finishButton}
         </button>
       </div>
     </div>

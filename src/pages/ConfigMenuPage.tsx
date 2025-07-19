@@ -131,7 +131,7 @@ function ConfigMenuPage({
             <div>{strings.basicInfoTitle}</div>
             {nothingConfirmed && (
               <div className="start-here-tip">
-                <span>Start Here</span>
+                <span>{strings.startHere}</span>
                 <ArrowDownIcon />
               </div>
             )}
