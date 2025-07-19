@@ -35,9 +35,9 @@ export default function OptionalSetupPage({
       <table className="defaults-table">
         <thead>
           <tr>
+            <th>Question</th>
             <th>Field</th>
             <th>Value</th>
-            <th>Question</th>
           </tr>
         </thead>
         <tbody>
@@ -53,9 +53,9 @@ export default function OptionalSetupPage({
                 : String(val ?? '');
             return (
               <tr key={f.field}>
+                <td>{f.question}</td>
                 <td>{f.field}</td>
                 <td>{displayValue}</td>
-                <td>{f.question}</td>
               </tr>
             );
           })}
