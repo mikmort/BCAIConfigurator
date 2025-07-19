@@ -1248,3 +1248,34 @@ select option:checked {
   font-weight: normal;
 }
 
+/* AI recommendation on optional page */
+.review-area {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ai-review-hint {
+  font-size: 0.9em;
+  color: var(--bc-blue);
+  display: inline-flex;
+  align-items: center;
+  animation: fadeIn 0.5s ease-in;
+  cursor: pointer;
+}
+
+.ai-review-hint .info-icon {
+  width: 16px;
+  height: 16px;
+  margin-left: 4px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
