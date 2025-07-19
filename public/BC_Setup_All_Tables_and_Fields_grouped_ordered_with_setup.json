@@ -250,7 +250,7 @@
           "SGD",
           "MXN"
         ],
-        "common": "Sometimes",
+        "common": "Very Common",
         "Lookup Table": 4,
         "Lookup Field": "Code"
       },
@@ -330,7 +330,7 @@
         "Considerations": "The increment to which invoice totals are rounded. Many U.S. companies do not use invoice-level rounding, so setting this to $0.01 effectively means no special rounding beyond normal cents. Setting it to $1.00 (with an appropriate rounding type) would round invoice totals to whole dollars, which is uncommon in the US. Generally leave at 0.01 unless there is a specific need for whole-unit rounding.",
         "BC Field Name": "Invoice Rounding Precision (LCY)",
         "Question": "If using invoice rounding, to what increment should invoice totals round? (e.g., 0.01 or 1.00)",
-        "common": "Sometimes"
+        "common": "Very Common"
       },
       {
         "Field": "Invoice Rounding Type (LCY)",
