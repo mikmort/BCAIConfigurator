@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { CompanyField } from '../types';
 import { fieldKey } from '../utils/helpers';
 import { askOpenAI } from '../utils/ai';
-import { InfoIcon } from '../components/Icons';
+import { InfoIcon, SparkleIcon } from '../components/Icons';
 import InfoPopup from '../components/InfoPopup';
 
 interface Props {
@@ -107,6 +107,13 @@ export default function OptionalSetupPage({
             </span>
           )}
         </div>
+        {aiAnswer.trim().toLowerCase() === 'no' && (
+          <span className="ai-skip-hint" onClick={() => setShowInfo(true)}>
+            <SparkleIcon className="sparkle-icon" />
+            AI recommends 'Skip It' -- The defaults are fine
+            <InfoIcon className="info-icon" title={aiReason} />
+          </span>
+        )}
         <button className="skip-btn skip-right" onClick={onSkip}>Decide later</button>
       </div>
       <InfoPopup show={showInfo} reasoning={aiReason} onClose={() => setShowInfo(false)} />
