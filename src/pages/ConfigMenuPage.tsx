@@ -20,6 +20,7 @@ interface Props {
   goToSRSetup: () => void;
   goToPPSetup: () => void;
   goToFASetup: () => void;
+  goToDimensions: () => void;
   goToCustomers: () => void;
   goToVendors: () => void;
   goToItems: () => void;
@@ -47,6 +48,7 @@ interface Props {
   ppInProgress: boolean;
   faDone: boolean;
   faInProgress: boolean;
+  dimensionsDone: boolean;
   customersDone: boolean;
   vendorsDone: boolean;
   itemsDone: boolean;
@@ -62,6 +64,7 @@ function ConfigMenuPage({
   goToSRSetup,
   goToPPSetup,
   goToFASetup,
+  goToDimensions,
   goToCustomers,
   goToVendors,
   goToItems,
@@ -89,6 +92,7 @@ function ConfigMenuPage({
   ppInProgress,
   faDone,
   faInProgress,
+  dimensionsDone,
   customersDone,
   vendorsDone,
   itemsDone,
@@ -102,6 +106,7 @@ function ConfigMenuPage({
     !glDone &&
     !srDone &&
     !faDone &&
+    !dimensionsDone &&
     !customersDone &&
     !vendorsDone &&
     !itemsDone &&
@@ -208,6 +213,18 @@ function ConfigMenuPage({
             {!faDone && faInProgress && <div className="progress-dot">•</div>}
             <BoxIcon />
             <div>{strings.fixedAssetSetup}</div>
+          </div>
+          <div
+            className={`menu-box ${dimensionsDone ? 'done' : ''}`}
+            onClick={goToDimensions}
+            tabIndex={0}
+            onKeyDown={e => {
+              if (e.key === 'Enter' || e.key === ' ') goToDimensions();
+            }}
+          >
+            {dimensionsDone && <div className="checkmark">✔</div>}
+            <CubeIcon />
+            <div>{strings.dimensions}</div>
           </div>
         </div>
       </div>

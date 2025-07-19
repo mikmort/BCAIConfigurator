@@ -17,6 +17,7 @@ export default {
   salesReceivablesSetup: 'Sales & Receivables Setup',
   purchasePayablesSetup: 'Purchases & Payables Setup',
   fixedAssetSetup: 'Fixed Asset Setup',
+  dimensions: 'Dimensions',
   common: 'Common',
   sometimes: 'Sometimes',
   additional: 'Additional',
