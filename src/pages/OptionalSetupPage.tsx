@@ -61,6 +61,7 @@ export default function OptionalSetupPage({
           })}
         </tbody>
       </table>
+      <div className="divider" />
       <div className="nav">
         <button className="next-btn" onClick={onUseDefaults}>Use the defaults</button>
         <button className="next-btn" onClick={onReview}>Review all the choices</button>
