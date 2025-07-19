@@ -37,7 +37,7 @@ export default function OptionalSetupPage({
           <tr>
             <th>Field</th>
             <th>Value</th>
-            <th>Considerations</th>
+            <th>Question</th>
           </tr>
         </thead>
         <tbody>
@@ -55,7 +55,7 @@ export default function OptionalSetupPage({
               <tr key={f.field}>
                 <td>{f.field}</td>
                 <td>{displayValue}</td>
-                <td>{f.considerations}</td>
+                <td>{f.question}</td>
               </tr>
             );
           })}
