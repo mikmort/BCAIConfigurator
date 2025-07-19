@@ -14,7 +14,7 @@ import {
 } from '../utils/grid';
 import { askOpenAI, parseAIGrid } from '../utils/ai';
 import AISuggestionModal from '../components/AISuggestionModal';
-import { ExcelIcon } from '../components/Icons';
+import { ExcelIcon, InfoIcon } from '../components/Icons';
 
 interface Props {
   rows: Record<string, string>[];
@@ -39,6 +39,7 @@ export default function NumberSeriesPage({
 }: Props) {
   const [fields, setFields] = useState<TableField[]>([]);
   const [rowData, setRowData] = useState<Record<string, string>[]>([]);
+  const [aiTip, setAiTip] = useState('');
   const [showAI, setShowAI] = useState(false);
   const [aiRows, setAiRows] = useState<Record<string, string>[]>([]);
   const [aiExplanation, setAiExplanation] = useState('');
@@ -52,6 +53,27 @@ export default function NumberSeriesPage({
   useEffect(() => {
     getTableFields('No. Series', true).then(setFields);
   }, []);
+
+  useEffect(() => {
+    async function fetchTip() {
+      if (!formData.industry) return;
+      try {
+        const prompt =
+          'You are assisting with configuring Dynamics 365 Business Central. ' +
+          `The company industry is "${formData.industry}". ` +
+          'Here is the known company setup data as JSON:\n' +
+          JSON.stringify(formData, null, 2) +
+          '\nProvide instructions on how to choose number series that make sense for this industry. ' +
+          'The response can be up to 600 characters.';
+        const ans = await askOpenAI(prompt, logDebug);
+        setAiTip(ans.trim());
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    fetchTip();
+    // We only want to refetch if the industry changes
+  }, [formData.industry]);
 
   useEffect(() => {
     if (logDebug)
@@ -243,6 +265,15 @@ export default function NumberSeriesPage({
           defaultColDef={{ flex: 1, resizable: true, editable: true }}
         />
       </div>
+      {aiTip && (
+        <div className="ai-tip">
+          <InfoIcon className="info-icon" />
+          <div>
+            <strong>AI Tip: </strong>
+            {aiTip}
+          </div>
+        </div>
+      )}
       <div className="file-controls">
         <input
           type="file"
