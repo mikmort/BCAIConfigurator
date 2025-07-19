@@ -12,6 +12,7 @@ import GLSetupPage from './pages/GLSetupPage';
 import SalesReceivablesPage from './pages/SalesReceivablesPage';
 import PurchasePayablesPage from './pages/PurchasePayablesPage';
 import FixedAssetSetupPage from './pages/FixedAssetSetupPage';
+import DimensionsPage from './pages/DimensionsPage';
 import CustomersPage from './pages/CustomersPage';
 import VendorsPage from './pages/VendorsPage';
 import ItemsPage from './pages/ItemsPage';
@@ -110,9 +111,11 @@ function App() {
   const [currenciesDone, setCurrenciesDone] = useState(false);
   const [chartAccountsDone, setChartAccountsDone] = useState(false);
   const [numberSeriesDone, setNumberSeriesDone] = useState(false);
+  const [dimensionsDone, setDimensionsDone] = useState(false);
   const [customerRows, setCustomerRows] = useState<Record<string, string>[]>(
     [],
   );
+  const [dimensionRows, setDimensionRows] = useState<Record<string, string>[]>([]);
   const [currencyRows, setCurrencyRows] = useState<Record<string, string>[]>(
     [],
   );
@@ -706,25 +709,26 @@ function App() {
   // Advance to the next wizard step
   function next(): void {
     if (step === 2) setBasicDone(true);
-    if (step === 8) setCustomersDone(true);
-    if (step === 9) setVendorsDone(true);
-    if (step === 10) setItemsDone(true);
-    if (step === 11) {
+    if (step === 8) setDimensionsDone(true);
+    if (step === 9) setCustomersDone(true);
+    if (step === 10) setVendorsDone(true);
+    if (step === 11) setItemsDone(true);
+    if (step === 12) {
       setCurrenciesDone(true);
       setStep(1);
       return;
     }
-    if (step === 12) {
+    if (step === 13) {
       setChartAccountsDone(true);
       setStep(1);
       return;
     }
-    if (step === 13) {
+    if (step === 14) {
       setNumberSeriesDone(true);
       setStep(1);
       return;
     }
-    if (step === 22) {
+    if (step === 23) {
       setStep(1);
       return;
     }
@@ -1027,7 +1031,8 @@ function App() {
   const ppInProgress = !ppDone && ppProgress.some(Boolean);
   const faDone = faProgress.length > 0 && faProgress.every(Boolean);
   const faInProgress = !faDone && faProgress.some(Boolean);
-  const configSectionDone = companyDone && glDone && srDone && ppDone && faDone;
+  const configSectionDone =
+    companyDone && glDone && srDone && ppDone && faDone && dimensionsDone;
   const masterSectionDone =
     customersDone &&
     vendorsDone &&
@@ -1037,10 +1042,10 @@ function App() {
     numberSeriesDone;
   const currentGroup = (() => {
     if (step === 2) return "basic";
-    if ([3, 4, 5, 6, 7].includes(step)) return "config";
-    if ([8, 9, 10, 11, 12, 13].includes(step)) return "master";
-    if ([14, 15, 16, 17, 18, 19, 20, 21, 22].includes(step)) return "template";
-    if (step === 23) return "review";
+    if ([3, 4, 5, 6, 7, 8].includes(step)) return "config";
+    if ([9, 10, 11, 12, 13, 14].includes(step)) return "master";
+    if ([15, 16, 17, 18, 19, 20, 21, 22, 23].includes(step)) return "template";
+    if (step === 24) return "review";
     return "";
   })();
 
@@ -1277,26 +1282,30 @@ function App() {
               {masterOpen && (
                 <ul>
                   <li onClick={() => setStep(8)}>
+                    {dimensionsDone && <span className="check">✔</span>}
+                    {strings.dimensions}
+                  </li>
+                  <li onClick={() => setStep(9)}>
                     {customersDone && <span className="check">✔</span>}
                     {strings.customers}
                   </li>
-                  <li onClick={() => setStep(9)}>
+                  <li onClick={() => setStep(10)}>
                     {vendorsDone && <span className="check">✔</span>}
                     {strings.vendors}
                   </li>
-                  <li onClick={() => setStep(10)}>
+                  <li onClick={() => setStep(11)}>
                     {itemsDone && <span className="check">✔</span>}
                     {strings.items}
                   </li>
-                  <li onClick={() => setStep(11)}>
+                  <li onClick={() => setStep(12)}>
                     {currenciesDone && <span className="check">✔</span>}
                     {strings.currencies}
                   </li>
-                  <li onClick={() => setStep(12)}>
+                  <li onClick={() => setStep(13)}>
                     {chartAccountsDone && <span className="check">✔</span>}
                     {strings.chartOfAccounts}
                   </li>
-                  <li onClick={() => setStep(13)}>
+                  <li onClick={() => setStep(14)}>
                     {numberSeriesDone && <span className="check">✔</span>}
                     {strings.numberSeries}
                   </li>
@@ -1313,25 +1322,25 @@ function App() {
               </div>
               {templatesOpen && (
                 <ul>
-                  <li onClick={() => setStep(14)}>
+                  <li onClick={() => setStep(15)}>
                     {strings.customerTemplate}
                   </li>
-                  <li onClick={() => setStep(15)}>{strings.vendorTemplate}</li>
-                  <li onClick={() => setStep(16)}>{strings.itemTemplate}</li>
-                  <li onClick={() => setStep(17)}>
+                  <li onClick={() => setStep(16)}>{strings.vendorTemplate}</li>
+                  <li onClick={() => setStep(17)}>{strings.itemTemplate}</li>
+                  <li onClick={() => setStep(18)}>
                     {strings.glAccountTemplate}
                   </li>
-                  <li onClick={() => setStep(18)}>
+                  <li onClick={() => setStep(19)}>
                     {strings.bankAccountTemplate}
                   </li>
-                  <li onClick={() => setStep(19)}>
+                  <li onClick={() => setStep(20)}>
                     {strings.fixedAssetTemplate}
                   </li>
-                  <li onClick={() => setStep(20)}>{strings.contactTemplate}</li>
-                  <li onClick={() => setStep(21)}>
+                  <li onClick={() => setStep(21)}>{strings.contactTemplate}</li>
+                  <li onClick={() => setStep(22)}>
                     {strings.employeeTemplate}
                   </li>
-                  <li onClick={() => setStep(22)}>
+                  <li onClick={() => setStep(23)}>
                     {strings.resourceTemplate}
                   </li>
                 </ul>
@@ -1339,7 +1348,7 @@ function App() {
             </div>
           </nav>
           <div className="review-footer">
-            <button className="next-btn review-btn" onClick={() => setStep(23)}>
+            <button className="next-btn review-btn" onClick={() => setStep(24)}>
               {strings.reviewAndFinish}
             </button>
           </div>
@@ -1371,14 +1380,14 @@ function App() {
                 </div>
                 <div
                   className={`progress-step ${currentGroup === "template" ? "active" : ""} clickable`}
-                  onClick={() => setStep(14)}
+                  onClick={() => setStep(15)}
                 >
                   <div className="circle">4</div>
                   <span>{strings.configureTemplates}</span>
                 </div>
                 <div
                   className={`progress-step ${currentGroup === "review" ? "active" : ""} clickable`}
-                  onClick={() => setStep(23)}
+                  onClick={() => setStep(24)}
                 >
                   <div className="circle">5</div>
                   <span>{strings.reviewAndFinish}</span>
@@ -1416,21 +1425,22 @@ function App() {
                     setFaFieldIdx(null);
                     setStep(7);
                   }}
-                  goToCustomers={() => setStep(8)}
-                  goToVendors={() => setStep(9)}
-                  goToItems={() => setStep(10)}
-                  goToCurrencies={() => setStep(11)}
-                  goToChartOfAccounts={() => setStep(12)}
-                  goToNumberSeries={() => setStep(13)}
-                  goToCustomerTemplate={() => setStep(14)}
-                  goToVendorTemplate={() => setStep(15)}
-                  goToItemTemplate={() => setStep(16)}
-                  goToGLAccountTemplate={() => setStep(17)}
-                  goToBankAccountTemplate={() => setStep(18)}
-                  goToFixedAssetTemplate={() => setStep(19)}
-                  goToContactTemplate={() => setStep(20)}
-                  goToEmployeeTemplate={() => setStep(21)}
-                  goToResourceTemplate={() => setStep(22)}
+                  goToDimensions={() => setStep(8)}
+                  goToCustomers={() => setStep(9)}
+                  goToVendors={() => setStep(10)}
+                  goToItems={() => setStep(11)}
+                  goToCurrencies={() => setStep(12)}
+                  goToChartOfAccounts={() => setStep(13)}
+                  goToNumberSeries={() => setStep(14)}
+                  goToCustomerTemplate={() => setStep(15)}
+                  goToVendorTemplate={() => setStep(16)}
+                  goToItemTemplate={() => setStep(17)}
+                  goToGLAccountTemplate={() => setStep(18)}
+                  goToBankAccountTemplate={() => setStep(19)}
+                  goToFixedAssetTemplate={() => setStep(20)}
+                  goToContactTemplate={() => setStep(21)}
+                  goToEmployeeTemplate={() => setStep(22)}
+                  goToResourceTemplate={() => setStep(23)}
                   back={back}
                   basicDone={basicDone}
                   companyDone={companyDone}
@@ -1443,6 +1453,7 @@ function App() {
                   ppInProgress={ppInProgress}
                   faDone={faDone}
                   faInProgress={faInProgress}
+                  dimensionsDone={dimensionsDone}
                   customersDone={customersDone}
                   vendorsDone={vendorsDone}
                   itemsDone={itemsDone}
@@ -1678,6 +1689,19 @@ function App() {
                 />
               )}
               {step === 8 && (
+                <DimensionsPage
+                  rows={dimensionRows}
+                  setRows={setDimensionRows}
+                  next={next}
+                  back={back}
+                  logDebug={logDebug}
+                  formData={formData}
+                  confirmed={dimensionsDone}
+                  setConfirmed={setDimensionsDone}
+                  setFieldValue={setFieldValue}
+                />
+              )}
+              {step === 9 && (
                 <CustomersPage
                   rows={customerRows}
                   setRows={setCustomerRows}
@@ -1695,11 +1719,11 @@ function App() {
                   setPostingGroups={setCustomerPostingGroups}
                 />
               )}
-              {step === 9 && (
+              {step === 10 && (
                 <VendorsPage rows={vendorRows} next={next} back={back} />
               )}
-              {step === 10 && <ItemsPage next={next} back={back} />}
-              {step === 11 && (
+              {step === 11 && <ItemsPage next={next} back={back} />}
+              {step === 12 && (
                 <CurrencyPage
                   rows={currencyRows}
                   setRows={setCurrencyRows}
@@ -1711,7 +1735,7 @@ function App() {
                   setConfirmed={setCurrenciesDone}
                 />
               )}
-              {step === 12 && (
+              {step === 13 && (
                 <ChartOfAccountsPage
                   rows={chartRows}
                   setRows={setChartRows}
@@ -1723,7 +1747,7 @@ function App() {
                   setConfirmed={setChartAccountsDone}
                 />
               )}
-              {step === 13 && (
+              {step === 14 && (
                 <NumberSeriesPage
                   rows={numberSeriesRows}
                   setRows={setNumberSeriesRows}
@@ -1737,18 +1761,18 @@ function App() {
               )}
               {step === 14 && <CustomerTemplatePage next={next} back={back} />}
               {step === 15 && <VendorTemplatePage next={next} back={back} />}
-              {step === 16 && <ItemTemplatePage next={next} back={back} />}
-              {step === 17 && <GLAccountTemplatePage next={next} back={back} />}
-              {step === 18 && (
+              {step === 17 && <ItemTemplatePage next={next} back={back} />}
+              {step === 18 && <GLAccountTemplatePage next={next} back={back} />}
+              {step === 19 && (
                 <BankAccountTemplatePage next={next} back={back} />
               )}
-              {step === 19 && (
+              {step === 20 && (
                 <FixedAssetTemplatePage next={next} back={back} />
               )}
-              {step === 20 && <ContactTemplatePage next={next} back={back} />}
-              {step === 21 && <EmployeeTemplatePage next={next} back={back} />}
-              {step === 22 && <ResourceTemplatePage next={next} back={back} />}
-              {step === 23 && (
+              {step === 21 && <ContactTemplatePage next={next} back={back} />}
+              {step === 22 && <EmployeeTemplatePage next={next} back={back} />}
+              {step === 23 && <ResourceTemplatePage next={next} back={back} />}
+              {step === 24 && (
                 <ReviewPage
                   fields={[
                     ...companyFields,
@@ -1762,7 +1786,7 @@ function App() {
                   next={next}
                 />
               )}
-              {step === 24 && (
+              {step === 25 && (
                 <FinishPage
                   generate={generateCustomRapidStart}
                   back={back}
