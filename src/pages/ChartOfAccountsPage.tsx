@@ -12,6 +12,7 @@ import {
   parseFileUpload,
   createTemplateBlob,
 } from '../utils/grid';
+import { getEnumValues } from '../utils/enums';
 import { askOpenAI, parseAIGrid } from '../utils/ai';
 import AISuggestionModal from '../components/AISuggestionModal';
 import { ExcelIcon } from '../components/Icons';
@@ -39,6 +40,8 @@ export default function ChartOfAccountsPage({
 }: Props) {
   const [fields, setFields] = useState<TableField[]>([]);
   const [rowData, setRowData] = useState<Record<string, string>[]>([]);
+  const [accountTypeField, setAccountTypeField] = useState<string>('');
+  const [accountTypeOptions, setAccountTypeOptions] = useState<string[]>([]);
   const [showAI, setShowAI] = useState(false);
   const [aiRows, setAiRows] = useState<Record<string, string>[]>([]);
   const [aiExplanation, setAiExplanation] = useState('');
@@ -54,6 +57,15 @@ export default function ChartOfAccountsPage({
   }, []);
 
   useEffect(() => {
+    const fld = fields.find(f => f.name === 'Account Type');
+    if (fld) setAccountTypeField(fld.xmlName);
+  }, [fields]);
+
+  useEffect(() => {
+    getEnumValues('G/L Account Type').then(setAccountTypeOptions);
+  }, []);
+
+  useEffect(() => {
     if (logDebug)
       logDebug(`ChartOfAccountsPage: loading grid with ${rows.length} rows`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -63,10 +75,34 @@ export default function ChartOfAccountsPage({
     setRowData(filterRows(fields, rows));
   }, [rows, fields]);
 
-  const columnDefs = useMemo(
-    () => createColumnDefs(rowData, fields),
-    [rowData, fields],
-  );
+  const dropdowns = useMemo(() => {
+    const map: Record<string, string[]> = {};
+    if (accountTypeField && accountTypeOptions.length) {
+      map[accountTypeField] = accountTypeOptions;
+    }
+    return map;
+  }, [accountTypeField, accountTypeOptions]);
+
+  const columnDefs = useMemo(() => {
+    const defs = createColumnDefs(rowData, fields, dropdowns);
+    if (accountTypeField && accountTypeOptions.length) {
+      const col = defs.find(d => d.field === accountTypeField);
+      if (col) {
+        col.valueFormatter = (p: any) => {
+          if (p.node?.rowPinned === 'bottom') return '';
+          const val = p.value;
+          const idx = parseInt(val, 10);
+          if (!isNaN(idx) && accountTypeOptions[idx]) return accountTypeOptions[idx];
+          return val;
+        };
+        col.valueParser = (p: any) => {
+          const idx = accountTypeOptions.indexOf(p.newValue);
+          return idx === -1 ? p.newValue : String(idx);
+        };
+      }
+    }
+    return defs;
+  }, [rowData, fields, dropdowns, accountTypeField, accountTypeOptions]);
 
   const bottomRowData = useMemo(
     () => createBottomRowData(columnDefs),
