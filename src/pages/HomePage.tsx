@@ -22,7 +22,7 @@ function HomePage({ next }: Props) {
           alt="Getting started"
         />
       </div>
-      <p className="splash-terms">Use of this tool is subject to standard terms of service. ExampleCo is not responsible for any data loss.</p>
+      <p className="splash-terms">{strings.termsOfUse}</p>
     </div>
   );
 }

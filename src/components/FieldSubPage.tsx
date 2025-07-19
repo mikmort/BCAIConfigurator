@@ -35,11 +35,11 @@ function FieldSubPage({
   formData,
   fetchAISuggestion,
   setFieldValue,
-  confirmLabel = 'Confirm',
+  confirmLabel = strings.confirm,
   confirmed,
 }: Props) {
-  const isFinal = !confirmed && confirmLabel === 'Confirm and Finish';
-  const buttonLabel = confirmed ? 'Mark as Not Confirmed' : confirmLabel;
+  const isFinal = !confirmed && confirmLabel === strings.confirmAndFinish;
+  const buttonLabel = confirmed ? strings.markNotConfirmed : confirmLabel;
   const [auto, setAuto] = useState<{ suggested: string; confidence: string; reasoning: string } | null>(null);
   const [showInfo, setShowInfo] = useState(false);
   const key = fieldKey(cf.field);
@@ -68,7 +68,7 @@ function FieldSubPage({
     <div className="subpage-field">
       <div className="subpage-left">
         {confirmed && (
-          <div className="confirmed-banner">Confirmed!</div>
+          <div className="confirmed-banner">{strings.confirmedBanner}</div>
         )}
         <div className="question">
           {(() => {
@@ -89,7 +89,7 @@ function FieldSubPage({
           <div className="auto-suggest">
             <SparkleIcon className="sparkle-icon" />
             <div>
-              <strong>AI Recommends:</strong> {auto!.suggested}
+              <strong>{strings.aiRecommends}</strong> {auto!.suggested}
               {auto!.reasoning && (
                 <InfoIcon
                   className="info-icon"
@@ -102,7 +102,7 @@ function FieldSubPage({
                   type="button"
                   onClick={() => setFieldValue(key, auto!.suggested)}
                 >
-                  Accept
+                  {strings.acceptSuggestion}
                 </button>
               )}
             </div>
@@ -113,7 +113,7 @@ function FieldSubPage({
         <div className="subpage-considerations">
           <LightbulbIcon className="tip-icon" />
           <div>
-            <strong>Tip:</strong> {cf.considerations}
+            <strong>{strings.tip}</strong> {cf.considerations}
           </div>
         </div>
       )}
@@ -123,7 +123,7 @@ function FieldSubPage({
         <button className="next-btn" onClick={onConfirm}>{buttonLabel}</button>
         <button className="skip-section-btn" onClick={onSkipSection}>{strings.skipSection}</button>
         {!isFinal && (
-          <button className="skip-btn" onClick={onSkip}>Skip</button>
+          <button className="skip-btn" onClick={onSkip}>{strings.skip}</button>
         )}
       </div>
       <InfoPopup
