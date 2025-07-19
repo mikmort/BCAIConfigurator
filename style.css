@@ -1254,7 +1254,12 @@ select option:checked {
 .boolean-cell {
   justify-content: center;
 }
+.grid-bool-checkbox {
+  width: 16px;
+  height: 16px;
+}
 .grid-bool-checkbox.empty {
+  filter: grayscale(100%);
   opacity: 0.5;
 }
 

@@ -77,14 +77,24 @@ export default function OptionalSetupPage({
         <tbody>
           {visibleFields.map(f => {
             const val = formData[fieldKey(f.field)];
-            const displayValue =
-              f.fieldType === 'Boolean'
-                ? val === '1' || val === 1 || val === true
-                  ? 'True'
-                  : val === '0' || val === 0 || val === false
-                  ? 'False'
-                  : ''
-                : String(val ?? '');
+            const isBool = f.fieldType === 'Boolean';
+            const checked = val === '1' || val === 1 || val === true;
+            const className =
+              'grid-bool-checkbox' +
+              (val === '' || val == null ? ' empty' : '');
+            const displayValue = isBool ? (
+              <input
+                type="checkbox"
+                className={className}
+                checked={checked}
+                disabled
+                ref={el => {
+                  if (el) el.indeterminate = val === '' || val == null;
+                }}
+              />
+            ) : (
+              String(val ?? '')
+            );
             return (
               <tr key={f.field}>
                 <td>{f.question}</td>
