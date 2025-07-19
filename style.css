@@ -903,6 +903,28 @@ h3 {
   vertical-align: middle;
 }
 
+.ai-tip {
+  margin-top: 10px;
+  font-size: 0.9em;
+  color: #444;
+  background: var(--bc-gray);
+  border-left: 4px solid var(--bc-blue);
+  padding: 8px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  /* Keep height consistent with other tips */
+  min-height: 44px;
+}
+
+.ai-tip .info-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--bc-blue);
+  flex-shrink: 0;
+  cursor: default;
+}
+
 
 .confirmed-banner {
   background: var(--bc-teal);
